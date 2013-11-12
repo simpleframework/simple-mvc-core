@@ -1,0 +1,101 @@
+.clearfix {
+  *zoom: 1;
+}
+
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  line-height: 0;
+  content: "";
+}
+
+.clearfix:after {
+  clear: both;
+}
+
+.f1,
+.f2,
+.f3 {
+	font-weight: bold;
+	line-height: normal;
+}
+
+.f1 {
+	font-size: xx-large;
+}
+
+.f2 {
+	font-size: x-large;
+}
+
+.f3 {
+	font-size: large;
+}
+
+.f4,
+.f5 {
+	font-weight: normal;
+	line-height: normal;
+}
+
+.f4 {
+	font-size: medium;
+}
+
+.f5 {
+	font-size: small;
+}
+
+.num {
+  font-size: 9.5pt;
+  color: #a00;
+  font-family: candara;
+  word-break: normal;
+	word-wrap: normal;
+}
+
+
+@-moz-document url-prefix() {
+	.nnum { 
+		text-shadow:01px1px#ddd;	
+	}
+}
+
+.disabled_color {
+	color: #b3b3b3 !important;
+}
+
+.important-tip {
+	color: red;
+}
+
+.fixed_table {
+	table-layout: fixed;
+}
+
+.wrap_text {
+	word-wrap: break-word;
+	word-break: break-all;
+}
+
+.error_image {
+	vertical-align: middle;
+	width: 32px;
+	height: 32px;
+	background: url(images/error.png) no-repeat center center;
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+}
+
+.checkbox_lbl {
+  cursor: pointer;
+  vertical-align: middle;
+  margin-left: 2px;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  display: inline-block;
+	*display: inline;
+	*zoom: 1;
+}

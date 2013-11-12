@@ -1,0 +1,39 @@
+.job_http_access {
+	width: 50%;
+	margin-top: 100px;
+}
+
+.job_http_page_access {
+	width: 100% !important;
+	margin: 2px !important;
+}
+
+.job_http_access .error_image {
+	float: left;
+}
+
+.job_http_access .detail {
+	text-align: left;
+	padding-left: 50px;
+}
+
+.job_http_access .detail .t1 {
+	font-weight: bold;
+	font-size: 18pt;
+	line-height: 1.4;
+}
+
+.job_http_access .detail .t2 {
+	color: red;
+	font-size: 9.5pt;
+	margin: 8px 0 20px 0;
+}
+
+.job_http_access .detail .t3 {
+	font-size: 9.5pt;
+}
+
+.job_http_access .bbar {
+	text-align: center;
+	margin-top: 12px;
+}
