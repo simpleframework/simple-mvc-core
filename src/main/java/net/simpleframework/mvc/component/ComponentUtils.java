@@ -1,5 +1,7 @@
 package net.simpleframework.mvc.component;
 
+import static net.simpleframework.common.I18n.$m;
+
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -124,6 +126,9 @@ public abstract class ComponentUtils implements IMVCContextVar {
 		Class<?> handleClass;
 		try {
 			handleClass = ClassUtils.forName(stringClass);
+			if (ObjectFactory.isAbstract(handleClass)) {
+				throw ComponentHandlerException.of($m("ComponentUtils.0"));
+			}
 		} catch (final ClassNotFoundException e) {
 			throw ComponentHandlerException.of(e);
 		}
