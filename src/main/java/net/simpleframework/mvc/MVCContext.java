@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +17,8 @@ import net.simpleframework.common.StringUtils;
 import net.simpleframework.ctx.AbstractApplicationContextBase;
 import net.simpleframework.ctx.permission.IPermissionHandler;
 import net.simpleframework.ctx.permission.PermissionFactory;
+import net.simpleframework.ctx.script.IScriptEval;
+import net.simpleframework.ctx.script.ScriptEvalFactory;
 import net.simpleframework.mvc.IPageResourceProvider.MVCPageResourceProvider;
 import net.simpleframework.mvc.common.DeployUtils;
 import net.simpleframework.mvc.component.AbstractComponentRegistry;
@@ -130,6 +133,11 @@ public class MVCContext extends AbstractApplicationContextBase implements IMVCCo
 	@Override
 	protected Class<? extends IPermissionHandler> getPagePermissionHandler() {
 		return DefaultPagePermissionHandler.class;
+	}
+
+	@Override
+	public IScriptEval createScriptEval(final Map<String, Object> variables) {
+		return ScriptEvalFactory.createDefaultScriptEval(variables);
 	}
 
 	private IPageResourceProvider pageResourceProvider;
