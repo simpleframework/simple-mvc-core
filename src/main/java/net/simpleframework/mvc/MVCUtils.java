@@ -129,7 +129,9 @@ public abstract class MVCUtils implements IMVCContextVar, IMVCConst {
 		}
 		if (th instanceof RuntimeExceptionEx) {
 			final Throwable cause = th.getCause();
-			if (cause != null && cause.getMessage().equals(th.getMessage())) {
+			String message;
+			if (cause != null && ((message = cause.getMessage()) != null)
+					&& message.equals(th.getMessage())) {
 				th = th.getCause();
 			}
 		}
