@@ -78,6 +78,7 @@ public class MVCHtmlBuilder extends ObjectEx implements IMVCContextVar {
 		if (_compatible) {
 			al.add(Meta.DEFAULT_COMPATIBLE);
 		}
+		al.add(new Meta("webkit").setName("renderer"));
 		return al;
 	}
 }

@@ -116,9 +116,8 @@ public final class PageParser extends AbstractPageParser {
 			// favicon
 			final String favicon = (String) pp.getBeanProperty("favicon");
 			if (StringUtils.hasText(favicon)) {
-				final Element link = htmlDocument.head().appendElement("link");
-				link.attr("href", pp.wrapContextPath(favicon));
-				link.attr("rel", "SHORTCUT ICON");
+				htmlDocument.head().appendElement("link").attr("type", "image/x-icon")
+						.attr("rel", "SHORTCUT ICON").attr("href", pp.wrapContextPath(favicon));
 			}
 
 			final String css = htmlBuilder.css(pp);

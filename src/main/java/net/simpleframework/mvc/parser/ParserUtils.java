@@ -110,6 +110,7 @@ public abstract class ParserUtils implements IMVCContextVar {
 				moveHead.remove();
 			}
 		}
-		return new ArrayList<Node>(htmlDocument.childNodes());
+		final Element body = htmlDocument.body();
+		return new ArrayList<Node>(body != null ? body.childNodes() : htmlDocument.childNodes());
 	}
 }

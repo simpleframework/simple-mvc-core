@@ -139,7 +139,7 @@ public class MVCFilter extends ObjectEx implements Filter, IMVCConst {
 
 					/* 计时end */
 					final Long l = (Long) rRequest.getRequestAttr(COOKIE_PAGELOAD_TIME);
-					if (l != null) {
+					if (l != null && bHttpRequest) {
 						rRequest.addCookie(COOKIE_PAGELOAD_TIME,
 								(System.currentTimeMillis() - l.longValue()) / 1000d);
 					}
@@ -168,6 +168,12 @@ public class MVCFilter extends ObjectEx implements Filter, IMVCConst {
 		return EFilterResult.SUCCESS;
 	}
 
+	protected void initResponse(final PageRequestResponse rRequest, final String encoding) {
+		rRequest.setResponseCharacterEncoding(encoding);
+		rRequest.setResponseContentType("text/html;charset=" + encoding);
+		// rRequest.setResponseNoCache();
+	}
+
 	protected void write(final PageRequestResponse rRequest, final String html) throws IOException {
 		String encoding = null;
 		if (rRequest instanceof PageParameter) {
@@ -178,10 +184,7 @@ public class MVCFilter extends ObjectEx implements Filter, IMVCConst {
 			encoding = ctx.getMVCSettings().getCharset();
 		}
 
-		rRequest.setResponseCharacterEncoding(encoding);
-		rRequest.setResponseContentType("text/html;charset=" + encoding);
-
-		// WebUtils.setNoCache(httpResponse);
+		initResponse(rRequest, encoding);
 
 		final HttpServletResponse _response = rRequest.response;
 		// resetBuffer() 只会清掉內容的部份(Body)，而不会去清 status code 和 header

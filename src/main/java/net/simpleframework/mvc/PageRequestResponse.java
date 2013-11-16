@@ -193,6 +193,10 @@ public class PageRequestResponse implements IMVCContextVar, IMVCConst {
 		response.setCharacterEncoding(charset);
 	}
 
+	public void setResponseNoCache() {
+		HttpUtils.setNoCache(response);
+	}
+
 	// Session Wrapper
 
 	public HttpSession getSession() {
