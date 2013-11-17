@@ -68,6 +68,8 @@ public class Meta extends NamedObject<Meta> {
 
 	public static Meta DEFAULT_COMPATIBLE = new Meta("X-UA-Compatible", "IE=edge,chrome=1");
 
+	public static Meta RENDERER_WEBKIT = new Meta("webkit").setName("renderer");
+
 	public static Meta GOOGLE_NOTRANSLATE = new Meta("google", "notranslate");
 
 	public static Meta CLEARTYPE = new Meta("cleartype", "on");

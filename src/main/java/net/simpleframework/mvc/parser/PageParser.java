@@ -48,6 +48,7 @@ public final class PageParser extends AbstractPageParser {
 
 	public PageParser parser(final String responseString) {
 		try {
+			final long l = System.currentTimeMillis();
 			final PageParameter pp = getPageParameter();
 			final IPageHandler pageHandle = pp.getPageHandler();
 			if (pageHandle != null) {
@@ -59,7 +60,6 @@ public final class PageParser extends AbstractPageParser {
 			final Map<String, AbstractComponentBean> oComponentBeans = pp.getComponentBeans();
 			resourceBinding.doTag(pp, headElement, oComponentBeans);
 			normaliseNode(htmlDocument, oComponentBeans);
-			htmlRender2Javascript.doTag(pp, headElement, oComponentBeans);
 			javascriptRender.doTag(pp, headElement, oComponentBeans);
 
 			// 转换UrlForward直接输出的代码
@@ -73,6 +73,8 @@ public final class PageParser extends AbstractPageParser {
 				element.remove();
 				parent.insertChildren(jj, nodes);
 			}
+
+			System.out.println(pp.getRequestURI() + " --- " + (System.currentTimeMillis() - l));
 
 			// 执行handle
 			if (pageHandle != null) {
@@ -229,6 +231,5 @@ public final class PageParser extends AbstractPageParser {
 	private static ResourceBinding resourceBinding = new ResourceBinding();
 	private static HtmlRender htmlRender = new HtmlRender();
 	private static JavascriptRender javascriptRender = new JavascriptRender();
-	private static HtmlRender2Javascript htmlRender2Javascript = new HtmlRender2Javascript();
 	private static PageLoaded pageLoaded = new PageLoaded();
 }

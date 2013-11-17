@@ -2,11 +2,13 @@ package net.simpleframework.mvc.parser;
 
 import java.util.Map;
 
+import net.simpleframework.common.StringUtils;
 import net.simpleframework.common.web.JavascriptUtils;
 import net.simpleframework.lib.org.jsoup.nodes.Element;
 import net.simpleframework.mvc.PageParameter;
 import net.simpleframework.mvc.component.AbstractComponentBean;
 import net.simpleframework.mvc.component.ComponentParameter;
+import net.simpleframework.mvc.component.IComponentHtmlRender;
 import net.simpleframework.mvc.component.IComponentJavascriptRender;
 import net.simpleframework.mvc.component.IComponentRender;
 
@@ -23,14 +25,24 @@ public class JavascriptRender extends AbstractParser {
 		final StringBuilder sb = new StringBuilder();
 		for (final Map.Entry<String, AbstractComponentBean> entry : componentBeans.entrySet()) {
 			final AbstractComponentBean componentBean = entry.getValue();
+			final ComponentParameter cp = ComponentParameter.get(pp, componentBean);
 
 			final IComponentRender render = componentBean.getComponentRegistry().getComponentRender();
 			if (render instanceof IComponentJavascriptRender) {
-				final ComponentParameter cp = ComponentParameter.get(pp, componentBean);
 				doBeforeRender(cp);
 				final String scriptCode = ((IComponentJavascriptRender) render).getJavascriptCode(cp);
 				if (scriptCode != null) {
 					sb.append(JavascriptUtils.wrapFunction(scriptCode));
+				}
+			}
+
+			// 处理HtmlRender的js代码
+			if (render instanceof IComponentHtmlRender) {
+				final String js = ((IComponentHtmlRender) render).getHtmlJavascriptCode(cp);
+				if (StringUtils.hasText(js)) {
+					// 立即执行，此处不用wrapWhenReady
+					// 该js要优先于HttpClient产生的jscode
+					ParserUtils.addScriptText(htmlHead, JavascriptUtils.wrapFunction(js));
 				}
 			}
 		}

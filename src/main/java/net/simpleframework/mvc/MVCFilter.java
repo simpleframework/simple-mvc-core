@@ -138,8 +138,9 @@ public class MVCFilter extends ObjectEx implements Filter, IMVCConst {
 					}
 
 					/* 计时end */
-					final Long l = (Long) rRequest.getRequestAttr(COOKIE_PAGELOAD_TIME);
-					if (l != null && bHttpRequest) {
+					Long l;
+					if (bHttpRequest
+							&& (l = (Long) rRequest.getRequestAttr(COOKIE_PAGELOAD_TIME)) != null) {
 						rRequest.addCookie(COOKIE_PAGELOAD_TIME,
 								(System.currentTimeMillis() - l.longValue()) / 1000d);
 					}

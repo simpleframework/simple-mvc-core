@@ -56,6 +56,8 @@ public class MVCHtmlBuilder extends ObjectEx implements IMVCContextVar {
 
 	public Collection<Meta> meta(final PageParameter pp) {
 		final ArrayList<Meta> al = new ArrayList<Meta>();
+		al.add(Meta.RENDERER_WEBKIT);
+
 		final AbstractMVCPage page = pp.getPage();
 		boolean _contentType = true;
 		boolean _compatible = pp.getUserAgentParser().isIE();
@@ -78,7 +80,6 @@ public class MVCHtmlBuilder extends ObjectEx implements IMVCContextVar {
 		if (_compatible) {
 			al.add(Meta.DEFAULT_COMPATIBLE);
 		}
-		al.add(new Meta("webkit").setName("renderer"));
 		return al;
 	}
 }

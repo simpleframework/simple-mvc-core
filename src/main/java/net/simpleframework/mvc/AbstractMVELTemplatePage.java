@@ -30,7 +30,9 @@ public abstract class AbstractMVELTemplatePage extends AbstractMVCPage {
 	@Override
 	public IForward forward(final PageParameter pp) {
 		final NamedTemplate nt = createNamedTemplates(pp);
-		pp.setRequestAttr("NamedTemplate", nt);
+		if (nt != null) {
+			pp.setRequestAttr("NamedTemplate", nt);
+		}
 		return super.forward(pp);
 	}
 
