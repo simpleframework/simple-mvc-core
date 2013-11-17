@@ -11,7 +11,6 @@ import net.simpleframework.common.StringUtils;
 import net.simpleframework.common.coll.AbstractArrayListEx;
 import net.simpleframework.common.coll.KVMap;
 import net.simpleframework.common.object.TextNamedObject;
-import net.simpleframework.common.web.html.HtmlConst;
 import net.simpleframework.common.web.html.HtmlEncoder;
 
 /**
@@ -21,8 +20,7 @@ import net.simpleframework.common.web.html.HtmlEncoder;
  *         http://www.simpleframework.net
  */
 @SuppressWarnings("unchecked")
-public abstract class AbstractElement<T extends AbstractElement<T>> extends TextNamedObject<T>
-		implements HtmlConst {
+public abstract class AbstractElement<T extends AbstractElement<T>> extends TextNamedObject<T> {
 	private String id;
 
 	/* 类 */

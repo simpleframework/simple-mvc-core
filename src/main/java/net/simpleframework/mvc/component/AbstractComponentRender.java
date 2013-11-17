@@ -3,7 +3,6 @@ package net.simpleframework.mvc.component;
 import net.simpleframework.common.object.ObjectEx;
 import net.simpleframework.common.th.NotImplementedException;
 import net.simpleframework.common.web.HttpUtils;
-import net.simpleframework.common.web.html.HtmlConst;
 import net.simpleframework.mvc.IForward;
 import net.simpleframework.mvc.UrlForward;
 
@@ -13,8 +12,7 @@ import net.simpleframework.mvc.UrlForward;
  * @author 陈侃(cknet@126.com, 13910090885) https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
-public abstract class AbstractComponentRender extends ObjectEx implements IComponentRender,
-		HtmlConst {
+public abstract class AbstractComponentRender extends ObjectEx implements IComponentRender {
 	private final IComponentRegistry componentRegistry;
 
 	public AbstractComponentRender(final IComponentRegistry componentRegistry) {
