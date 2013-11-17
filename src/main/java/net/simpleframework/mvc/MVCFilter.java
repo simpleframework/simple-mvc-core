@@ -125,8 +125,8 @@ public class MVCFilter extends ObjectEx implements Filter, IMVCConst {
 						rHTML = new PageParser(pp).parser(rHTML).toHtml();
 					}
 
-					// 写入cookies
 					if (bHttpRequest) {
+						// 写入cookies
 						@SuppressWarnings("unchecked")
 						final List<Cookie> cookies = (List<Cookie>) LocalSessionCache
 								.remove(SESSION_ATTRI_COOKIES);
@@ -134,6 +134,11 @@ public class MVCFilter extends ObjectEx implements Filter, IMVCConst {
 							for (final Cookie cookie : cookies) {
 								_response.addCookie(cookie);
 							}
+						}
+
+						if (LocalSessionCache.get(SESSION_ATTRI_THROWABLE) != null) {
+							sendRedirectError(rRequest);
+							return;
 						}
 					}
 
@@ -209,11 +214,18 @@ public class MVCFilter extends ObjectEx implements Filter, IMVCConst {
 			json.put("hash", ObjectUtils.hashStr(detail));
 			final String js = JavascriptUtils.wrapScriptTag("$error(" + JsonUtils.toJSON(json) + ");");
 			write(rRequest, js);
-		} else if (rRequest.loc(MVCUtils.getPageResourcePath()
-				+ "/jsp/error_template.jsp?systemErrorPage="
-				+ ctx.getMVCSettings().getErrorPath(rRequest))) {
+		} else {
+			if (!rRequest.isHttpClientRequest()) {
+				sendRedirectError(rRequest);
+			}
 			LocalSessionCache.put(SESSION_ATTRI_THROWABLE, th);
 		}
+	}
+
+	private boolean sendRedirectError(final PageRequestResponse rRequest) throws IOException {
+		final String errorPath = ctx.getMVCSettings().getErrorPath(rRequest);
+		return rRequest.loc(MVCUtils.getPageResourcePath()
+				+ "/jsp/error_template.jsp?systemErrorPage=" + errorPath);
 	}
 
 	@Override
