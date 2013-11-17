@@ -48,7 +48,6 @@ public final class PageParser extends AbstractPageParser {
 
 	public PageParser parser(final String responseString) {
 		try {
-			final long l = System.currentTimeMillis();
 			final PageParameter pp = getPageParameter();
 			final IPageHandler pageHandle = pp.getPageHandler();
 			if (pageHandle != null) {
@@ -73,8 +72,6 @@ public final class PageParser extends AbstractPageParser {
 				element.remove();
 				parent.insertChildren(jj, nodes);
 			}
-
-			System.out.println(pp.getRequestURI() + " --- " + (System.currentTimeMillis() - l));
 
 			// 执行handle
 			if (pageHandle != null) {
