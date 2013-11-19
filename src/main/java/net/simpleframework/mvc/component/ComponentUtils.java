@@ -12,11 +12,11 @@ import net.simpleframework.common.object.ObjectFactory;
 import net.simpleframework.common.object.ObjectUtils;
 import net.simpleframework.mvc.AbstractMVCPage;
 import net.simpleframework.mvc.IMVCContextVar;
-import net.simpleframework.mvc.LocalSessionCache;
 import net.simpleframework.mvc.PageDocument;
 import net.simpleframework.mvc.PageDocumentFactory;
 import net.simpleframework.mvc.PageParameter;
 import net.simpleframework.mvc.PageRequestResponse;
+import net.simpleframework.mvc.SessionCache;
 
 /**
  * Licensed under the Apache License, Version 2.0
@@ -70,7 +70,7 @@ public abstract class ComponentUtils implements IMVCContextVar {
 		if (componentBean != null) {
 			return componentBean;
 		}
-		return (AbstractComponentBean) LocalSessionCache.get(hashId);
+		return (AbstractComponentBean) SessionCache.lget(hashId);
 	}
 
 	public static String getComponentHashByName(final PageDocument pageDocument,

@@ -1,6 +1,5 @@
 package net.simpleframework.mvc;
 
-import java.io.Serializable;
 import java.util.Enumeration;
 
 import javax.servlet.ServletContext;
@@ -37,7 +36,7 @@ public class PageSession implements HttpSession, IMVCContextVar {
 
 	@Override
 	public void setAttribute(final String key, final Object val) {
-		SessionCache.put(key, (Serializable) val);
+		SessionCache.put(key, val);
 		adapter.attributeAdded(new HttpSessionBindingEvent(httpSession, key, val));
 	}
 

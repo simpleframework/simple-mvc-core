@@ -96,9 +96,9 @@ public class PageResponse extends HttpServletResponseWrapper implements IMVCCont
 		} else {
 			// 加入 session
 			@SuppressWarnings("unchecked")
-			List<Cookie> cookies = (List<Cookie>) LocalSessionCache.get(SESSION_ATTRI_COOKIES);
+			List<Cookie> cookies = (List<Cookie>) SessionCache.lget(SESSION_ATTRI_COOKIES);
 			if (cookies == null) {
-				LocalSessionCache.put(SESSION_ATTRI_COOKIES, cookies = new ArrayList<Cookie>());
+				SessionCache.lput(SESSION_ATTRI_COOKIES, cookies = new ArrayList<Cookie>());
 			}
 			cookies.add(cookie);
 		}

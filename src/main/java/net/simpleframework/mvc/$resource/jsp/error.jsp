@@ -2,14 +2,14 @@
 <%@ page import="net.simpleframework.common.Convert"%>
 <%@ page import="net.simpleframework.common.web.html.HtmlUtils"%>
 <%@ page import="net.simpleframework.mvc.IFilterListener"%>
-<%@ page import="net.simpleframework.mvc.LocalSessionCache"%>
+<%@ page import="net.simpleframework.mvc.SessionCache"%>
 <%@ page import="net.simpleframework.common.th.ThrowableUtils"%>
 <%@ page import="net.simpleframework.common.web.html.HtmlEncoder"%>
 <%@ page import="net.simpleframework.mvc.IMVCContextVar"%>
 <%@ page import="net.simpleframework.mvc.IMVCConst"%>
 <%
-	final Throwable th = (Throwable) LocalSessionCache
-			.get(IMVCConst.SESSION_ATTRI_THROWABLE);
+	final Throwable th = (Throwable) SessionCache
+			.lget(IMVCConst.SESSION_ATTRI_THROWABLE);
 	if (th == null) {
 %>
 <script type="text/javascript">
@@ -20,7 +20,7 @@
 <%
 	return;
 	}
-	LocalSessionCache.remove(IMVCConst.SESSION_ATTRI_THROWABLE);
+	SessionCache.lremove(IMVCConst.SESSION_ATTRI_THROWABLE);
 %>
 <div align="center">
   <div class="simple_toolbar1" style="width: 640px; margin-top: 100px; text-align: left;">

@@ -299,7 +299,7 @@ public class PageDocument extends XmlDocument implements IMVCConst {
 				// 不在PageDocument中的components，则缓存到session中
 				final String hashId = componentBean.hashId();
 				if (ComponentUtils.getComponent(hashId) == null) {
-					LocalSessionCache.put(hashId, componentBean);
+					SessionCache.lput(hashId, componentBean);
 				}
 				return super.put(key, componentBean);
 			}

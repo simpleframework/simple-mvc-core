@@ -128,15 +128,15 @@ public class MVCFilter extends ObjectEx implements Filter, IMVCConst {
 					if (bHttpRequest) {
 						// 写入cookies
 						@SuppressWarnings("unchecked")
-						final List<Cookie> cookies = (List<Cookie>) LocalSessionCache
-								.remove(SESSION_ATTRI_COOKIES);
+						final List<Cookie> cookies = (List<Cookie>) SessionCache
+								.lremove(SESSION_ATTRI_COOKIES);
 						if (cookies != null) {
 							for (final Cookie cookie : cookies) {
 								_response.addCookie(cookie);
 							}
 						}
 
-						if (LocalSessionCache.get(SESSION_ATTRI_THROWABLE) != null) {
+						if (SessionCache.lget(SESSION_ATTRI_THROWABLE) != null) {
 							sendRedirectError(rRequest);
 							return;
 						}
@@ -164,7 +164,7 @@ public class MVCFilter extends ObjectEx implements Filter, IMVCConst {
 
 	protected EFilterResult doFilterInternal(final PageRequestResponse rRequest,
 			final FilterChain filterChain) throws IOException {
-		if (LocalSessionCache.get(SESSION_ATTRI_THROWABLE) == null) {
+		if (SessionCache.lget(SESSION_ATTRI_THROWABLE) == null) {
 			for (final IFilterListener listener : ctx.getFilterListeners()) {
 				if (listener.doFilter(rRequest, filterChain) == EFilterResult.BREAK) {
 					return EFilterResult.BREAK;
@@ -218,7 +218,7 @@ public class MVCFilter extends ObjectEx implements Filter, IMVCConst {
 			if (!rRequest.isHttpClientRequest()) {
 				sendRedirectError(rRequest);
 			}
-			LocalSessionCache.put(SESSION_ATTRI_THROWABLE, th);
+			SessionCache.lput(SESSION_ATTRI_THROWABLE, th);
 		}
 	}
 

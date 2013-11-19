@@ -108,7 +108,7 @@ public abstract class AbstractUrlForward extends ObjectEx implements IForward, I
 			requestId = String.valueOf(COUNTER++);
 		}
 
-		LocalSessionCache.put(requestId, new RequestData(rRequest, includeRequestData));
+		SessionCache.lput(requestId, new RequestData(rRequest, includeRequestData));
 		String p = REQUEST_ID + "=" + requestId;
 		if (keepCache) {
 			p += "&" + KEEP_REQUESTDATA_CACHE + "=true";
@@ -119,9 +119,9 @@ public abstract class AbstractUrlForward extends ObjectEx implements IForward, I
 	static RequestData getRequestDataByRequest(final HttpServletRequest httpRequest) {
 		final String requestId = httpRequest.getParameter(REQUEST_ID);
 		if (Convert.toBool(httpRequest.getParameter(KEEP_REQUESTDATA_CACHE))) {
-			return (RequestData) LocalSessionCache.get(requestId);
+			return (RequestData) SessionCache.lget(requestId);
 		} else {
-			return (RequestData) LocalSessionCache.remove(requestId);
+			return (RequestData) SessionCache.lremove(requestId);
 		}
 	}
 
