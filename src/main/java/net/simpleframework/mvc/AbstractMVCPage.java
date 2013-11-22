@@ -115,9 +115,15 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 		return pageDocument.getPageBean();
 	}
 
-	private final Map<Class<?>, ParameterMap> htmlViewVariables;
-	{
-		htmlViewVariables = new HashMap<Class<?>, ParameterMap>();
+	@SuppressWarnings("unchecked")
+	private Map<Class<?>, ParameterMap> getHtmlViewVariables(final PageParameter pp) {
+		Map<Class<?>, ParameterMap> htmlViewVariables = (Map<Class<?>, ParameterMap>) pp
+				.getRequestAttr("_HTMLVIEW_VARIABLES");
+		if (htmlViewVariables == null) {
+			pp.setRequestAttr("_HTMLVIEW_VARIABLES",
+					htmlViewVariables = new HashMap<Class<?>, ParameterMap>());
+		}
+		return htmlViewVariables;
 	}
 
 	/**
@@ -127,8 +133,9 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 	 * @param variable
 	 * @param htmlFilename
 	 */
-	protected void addHtmlViewVariable(final Class<?> pageClass, final String variable,
-			final String htmlFilename) {
+	protected void addHtmlViewVariable(final PageParameter pp, final Class<?> pageClass,
+			final String variable, final String htmlFilename) {
+		final Map<Class<?>, ParameterMap> htmlViewVariables = getHtmlViewVariables(pp);
 		ParameterMap htmlViews = htmlViewVariables.get(pageClass);
 		if (htmlViews == null) {
 			htmlViewVariables.put(pageClass, htmlViews = new ParameterMap());
@@ -141,8 +148,9 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 		htmlViews.put(variable, htmlFilename);
 	}
 
-	protected void addHtmlViewVariable(final Class<?> pageClass, final String variable) {
-		addHtmlViewVariable(pageClass, variable, getClassName(pageClass) + ".html");
+	protected void addHtmlViewVariable(final PageParameter pp, final Class<?> pageClass,
+			final String variable) {
+		addHtmlViewVariable(pp, pageClass, variable, getClassName(pageClass) + ".html");
 	}
 
 	protected String getMethod(final PageParameter pp) {
@@ -228,7 +236,7 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 				return StringUtils.hasText(html) ? html : (String) variables.get($html);
 			}
 		} else {
-			final ParameterMap htmlViews = htmlViewVariables.get(pageClass);
+			final ParameterMap htmlViews = getHtmlViewVariables(pp).get(pageClass);
 			if (htmlViews == null || htmlViews.size() == 0) {
 				final InputStream htmlStream = getResource(pageClass, ".html");
 				final String html = htmlStream != null ? replaceExpr(pp, htmlStream, variables)
