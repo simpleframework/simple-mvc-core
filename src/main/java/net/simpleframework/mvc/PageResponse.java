@@ -1,11 +1,11 @@
 package net.simpleframework.mvc;
 
 import java.io.ByteArrayOutputStream;
-import java.io.CharArrayWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.GZIPOutputStream;
@@ -121,12 +121,37 @@ public class PageResponse extends HttpServletResponseWrapper implements IMVCCont
 
 	private PrintWriter writer;
 
-	private CharArrayWriter output;
+	private Writer output;
 
 	@Override
 	public PrintWriter getWriter() {
 		if (writer == null) {
-			writer = new PrintWriter(output = new CharArrayWriter());
+			writer = new PrintWriter(output = new Writer() {
+				final StringBuilder buffer = new StringBuilder(1024);
+
+				@Override
+				public void write(final char[] cbuf, final int off, final int len) throws IOException {
+					buffer.append(cbuf, off, len);
+				}
+
+				@Override
+				public void write(final String str, final int off, final int len) throws IOException {
+					buffer.append(str, off, len);
+				}
+
+				@Override
+				public void flush() throws IOException {
+				}
+
+				@Override
+				public void close() throws IOException {
+				}
+
+				@Override
+				public String toString() {
+					return buffer.toString();
+				}
+			});
 		}
 		return writer;
 	}
