@@ -126,6 +126,8 @@ public class PageResponse extends HttpServletResponseWrapper implements IMVCCont
 	@Override
 	public PrintWriter getWriter() {
 		if (writer == null) {
+			// 貌似StringBuilder比CharArrayWriter要快
+			// 我写了个测试程序，至少是CharArrayWriter的一半时间
 			writer = new PrintWriter(output = new Writer() {
 				final StringBuilder buffer = new StringBuilder(1024);
 
