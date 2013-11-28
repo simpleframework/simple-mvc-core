@@ -521,6 +521,7 @@ var $UI = {
     }
   };
 
+  //---- Array
   Array.prototype.empty = function() {
     return !this.length;
   };
