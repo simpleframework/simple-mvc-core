@@ -20,6 +20,7 @@ import net.simpleframework.lib.org.jsoup.nodes.Node;
 import net.simpleframework.lib.org.jsoup.nodes.TextNode;
 import net.simpleframework.lib.org.jsoup.select.Elements;
 import net.simpleframework.mvc.AbstractMVCPage;
+import net.simpleframework.mvc.IMVCConst;
 import net.simpleframework.mvc.IPageHandler;
 import net.simpleframework.mvc.IPageHandler.PageSelector;
 import net.simpleframework.mvc.MVCException;
@@ -62,7 +63,7 @@ public final class PageParser extends AbstractPageParser {
 			javascriptRender.doTag(pp, headElement, oComponentBeans);
 
 			// 转换UrlForward直接输出的代码
-			final Elements elements = htmlDocument.select("." + HTML_BASE64_CLASS);
+			final Elements elements = htmlDocument.select("." + IMVCConst.HTML_BASE64_CLASS);
 			for (int i = 0; i < elements.size(); i++) {
 				final Element element = elements.get(i);
 				final Element parent = element.parent();

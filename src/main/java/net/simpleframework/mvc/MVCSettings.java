@@ -13,7 +13,7 @@ import net.simpleframework.ctx.settings.ContextSettings;
  * @author 陈侃(cknet@126.com, 13910090885) https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
-public class MVCSettings extends ContextSettings implements IMVCConst {
+public class MVCSettings extends ContextSettings {
 
 	public static MVCSettings get() {
 		return singleton(MVCSettings.class);
@@ -91,7 +91,8 @@ public class MVCSettings extends ContextSettings implements IMVCConst {
 		return isDebug() ? false : true;
 	}
 
-	private static final String[] pKeys = new String[] { REQUEST_ID, PARAM_XMLPATH };
+	private static final String[] pKeys = new String[] { IMVCConst.REQUEST_ID,
+			IMVCConst.PARAM_XMLPATH };
 
 	/**
 	 * 获取系统请求参数

@@ -19,14 +19,15 @@ public class LastUrlListener implements IFilterListener, IMVCContextVar {
 		if (rRequest.isHttpRequest() && !ctx.isSystemUrl(rRequest)
 				&& (accept = rRequest.getRequestHeader("Accept")) != null
 				&& accept.contains("text/html")) {
-			rRequest.setSessionAttr(SESSION_ATTRI_LASTURL, rRequest.getRequestAndQueryStringUrl());
+			rRequest.setSessionAttr(IMVCConst.SESSION_ATTRI_LASTURL,
+					rRequest.getRequestAndQueryStringUrl());
 		}
 		return EFilterResult.SUCCESS;
 	}
 
 	public static String getLastUrl(final PageRequestResponse rRequest) {
-		final String lastUrl = (String) rRequest.getSessionAttr(SESSION_ATTRI_LASTURL);
-		rRequest.removeSessionAttr(SESSION_ATTRI_LASTURL);
+		final String lastUrl = (String) rRequest.getSessionAttr(IMVCConst.SESSION_ATTRI_LASTURL);
+		rRequest.removeSessionAttr(IMVCConst.SESSION_ATTRI_LASTURL);
 		return lastUrl;
 	}
 }

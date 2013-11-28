@@ -16,7 +16,7 @@ import net.simpleframework.common.web.HttpUtils;
  * @author 陈侃(cknet@126.com, 13910090885) https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
-public class PageDocumentFactory implements IMVCContextVar, IMVCConst {
+public class PageDocumentFactory implements IMVCContextVar {
 
 	/**
 	 * 缓存查询路径下的类
@@ -35,7 +35,7 @@ public class PageDocumentFactory implements IMVCContextVar, IMVCConst {
 	}
 
 	static PageDocument getPageDocument(final PageRequestResponse rRequest) {
-		String xmlpath = rRequest.getParameter(PARAM_XMLPATH);
+		String xmlpath = rRequest.getParameter(IMVCConst.PARAM_XMLPATH);
 		if (StringUtils.hasText(xmlpath)) {
 			return getPageDocumentAndCreate(new File(MVCUtils.getRealPath(xmlpath)), rRequest);
 		} else {

@@ -15,14 +15,11 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.simpleframework.common.Convert;
 import net.simpleframework.common.JsonUtils;
 import net.simpleframework.common.StringUtils;
-import net.simpleframework.common.coll.ParameterMap;
+import net.simpleframework.common.coll.KVMap;
 import net.simpleframework.common.object.ObjectEx;
 import net.simpleframework.common.object.ObjectFactory;
-import net.simpleframework.common.object.ObjectUtils;
-import net.simpleframework.common.web.JavascriptUtils;
 import net.simpleframework.mvc.IFilterListener.EFilterResult;
 import net.simpleframework.mvc.parser.PageParser;
 
@@ -84,7 +81,7 @@ public class MVCFilter extends ObjectEx implements Filter, IMVCConst {
 				/* 计时start */
 				final boolean bHttpRequest = rRequest.isHttpRequest();
 				if (bHttpRequest) {
-					rRequest.setRequestAttr(COOKIE_PAGELOAD_TIME, System.currentTimeMillis());
+					rRequest.setRequestAttr(PAGELOAD_TIME, System.currentTimeMillis());
 				}
 
 				/* page document */
@@ -142,14 +139,6 @@ public class MVCFilter extends ObjectEx implements Filter, IMVCConst {
 						}
 					}
 
-					/* 计时end */
-					Long l;
-					if (bHttpRequest
-							&& (l = (Long) rRequest.getRequestAttr(COOKIE_PAGELOAD_TIME)) != null) {
-						rRequest.addCookie(COOKIE_PAGELOAD_TIME,
-								(System.currentTimeMillis() - l.longValue()) / 1000d);
-					}
-
 					/* 写入response */
 					write(pp, rHTML);
 				}
@@ -200,20 +189,26 @@ public class MVCFilter extends ObjectEx implements Filter, IMVCConst {
 		if (_response instanceof PageResponse) {
 			((PageResponse) _response).initOutputStream();
 		}
+
 		out.write(html);
+
+		/* 计时end */
+		Long l;
+		if ((l = (Long) rRequest.getRequestAttr(PAGELOAD_TIME)) != null && rRequest.isHttpRequest()) {
+			final long pt = System.currentTimeMillis() - l.longValue();
+			rRequest.setSessionAttr(PAGELOAD_TIME, pt); // 记录上一次
+			rRequest.addCookie(PAGELOAD_TIME, pt / 1000d);
+		}
+
 		out.close();
 	}
 
 	protected void doThrowable(Throwable th, final PageRequestResponse rRequest) throws IOException {
 		th = MVCUtils.convertThrowable(th);
 		if (rRequest.isAjaxRequest()) {
-			final ParameterMap json = new ParameterMap();
-			json.put("title", ctx.getThrowableMessage(th));
-			final String detail = Convert.toString(th);
-			json.put("detail", detail);
-			json.put("hash", ObjectUtils.hashStr(detail));
-			final String js = JavascriptUtils.wrapScriptTag("$error(" + JsonUtils.toJSON(json) + ");");
-			write(rRequest, js);
+			final KVMap json = new KVMap().add("isJavascript", "true").add("rt",
+					"$error(" + JsonUtils.toJSON(MVCUtils.createException(rRequest, th)) + ");");
+			write(rRequest, JsonUtils.toJSON(json));
 		} else {
 			if (!rRequest.isHttpClientRequest()) {
 				sendRedirectError(rRequest);

@@ -10,7 +10,7 @@ import net.simpleframework.common.StringUtils;
  * @author 陈侃(cknet@126.com, 13910090885) https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
-public abstract class JsessionidUtils implements IMVCConst {
+public abstract class JsessionidUtils {
 
 	private static final ThreadLocal<String> SESSIONIDs = new ThreadLocal<String>();
 
@@ -19,7 +19,7 @@ public abstract class JsessionidUtils implements IMVCConst {
 	}
 
 	public static void setJSessionId(final HttpServletRequest httpRequest) {
-		String jsessionid = httpRequest.getParameter(JSESSIONID);
+		String jsessionid = httpRequest.getParameter(IMVCConst.JSESSIONID);
 		if (!StringUtils.hasText(jsessionid)) {
 			jsessionid = httpRequest.getSession().getId();
 		}

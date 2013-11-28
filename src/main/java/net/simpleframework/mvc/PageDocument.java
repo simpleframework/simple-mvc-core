@@ -35,7 +35,7 @@ import net.simpleframework.mvc.component.IComponentRegistry;
  * @author 陈侃(cknet@126.com, 13910090885) https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
-public class PageDocument extends XmlDocument implements IMVCConst {
+public class PageDocument extends XmlDocument {
 	private Class<? extends AbstractMVCPage> pageClass;
 
 	private File documentFile;
@@ -470,4 +470,13 @@ public class PageDocument extends XmlDocument implements IMVCConst {
 			return super.equals(obj);
 		}
 	}
+
+	final static String TAG_HANDLE_CLASS = "handleClass";
+	final static String TAG_COMPONENTS = "components";
+	final static String TAG_SCRIPT_INIT = "scriptInit";
+	final static String TAG_SCRIPT_EVAL = "scriptEval";
+	final static String TAG_IMPORT_PAGE = "importPage";
+	final static String TAG_IMPORT_JAVASCRIPT = "importJavascript";
+	final static String TAG_IMPORT_CSS = "importCSS";
+	final static String TAG_VALUE = "value";
 }

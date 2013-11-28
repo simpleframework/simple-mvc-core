@@ -12,14 +12,12 @@ public interface IMVCConst {
 
 	static final String REQUEST_ID = "@rid";
 
-	static final String KEEP_REQUESTDATA_CACHE = "keep_requestdata_cache";
-
 	/* request parameter */
 	final static String PARAM_XMLPATH = "_xmlpath";
 	final static String PARAM_REFERER = "_referer";
 	final static String PARAM_DOCUMENT = "_document";
 
-	final static String PARAM_AJAX_REQUEST_MARK = "_ajax_request_mark";
+	/* request attribute */
 
 	/* session attribute */
 	final static String SESSION_ATTRI_COOKIES = "_cookies";
@@ -27,21 +25,8 @@ public interface IMVCConst {
 	final static String SESSION_ATTRI_LASTURL = "_lasturl";
 	final static String SESSION_ATTRI_SKIN = "_skin";
 
-	final static String SESSION_ATTRI_PAGE_TITLE = "_page_title";
-
-	/* cookie */
-	final static String COOKIE_PAGELOAD_TIME = "pageload_time";
+	final static String PAGELOAD_TIME = "pageload_time";
 
 	/* html */
 	static String HTML_BASE64_CLASS = "html_base64_class";
-
-	/* doc tag */
-	final static String TAG_HANDLE_CLASS = "handleClass";
-	final static String TAG_COMPONENTS = "components";
-	final static String TAG_SCRIPT_INIT = "scriptInit";
-	final static String TAG_SCRIPT_EVAL = "scriptEval";
-	final static String TAG_IMPORT_PAGE = "importPage";
-	final static String TAG_IMPORT_JAVASCRIPT = "importJavascript";
-	final static String TAG_IMPORT_CSS = "importCSS";
-	final static String TAG_VALUE = "value";
 }

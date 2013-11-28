@@ -101,6 +101,8 @@ public abstract class AbstractUrlForward extends ObjectEx implements IForward, I
 
 	static long COUNTER = 0;
 
+	static final String KEEP_REQUESTDATA_CACHE = "keep_requestdata_cache";
+
 	public static String putRequestData(final PageRequestResponse rRequest,
 			final String includeRequestData, final boolean keepCache) {
 		String requestId;

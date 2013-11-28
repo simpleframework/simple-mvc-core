@@ -10,6 +10,7 @@ import net.simpleframework.ctx.permission.IPermissionConst;
 import net.simpleframework.ctx.permission.LoginUser;
 import net.simpleframework.ctx.permission.LoginUser.LoginWrapper;
 import net.simpleframework.mvc.IFilterListener;
+import net.simpleframework.mvc.IMVCConst;
 import net.simpleframework.mvc.IMVCContextVar;
 import net.simpleframework.mvc.MVCContext;
 import net.simpleframework.mvc.MVCUtils;
@@ -36,7 +37,7 @@ public class PermissionFilterListener implements IFilterListener, IMVCContextVar
 			role = (String) pp.getBeanProperty("role");
 			if (rRequest.isAjaxRequest() && !StringUtils.hasText(role)) {
 				final PageDocument pageDocument2 = PageDocumentFactory.getPageDocument(rRequest
-						.getParameter(PARAM_DOCUMENT));
+						.getParameter(IMVCConst.PARAM_DOCUMENT));
 				if (pageDocument2 != null) {
 					final PageParameter pp2 = PageParameter.get(rRequest, pageDocument2);
 					role = (String) pp2.getBeanProperty("role");

@@ -1,15 +1,18 @@
 package net.simpleframework.mvc;
 
 import java.io.File;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import net.simpleframework.common.BeanUtils;
+import net.simpleframework.common.Convert;
 import net.simpleframework.common.StringUtils;
 import net.simpleframework.common.coll.KVMap;
 import net.simpleframework.common.logger.Log;
 import net.simpleframework.common.logger.LogFactory;
+import net.simpleframework.common.object.ObjectUtils;
 import net.simpleframework.common.th.RuntimeExceptionEx;
 import net.simpleframework.common.th.ThrowableUtils;
 import net.simpleframework.common.web.HttpUtils;
@@ -22,7 +25,7 @@ import net.simpleframework.mvc.component.ComponentHandlerException;
  * @author 陈侃(cknet@126.com, 13910090885) https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
-public abstract class MVCUtils implements IMVCContextVar, IMVCConst {
+public abstract class MVCUtils implements IMVCContextVar {
 
 	public static KVMap createVariables(final PageParameter pp) {
 		final KVMap variable = new KVMap();
@@ -70,7 +73,7 @@ public abstract class MVCUtils implements IMVCContextVar, IMVCConst {
 	}
 
 	public static void setSessionSkin(final HttpSession httpSession, final String skin) {
-		httpSession.setAttribute(SESSION_ATTRI_SKIN, skin);
+		httpSession.setAttribute(IMVCConst.SESSION_ATTRI_SKIN, skin);
 	}
 
 	public static String doPageUrl(final PageParameter pp, final String url) {
@@ -136,6 +139,17 @@ public abstract class MVCUtils implements IMVCContextVar, IMVCConst {
 			}
 		}
 		return ThrowableUtils.convertThrowable(th);
+	}
+
+	public static Map<String, Object> createException(final PageRequestResponse rRequest,
+			final Throwable th) {
+		final KVMap exception = new KVMap();
+		exception.put("title", ctx.getThrowableMessage(th));
+		final String detail = Convert.toString(th);
+		exception.put("detail", detail);
+		exception.put("hash", ObjectUtils.hashStr(detail));
+		exception.put("more", rRequest.getLogin().isManager());
+		return exception;
 	}
 
 	static Log log = LogFactory.getLogger(MVCUtils.class);
