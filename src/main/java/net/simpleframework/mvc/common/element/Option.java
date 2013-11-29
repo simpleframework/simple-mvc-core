@@ -73,7 +73,7 @@ public class Option extends AbstractElement<Option> {
 			sb.append(" value='").append(name).append("'");
 		}
 		if (isSelected()) {
-			sb.append(" selected");
+			sb.append(" selected='selected'");
 		}
 		sb.append(">").append(getText()).append("</option>");
 		return sb.toString();
