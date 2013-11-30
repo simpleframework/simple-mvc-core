@@ -41,8 +41,9 @@ public class MVCHtmlBuilder extends ObjectEx implements IMVCContextVar {
 			} else {
 				sb.append("Verdana,");
 				final String os = parser.getBrowserOperatingSystem();
-				if (os != null && os.startsWith("Windows")
-						&& Convert.toDouble(os.substring(os.lastIndexOf(" ")).trim()) > 6.0) {
+				int p;
+				if (os != null && os.startsWith("Windows") && ((p = os.lastIndexOf(" ")) > 0)
+						&& Convert.toDouble(os.substring(p).trim()) > 6.0) {
 					sb.append("'Microsoft YaHei','\u5fae\u8f6f\u96c5\u9ed1',");
 				} else {
 					sb.append("SimSun,");
