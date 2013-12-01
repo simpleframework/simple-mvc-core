@@ -297,6 +297,10 @@ public class PageRequestResponse implements IMVCContextVar {
 				.getResponseText(this));
 	}
 
+	public String getLocalhostUrl() {
+		return UrlForward.getLocalhostUrl(this);
+	}
+
 	/*-----------------------utils url--------------------*/
 	public Map<String, Object> toQueryParams(final String... keys) {
 		final KVMap kv = new KVMap();
