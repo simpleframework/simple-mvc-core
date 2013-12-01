@@ -298,7 +298,7 @@ public class PageRequestResponse implements IMVCContextVar {
 	}
 
 	public String getLocalhostUrl() {
-		return UrlForward.getLocalhostUrl(this);
+		return AbstractUrlForward.getLocalhostUrl(this);
 	}
 
 	/*-----------------------utils url--------------------*/
