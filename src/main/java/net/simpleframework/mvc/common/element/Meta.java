@@ -80,4 +80,8 @@ public class Meta extends NamedObject<Meta> {
 	public static Meta ROBOTS_NONE = new Meta("none").setName("robots");
 
 	public static Meta ROBOTS_ALL = new Meta("all").setName("robots");
+
+	public static Meta KEYWORDS(final String content) {
+		return new Meta(content).setName("keywords");
+	}
 }
