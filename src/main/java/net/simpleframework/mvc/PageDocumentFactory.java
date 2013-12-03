@@ -67,7 +67,8 @@ public class PageDocumentFactory implements IMVCContextVar {
 			PageWrapper wrapper = _wrappers.get(lookupPath);
 			l: if (wrapper == null) {
 				boolean homeMark = false;
-				String clazzName = lookupPath.substring(filterPath.length());
+				String clazzName = filterPath.equals("/") ? lookupPath : lookupPath
+						.substring(filterPath.length());
 				if (!StringUtils.hasText(clazzName) || "/".equals(clazzName)) {
 					// 跳转到首页
 					final String homePath = settings.getHomePath(rRequest);
