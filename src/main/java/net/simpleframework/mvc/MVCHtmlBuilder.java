@@ -3,9 +3,7 @@ package net.simpleframework.mvc;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import net.simpleframework.common.Convert;
 import net.simpleframework.common.object.ObjectEx;
-import net.simpleframework.common.web.UserAgentParser;
 import net.simpleframework.mvc.common.element.Meta;
 
 /**
@@ -34,20 +32,11 @@ public class MVCHtmlBuilder extends ObjectEx implements IMVCContextVar {
 			css = page.css(pp);
 		}
 		if (css == null) {
-			sb.append("body, body * { font-family:");
-			final UserAgentParser parser = pp.getUserAgentParser();
-			if (parser.isPresto()) {
+			sb.append("body, body * { font-family: Verdana,");
+			if (pp.getUserAgent().indexOf("Windows NT 6.") > -1) {
 				sb.append("'Microsoft YaHei','\u5fae\u8f6f\u96c5\u9ed1',");
 			} else {
-				sb.append("Verdana,");
-				final String os = parser.getBrowserOperatingSystem();
-				int p;
-				if (os != null && os.startsWith("Windows") && ((p = os.lastIndexOf(" ")) > 0)
-						&& Convert.toDouble(os.substring(p).trim()) > 6.0) {
-					sb.append("'Microsoft YaHei','\u5fae\u8f6f\u96c5\u9ed1',");
-				} else {
-					sb.append("SimSun,");
-				}
+				sb.append("SimSun,");
 			}
 			sb.append("Sans-Serif,Tahoma,Arial");
 			sb.append("; }");
@@ -61,7 +50,7 @@ public class MVCHtmlBuilder extends ObjectEx implements IMVCContextVar {
 
 		final AbstractMVCPage page = pp.getPage();
 		boolean _contentType = true;
-		boolean _compatible = pp.getUserAgentParser().isIE();
+		boolean _compatible = pp.getIEVersion() != null;
 		Collection<Meta> _coll;
 		if (page != null && (_coll = page.meta(pp)) != null) {
 			for (final Meta _meta : _coll) {

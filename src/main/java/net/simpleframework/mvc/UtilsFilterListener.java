@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import net.simpleframework.common.Convert;
 import net.simpleframework.common.StringUtils;
 import net.simpleframework.common.web.HttpUtils;
-import net.simpleframework.common.web.UserAgentParser;
 
 /**
  * Licensed under the Apache License, Version 2.0
@@ -25,9 +24,8 @@ public class UtilsFilterListener implements IFilterListener, IMVCContextVar {
 
 		final String ieWarnUrl = settings.getIEWarnPath(rRequest);
 		if (StringUtils.hasText(ieWarnUrl)) {
-			final UserAgentParser parser = rRequest.getUserAgentParser();
-			if (parser.isIE() && parser.getBrowserFloatVersion() < 8.0
-					&& !Convert.toBool(rRequest.getCookie("ie6_browser"))
+			final Float ver = rRequest.getIEVersion();
+			if (ver != null && ver < 8.0 && !Convert.toBool(rRequest.getCookie("ie6_browser"))
 					&& !httpRequest.getRequestURI().endsWith(ieWarnUrl)) {
 				HttpUtils.loc(httpRequest, rRequest.response, ieWarnUrl);
 				return EFilterResult.BREAK;

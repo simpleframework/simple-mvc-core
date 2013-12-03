@@ -20,7 +20,6 @@ import net.simpleframework.common.ID;
 import net.simpleframework.common.StringUtils;
 import net.simpleframework.common.coll.KVMap;
 import net.simpleframework.common.web.HttpUtils;
-import net.simpleframework.common.web.UserAgentParser;
 import net.simpleframework.common.web.html.HtmlUtils;
 import net.simpleframework.ctx.permission.PermissionUser;
 import net.simpleframework.mvc.ctx.permission.IPagePermissionHandler;
@@ -323,8 +322,14 @@ public class PageRequestResponse implements IMVCContextVar {
 		return request.getHeader("User-Agent");
 	}
 
-	public UserAgentParser getUserAgentParser() {
-		return UserAgentParser.get(request);
+	public Float getIEVersion() {
+		final String userAgent = getUserAgent();
+		final int start = userAgent.indexOf("MSIE");
+		if (start == -1) {
+			return null;
+		}
+		final int end = userAgent.indexOf(";", start);
+		return Convert.toFloat(userAgent.substring(start + 5, end));
 	}
 
 	public boolean loc(final String url) throws IOException {
@@ -393,5 +398,36 @@ public class PageRequestResponse implements IMVCContextVar {
 	public static PageRequestResponse get(final HttpServletRequest request,
 			final HttpServletResponse response) {
 		return new PageRequestResponse(request, response);
+	}
+
+	public static class UserAgent {
+		public String brower;
+		public float ver;
+
+		public UserAgent(final String userAgent) {
+			if (userAgent.indexOf("MSIE") != -1) {
+				brower = "IE";
+				final int start = userAgent.indexOf("MSIE");
+				final int end = userAgent.indexOf(";", start);
+				ver = Convert.toFloat(userAgent.substring(start + 5, end));
+			} else if (userAgent.indexOf("Firefox") != -1) {
+				brower = "Firefox";
+				final int start = userAgent.indexOf("Firefox/");
+				ver = Convert.toFloat(userAgent.substring(start + "Firefox".length() + 1,
+						userAgent.length()));
+			} else if (userAgent.indexOf("Chrome") != -1) {
+				brower = "Chrome";
+				final int start = userAgent.indexOf("Chrome/");
+				int end = userAgent.indexOf(".", start);
+				end = userAgent.indexOf(".", end + 1);
+				ver = Convert.toFloat(userAgent.substring(start + "Chrome".length() + 1, end));
+			} else if (userAgent.indexOf("Safari") != -1) {
+				// Version/5.1.2
+				brower = "Safari";
+				final int start = userAgent.indexOf("Version/");
+				final int end = userAgent.indexOf(" ", start);
+				ver = Convert.toFloat(userAgent.substring(start + "Version".length() + 1, end));
+			}
+		}
 	}
 }

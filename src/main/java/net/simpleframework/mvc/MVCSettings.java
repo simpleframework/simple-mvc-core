@@ -3,7 +3,6 @@ package net.simpleframework.mvc;
 import java.util.ArrayList;
 import java.util.Map;
 
-import net.simpleframework.common.web.UserAgentParser;
 import net.simpleframework.ctx.IApplicationContextBase;
 import net.simpleframework.ctx.settings.ContextSettings;
 
@@ -74,8 +73,8 @@ public class MVCSettings extends ContextSettings {
 	}
 
 	public boolean isEffect(final PageRequestResponse rRequest) {
-		final UserAgentParser parser = rRequest.getUserAgentParser();
-		return !parser.isIE() || parser.getBrowserFloatVersion() > 8.0;
+		final Float ver = rRequest.getIEVersion();
+		return ver == null || ver > 8.0;
 	}
 
 	public int getServletPort(final PageRequestResponse rRequest) {
