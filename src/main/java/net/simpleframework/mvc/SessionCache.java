@@ -69,7 +69,11 @@ public class SessionCache {
 			final Map<String, Map<String, Object>> _attributes = new ConcurrentHashMap<String, Map<String, Object>>();
 
 			sAttribute = new ISessionAttribute() {
+				@SuppressWarnings("unchecked")
 				private Map<String, Object> getAttributes(final String sessionId) {
+					if (sessionId == null) {
+						return Collections.EMPTY_MAP;
+					}
 					Map<String, Object> attributes = _attributes.get(sessionId);
 					if (attributes == null) {
 						_attributes.put(sessionId, attributes = new ConcurrentHashMap<String, Object>());
