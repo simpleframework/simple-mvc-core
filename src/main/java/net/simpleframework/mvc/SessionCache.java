@@ -16,7 +16,7 @@ import net.simpleframework.common.Convert;
  * @author 陈侃(cknet@126.com, 13910090885) https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
-public class SessionCache {
+public class SessionCache implements IMVCContextVar {
 	private static final SessionCache _cache = new SessionCache(false);
 	private static final SessionCache _lcache = new SessionCache(true);
 
@@ -128,8 +128,7 @@ public class SessionCache {
 		return getSessionAttribute().getAttributeNames(JsessionidUtils.getId());
 	}
 
-	public static HttpSessionListener sessionListener = new HttpSessionListener() {
-
+	public static HttpSessionListener SESSIONCACHE_LISTENER = new HttpSessionListener() {
 		@Override
 		public void sessionCreated(final HttpSessionEvent httpSessionEvent) {
 		}
@@ -137,7 +136,7 @@ public class SessionCache {
 		@Override
 		public void sessionDestroyed(final HttpSessionEvent httpSessionEvent) {
 			// System.out.println("remove objects from session: " + sessionId);
-			final String jsessionId = JsessionidUtils.getId();
+			final String jsessionId = httpSessionEvent.getSession().getId();
 			_cache.getSessionAttribute().sessionDestroyed(jsessionId);
 			_lcache.getSessionAttribute().sessionDestroyed(jsessionId);
 		}

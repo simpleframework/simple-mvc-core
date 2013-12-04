@@ -23,6 +23,10 @@ public abstract class JsessionidUtils {
 		if (!StringUtils.hasText(jsessionid)) {
 			jsessionid = httpRequest.getSession().getId();
 		}
+		setJSessionId(jsessionid);
+	}
+
+	public static void setJSessionId(final String jsessionid) {
 		SESSIONIDs.set(jsessionid);
 	}
 }

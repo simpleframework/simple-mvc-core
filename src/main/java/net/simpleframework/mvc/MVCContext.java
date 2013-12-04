@@ -59,13 +59,13 @@ public class MVCContext extends AbstractApplicationContextBase implements IMVCCo
 			// servletContext.addListener(MVCEventAdapter.class.getName());
 		}
 
+		getEventAdapter().addListener(SessionCache.SESSIONCACHE_LISTENER);
+
 		super.onInit();
 
 		addFilterListener(new UtilsFilterListener());
 		addFilterListener(new LastUrlListener());
 		addFilterListener(new PermissionFilterListener());
-
-		getEventAdapter().addListener(SessionCache.sessionListener);
 	}
 
 	@Override
@@ -159,7 +159,7 @@ public class MVCContext extends AbstractApplicationContextBase implements IMVCCo
 
 	@Override
 	public HttpSession createHttpSession(final HttpSession httpSession) {
-		return new PageSession(httpSession);
+		return httpSession instanceof PageSession ? httpSession : new PageSession(httpSession);
 	}
 
 	@Override
