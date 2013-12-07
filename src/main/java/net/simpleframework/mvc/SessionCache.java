@@ -69,10 +69,9 @@ public class SessionCache implements IMVCContextVar {
 			final Map<String, Map<String, Object>> _attributes = new ConcurrentHashMap<String, Map<String, Object>>();
 
 			sAttribute = new ISessionAttribute() {
-				@SuppressWarnings("unchecked")
 				private Map<String, Object> getAttributes(final String sessionId) {
 					if (sessionId == null) {
-						return Collections.EMPTY_MAP;
+						return null;
 					}
 					Map<String, Object> attributes = _attributes.get(sessionId);
 					if (attributes == null) {
@@ -83,49 +82,78 @@ public class SessionCache implements IMVCContextVar {
 
 				@Override
 				public void put(final String sessionId, final String key, final Object value) {
-					if (key != null) {
-						getAttributes(sessionId).put(key, value);
+					Map<String, Object> attributes;
+					if (key != null && (attributes = getAttributes(sessionId)) != null) {
+						attributes.put(key, value);
 					}
 				}
 
 				@Override
 				public Object get(final String sessionId, final String key) {
-					return key == null ? null : getAttributes(sessionId).get(key);
+					Map<String, Object> attributes;
+					if (key != null && (attributes = getAttributes(sessionId)) != null) {
+						return attributes.get(key);
+					}
+					return null;
 				}
 
 				@Override
 				public Object remove(final String sessionId, final String key) {
-					return key == null ? null : getAttributes(sessionId).remove(key);
+					Map<String, Object> attributes;
+					if (key != null && (attributes = getAttributes(sessionId)) != null) {
+						return attributes.remove(key);
+					}
+					return null;
 				}
 
 				@Override
 				public void sessionDestroyed(final String sessionId) {
-					_attributes.remove(sessionId);
+					if (sessionId != null) {
+						_attributes.remove(sessionId);
+					}
 				}
 
 				@Override
 				public Enumeration<String> getAttributeNames(final String sessionId) {
-					return Collections.enumeration(getAttributes(sessionId).keySet());
+					final Map<String, Object> attributes = getAttributes(sessionId);
+					return attributes == null ? EMPTY_ENUM : Collections
+							.enumeration(attributes.keySet());
 				}
+
+				private final Enumeration<String> EMPTY_ENUM = new Enumeration<String>() {
+					@Override
+					public boolean hasMoreElements() {
+						return false;
+					}
+
+					@Override
+					public String nextElement() {
+						return null;
+					}
+				};
 			};
 		}
 		return sAttribute;
 	}
 
+	private String getJsessionId() {
+		return JsessionidUtils.getId();
+	}
+
 	private Object _get(final Object key) {
-		return getSessionAttribute().get(JsessionidUtils.getId(), Convert.toString(key));
+		return getSessionAttribute().get(getJsessionId(), Convert.toString(key));
 	}
 
 	private void _put(final Object key, final Object value) {
-		getSessionAttribute().put(JsessionidUtils.getId(), Convert.toString(key), value);
+		getSessionAttribute().put(getJsessionId(), Convert.toString(key), value);
 	}
 
 	private Object _remove(final Object key) {
-		return getSessionAttribute().remove(JsessionidUtils.getId(), Convert.toString(key));
+		return getSessionAttribute().remove(getJsessionId(), Convert.toString(key));
 	}
 
 	private Enumeration<String> _getAttributeNames() {
-		return getSessionAttribute().getAttributeNames(JsessionidUtils.getId());
+		return getSessionAttribute().getAttributeNames(getJsessionId());
 	}
 
 	public static HttpSessionListener SESSIONCACHE_LISTENER = new HttpSessionListener() {
@@ -139,6 +167,7 @@ public class SessionCache implements IMVCContextVar {
 			final String jsessionId = httpSessionEvent.getSession().getId();
 			_cache.getSessionAttribute().sessionDestroyed(jsessionId);
 			_lcache.getSessionAttribute().sessionDestroyed(jsessionId);
+			JsessionidUtils.remove(jsessionId);
 		}
 	};
 }

@@ -61,11 +61,13 @@ public abstract class AbstractUrlForward extends ObjectEx implements IForward, I
 		}
 
 		/* 加入jsessionid */
-		final String sId = JsessionidUtils.getId();
-		sb.append(";").append(JSESSIONID).append("=").append(sId);
-		sb.append("?").append(JSESSIONID).append("=").append(sId).append("&")
+		String jsessionid = rRequest.getParameter(JSESSIONID);
+		if (!StringUtils.hasText(jsessionid)) {
+			jsessionid = rRequest.getSessionId();
+		}
+		sb.append(";").append(JSESSIONID).append("=").append(jsessionid);
+		sb.append("?").append(JSESSIONID).append("=").append(jsessionid).append("&")
 				.append(HttpUtils.toQueryString(qMap));
-
 		return getLocalhostUrl(rRequest) + rRequest.wrapContextPath(sb.toString());
 	}
 

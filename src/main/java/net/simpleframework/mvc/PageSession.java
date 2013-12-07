@@ -22,12 +22,18 @@ public class PageSession implements HttpSession, IMVCContextVar {
 
 	public PageSession(final HttpSession httpSession) {
 		this.httpSession = httpSession;
-		JsessionidUtils.setJSessionId(httpSession.getId());
+		if (JsessionidUtils.getId() == null) {
+			JsessionidUtils.setJSessionId(httpSession.getId());
+		}
+	}
+
+	public HttpSession getHttpSession() {
+		return httpSession;
 	}
 
 	@Override
 	public String getId() {
-		return JsessionidUtils.getId();
+		return httpSession.getId();
 	}
 
 	@Override
