@@ -19,6 +19,8 @@ import net.simpleframework.common.Convert;
 import net.simpleframework.common.ID;
 import net.simpleframework.common.StringUtils;
 import net.simpleframework.common.coll.KVMap;
+import net.simpleframework.common.logger.Log;
+import net.simpleframework.common.logger.LogFactory;
 import net.simpleframework.common.web.HttpUtils;
 import net.simpleframework.common.web.html.HtmlUtils;
 import net.simpleframework.ctx.permission.PermissionUser;
@@ -430,4 +432,6 @@ public class PageRequestResponse implements IMVCContextVar {
 			}
 		}
 	}
+
+	protected final Log log = LogFactory.getLogger(getClass());
 }

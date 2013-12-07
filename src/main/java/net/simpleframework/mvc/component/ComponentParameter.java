@@ -1,5 +1,7 @@
 package net.simpleframework.mvc.component;
 
+import static net.simpleframework.common.I18n.$m;
+
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -59,11 +61,17 @@ public final class ComponentParameter extends PageParameter {
 	}
 
 	public IComponentHandler getComponentHandler() {
+		if (componentBean == null) {
+			throw ComponentException.of($m("ComponentParameter.0"));
+		}
 		return componentBean.getComponentHandler(this);
 	}
 
 	@Override
 	public String hashId() {
+		if (componentBean == null) {
+			throw ComponentException.of($m("ComponentParameter.0"));
+		}
 		return componentBean.hashId();
 	}
 
@@ -77,6 +85,9 @@ public final class ComponentParameter extends PageParameter {
 		if (handle != null) {
 			return handle.getBeanProperty(this, beanProperty);
 		} else {
+			if (componentBean == null) {
+				throw ComponentException.of($m("ComponentParameter.0"));
+			}
 			Object val = BeanUtils.getProperty(componentBean, beanProperty);
 			if (val == null) {
 				val = BeanDefaults.get(componentBean.getClass(), beanProperty);
