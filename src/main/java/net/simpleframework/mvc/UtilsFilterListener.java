@@ -3,11 +3,9 @@ package net.simpleframework.mvc;
 import java.io.IOException;
 
 import javax.servlet.FilterChain;
-import javax.servlet.http.HttpServletRequest;
 
 import net.simpleframework.common.Convert;
 import net.simpleframework.common.StringUtils;
-import net.simpleframework.common.web.HttpUtils;
 
 /**
  * Licensed under the Apache License, Version 2.0
@@ -20,14 +18,13 @@ public class UtilsFilterListener implements IFilterListener, IMVCContextVar {
 	@Override
 	public EFilterResult doFilter(final PageRequestResponse rRequest, final FilterChain filterChain)
 			throws IOException {
-		final HttpServletRequest httpRequest = rRequest.request;
-
-		final String ieWarnUrl = settings.getIEWarnPath(rRequest);
-		if (StringUtils.hasText(ieWarnUrl)) {
+		final String ieWarnUrl;
+		if (rRequest.isHttpRequest()
+				&& StringUtils.hasText(ieWarnUrl = settings.getIEWarnPath(rRequest))) {
 			final Float ver = rRequest.getIEVersion();
 			if (ver != null && ver < 8.0 && !Convert.toBool(rRequest.getCookie("ie6_browser"))
-					&& !httpRequest.getRequestURI().endsWith(ieWarnUrl)) {
-				HttpUtils.loc(httpRequest, rRequest.response, ieWarnUrl);
+					&& !rRequest.getRequestURI().endsWith(ieWarnUrl)) {
+				rRequest.loc(ieWarnUrl);
 				return EFilterResult.BREAK;
 			}
 		}

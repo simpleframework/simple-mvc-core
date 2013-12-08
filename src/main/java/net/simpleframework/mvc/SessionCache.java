@@ -91,19 +91,15 @@ public class SessionCache implements IMVCContextVar {
 				@Override
 				public Object get(final String sessionId, final String key) {
 					Map<String, Object> attributes;
-					if (key != null && (attributes = getAttributes(sessionId)) != null) {
-						return attributes.get(key);
-					}
-					return null;
+					return key != null && (attributes = getAttributes(sessionId)) != null ? attributes
+							.get(key) : null;
 				}
 
 				@Override
 				public Object remove(final String sessionId, final String key) {
 					Map<String, Object> attributes;
-					if (key != null && (attributes = getAttributes(sessionId)) != null) {
-						return attributes.remove(key);
-					}
-					return null;
+					return key != null && (attributes = getAttributes(sessionId)) != null ? attributes
+							.remove(key) : null;
 				}
 
 				@Override
@@ -111,13 +107,6 @@ public class SessionCache implements IMVCContextVar {
 					if (sessionId != null) {
 						_attributes.remove(sessionId);
 					}
-				}
-
-				@Override
-				public Enumeration<String> getAttributeNames(final String sessionId) {
-					final Map<String, Object> attributes = getAttributes(sessionId);
-					return attributes == null ? EMPTY_ENUM : Collections
-							.enumeration(attributes.keySet());
 				}
 
 				private final Enumeration<String> EMPTY_ENUM = new Enumeration<String>() {
@@ -131,6 +120,13 @@ public class SessionCache implements IMVCContextVar {
 						return null;
 					}
 				};
+
+				@Override
+				public Enumeration<String> getAttributeNames(final String sessionId) {
+					final Map<String, Object> attributes = getAttributes(sessionId);
+					return attributes == null ? EMPTY_ENUM : Collections
+							.enumeration(attributes.keySet());
+				}
 			};
 		}
 		return sAttribute;
