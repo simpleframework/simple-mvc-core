@@ -13,7 +13,6 @@ import net.simpleframework.common.coll.KVMap;
 import net.simpleframework.common.logger.Log;
 import net.simpleframework.common.logger.LogFactory;
 import net.simpleframework.common.object.ObjectUtils;
-import net.simpleframework.common.th.RuntimeExceptionEx;
 import net.simpleframework.common.th.ThrowableUtils;
 import net.simpleframework.common.web.HttpUtils;
 import net.simpleframework.mvc.common.DeployUtils;
@@ -128,14 +127,6 @@ public abstract class MVCUtils implements IMVCContextVar {
 				if (throwable != null) {
 					th = throwable;
 				}
-			}
-		}
-		if (th instanceof RuntimeExceptionEx) {
-			final Throwable cause = th.getCause();
-			String message;
-			if (cause != null && ((message = cause.getMessage()) != null)
-					&& message.equals(th.getMessage())) {
-				th = th.getCause();
 			}
 		}
 		return ThrowableUtils.convertThrowable(th);
