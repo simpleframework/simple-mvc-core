@@ -2,6 +2,7 @@ package net.simpleframework.mvc;
 
 import net.simpleframework.common.Convert;
 import net.simpleframework.common.StringUtils;
+import net.simpleframework.mvc.common.DeployUtils;
 
 /**
  * Licensed under the Apache License, Version 2.0
@@ -36,13 +37,14 @@ public interface IPageResourceProvider extends IResourceProvider {
 
 		@Override
 		public String[] getCssPath(final PageParameter pp) {
-			final String rPath = MVCUtils.getCssResourcePath(pp);
+			final String rPath = getCssResourceHomePath(pp, IPageResourceProvider.class);
 			return new String[] { rPath + "/core.css", rPath + "/icon.css" };
 		}
 
 		@Override
 		public String[] getJavascriptPath(final PageParameter pp) {
-			return new String[] { MVCUtils.getPageResourcePath() + "/js/core.js" };
+			return new String[] { DeployUtils.getResourcePath(IPageResourceProvider.class)
+					+ "/js/core.js" };
 		}
 
 		@Override

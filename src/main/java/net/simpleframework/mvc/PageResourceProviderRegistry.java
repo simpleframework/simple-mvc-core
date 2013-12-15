@@ -20,10 +20,13 @@ public class PageResourceProviderRegistry extends ObjectEx implements IMVCContex
 
 	private IPageResourceProvider defaultProvider;
 
-	public PageResourceProviderRegistry() {
+	private final Map<String, IPageResourceProvider> providers;
+	{
+		providers = new ConcurrentHashMap<String, IPageResourceProvider>();
 	}
 
-	private final Map<String, IPageResourceProvider> providers = new ConcurrentHashMap<String, IPageResourceProvider>();
+	public PageResourceProviderRegistry() {
+	}
 
 	public IPageResourceProvider getPageResourceProvider(final String name) {
 		IPageResourceProvider provider;

@@ -63,10 +63,6 @@ public abstract class MVCUtils implements IMVCContextVar {
 		return DeployUtils.getResourcePath(MVCUtils.class);
 	}
 
-	public static String getCssResourcePath(final PageParameter pp) {
-		return ctx.getDefaultPageResourceProvider().getCssResourceHomePath(pp, MVCUtils.class);
-	}
-
 	public static String getLocationPath() {
 		return getPageResourcePath() + "/jsp/location.jsp";
 	}

@@ -97,9 +97,10 @@ public class MVCContext extends AbstractApplicationContextBase implements IMVCCo
 					final MVCPageResourceProvider provider = newInstance(rClass,
 							MVCPageResourceProvider.class);
 					if (provider != null) {
-						if (pageResourceProvider == null
-								|| pageResourceProvider.getClass().isAssignableFrom(provider.getClass())) {
-							pageResourceProvider = provider;
+						if (defaultPageResourceProvider == null
+								|| defaultPageResourceProvider.getClass().isAssignableFrom(
+										provider.getClass())) {
+							defaultPageResourceProvider = provider;
 						}
 					}
 					if (AbstractMVCPage.class.isAssignableFrom(rClass)
@@ -139,11 +140,11 @@ public class MVCContext extends AbstractApplicationContextBase implements IMVCCo
 		return ScriptEvalFactory.createDefaultScriptEval(variables);
 	}
 
-	private IPageResourceProvider pageResourceProvider;
+	private IPageResourceProvider defaultPageResourceProvider;
 
 	@Override
 	public IPageResourceProvider getDefaultPageResourceProvider() {
-		return pageResourceProvider;
+		return defaultPageResourceProvider;
 	}
 
 	@Override
