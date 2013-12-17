@@ -39,30 +39,27 @@ public class ImageCache extends ObjectEx {
 	}
 
 	public ImageCache(final String oUrl, final int width, final int height) {
-		final String url = StringUtils.hasText(oUrl) ? oUrl : NO_IMAGE_PATH;
-		filename = load(ObjectUtils.hashStr(url), width, height, new IImageStream() {
-			@Override
-			public InputStream getInputStream() {
-				InputStream inputStream = null;
-				try {
-					if (HttpUtils.isAbsoluteUrl(url)) {
-						inputStream = new URL(url).openStream();
-					}
-				} catch (final IOException e) {
-				}
-				if (inputStream == null) {
-					File oFile = new File(MVCUtils.getRealPath(url));
-					if (!oFile.exists()) {
-						oFile = new File(MVCUtils.getRealPath(NO_IMAGE_PATH));
-					}
+		if (StringUtils.hasText(oUrl)) {
+			filename = load(ObjectUtils.hashStr(oUrl), width, height, new IImageStream() {
+				@Override
+				public InputStream getInputStream() {
+					InputStream inputStream = null;
 					try {
-						inputStream = new FileInputStream(oFile);
-					} catch (final FileNotFoundException e) {
+						if (HttpUtils.isAbsoluteUrl(oUrl)) {
+							inputStream = new URL(oUrl).openStream();
+						}
+					} catch (final IOException e) {
 					}
+					if (inputStream == null) {
+						try {
+							inputStream = new FileInputStream(new File(MVCUtils.getRealPath(oUrl)));
+						} catch (final FileNotFoundException e) {
+						}
+					}
+					return inputStream;
 				}
-				return inputStream;
-			}
-		});
+			});
+		}
 	}
 
 	public ImageCache(final InputStream inputStream, final String id, final int width,
@@ -94,23 +91,23 @@ public class ImageCache extends ObjectEx {
 				} catch (final IOException e) {
 					log.warn(e);
 				}
+			} else {
+				return null;
 			}
 		}
 		return filename;
 	}
 
-	interface IImageStream {
-
-		InputStream getInputStream();
-	}
-
 	public String getPath() {
-		return CACHE_PATH + filename;
+		return StringUtils.hasText(filename) ? CACHE_PATH + filename : NO_IMAGE_PATH;
 	}
 
 	public String getPath(final PageRequestResponse rRequest) {
 		return rRequest.wrapContextPath(getPath());
 	}
 
-	public static ImageCache NO_IMAGE = new ImageCache(NO_IMAGE_PATH, 0, 0);
+	interface IImageStream {
+
+		InputStream getInputStream();
+	}
 }
