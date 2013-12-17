@@ -13,6 +13,7 @@ import net.simpleframework.common.ClassUtils.IScanResourcesCallback;
 import net.simpleframework.common.ClassUtils.ScanClassResourcesCallback;
 import net.simpleframework.common.Convert;
 import net.simpleframework.common.object.ObjectEx;
+import net.simpleframework.common.object.ObjectFactory.ObjectCreatorListener;
 import net.simpleframework.ctx.common.xml.XmlElement;
 import net.simpleframework.ctx.script.IScriptEval;
 import net.simpleframework.mvc.IPageResourceProvider;
@@ -56,7 +57,7 @@ public abstract class AbstractComponentRegistry extends ObjectEx implements ICom
 			@Override
 			public void doResources(final String filepath, final boolean isDirectory)
 					throws IOException {
-				final IComponentRegistry registry = newInstance(loadClass(filepath),
+				final IComponentRegistry registry = getInstance(loadClass(filepath),
 						IComponentRegistry.class);
 				if (registry != null) {
 					factory.registered(registry);
@@ -109,34 +110,24 @@ public abstract class AbstractComponentRegistry extends ObjectEx implements ICom
 		return provider != null ? provider : DefaultComponentResourceProvider.class;
 	}
 
-	private IComponentRender componentRender;
-
 	@Override
 	public IComponentRender getComponentRender() {
-		if (componentRender == null) {
-			try {
-				componentRender = getRenderClass().getConstructor(IComponentRegistry.class)
-						.newInstance(this);
-			} catch (final Exception e) {
-				throw ComponentException.of(e);
+		return singleton(getRenderClass(), new ObjectCreatorListener() {
+			@Override
+			public void onCreated(final Object o) {
+				BeanUtils.setProperty(o, "componentRegistry", AbstractComponentRegistry.this);
 			}
-		}
-		return componentRender;
+		});
 	}
-
-	private IComponentResourceProvider componentResourceProvider;
 
 	@Override
 	public IComponentResourceProvider getComponentResourceProvider() {
-		if (componentResourceProvider == null) {
-			try {
-				componentResourceProvider = getResourceProviderClass().getConstructor(
-						IComponentRegistry.class).newInstance(this);
-			} catch (final Exception e) {
-				throw ComponentException.of(e);
+		return singleton(getResourceProviderClass(), new ObjectCreatorListener() {
+			@Override
+			public void onCreated(final Object o) {
+				BeanUtils.setProperty(o, "componentRegistry", AbstractComponentRegistry.this);
 			}
-		}
-		return componentResourceProvider;
+		});
 	}
 
 	@Override
@@ -171,9 +162,5 @@ public abstract class AbstractComponentRegistry extends ObjectEx implements ICom
 	@Override
 	public IPageResourceProvider getPageResourceProvider() {
 		return PageResourceProviderRegistry.get().getPageResourceProvider(null);
-	}
-
-	public static String getLoadingContent() {
-		return $m("AbstractComponentRegistry.loadingContent.0");
 	}
 }

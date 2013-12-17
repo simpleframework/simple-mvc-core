@@ -41,20 +41,20 @@ public interface IComponentResourceProvider extends IResourceProvider {
 	 */
 	public static abstract class AbstractComponentResourceProvider extends AbstractResourceProvider
 			implements IComponentResourceProvider {
-		private final IComponentRegistry componentRegistry;
+		private IComponentRegistry componentRegistry;
 
-		public AbstractComponentResourceProvider(final IComponentRegistry componentRegistry) {
+		@Override
+		public IComponentRegistry getComponentRegistry() {
+			return componentRegistry;
+		}
+
+		public void setComponentRegistry(final IComponentRegistry componentRegistry) {
 			this.componentRegistry = componentRegistry;
 		}
 
 		@Override
 		public String[] getDependentComponents(final PageParameter pp) {
 			return null;
-		}
-
-		@Override
-		public IComponentRegistry getComponentRegistry() {
-			return componentRegistry;
 		}
 
 		@Override

@@ -9,8 +9,4 @@ import net.simpleframework.mvc.component.IComponentResourceProvider.AbstractComp
  *         http://www.simpleframework.net
  */
 public class DefaultComponentResourceProvider extends AbstractComponentResourceProvider {
-
-	public DefaultComponentResourceProvider(final IComponentRegistry componentRegistry) {
-		super(componentRegistry);
-	}
 }

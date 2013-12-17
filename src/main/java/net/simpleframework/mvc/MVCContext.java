@@ -94,7 +94,7 @@ public class MVCContext extends AbstractApplicationContextBase implements IMVCCo
 					if (rClass == null) {
 						return;
 					}
-					final MVCPageResourceProvider provider = newInstance(rClass,
+					final MVCPageResourceProvider provider = getInstance(rClass,
 							MVCPageResourceProvider.class);
 					if (provider != null) {
 						if (defaultPageResourceProvider == null

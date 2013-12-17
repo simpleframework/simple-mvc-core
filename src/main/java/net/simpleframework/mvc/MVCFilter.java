@@ -19,7 +19,6 @@ import net.simpleframework.common.JsonUtils;
 import net.simpleframework.common.StringUtils;
 import net.simpleframework.common.coll.KVMap;
 import net.simpleframework.common.object.ObjectEx;
-import net.simpleframework.common.object.ObjectFactory;
 import net.simpleframework.mvc.IFilterListener.EFilterResult;
 import net.simpleframework.mvc.parser.PageParser;
 
@@ -36,8 +35,7 @@ public class MVCFilter extends ObjectEx implements Filter, IMVCConst {
 	@Override
 	public void init(final FilterConfig filterConfig) throws ServletException {
 		final String handler = filterConfig.getInitParameter("mvc_context");
-		ctx = StringUtils.hasText(handler) ? (IMVCContext) ObjectFactory.singleton(handler)
-				: createMVCContext();
+		ctx = StringUtils.hasText(handler) ? (IMVCContext) singleton(handler) : createMVCContext();
 		try {
 			ctx.setServletContext(filterConfig.getServletContext());
 			ctx.onInit();

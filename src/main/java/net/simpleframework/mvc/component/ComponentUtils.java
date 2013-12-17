@@ -159,4 +159,10 @@ public abstract class ComponentUtils implements IMVCContextVar {
 		}
 		return hdl;
 	}
+
+	/*--------------------------------- utils -----------------------------------*/
+
+	public static String getLoadingContent() {
+		return $m("ComponentUtils.loadingContent.0");
+	}
 }
