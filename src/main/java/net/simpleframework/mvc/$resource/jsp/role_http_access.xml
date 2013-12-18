@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://simpleframework.net/xsd/default/simple.xsd">
   <scriptEval>application</scriptEval>
-  <scriptInit>
-		import net.simpleframework.mvc.MVCUtils;
-	</scriptInit>
   <importCSS>
-    <value>${MVCUtils.getCssResourcePath(parameter)}/role_http_access.css</value>
+    <value>${parameter.getCssResourceHomePath()}/role_http_access.css</value>
   </importCSS>
   <role>${net.simpleframework.ctx.permission.IPermissionHandler.ROLE_ANONYMOUS}</role>
 </page>

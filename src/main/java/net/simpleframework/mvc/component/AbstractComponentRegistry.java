@@ -13,11 +13,11 @@ import net.simpleframework.common.ClassUtils.IScanResourcesCallback;
 import net.simpleframework.common.ClassUtils.ScanClassResourcesCallback;
 import net.simpleframework.common.Convert;
 import net.simpleframework.common.object.ObjectEx;
+import net.simpleframework.common.object.ObjectFactory;
 import net.simpleframework.common.object.ObjectFactory.ObjectCreatorListener;
 import net.simpleframework.ctx.common.xml.XmlElement;
 import net.simpleframework.ctx.script.IScriptEval;
 import net.simpleframework.mvc.IPageResourceProvider;
-import net.simpleframework.mvc.PageDocument;
 import net.simpleframework.mvc.PageParameter;
 import net.simpleframework.mvc.PageResourceProviderRegistry;
 
@@ -132,19 +132,23 @@ public abstract class AbstractComponentRegistry extends ObjectEx implements ICom
 
 	@Override
 	public AbstractComponentBean createComponentBean(final PageParameter pp, final Object attriData) {
-		AbstractComponentBean componentBean;
-		try {
-			componentBean = getBeanClass().getConstructor(PageDocument.class, XmlElement.class)
-					.newInstance(pp.getPageDocument(),
-							attriData instanceof XmlElement ? attriData : null);
-		} catch (final Exception e) {
-			throw ComponentException.of(e);
-		}
-		final IScriptEval scriptEval = pp.getScriptEval();
-		if (scriptEval != null) {
-			scriptEval.putVariable("bean", componentBean);
-		}
+		final AbstractComponentBean componentBean = ObjectFactory.create(getBeanClass(),
+				new ObjectCreatorListener() {
+					@Override
+					public void onCreated(final Object o) {
+						final AbstractComponentBean bean = (AbstractComponentBean) o;
+						bean.setPageDocument(pp.getPageDocument());
+						if (attriData instanceof XmlElement) {
+							bean.setBeanElement((XmlElement) attriData);
+						}
+					}
+				});
+
 		if (attriData instanceof XmlElement) {
+			final IScriptEval scriptEval = pp.getScriptEval();
+			if (scriptEval != null) {
+				scriptEval.putVariable("bean", componentBean);
+			}
 			componentBean.parseElement(scriptEval);
 			initComponentFromXml(pp, componentBean, (XmlElement) attriData);
 		} else if (attriData instanceof Map) {

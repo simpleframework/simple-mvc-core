@@ -21,7 +21,7 @@ import net.simpleframework.mvc.PageRequestResponse;
 public abstract class AbstractComponentBean extends AbstractElementBean implements IMVCContextVar {
 	public static final String FORM_PREFIX = "form_";
 
-	private final PageDocument pageDocument;
+	private PageDocument pageDocument;
 
 	/*
 	 * 组件的名称. 在一次请求中要求唯一.
@@ -56,9 +56,13 @@ public abstract class AbstractComponentBean extends AbstractElementBean implemen
 	/* 是否显示效果 */
 	private boolean effects = BeanDefaults.getBool(getClass(), "effects", true);
 
-	public AbstractComponentBean(final PageDocument pageDocument, final XmlElement xmlElement) {
-		super(xmlElement);
+	public PageDocument getPageDocument() {
+		return pageDocument;
+	}
+
+	public AbstractComponentBean setPageDocument(final PageDocument pageDocument) {
 		this.pageDocument = pageDocument;
+		return this;
 	}
 
 	public void saveToFile() throws IOException {
@@ -153,10 +157,6 @@ public abstract class AbstractComponentBean extends AbstractElementBean implemen
 
 	public IComponentHandler getComponentHandler(final PageRequestResponse rRequest) {
 		return ComponentUtils.getComponentHandler(rRequest, this);
-	}
-
-	public PageDocument getPageDocument() {
-		return pageDocument;
 	}
 
 	private String _hashId;

@@ -131,11 +131,19 @@ public class PageParameter extends PageRequestResponse {
 	}
 
 	public String getResourceHomePath(final Class<?> resourceClass) {
-		return getPageDocument().getPageResourceProvider().getResourceHomePath(resourceClass);
+		return getPageResourceProvider().getResourceHomePath(resourceClass);
+	}
+
+	public String getResourceHomePath() {
+		return getResourceHomePath(PageParameter.class);
 	}
 
 	public String getCssResourceHomePath(final Class<?> pageClass) {
-		return getPageDocument().getPageResourceProvider().getCssResourceHomePath(this, pageClass);
+		return getPageResourceProvider().getCssResourceHomePath(this, pageClass);
+	}
+
+	public String getCssResourceHomePath() {
+		return getCssResourceHomePath(PageParameter.class);
 	}
 
 	public void addImportCSS(final String... importCSS) {

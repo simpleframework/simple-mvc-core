@@ -1,8 +1,6 @@
 package net.simpleframework.mvc.component;
 
 import net.simpleframework.common.Convert;
-import net.simpleframework.ctx.common.xml.XmlElement;
-import net.simpleframework.mvc.PageDocument;
 
 /**
  * Licensed under the Apache License, Version 2.0
@@ -16,10 +14,6 @@ public abstract class AbstractContainerBean extends AbstractComponentBean {
 
 	/* 定义组件容器的高度和宽度, 默认为auto */
 	private String width, height;
-
-	public AbstractContainerBean(final PageDocument pageDocument, final XmlElement xmlElement) {
-		super(pageDocument, xmlElement);
-	}
 
 	public String getContainerId() {
 		return containerId;
