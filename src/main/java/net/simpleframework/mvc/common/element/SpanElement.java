@@ -26,7 +26,7 @@ public class SpanElement extends AbstractTagElement<SpanElement> {
 	}
 
 	public static SpanElement strongText(final Object text) {
-		return new SpanElement(text).setStyle("font-size: 10.5pt; color: #a00; font-weight: bold;");
+		return new SpanElement(text).setStyle("font-size: 10.5pt; color: #666; font-weight: bold;");
 	}
 
 	public static SpanElement num(final Object num) {
