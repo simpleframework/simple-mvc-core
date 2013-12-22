@@ -54,6 +54,13 @@ public class MVCFilter extends ObjectEx implements Filter, IMVCConst {
 		 * 
 		 * 排除一些不必要的资源(js, css, image等)
 		 */
+		final String rURI = request.getRequestURI();
+		if (rURI.indexOf("/$") > -1) {
+			return rURI.lastIndexOf(".jsp") > 0;
+		}
+		if (rURI.endsWith(".html") || rURI.endsWith(".htm")) {
+			return false;
+		}
 		return true;
 	}
 
