@@ -40,7 +40,7 @@ public class MVCFilter extends ObjectEx implements Filter, IMVCConst {
 			ctx.setServletContext(filterConfig.getServletContext());
 			ctx.onInit();
 		} catch (final Exception e) {
-			throw new ServletException(e);
+			log.error(e);
 		}
 	}
 
