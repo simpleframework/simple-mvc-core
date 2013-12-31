@@ -160,7 +160,7 @@ var $UI = {
         if (!_script) {
           _script = $UI.createScriptElement();
           _script.done = "doing";
-          if (_script.readyState) {
+          if (_script.readyState && (!document.documentMode || document.documentMode < 10)) {
             _script.onreadystatechange = function() {
               var s = _script.readyState;
               if (s == "loaded" /* || s == "complete" */) {
