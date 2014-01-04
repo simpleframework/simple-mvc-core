@@ -35,10 +35,11 @@ public class MVCFilter extends ObjectEx implements Filter, IMVCConst {
 
 	@Override
 	public void init(final FilterConfig filterConfig) throws ServletException {
-		final String handler = filterConfig.getInitParameter("mvc_context");
+		final String handler = filterConfig.getInitParameter("mvc-context");
 		ctx = StringUtils.hasText(handler) ? (IMVCContext) singleton(handler) : createMVCContext();
 		try {
 			ctx.setServletContext(filterConfig.getServletContext());
+			ctx.setScanPackageNames(StringUtils.split(filterConfig.getInitParameter("scan-packages")));
 			ctx.onInit();
 		} catch (final Exception e) {
 			log.error(e);
