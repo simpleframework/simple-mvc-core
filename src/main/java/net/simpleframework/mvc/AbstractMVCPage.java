@@ -56,39 +56,12 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 	 * @param pageParameter
 	 */
 	protected void onForward(final PageParameter pp) {
-		addImportCSS(pp);
-		addImportJavascript(pp);
-		addComponents(pp);
-	}
-
-	/**
-	 * 覆盖添加页面组件
-	 * 
-	 * @param pp
-	 */
-	protected void addComponents(final PageParameter pp) {
-	}
-
-	/**
-	 * 覆盖添加页面需要引入的CSS
-	 * 
-	 * @param pp
-	 */
-	protected void addImportCSS(final PageParameter pp) {
 	}
 
 	protected static final String[] NULL_ARR = new String[0];
 
 	public String[] getDefaultCssPath(final PageParameter pp) {
 		return null;
-	}
-
-	/**
-	 * 覆盖添加页面需要引入的js
-	 * 
-	 * @param pp
-	 */
-	protected void addImportJavascript(final PageParameter pp) {
 	}
 
 	public String[] getDefaultJavascriptPath(final PageParameter pp) {
