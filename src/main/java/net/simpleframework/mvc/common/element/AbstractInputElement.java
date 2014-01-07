@@ -80,6 +80,10 @@ public abstract class AbstractInputElement<T extends AbstractInputElement<T>> ex
 		return (T) this;
 	}
 
+	public T setValue(final String value) {
+		return setText(value);
+	}
+
 	@Override
 	protected void doAttri(final StringBuilder sb) {
 		if (!isDisabled()) {
