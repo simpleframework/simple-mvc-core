@@ -2,6 +2,7 @@ package net.simpleframework.mvc.common.element;
 
 import net.simpleframework.common.StringUtils;
 import net.simpleframework.common.web.html.HtmlEncoder;
+import net.simpleframework.mvc.PageRequestResponse;
 
 /**
  * Licensed under the Apache License, Version 2.0
@@ -82,6 +83,10 @@ public abstract class AbstractInputElement<T extends AbstractInputElement<T>> ex
 
 	public T setValue(final String value) {
 		return setText(value);
+	}
+
+	public T setValue(final PageRequestResponse rRequest) {
+		return setText(rRequest.getParameter(getName()));
 	}
 
 	@Override
