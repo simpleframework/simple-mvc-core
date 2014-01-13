@@ -19,6 +19,7 @@ import net.simpleframework.common.Convert;
 import net.simpleframework.common.ID;
 import net.simpleframework.common.StringUtils;
 import net.simpleframework.common.coll.KVMap;
+import net.simpleframework.common.coll.ParameterMap;
 import net.simpleframework.common.logger.Log;
 import net.simpleframework.common.logger.LogFactory;
 import net.simpleframework.common.web.HttpUtils;
@@ -259,6 +260,19 @@ public class PageRequestResponse implements IMVCContextVar {
 
 	public String wrapHTMLContextPath(final String html) {
 		return HtmlUtils.wrapContextPath(request, html);
+	}
+
+	public Map<String, String> map() {
+		final Map<String, String> m = new ParameterMap();
+		final Enumeration<?> e = getParameterNames();
+		while (e.hasMoreElements()) {
+			final String key = (String) e.nextElement();
+			final String val = getLocaleParameter(key);
+			if (val != null) {
+				m.put(key, val);
+			}
+		}
+		return m;
 	}
 
 	/*-----------------------utils cookie--------------------*/
