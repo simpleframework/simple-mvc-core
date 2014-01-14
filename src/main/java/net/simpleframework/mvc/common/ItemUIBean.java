@@ -6,7 +6,6 @@ import net.simpleframework.common.I18n;
 import net.simpleframework.common.StringUtils;
 import net.simpleframework.common.object.ObjectUtils;
 import net.simpleframework.ctx.common.xml.AbstractElementBean;
-import net.simpleframework.ctx.common.xml.XmlElement;
 
 /**
  * Licensed under the Apache License, Version 2.0
@@ -29,8 +28,7 @@ public abstract class ItemUIBean<T extends ItemUIBean<T>> extends AbstractElemen
 
 	private final Object data;
 
-	public ItemUIBean(final XmlElement xmlElement, final Object data) {
-		super(xmlElement);
+	public ItemUIBean(final Object data) {
 		this.data = data;
 
 		if (BeanUtils.hasProperty(data, "id")) {

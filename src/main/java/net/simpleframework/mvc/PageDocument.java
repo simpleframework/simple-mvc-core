@@ -93,7 +93,7 @@ public class PageDocument extends XmlDocument {
 	private void init(final PageRequestResponse rRequest) {
 		final PageParameter pp = PageParameter.get(rRequest, this);
 
-		pageBean = new PageBean(this, getRoot());
+		pageBean = (PageBean) new PageBean(this).setBeanElement(getRoot());
 		pp.setRequestAttr(DECLARED_COMPONENTs,
 				componentsCache = new LinkedHashMap<String, AbstractComponentBean>() {
 					@Override

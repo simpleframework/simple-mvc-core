@@ -2,7 +2,6 @@ package net.simpleframework.mvc;
 
 import net.simpleframework.common.StringUtils;
 import net.simpleframework.ctx.common.xml.AbstractElementBean;
-import net.simpleframework.ctx.common.xml.XmlElement;
 
 /**
  * Licensed under the Apache License, Version 2.0
@@ -33,13 +32,8 @@ public class PageBean extends AbstractElementBean implements IMVCContextVar {
 
 	private final PageDocument pageDocument;
 
-	public PageBean(final PageDocument pageDocument, final XmlElement xmlElement) {
-		super(xmlElement);
-		this.pageDocument = pageDocument;
-	}
-
 	public PageBean(final PageDocument pageDocument) {
-		this(pageDocument, null);
+		this.pageDocument = pageDocument;
 	}
 
 	public PageDocument getPageDocument() {
