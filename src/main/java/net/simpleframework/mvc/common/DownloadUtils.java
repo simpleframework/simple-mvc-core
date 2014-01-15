@@ -21,12 +21,12 @@ import net.simpleframework.mvc.PageRequestResponse;
  */
 public abstract class DownloadUtils {
 
-	public static String getDownloadHref(final AttachmentFile af) {
+	public static String getDownloadHref(final AttachmentFile af) throws IOException {
 		return getDownloadHref(af, null);
 	}
 
 	public static String getDownloadHref(final AttachmentFile af,
-			final Class<? extends IDownloadHandler> handlerClass) {
+			final Class<? extends IDownloadHandler> handlerClass) throws IOException {
 		final StringBuilder sb = new StringBuilder();
 		sb.append(MVCUtils.getPageResourcePath()).append("/jsp/download.jsp?filename=");
 		String topic = af.getTopic();
