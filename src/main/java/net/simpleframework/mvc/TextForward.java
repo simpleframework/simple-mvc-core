@@ -31,6 +31,10 @@ public class TextForward implements IForward {
 		return this;
 	}
 
+	public void clear() {
+		builder.setLength(0);
+	}
+
 	@Override
 	public String getResponseText(final PageRequestResponse rRequest) {
 		return toString();

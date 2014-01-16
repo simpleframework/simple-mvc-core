@@ -40,7 +40,7 @@ public abstract class ComponentRenderUtils {
 		}
 
 		if (StringUtils.hasText(execCode)) {
-			sb.append(JavascriptUtils.wrapFunction(execCode));
+			sb.append(execCode);
 		}
 
 		sb.append("$Actions[\"").append(cp.getComponentName()).append("\"]=").append(actionFunc)
