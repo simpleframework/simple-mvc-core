@@ -21,6 +21,7 @@ var $call = function(o) {
   }
 };
 
+/** 核心对象 */
 var $Actions = {
   loc : function(url, open) {
     if (typeof url != "string" || url.length == 0)
@@ -63,6 +64,7 @@ var $Actions = {
   }
 };
 
+/** UI对象 */
 var $UI = {
   head : document.getElementsByTagName("head")[0],
 
@@ -208,6 +210,10 @@ var $UI = {
       p = eval(p.substring(11));
     return p;
   }
+};
+
+/** 效果对象 */
+var $Effect = {
 };
 
 (function() {
