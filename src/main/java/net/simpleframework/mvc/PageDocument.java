@@ -117,13 +117,13 @@ public class PageDocument extends XmlDocument {
 
 			IScriptEval scriptEval = null;
 			final XmlElement root = getRoot();
-			XmlElement xmlElement = root.element(TAG_SCRIPT_EVAL);
+			XmlElement xmlElement = root.element(TAG_EVAL_SCOPE);
 			if (xmlElement != null) {
 				final String s = xmlElement.getText();
-				final EScriptEvalScope evalType = StringUtils.hasText(s) ? EScriptEvalScope.valueOf(s)
-						: EScriptEvalScope.none;
-				pageBean.setScriptEval(evalType);
-				if (evalType != EScriptEvalScope.none) {
+				final EEvalScope evalType = StringUtils.hasText(s) ? EEvalScope.valueOf(s)
+						: EEvalScope.none;
+				pageBean.setEvalScope(evalType);
+				if (evalType != EEvalScope.none) {
 					scriptEval = pp.createScriptEval();
 				}
 			}
@@ -141,7 +141,7 @@ public class PageDocument extends XmlDocument {
 			while (it.hasNext()) {
 				xmlElement = (XmlElement) it.next();
 				final String name = xmlElement.getName();
-				if (name.equals(TAG_SCRIPT_EVAL) || name.equals(TAG_HANDLE_CLASS)
+				if (name.equals(TAG_EVAL_SCOPE) || name.equals(TAG_HANDLE_CLASS)
 						|| name.equals(TAG_COMPONENTS)) {
 					continue;
 				}
@@ -316,7 +316,7 @@ public class PageDocument extends XmlDocument {
 
 		final Map<String, AbstractComponentBean> oComponentBeans = pageDocument.componentsCache;
 		if (pageDocument.isFirstCreated()
-				|| pageDocument.getPageBean().getScriptEval() != EScriptEvalScope.request) {
+				|| pageDocument.getPageBean().getEvalScope() != EEvalScope.request) {
 			componentBeans.putAll(oComponentBeans);
 		} else {
 			final IScriptEval scriptEval = pp.createScriptEval();
@@ -328,11 +328,12 @@ public class PageDocument extends XmlDocument {
 				final AbstractComponentBean componentBean = entry.getValue();
 				final XmlElement xmlElement = componentBean.getBeanElement();
 				if (xmlElement == null) {
-					continue;
+					componentBeans.put(entry.getKey(), componentBean);
+				} else {
+					final AbstractComponentBean componentBean2 = componentBean.getComponentRegistry()
+							.createComponentBean(pp, xmlElement);
+					componentBeans.put(entry.getKey(), componentBean2);
 				}
-				final AbstractComponentBean componentBean2 = componentBean.getComponentRegistry()
-						.createComponentBean(pp, xmlElement);
-				componentBeans.put(entry.getKey(), componentBean2);
 			}
 		}
 		return componentBeans;
@@ -474,7 +475,7 @@ public class PageDocument extends XmlDocument {
 	final static String TAG_HANDLE_CLASS = "handleClass";
 	final static String TAG_COMPONENTS = "components";
 	final static String TAG_SCRIPT_INIT = "scriptInit";
-	final static String TAG_SCRIPT_EVAL = "scriptEval";
+	final static String TAG_EVAL_SCOPE = "evalScope";
 	final static String TAG_IMPORT_PAGE = "importPage";
 	final static String TAG_IMPORT_JAVASCRIPT = "importJavascript";
 	final static String TAG_IMPORT_CSS = "importCSS";

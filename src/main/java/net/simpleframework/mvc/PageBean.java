@@ -10,7 +10,7 @@ import net.simpleframework.ctx.common.xml.AbstractElementBean;
  *         http://www.simpleframework.net
  */
 public class PageBean extends AbstractElementBean implements IMVCContextVar {
-	private EScriptEvalScope scriptEval;
+	private EEvalScope evalScope;
 
 	private String scriptInit;
 
@@ -106,12 +106,12 @@ public class PageBean extends AbstractElementBean implements IMVCContextVar {
 		return this;
 	}
 
-	public EScriptEvalScope getScriptEval() {
-		return scriptEval == null ? EScriptEvalScope.none : scriptEval;
+	public EEvalScope getEvalScope() {
+		return evalScope == null ? EEvalScope.none : evalScope;
 	}
 
-	public PageBean setScriptEval(final EScriptEvalScope scriptEval) {
-		this.scriptEval = scriptEval;
+	public PageBean setEvalScope(final EEvalScope evalScope) {
+		this.evalScope = evalScope;
 		return this;
 	}
 
