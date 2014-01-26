@@ -330,8 +330,9 @@ public class PageRequestResponse implements IMVCContextVar {
 		return kv;
 	}
 
-	public void putParameter(final String key, final Object val) {
+	public PageRequestResponse putParameter(final String key, final Object val) {
 		HttpUtils.putParameter(request, key, val);
+		return this;
 	}
 
 	public String getUserAgent() {
