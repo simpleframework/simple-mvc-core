@@ -5,6 +5,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.Map;
 
@@ -101,6 +102,14 @@ public class PageRequestResponse implements IMVCContextVar {
 
 	public boolean getBoolParameter(final String key) {
 		return Convert.toBool(getParameter(key));
+	}
+
+	public Date getDateParameter(final String key) {
+		return Convert.toDate(getParameter(key));
+	}
+
+	public Date getDateParameter(final String key, final String format) {
+		return Convert.toDate(getParameter(key), format);
 	}
 
 	public <T extends Enum<T>> T getEnumParameter(final Class<T> enumClass, final String key) {
