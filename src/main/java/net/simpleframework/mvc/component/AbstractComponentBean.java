@@ -163,8 +163,8 @@ public abstract class AbstractComponentBean extends AbstractElementBean implemen
 
 	public String hashId() {
 		if (_hashId == null) {
-			final XmlElement xmlElement = getBeanElement();
-			final String name = xmlElement != null ? xmlElement.attributeValue("name") : getName();
+			final XmlElement element = getElement();
+			final String name = element != null ? element.attributeValue("name") : getName();
 			if (StringUtils.hasText(name)) {
 				_hashId = ComponentUtils.getComponentHashByName(pageDocument, name);
 			} else {

@@ -93,7 +93,7 @@ public class PageDocument extends XmlDocument {
 	private void init(final PageRequestResponse rRequest) {
 		final PageParameter pp = PageParameter.get(rRequest, this);
 
-		pageBean = (PageBean) new PageBean(this).setBeanElement(getRoot());
+		pageBean = (PageBean) new PageBean(this).setElement(getRoot());
 		pp.setRequestAttr(DECLARED_COMPONENTs,
 				componentsCache = new LinkedHashMap<String, AbstractComponentBean>() {
 					@Override
@@ -117,9 +117,9 @@ public class PageDocument extends XmlDocument {
 
 			IScriptEval scriptEval = null;
 			final XmlElement root = getRoot();
-			XmlElement xmlElement = root.element(TAG_EVAL_SCOPE);
-			if (xmlElement != null) {
-				final String s = xmlElement.getText();
+			XmlElement element = root.element(TAG_EVAL_SCOPE);
+			if (element != null) {
+				final String s = element.getText();
 				final EEvalScope evalType = StringUtils.hasText(s) ? EEvalScope.valueOf(s)
 						: EEvalScope.none;
 				pageBean.setEvalScope(evalType);
@@ -128,10 +128,9 @@ public class PageDocument extends XmlDocument {
 				}
 			}
 
-			xmlElement = root.element(TAG_HANDLE_CLASS);
-			if (xmlElement != null) {
-				final String handleClass = ScriptEvalUtils
-						.replaceExpr(scriptEval, xmlElement.getText());
+			element = root.element(TAG_HANDLE_CLASS);
+			if (element != null) {
+				final String handleClass = ScriptEvalUtils.replaceExpr(scriptEval, element.getText());
 				if (StringUtils.hasText(handleClass)) {
 					pageBean.setHandleClass(handleClass);
 				}
@@ -139,8 +138,8 @@ public class PageDocument extends XmlDocument {
 
 			Iterator<?> it = root.elementIterator();
 			while (it.hasNext()) {
-				xmlElement = (XmlElement) it.next();
-				final String name = xmlElement.getName();
+				element = (XmlElement) it.next();
+				final String name = element.getName();
 				if (name.equals(TAG_EVAL_SCOPE) || name.equals(TAG_HANDLE_CLASS)
 						|| name.equals(TAG_COMPONENTS)) {
 					continue;
@@ -148,7 +147,7 @@ public class PageDocument extends XmlDocument {
 				if (name.equals(TAG_IMPORT_PAGE) || name.equals(TAG_IMPORT_JAVASCRIPT)
 						|| name.equals(TAG_IMPORT_CSS)) {
 					final Set<String> l = new LinkedHashSet<String>();
-					final Iterator<?> values = xmlElement.elementIterator(TAG_VALUE);
+					final Iterator<?> values = element.elementIterator(TAG_VALUE);
 					while (values.hasNext()) {
 						final String value = ScriptEvalUtils.replaceExpr(scriptEval,
 								((XmlElement) values.next()).getText());
@@ -167,7 +166,7 @@ public class PageDocument extends XmlDocument {
 						pageBean.setImportCSS(strings);
 					}
 				} else {
-					final String value = xmlElement.getText();
+					final String value = element.getText();
 					if (name.equals(TAG_SCRIPT_INIT)) {
 						if (scriptEval != null && StringUtils.hasText(value)) {
 							pageBean.setScriptInit(value);
@@ -188,8 +187,8 @@ public class PageDocument extends XmlDocument {
 			final ComponentRegistryFactory factory = ComponentRegistryFactory.get();
 			it = components.elementIterator();
 			while (it.hasNext()) {
-				final XmlElement element = (XmlElement) it.next();
-				final String tagName = element.getName();
+				final XmlElement element2 = (XmlElement) it.next();
+				final String tagName = element2.getName();
 				final IComponentRegistry registry = factory.getComponentRegistry(tagName);
 				if (registry == null) {
 					throw ComponentException.of($m("PageDocument.0", tagName));
@@ -198,7 +197,7 @@ public class PageDocument extends XmlDocument {
 					throw ComponentException.of($m("PageDocument.2"));
 				}
 
-				final AbstractComponentBean componentBean = registry.createComponentBean(pp, element);
+				final AbstractComponentBean componentBean = registry.createComponentBean(pp, element2);
 				if (componentBean != null) {
 					final String componentName = ComponentParameter.get(rRequest, componentBean)
 							.getComponentName();
@@ -326,12 +325,12 @@ public class PageDocument extends XmlDocument {
 			}
 			for (final Map.Entry<String, AbstractComponentBean> entry : oComponentBeans.entrySet()) {
 				final AbstractComponentBean componentBean = entry.getValue();
-				final XmlElement xmlElement = componentBean.getBeanElement();
-				if (xmlElement == null) {
+				final XmlElement element = componentBean.getElement();
+				if (element == null) {
 					componentBeans.put(entry.getKey(), componentBean);
 				} else {
 					final AbstractComponentBean componentBean2 = componentBean.getComponentRegistry()
-							.createComponentBean(pp, xmlElement);
+							.createComponentBean(pp, element);
 					componentBeans.put(entry.getKey(), componentBean2);
 				}
 			}

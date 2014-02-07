@@ -139,7 +139,7 @@ public abstract class AbstractComponentRegistry extends ObjectEx implements ICom
 						final AbstractComponentBean bean = (AbstractComponentBean) o;
 						bean.setPageDocument(pp.getPageDocument());
 						if (attriData instanceof XmlElement) {
-							bean.setBeanElement((XmlElement) attriData);
+							bean.setElement((XmlElement) attriData);
 						}
 					}
 				});
@@ -160,7 +160,7 @@ public abstract class AbstractComponentRegistry extends ObjectEx implements ICom
 	}
 
 	protected void initComponentFromXml(final PageParameter pp,
-			final AbstractComponentBean componentBean, final XmlElement xmlElement) {
+			final AbstractComponentBean componentBean, final XmlElement element) {
 	}
 
 	@Override
