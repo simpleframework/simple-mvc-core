@@ -7,6 +7,8 @@ import java.io.OutputStream;
 
 import net.simpleframework.common.IoUtils;
 import net.simpleframework.common.StringUtils;
+import net.simpleframework.common.logger.Log;
+import net.simpleframework.common.logger.LogFactory;
 import net.simpleframework.common.object.ObjectFactory;
 import net.simpleframework.common.web.HttpUtils;
 import net.simpleframework.ctx.common.bean.AttachmentFile;
@@ -26,7 +28,7 @@ public abstract class DownloadUtils {
 	}
 
 	public static String getDownloadHref(final AttachmentFile af,
-			final Class<? extends IDownloadHandler> handlerClass) throws IOException {
+			final Class<? extends IDownloadHandler> handlerClass) {
 		final StringBuilder sb = new StringBuilder();
 		sb.append(MVCUtils.getPageResourcePath()).append("/jsp/download.jsp?filename=");
 		String topic = af.getTopic();
@@ -36,9 +38,13 @@ public abstract class DownloadUtils {
 		}
 		sb.append(HttpUtils.encodeUrl(topic));
 		sb.append("&path=");
-		final File attachment = af.getAttachment();
-		if (attachment != null) {
-			sb.append(StringUtils.encodeHex(attachment.getAbsolutePath().getBytes()));
+		try {
+			final File attachment = af.getAttachment();
+			if (attachment != null) {
+				sb.append(StringUtils.encodeHex(attachment.getAbsolutePath().getBytes()));
+			}
+		} catch (final IOException e) {
+			log.warn(e);
 		}
 		if (handlerClass != null) {
 			sb.append("&id=").append(af.getId()).append("&handlerClass=")
@@ -59,4 +65,6 @@ public abstract class DownloadUtils {
 					rRequest.getParameter("id"), rRequest.getParameter("filename"), oFile);
 		}
 	}
+
+	private static final Log log = LogFactory.getLogger(DownloadUtils.class);
 }
