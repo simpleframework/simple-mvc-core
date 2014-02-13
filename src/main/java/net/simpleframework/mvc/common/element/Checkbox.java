@@ -10,7 +10,7 @@ public class Checkbox extends AbstractInputElement<Checkbox> {
 	protected LabelElement label;
 
 	public Checkbox(final String id, final Object labelTxt) {
-		setId(id);
+		setId(id).setName(id);
 		addStyle("vertical-align: middle;");
 		label = new LabelElement(labelTxt).setForId(id).setClassName("checkbox_lbl");
 	}
