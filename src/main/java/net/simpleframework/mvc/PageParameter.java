@@ -2,7 +2,6 @@ package net.simpleframework.mvc;
 
 import static net.simpleframework.common.I18n.$m;
 
-import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Map;
 
@@ -11,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.simpleframework.common.BeanUtils;
 import net.simpleframework.common.StringUtils;
+import net.simpleframework.common.coll.ArrayUtils;
 import net.simpleframework.common.coll.KVMap;
 import net.simpleframework.common.object.ObjectEx;
 import net.simpleframework.ctx.script.IScriptEval;
@@ -158,7 +158,7 @@ public class PageParameter extends PageRequestResponse {
 		final PageBean pageBean = getPageBean();
 		final String[] oImportCSS = pageBean.getImportCSS();
 		if (oImportCSS != null) {
-			l.addAll(Arrays.asList(oImportCSS));
+			l.addAll(ArrayUtils.asList(oImportCSS));
 		}
 		for (String css : importCSS) {
 			String prefix;
@@ -182,7 +182,7 @@ public class PageParameter extends PageRequestResponse {
 		final PageBean pageBean = getPageBean();
 		final String[] oImportJavascript = pageBean.getImportJavascript();
 		if (oImportJavascript != null) {
-			l.addAll(Arrays.asList(oImportJavascript));
+			l.addAll(ArrayUtils.asList(oImportJavascript));
 		}
 		for (String js : importJavascript) {
 			String prefix;

@@ -28,9 +28,9 @@ public class BlockElement extends AbstractTagElement<BlockElement> {
 	public BlockElement() {
 	}
 
-	public BlockElement(final String id) {
-		setId(id);
-	}
+	// public BlockElement(final String id) {
+	// setId(id);
+	// }
 
 	@Override
 	protected String tag() {

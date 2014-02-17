@@ -1,6 +1,5 @@
 package net.simpleframework.mvc.common.element;
 
-import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
@@ -9,6 +8,7 @@ import net.simpleframework.common.BeanUtils;
 import net.simpleframework.common.Convert;
 import net.simpleframework.common.StringUtils;
 import net.simpleframework.common.coll.AbstractArrayListEx;
+import net.simpleframework.common.coll.ArrayUtils;
 import net.simpleframework.common.coll.KVMap;
 import net.simpleframework.common.object.TextNamedObject;
 import net.simpleframework.common.web.html.HtmlEncoder;
@@ -109,7 +109,7 @@ public abstract class AbstractElement<T extends AbstractElement<T>> extends Text
 		final Set<String> set = new LinkedHashSet<String>();
 		final String _className = getClassName();
 		if (StringUtils.hasText(_className)) {
-			for (final String s : Arrays.asList(StringUtils.split(_className, " "))) {
+			for (final String s : ArrayUtils.asList(StringUtils.split(_className, " "))) {
 				set.add(s.trim());
 			}
 		}

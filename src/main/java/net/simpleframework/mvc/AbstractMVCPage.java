@@ -3,7 +3,6 @@ package net.simpleframework.mvc;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
@@ -15,6 +14,7 @@ import net.simpleframework.common.Convert;
 import net.simpleframework.common.DateUtils;
 import net.simpleframework.common.I18n;
 import net.simpleframework.common.StringUtils;
+import net.simpleframework.common.coll.ArrayUtils;
 import net.simpleframework.common.coll.KVMap;
 import net.simpleframework.common.coll.ParameterMap;
 import net.simpleframework.common.logger.Log;
@@ -76,7 +76,7 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 		final PageBean pageBean = getPageBean();
 		final String[] oImportPage = pageBean.getImportPage();
 		if (oImportPage != null) {
-			l.addAll(Arrays.asList(oImportPage));
+			l.addAll(ArrayUtils.asList(oImportPage));
 		}
 		for (int i = 0; i < pageClass.length; i++) {
 			l.add(pageClass[i].getName().replace(".", "/") + ".xml");
