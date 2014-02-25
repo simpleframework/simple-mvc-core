@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import net.simpleframework.common.Convert;
 import net.simpleframework.common.StringUtils;
-import net.simpleframework.common.object.ObjectEx;
 import net.simpleframework.common.th.RuntimeExceptionEx;
 import net.simpleframework.common.web.HttpUtils;
 import net.simpleframework.mvc.component.AbstractComponentBean;
@@ -20,8 +19,7 @@ import net.simpleframework.mvc.component.ComponentUtils;
  * @author 陈侃(cknet@126.com, 13910090885) https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
-public abstract class AbstractUrlForward extends ObjectEx implements IForward, IMVCContextVar,
-		IMVCConst {
+public abstract class AbstractUrlForward extends AbstractForward {
 	private String url;
 
 	private String includeRequestData;

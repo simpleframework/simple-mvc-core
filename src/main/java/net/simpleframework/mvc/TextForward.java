@@ -6,7 +6,7 @@ package net.simpleframework.mvc;
  * @author 陈侃(cknet@126.com, 13910090885) https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
-public class TextForward implements IForward {
+public class TextForward extends AbstractForward {
 
 	protected final StringBuilder builder = new StringBuilder();
 

@@ -13,6 +13,7 @@ import net.simpleframework.common.ClassUtils;
 import net.simpleframework.common.Convert;
 import net.simpleframework.common.DateUtils;
 import net.simpleframework.common.I18n;
+import net.simpleframework.common.IoUtils;
 import net.simpleframework.common.StringUtils;
 import net.simpleframework.common.coll.ArrayUtils;
 import net.simpleframework.common.coll.KVMap;
@@ -20,6 +21,7 @@ import net.simpleframework.common.coll.ParameterMap;
 import net.simpleframework.common.logger.Log;
 import net.simpleframework.common.logger.LogFactory;
 import net.simpleframework.common.object.ObjectFactory;
+import net.simpleframework.lib.org.jsoup.nodes.Element;
 import net.simpleframework.mvc.common.element.Meta;
 import net.simpleframework.mvc.component.AbstractComponentBean;
 import net.simpleframework.mvc.component.ComponentHandlerException;
@@ -189,8 +191,10 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 	 * @return
 	 * @throws IOException
 	 */
-	protected abstract String replaceExpr(final PageParameter pp, final InputStream htmlStream,
-			final Map<String, Object> variables) throws IOException;
+	protected String replaceExpr(final PageParameter pp, final InputStream htmlStream,
+			final Map<String, Object> variables) throws IOException {
+		return IoUtils.getStringFromInputStream(htmlStream, getChartset());
+	}
 
 	protected static final String $html = "$html$";
 
@@ -414,31 +418,6 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 		this.lookupPath = lookupPath;
 	}
 
-	/**
-	 * 设置页面的meta
-	 * 
-	 * @param pParameter
-	 * @return
-	 */
-	public Collection<Meta> meta(final PageParameter pp) {
-		final ArrayList<Meta> al = new ArrayList<Meta>();
-		al.add(Meta.GOOGLE_NOTRANSLATE);
-		al.add(Meta.CLEARTYPE);
-		final String redirectUrl = getRedirectUrl(pp);
-		if (StringUtils.hasText(redirectUrl)) {
-			al.add(new Meta("refresh", "0;url=" + pp.wrapContextPath(redirectUrl)));
-		}
-		return al;
-	}
-
-	public String css(final PageParameter pp) {
-		return null;
-	}
-
-	protected String getRedirectUrl(final PageParameter pp) {
-		return null;
-	}
-
 	public String getRole(final PageParameter pp) {
 		return null;
 	}
@@ -460,6 +439,31 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 
 	public String getFavicon(final PageParameter pp) {
 		return null;
+	}
+
+	protected String getRedirectUrl(final PageParameter pp) {
+		return null;
+	}
+
+	/**
+	 * 设置页面的meta
+	 * 
+	 * @param pParameter
+	 * @return
+	 */
+	public Collection<Meta> html_meta(final PageParameter pp) {
+		final ArrayList<Meta> al = new ArrayList<Meta>();
+		al.add(Meta.RENDERER_WEBKIT);
+		al.add(Meta.GOOGLE_NOTRANSLATE);
+		al.add(Meta.CLEARTYPE);
+		return al;
+	}
+
+	public String html_css(final PageParameter pp) {
+		return null;
+	}
+
+	public void html_normalise(final PageParameter pp, final Element element) {
 	}
 
 	/*--------------------------------- static ---------------------------------*/

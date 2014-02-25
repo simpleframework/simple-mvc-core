@@ -10,10 +10,17 @@ import net.simpleframework.ctx.common.xml.AbstractElementBean;
  *         http://www.simpleframework.net
  */
 public class PageBean extends AbstractElementBean implements IMVCContextVar {
+	/* 是否禁用文档解析 */
+	private boolean disabled;
+
+	/* 页面的执行类及方法 */
+	private String handleClass, handleMethod;
+
 	private EEvalScope evalScope;
 
 	private String scriptInit;
 
+	/* 页面资源的提供类 */
 	private String resourceProvider;
 
 	private String[] importPage, importJavascript, importCSS;
@@ -24,10 +31,9 @@ public class PageBean extends AbstractElementBean implements IMVCContextVar {
 
 	private String responseCharacterEncoding;
 
-	private String handleClass, handleMethod;
-
 	private String jsLoadedCallback;
 
+	/* 访问该页面的角色 */
 	private String role;
 
 	private final PageDocument pageDocument;
@@ -36,8 +42,31 @@ public class PageBean extends AbstractElementBean implements IMVCContextVar {
 		this.pageDocument = pageDocument;
 	}
 
-	public PageDocument getPageDocument() {
-		return pageDocument;
+	public boolean isDisabled() {
+		return disabled;
+	}
+
+	public PageBean setDisabled(final boolean disabled) {
+		this.disabled = disabled;
+		return this;
+	}
+
+	public String getHandleClass() {
+		return handleClass;
+	}
+
+	public PageBean setHandleClass(final String handleClass) {
+		this.handleClass = handleClass;
+		return this;
+	}
+
+	public String getHandleMethod() {
+		return handleMethod;
+	}
+
+	public PageBean setHandleMethod(final String handleMethod) {
+		this.handleMethod = handleMethod;
+		return this;
 	}
 
 	public String getTitle() {
@@ -67,24 +96,6 @@ public class PageBean extends AbstractElementBean implements IMVCContextVar {
 
 	public PageBean setResourceProvider(final String resourceProvider) {
 		this.resourceProvider = resourceProvider;
-		return this;
-	}
-
-	public String getHandleClass() {
-		return handleClass;
-	}
-
-	public PageBean setHandleClass(final String handleClass) {
-		this.handleClass = handleClass;
-		return this;
-	}
-
-	public String getHandleMethod() {
-		return handleMethod;
-	}
-
-	public PageBean setHandleMethod(final String handleMethod) {
-		this.handleMethod = handleMethod;
 		return this;
 	}
 
@@ -162,5 +173,9 @@ public class PageBean extends AbstractElementBean implements IMVCContextVar {
 
 	protected String getDefaultRole(final String role) {
 		return StringUtils.text(role, settings.getDefaultRole());
+	}
+
+	public PageDocument getPageDocument() {
+		return pageDocument;
 	}
 }

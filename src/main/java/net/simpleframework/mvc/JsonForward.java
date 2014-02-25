@@ -40,4 +40,9 @@ public class JsonForward extends TextForward {
 	public String getResponseText(final PageRequestResponse rRequest) {
 		return kv.toJSON();
 	}
+
+	@Override
+	public boolean isHtmlParser() {
+		return false;
+	}
 }

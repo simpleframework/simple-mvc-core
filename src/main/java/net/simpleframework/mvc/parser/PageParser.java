@@ -59,7 +59,7 @@ public final class PageParser extends AbstractPageParser {
 
 			final Map<String, AbstractComponentBean> oComponentBeans = pp.getComponentBeans();
 			resourceBinding.doTag(pp, headElement, oComponentBeans);
-			normaliseNode(htmlDocument, oComponentBeans);
+			normaliseNode(pp, htmlDocument, oComponentBeans);
 			javascriptRender.doTag(pp, headElement, oComponentBeans);
 
 			// 转换UrlForward直接输出的代码
@@ -116,7 +116,7 @@ public final class PageParser extends AbstractPageParser {
 			// favicon
 			final String favicon = (String) pp.getBeanProperty("favicon");
 			if (StringUtils.hasText(favicon)) {
-				htmlDocument.head().appendElement("link").attr("type", "image/x-icon")
+				headElement.appendElement("link").attr("type", "image/x-icon")
 						.attr("rel", "SHORTCUT ICON").attr("href", pp.wrapContextPath(favicon));
 			}
 
@@ -140,8 +140,9 @@ public final class PageParser extends AbstractPageParser {
 
 	private static final String[] CONTEXTPATH_ATTRIBUTES = HtmlUtils.CONTEXTPATH_ATTRIBUTES;
 
-	private void normaliseNode(final Element element,
+	private void normaliseNode(final PageParameter pp, final Element element,
 			final Map<String, AbstractComponentBean> componentBeans) {
+		htmlBuilder.normalise(pp, element);
 		final Element head = htmlDocument.head();
 		for (final Node child : element.childNodes()) {
 			if (child instanceof Element) {
@@ -171,7 +172,7 @@ public final class PageParser extends AbstractPageParser {
 					child.attr("action", "javascript:void(0);");
 				}
 
-				normaliseNode((Element) child, componentBeans);
+				normaliseNode(pp, (Element) child, componentBeans);
 			} else if (child instanceof TextNode) {
 				final String text = ((TextNode) child).getWholeText();
 				if (StringUtils.hasText(text)) {
@@ -188,7 +189,7 @@ public final class PageParser extends AbstractPageParser {
 
 	private void doPageLoad(final IPageHandler pageHandle, final Map<String, Object> dataBinding,
 			final PageSelector selector) {
-		final String handleMethod = pp.getPageDocument().getPageBean().getHandleMethod();
+		final String handleMethod = pp.getPageBean().getHandleMethod();
 		if (StringUtils.hasText(handleMethod) && !(pageHandle instanceof AbstractMVCPage.PageLoad)) {
 			try {
 				final Method methodObject = pageHandle.getClass().getMethod(handleMethod,

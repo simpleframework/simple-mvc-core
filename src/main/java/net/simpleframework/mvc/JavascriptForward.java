@@ -19,4 +19,9 @@ public class JavascriptForward extends TextForward {
 	public JavascriptForward append(final Object javascript) {
 		return (JavascriptForward) super.append(javascript);
 	}
+
+	@Override
+	public boolean isHtmlParser() {
+		return false;
+	}
 }

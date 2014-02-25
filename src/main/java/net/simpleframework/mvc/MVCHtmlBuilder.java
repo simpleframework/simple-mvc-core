@@ -3,7 +3,9 @@ package net.simpleframework.mvc;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import net.simpleframework.common.StringUtils;
 import net.simpleframework.common.object.ObjectEx;
+import net.simpleframework.lib.org.jsoup.nodes.Element;
 import net.simpleframework.mvc.common.element.Meta;
 
 /**
@@ -29,7 +31,7 @@ public class MVCHtmlBuilder extends ObjectEx implements IMVCContextVar {
 		final AbstractMVCPage page = pp.getPage();
 		String css = null;
 		if (page != null) {
-			css = page.css(pp);
+			css = page.html_css(pp);
 		}
 		if (css == null) {
 			sb.append("body, body * { font-family: Verdana,");
@@ -46,17 +48,19 @@ public class MVCHtmlBuilder extends ObjectEx implements IMVCContextVar {
 
 	public Collection<Meta> meta(final PageParameter pp) {
 		final ArrayList<Meta> al = new ArrayList<Meta>();
-		al.add(Meta.RENDERER_WEBKIT);
-
 		final AbstractMVCPage page = pp.getPage();
 		boolean _contentType = true;
-		boolean _compatible = pp.getIEVersion() != null;
+		boolean _refresh = true;
+		boolean _compatible = true;
 		Collection<Meta> _coll;
-		if (page != null && (_coll = page.meta(pp)) != null) {
+		if (page != null && (_coll = page.html_meta(pp)) != null) {
 			for (final Meta _meta : _coll) {
 				al.add(_meta);
 				if ("Content-Type".equalsIgnoreCase(_meta.getHttpEquiv())) {
 					_contentType = false;
+				}
+				if ("refresh".equalsIgnoreCase(_meta.getHttpEquiv())) {
+					_refresh = true;
 				}
 				if ("X-UA-Compatible".equalsIgnoreCase(_meta.getHttpEquiv())) {
 					_compatible = false;
@@ -67,9 +71,20 @@ public class MVCHtmlBuilder extends ObjectEx implements IMVCContextVar {
 			al.add(Meta.contentType("text/html; charset="
 					+ (page != null ? page.getChartset() : settings.getCharset())));
 		}
-		if (_compatible) {
+		String redirectUrl;
+		if (_refresh && page != null && StringUtils.hasText(redirectUrl = page.getRedirectUrl(pp))) {
+			al.add(new Meta("refresh", "0;url=" + pp.wrapContextPath(redirectUrl)));
+		}
+		if (_compatible && pp.getIEVersion() != null) {
 			al.add(Meta.DEFAULT_COMPATIBLE);
 		}
 		return al;
+	}
+
+	public void normalise(final PageParameter pp, final Element element) {
+		final AbstractMVCPage page = pp.getPage();
+		if (page != null) {
+			page.html_normalise(pp, element);
+		}
 	}
 }

@@ -15,6 +15,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.simpleframework.common.Convert;
 import net.simpleframework.common.JsonUtils;
 import net.simpleframework.common.StringUtils;
 import net.simpleframework.common.coll.KVMap;
@@ -100,13 +101,13 @@ public class MVCFilter extends ObjectEx implements Filter, IMVCConst {
 
 					filterChain.doFilter(rRequest.request, httpResponse);
 				} else {
+					final PageParameter pp = PageParameter.get(rRequest, pageDocument);
+
 					final PageResponse _response = (PageResponse) (rRequest.response = new PageResponse(
 							httpResponse, bHttpRequest));
 					if (rRequest.isGzipResponse()) {
 						_response.setGzipContentEncoding();
 					}
-
-					final PageParameter pp = PageParameter.get(rRequest, pageDocument);
 
 					/* 以下为后处理部分 */
 					if (doFilterInternal(pp, filterChain) == EFilterResult.BREAK) {
@@ -125,7 +126,9 @@ public class MVCFilter extends ObjectEx implements Filter, IMVCConst {
 					}
 
 					String rHTML = forward != null ? forward.getResponseText(pp) : _response.toString();
-					if (!(forward instanceof JsonForward || forward instanceof JavascriptForward)) {
+					// html解析并组合
+					if (!Convert.toBool(pp.getBeanProperty("disabled"))
+							&& (forward == null || forward.isHtmlParser())) {
 						rHTML = new PageParser(pp).parser(rHTML).toHtml();
 					}
 

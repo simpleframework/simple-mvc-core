@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
-import net.simpleframework.common.IoUtils;
 import net.simpleframework.common.coll.AbstractKVMap;
 import net.simpleframework.ctx.script.MVEL2Template;
 
@@ -40,8 +39,8 @@ public abstract class AbstractMVELTemplatePage extends AbstractMVCPage {
 	protected String replaceExpr(final PageParameter pp, final InputStream htmlStream,
 			final Map<String, Object> variables) throws IOException {
 		final NamedTemplate nt = (NamedTemplate) pp.getRequestAttr("NamedTemplate");
-		return MVEL2Template.replace(variables,
-				IoUtils.getStringFromInputStream(htmlStream, getChartset()), nt == null ? null : nt);
+		return MVEL2Template.replace(variables, super.replaceExpr(pp, htmlStream, variables),
+				nt == null ? null : nt);
 	}
 
 	public static class NamedTemplate extends AbstractKVMap<String, NamedTemplate> {
