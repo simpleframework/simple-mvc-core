@@ -139,7 +139,7 @@ public class PageDocument extends XmlDocument {
 			Iterator<?> it = root.elementIterator();
 			while (it.hasNext()) {
 				element = (XmlElement) it.next();
-				final String name = element.getName();
+				final String name = element.getTagName();
 				if (name.equals(TAG_EVAL_SCOPE) || name.equals(TAG_HANDLE_CLASS)
 						|| name.equals(TAG_COMPONENTS)) {
 					continue;
@@ -188,7 +188,7 @@ public class PageDocument extends XmlDocument {
 			it = components.elementIterator();
 			while (it.hasNext()) {
 				final XmlElement element2 = (XmlElement) it.next();
-				final String tagName = element2.getName();
+				final String tagName = element2.getTagName();
 				final IComponentRegistry registry = factory.getComponentRegistry(tagName);
 				if (registry == null) {
 					throw ComponentException.of($m("PageDocument.0", tagName));

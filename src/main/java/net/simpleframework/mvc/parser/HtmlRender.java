@@ -2,7 +2,6 @@ package net.simpleframework.mvc.parser;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import net.simpleframework.common.StringUtils;
 import net.simpleframework.lib.org.jsoup.nodes.Element;
@@ -99,9 +98,9 @@ public class HtmlRender extends AbstractParser {
 		if (style.length() > 0) {
 			final String style2 = element.attr("style");
 			if (StringUtils.hasText(style2)) {
-				final Set<String> set = AbstractElement.toSet(style2);
-				set.addAll(AbstractElement.toSet(style.toString()));
-				element.attr("style", StringUtils.join(set, ";"));
+				final Map<String, String> styles = AbstractElement.toStyle(style2);
+				styles.putAll(AbstractElement.toStyle(style.toString()));
+				element.attr("style", AbstractElement.joinStyle(styles));
 			} else {
 				element.attr("style", style.toString());
 			}

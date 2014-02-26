@@ -1,5 +1,6 @@
 package net.simpleframework.mvc.common.element;
 
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
@@ -73,9 +74,9 @@ public abstract class AbstractElement<T extends AbstractElement<T>> extends Text
 	}
 
 	public T addStyle(final String style) {
-		final Set<String> set = toSet(getStyle());
-		set.addAll(toSet(style));
-		return setStyle(StringUtils.join(set, ";"));
+		final Map<String, String> map = toStyle(getStyle());
+		map.putAll(toStyle(style));
+		return setStyle(joinStyle(map));
 	}
 
 	public String getOnclick() {
@@ -297,13 +298,28 @@ public abstract class AbstractElement<T extends AbstractElement<T>> extends Text
 		return (T) BeanUtils.clone(this);
 	}
 
-	public static Set<String> toSet(final String style) {
-		final Set<String> set = new LinkedHashSet<String>();
+	public static String joinStyle(final Map<String, String> styles) {
+		if (styles != null && styles.size() > 0) {
+			final StringBuilder sb = new StringBuilder();
+			for (final Map.Entry<String, String> e : styles.entrySet()) {
+				if (sb.length() > 0) {
+					sb.append(";");
+				}
+				sb.append(e.getKey()).append(":").append(e.getValue());
+			}
+			return sb.toString();
+		}
+		return null;
+	}
+
+	public static Map<String, String> toStyle(final String style) {
+		final Map<String, String> styles = new LinkedHashMap<String, String>();
 		if (StringUtils.hasText(style)) {
 			for (final String s : StringUtils.split(style, ";")) {
-				set.add(s.trim().toLowerCase());
+				final String[] arr = StringUtils.split(s.toLowerCase(), ":");
+				styles.put(arr[0].trim(), arr.length > 1 ? arr[1].trim() : "");
 			}
 		}
-		return set;
+		return styles;
 	}
 }
