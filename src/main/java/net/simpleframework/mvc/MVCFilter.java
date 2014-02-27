@@ -101,14 +101,13 @@ public class MVCFilter extends ObjectEx implements Filter, IMVCConst {
 
 					filterChain.doFilter(rRequest.request, httpResponse);
 				} else {
-					final PageParameter pp = PageParameter.get(rRequest, pageDocument);
-
 					final PageResponse _response = (PageResponse) (rRequest.response = new PageResponse(
 							httpResponse, bHttpRequest));
 					if (rRequest.isGzipResponse()) {
 						_response.setGzipContentEncoding();
 					}
 
+					final PageParameter pp = PageParameter.get(rRequest, pageDocument);
 					/* 以下为后处理部分 */
 					if (doFilterInternal(pp, filterChain) == EFilterResult.BREAK) {
 						return;
