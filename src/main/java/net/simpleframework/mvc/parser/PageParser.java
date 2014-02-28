@@ -189,10 +189,10 @@ public final class PageParser extends AbstractPageParser {
 
 	private void doPageLoad(final IPageHandler pageHandle, final Map<String, Object> dataBinding,
 			final PageSelector selector) {
-		final String handleMethod = pp.getPageBean().getHandleMethod();
-		if (StringUtils.hasText(handleMethod) && !(pageHandle instanceof AbstractMVCPage.PageLoad)) {
+		final String handlerMethod = pp.getPageBean().getHandlerMethod();
+		if (StringUtils.hasText(handlerMethod) && !(pageHandle instanceof AbstractMVCPage.PageLoad)) {
 			try {
-				final Method methodObject = pageHandle.getClass().getMethod(handleMethod,
+				final Method methodObject = pageHandle.getClass().getMethod(handlerMethod,
 						PageParameter.class, Map.class, PageSelector.class);
 				ClassUtils.invoke(methodObject, pageHandle, pp, dataBinding, selector);
 			} catch (final NoSuchMethodException e) {

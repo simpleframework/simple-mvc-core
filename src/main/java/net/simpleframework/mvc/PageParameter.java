@@ -104,9 +104,9 @@ public class PageParameter extends PageRequestResponse {
 	}
 
 	public <T extends AbstractComponentBean> T addComponentBean(final Class<T> beanClass,
-			final Class<? extends IComponentHandler> handleClass) {
-		final T t = addComponentBean(handleClass.getSimpleName(), beanClass);
-		t.setHandleClass(handleClass);
+			final Class<? extends IComponentHandler> handlerClass) {
+		final T t = addComponentBean(handlerClass.getSimpleName(), beanClass);
+		t.setHandlerClass(handlerClass);
 		return t;
 	}
 

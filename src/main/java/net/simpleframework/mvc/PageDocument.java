@@ -128,11 +128,11 @@ public class PageDocument extends XmlDocument {
 				}
 			}
 
-			element = root.element(TAG_HANDLE_CLASS);
+			element = root.element(TAG_HANDLER_CLASS);
 			if (element != null) {
-				final String handleClass = ScriptEvalUtils.replaceExpr(scriptEval, element.getText());
-				if (StringUtils.hasText(handleClass)) {
-					pageBean.setHandleClass(handleClass);
+				final String handlerClass = ScriptEvalUtils.replaceExpr(scriptEval, element.getText());
+				if (StringUtils.hasText(handlerClass)) {
+					pageBean.setHandlerClass(handlerClass);
 				}
 			}
 
@@ -140,7 +140,7 @@ public class PageDocument extends XmlDocument {
 			while (it.hasNext()) {
 				element = (XmlElement) it.next();
 				final String name = element.getTagName();
-				if (name.equals(TAG_EVAL_SCOPE) || name.equals(TAG_HANDLE_CLASS)
+				if (name.equals(TAG_EVAL_SCOPE) || name.equals(TAG_HANDLER_CLASS)
 						|| name.equals(TAG_COMPONENTS)) {
 					continue;
 				}
@@ -422,17 +422,17 @@ public class PageDocument extends XmlDocument {
 
 	public IPageHandler getPageHandler(final PageParameter pp) {
 		if (pageHandle == null) {
-			String hdlstr = pageBean.getHandleClass();
+			String hdlstr = pageBean.getHandlerClass();
 			AbstractMVCPage pageView = null;
 			if (!StringUtils.hasText(hdlstr) && (pageView = singleton(pageClass)) != null) {
 				Class<?> pageClass = pageView.getClass().getSuperclass();
 				while (!pageClass.equals(AbstractMVCPage.class)) {
 					final PageBean pageBean2 = PageDocumentFactory.getPageDocumentAndCreate(pageClass,
 							pp).getPageBean();
-					final String hdlstr2 = pageBean2.getHandleClass();
+					final String hdlstr2 = pageBean2.getHandlerClass();
 					if (StringUtils.hasText(hdlstr2)) {
-						pageBean.setHandleClass(hdlstr = hdlstr2);
-						pageBean.setHandleMethod(pageBean2.getHandleMethod());
+						pageBean.setHandlerClass(hdlstr = hdlstr2);
+						pageBean.setHandlerMethod(pageBean2.getHandlerMethod());
 						break;
 					}
 					pageClass = pageClass.getSuperclass();
@@ -440,9 +440,9 @@ public class PageDocument extends XmlDocument {
 			}
 			if (StringUtils.hasText(hdlstr)) {
 				try {
-					final Class<?> handleClass = ClassUtils.forName(hdlstr);
-					pageHandle = (IPageHandler) (AbstractMVCPage.class.isAssignableFrom(handleClass) ? new AbstractMVCPage.PageLoad()
-							: handleClass.newInstance());
+					final Class<?> handlerClass = ClassUtils.forName(hdlstr);
+					pageHandle = (IPageHandler) (AbstractMVCPage.class.isAssignableFrom(handlerClass) ? new AbstractMVCPage.PageLoad()
+							: handlerClass.newInstance());
 				} catch (final Exception e) {
 					throw MVCException.of(e);
 				}
@@ -471,7 +471,7 @@ public class PageDocument extends XmlDocument {
 		}
 	}
 
-	final static String TAG_HANDLE_CLASS = "handleClass";
+	final static String TAG_HANDLER_CLASS = "handlerClass";
 	final static String TAG_COMPONENTS = "components";
 	final static String TAG_SCRIPT_INIT = "scriptInit";
 	final static String TAG_EVAL_SCOPE = "evalScope";

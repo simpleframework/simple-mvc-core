@@ -34,7 +34,7 @@ public abstract class AbstractComponentBean extends AbstractElementBean implemen
 	private boolean runImmediately = BeanDefaults.getBool(getClass(), "runImmediately", true);
 
 	/* 定义组件的业务处理类hanlder */
-	private String handleClass;
+	private String handlerClass;
 
 	/* 定义处理类hanlder实例的生命周期 */
 	private EComponentHandlerScope handleScope = (EComponentHandlerScope) BeanDefaults.get(
@@ -89,17 +89,17 @@ public abstract class AbstractComponentBean extends AbstractElementBean implemen
 		return this;
 	}
 
-	public String getHandleClass() {
-		return handleClass;
+	public String getHandlerClass() {
+		return handlerClass;
 	}
 
-	public AbstractComponentBean setHandleClass(final String handleClass) {
-		this.handleClass = handleClass;
+	public AbstractComponentBean setHandlerClass(final String handlerClass) {
+		this.handlerClass = handlerClass;
 		return this;
 	}
 
-	public AbstractComponentBean setHandleClass(final Class<?> hClass) {
-		return setHandleClass(ObjectFactory.original(hClass).getName());
+	public AbstractComponentBean setHandlerClass(final Class<?> hClass) {
+		return setHandlerClass(ObjectFactory.original(hClass).getName());
 	}
 
 	public EComponentHandlerScope getHandleScope() {

@@ -88,7 +88,7 @@ public abstract class ComponentUtils implements IMVCContextVar {
 
 	/*--------------------------------- handle -----------------------------------*/
 
-	public static String REQUEST_HANDLE_KEY = "@handleClass_";
+	public static String REQUEST_HANDLER_KEY = "@handlerClass_";
 
 	public static Map<String, Object> toFormParameters(final ComponentParameter cp) {
 		final KVMap _parameters = new KVMap();
@@ -118,14 +118,14 @@ public abstract class ComponentUtils implements IMVCContextVar {
 
 	public static IComponentHandler getComponentHandler(final PageRequestResponse rRequest,
 			final AbstractComponentBean componentBean) {
-		String stringClass = componentBean.getHandleClass();
+		String stringClass = componentBean.getHandlerClass();
 		if (!StringUtils.hasText(stringClass)) {
 			return null;
 		}
-		Class<?> handleClass;
+		Class<?> handlerClass;
 		try {
-			handleClass = ClassUtils.forName(stringClass);
-			if (ObjectFactory.isAbstract(handleClass)) {
+			handlerClass = ClassUtils.forName(stringClass);
+			if (ObjectFactory.isAbstract(handlerClass)) {
 				throw ComponentHandlerException.of($m("ComponentUtils.0"));
 			}
 		} catch (final ClassNotFoundException e) {
@@ -135,24 +135,24 @@ public abstract class ComponentUtils implements IMVCContextVar {
 		IComponentHandler hdl = null;
 		final EComponentHandlerScope handleScope = componentBean.getHandleScope();
 		if (handleScope == EComponentHandlerScope.singleton) {
-			if (AbstractMVCPage.class.isAssignableFrom(handleClass)) {
-				hdl = ((AbstractMVCPage) ObjectFactory.singleton(handleClass))
+			if (AbstractMVCPage.class.isAssignableFrom(handlerClass)) {
+				hdl = ((AbstractMVCPage) ObjectFactory.singleton(handlerClass))
 						.createComponentHandler(ComponentParameter.get(rRequest, componentBean));
 			} else {
-				hdl = (IComponentHandler) ObjectFactory.singleton(handleClass);
+				hdl = (IComponentHandler) ObjectFactory.singleton(handlerClass);
 			}
 		} else if (handleScope == EComponentHandlerScope.prototype) {
-			if (AbstractMVCPage.class.isAssignableFrom(handleClass)) {
+			if (AbstractMVCPage.class.isAssignableFrom(handlerClass)) {
 				stringClass += "#" + componentBean.getComponentRegistry().getComponentName();
 			}
-			stringClass = REQUEST_HANDLE_KEY + stringClass;
+			stringClass = REQUEST_HANDLER_KEY + stringClass;
 			hdl = (IComponentHandler) rRequest.getRequestAttr(stringClass);
 			if (hdl == null) {
-				if (AbstractMVCPage.class.isAssignableFrom(handleClass)) {
-					hdl = ((AbstractMVCPage) ObjectFactory.singleton(handleClass))
+				if (AbstractMVCPage.class.isAssignableFrom(handlerClass)) {
+					hdl = ((AbstractMVCPage) ObjectFactory.singleton(handlerClass))
 							.createComponentHandler(ComponentParameter.get(rRequest, componentBean));
 				} else {
-					hdl = (IComponentHandler) ObjectFactory.create(handleClass);
+					hdl = (IComponentHandler) ObjectFactory.create(handlerClass);
 				}
 				rRequest.setRequestAttr(stringClass, hdl);
 			}

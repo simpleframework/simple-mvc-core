@@ -151,7 +151,7 @@ public abstract class AbstractUrlForward extends AbstractForward {
 			while (attributeNames.hasMoreElements()) {
 				final String name = (String) attributeNames.nextElement();
 				if (includeRequestData.contains("a")
-						|| name.startsWith(ComponentUtils.REQUEST_HANDLE_KEY)) {
+						|| name.startsWith(ComponentUtils.REQUEST_HANDLER_KEY)) {
 					final Object value = rRequest.getRequestAttr(name);
 					if (value != null) {
 						attributes.put(name, value);

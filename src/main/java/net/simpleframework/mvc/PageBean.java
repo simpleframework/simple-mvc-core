@@ -14,7 +14,7 @@ public class PageBean extends AbstractElementBean implements IMVCContextVar {
 	private boolean disabled;
 
 	/* 页面的执行类及方法 */
-	private String handleClass, handleMethod;
+	private String handlerClass, handlerMethod;
 
 	private EEvalScope evalScope;
 
@@ -51,21 +51,21 @@ public class PageBean extends AbstractElementBean implements IMVCContextVar {
 		return this;
 	}
 
-	public String getHandleClass() {
-		return handleClass;
+	public String getHandlerClass() {
+		return handlerClass;
 	}
 
-	public PageBean setHandleClass(final String handleClass) {
-		this.handleClass = handleClass;
+	public PageBean setHandlerClass(final String handlerClass) {
+		this.handlerClass = handlerClass;
 		return this;
 	}
 
-	public String getHandleMethod() {
-		return handleMethod;
+	public String getHandlerMethod() {
+		return handlerMethod;
 	}
 
-	public PageBean setHandleMethod(final String handleMethod) {
-		this.handleMethod = handleMethod;
+	public PageBean setHandlerMethod(final String handlerMethod) {
+		this.handlerMethod = handlerMethod;
 		return this;
 	}
 
@@ -172,7 +172,7 @@ public class PageBean extends AbstractElementBean implements IMVCContextVar {
 	}
 
 	protected String getDefaultRole(final String role) {
-		return StringUtils.text(role, settings.getDefaultRole());
+		return StringUtils.hasText(role) ? role : settings.getDefaultRole();
 	}
 
 	public PageDocument getPageDocument() {

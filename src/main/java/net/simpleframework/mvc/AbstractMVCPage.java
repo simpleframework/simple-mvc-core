@@ -510,9 +510,9 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 
 	@SuppressWarnings("unchecked")
 	protected <T extends AbstractComponentBean> T addComponentBean(final PageParameter pp,
-			final Class<T> beanClass, final Class<? extends IComponentHandler> handleClass) {
-		return (T) addComponentBean(pp, handleClass.getSimpleName(), beanClass).setHandleClass(
-				handleClass);
+			final Class<T> beanClass, final Class<? extends IComponentHandler> handlerClass) {
+		return (T) addComponentBean(pp, handlerClass.getSimpleName(), beanClass).setHandlerClass(
+				handlerClass);
 	}
 
 	/**
@@ -544,13 +544,13 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 		@SuppressWarnings("unchecked")
 		public void onPageLoad(final PageParameter pp, final Map<String, Object> dataBinding,
 				final PageSelector selector) {
-			final String handleClass = (String) pp.getBeanProperty("handleClass");
-			if (!StringUtils.hasText(handleClass)) {
+			final String handlerClass = (String) pp.getBeanProperty("handlerClass");
+			if (!StringUtils.hasText(handlerClass)) {
 				return;
 			}
 			try {
-				((Class<AbstractMVCPage>) ClassUtils.forName(handleClass)).getMethod(
-						(String) pp.getBeanProperty("handleMethod"), PageParameter.class, Map.class,
+				((Class<AbstractMVCPage>) ClassUtils.forName(handlerClass)).getMethod(
+						(String) pp.getBeanProperty("handlerMethod"), PageParameter.class, Map.class,
 						PageSelector.class).invoke(AbstractMVCPage.get(pp), pp, dataBinding, selector);
 			} catch (final Exception e) {
 				throw ComponentHandlerException.of(e);
