@@ -11,7 +11,6 @@ import net.simpleframework.ctx.permission.LoginUser;
 import net.simpleframework.ctx.permission.LoginUser.LoginWrapper;
 import net.simpleframework.mvc.IFilterListener;
 import net.simpleframework.mvc.IMVCContextVar;
-import net.simpleframework.mvc.MVCContext;
 import net.simpleframework.mvc.MVCUtils;
 import net.simpleframework.mvc.PageParameter;
 import net.simpleframework.mvc.PageRequestResponse;
@@ -27,7 +26,7 @@ public class PermissionFilterListener implements IFilterListener, IMVCContextVar
 	@Override
 	public EFilterResult doFilter(final PageRequestResponse rRequest, final FilterChain filterChain)
 			throws IOException {
-		final IPagePermissionHandler permission = MVCContext.permission();
+		final IPagePermissionHandler permission = ctx.getPermission();
 
 		if (rRequest.isHttpRequest()) {
 			// 获取页面角色

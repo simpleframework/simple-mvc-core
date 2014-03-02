@@ -16,7 +16,6 @@ import net.simpleframework.common.ClassUtils.ScanClassResourcesCallback;
 import net.simpleframework.common.StringUtils;
 import net.simpleframework.ctx.AbstractApplicationContextBase;
 import net.simpleframework.ctx.permission.IPermissionHandler;
-import net.simpleframework.ctx.permission.PermissionFactory;
 import net.simpleframework.ctx.script.IScriptEval;
 import net.simpleframework.ctx.script.ScriptEvalFactory;
 import net.simpleframework.mvc.IPageResourceProvider.MVCPageResourceProvider;
@@ -33,10 +32,6 @@ import net.simpleframework.mvc.ctx.permission.PermissionFilterListener;
  *         http://www.simpleframework.net
  */
 public class MVCContext extends AbstractApplicationContextBase implements IMVCContext {
-
-	public static IPagePermissionHandler permission() {
-		return (IPagePermissionHandler) PermissionFactory.get();
-	}
 
 	private ServletContext servletContext;
 
@@ -187,6 +182,11 @@ public class MVCContext extends AbstractApplicationContextBase implements IMVCCo
 	@Override
 	public void setMVCSettings(final MVCSettings settings) {
 		this.settings = settings;
+	}
+
+	@Override
+	public IPagePermissionHandler getPermission() {
+		return (IPagePermissionHandler) super.getPermission();
 	}
 
 	@Override

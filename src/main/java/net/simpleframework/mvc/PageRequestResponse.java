@@ -390,7 +390,7 @@ public class PageRequestResponse implements IMVCContextVar {
 
 	/* 权限相关的一些函数 */
 	public IPagePermissionHandler getPermission() {
-		return MVCContext.permission();
+		return ctx.getPermission();
 	}
 
 	public ID getLoginId() {

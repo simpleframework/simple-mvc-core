@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import net.simpleframework.ctx.IApplicationContextBase;
+import net.simpleframework.mvc.ctx.permission.IPagePermissionHandler;
 
 /**
  * Licensed under the Apache License, Version 2.0
@@ -86,6 +87,9 @@ public interface IMVCContext extends IApplicationContextBase {
 	MVCSettings getMVCSettings();
 
 	void setMVCSettings(MVCSettings settings);
+
+	@Override
+	IPagePermissionHandler getPermission();
 
 	// -------------------------Listeners
 
