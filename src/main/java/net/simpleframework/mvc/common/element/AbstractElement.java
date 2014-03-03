@@ -144,6 +144,9 @@ public abstract class AbstractElement<T extends AbstractElement<T>> extends Text
 
 	public T setTextAlign(final ETextAlign textAlign) {
 		this.textAlign = textAlign;
+		if (textAlign != null) {
+			addStyle("text-align: " + textAlign);
+		}
 		return (T) this;
 	}
 
@@ -153,6 +156,9 @@ public abstract class AbstractElement<T extends AbstractElement<T>> extends Text
 
 	public T setVerticalAlign(final EVerticalAlign verticalAlign) {
 		this.verticalAlign = verticalAlign;
+		if (verticalAlign != null) {
+			addStyle("vertical-align: " + verticalAlign);
+		}
 		return (T) this;
 	}
 
@@ -171,6 +177,9 @@ public abstract class AbstractElement<T extends AbstractElement<T>> extends Text
 
 	public T setStrong(final boolean strong) {
 		this.strong = strong;
+		if (strong) {
+			addStyle("font-weight: bold;");
+		}
 		return (T) this;
 	}
 
@@ -180,6 +189,9 @@ public abstract class AbstractElement<T extends AbstractElement<T>> extends Text
 
 	public T setItalic(final boolean italic) {
 		this.italic = italic;
+		if (italic) {
+			addStyle("font-style: italic;");
+		}
 		return (T) this;
 	}
 
@@ -189,6 +201,9 @@ public abstract class AbstractElement<T extends AbstractElement<T>> extends Text
 
 	public T setWidth(final String width) {
 		this.width = width;
+		if (StringUtils.hasText(width)) {
+			addStyle("width: " + width);
+		}
 		return (T) this;
 	}
 
@@ -198,6 +213,9 @@ public abstract class AbstractElement<T extends AbstractElement<T>> extends Text
 
 	public T setColor(final String color) {
 		this.color = color;
+		if (StringUtils.hasText(color)) {
+			addStyle("color: " + color);
+		}
 		return (T) this;
 	}
 
@@ -259,28 +277,6 @@ public abstract class AbstractElement<T extends AbstractElement<T>> extends Text
 			addAttribute("onclick", getOnclick()).addAttribute("ondblclick", getOndblclick());
 		}
 
-		final ETextAlign textAlign = getTextAlign();
-		if (textAlign != null) {
-			addStyle("text-align: " + textAlign);
-		}
-		final EVerticalAlign verticalAlign = getVerticalAlign();
-		if (verticalAlign != null) {
-			addStyle("vertical-align: " + verticalAlign);
-		}
-		final String width = getWidth();
-		if (StringUtils.hasText(width)) {
-			addStyle("width: " + width);
-		}
-		if (isItalic()) {
-			addStyle("font-style: italic;");
-		}
-		if (isStrong()) {
-			addStyle("font-weight: bold;");
-		}
-		final String color = getColor();
-		if (StringUtils.hasText(color)) {
-			addStyle("color: " + color);
-		}
 		addAttribute("style", getStyle());
 
 		for (final Map.Entry<String, Object> e : attributes.entrySet()) {

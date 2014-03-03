@@ -13,12 +13,12 @@ public class BlockElement extends AbstractTagElement<BlockElement> {
 	public static BlockElement CLEAR = new BlockElement().setClassName("clearfix");
 
 	public static BlockElement tip(final String text) {
-		return new BlockElement().setStyle("display: none;")
+		return new BlockElement().addStyle("display: none;")
 				.setText(HtmlUtils.convertHtmlLines(text));
 	}
 
 	public static BlockElement tipHTML(final String html) {
-		return new BlockElement().setStyle("display: none;").setText(html);
+		return new BlockElement().addStyle("display: none;").setText(html);
 	}
 
 	public static BlockElement nav() {

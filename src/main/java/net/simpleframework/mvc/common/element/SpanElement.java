@@ -7,14 +7,14 @@ package net.simpleframework.mvc.common.element;
  *         http://www.simpleframework.net
  */
 public class SpanElement extends AbstractTagElement<SpanElement> {
-	public static SpanElement SEP = new SpanElement("|").setStyle("margin: 0px 5px;");
+	public static SpanElement SEP = new SpanElement("|").addStyle("margin: 0px 5px;");
 
-	public static SpanElement NAV = new SpanElement("&raquo;").setStyle("margin: 0px 2px;");
+	public static SpanElement NAV = new SpanElement("&raquo;").addStyle("margin: 0px 2px;");
 
-	public static SpanElement ELLIPSIS = new SpanElement("&hellip;").setStyle("color: black;");
+	public static SpanElement ELLIPSIS = new SpanElement("&hellip;").addStyle("color: black;");
 
 	public static SpanElement SPACE(final int width) {
-		return new SpanElement().setStyle("width: " + width + "px; display: inline-block;");
+		return new SpanElement().addStyle("width: " + width + "px; display: inline-block;");
 	}
 
 	public static SpanElement SPACE = SPACE(6);
@@ -22,11 +22,11 @@ public class SpanElement extends AbstractTagElement<SpanElement> {
 	public static SpanElement SPACE15 = SPACE(15);
 
 	public static SpanElement shortText(final Object text) {
-		return new SpanElement(text).setStyle("margin-left: 3px; font-size: 9px; color: #666;");
+		return new SpanElement(text).addStyle("margin-left: 3px; font-size: 9px; color: #666;");
 	}
 
 	public static SpanElement strongText(final Object text) {
-		return new SpanElement(text).setStyle("font-size: 9.5pt; color: #666; font-weight: bold;");
+		return new SpanElement(text).addStyle("font-size: 9.5pt; color: #666; font-weight: bold;");
 	}
 
 	public static SpanElement num(final Object num) {

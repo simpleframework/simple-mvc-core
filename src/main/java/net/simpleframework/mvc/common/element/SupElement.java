@@ -9,7 +9,7 @@ package net.simpleframework.mvc.common.element;
 public class SupElement extends AbstractTagElement<SupElement> {
 
 	public static SupElement num(final int num) {
-		return new SupElement(num).setStyle("margin-left: 2px;");
+		return new SupElement(num).addStyle("margin-left: 2px;");
 	}
 
 	private boolean highlight;
