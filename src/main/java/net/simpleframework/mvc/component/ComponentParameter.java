@@ -40,6 +40,11 @@ public final class ComponentParameter extends PageParameter {
 		return pageDocument;
 	}
 
+	@Override
+	public String getCssResourceHomePath() {
+		return ComponentUtils.getCssResourceHomePath(this);
+	}
+
 	private static final String FORM_PARAMETERS = "@form_parameters";
 
 	@SuppressWarnings("unchecked")
