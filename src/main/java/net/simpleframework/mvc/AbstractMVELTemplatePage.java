@@ -28,17 +28,22 @@ public abstract class AbstractMVELTemplatePage extends AbstractMVCPage {
 
 	@Override
 	public IForward forward(final PageParameter pp) {
-		final NamedTemplate nt = createNamedTemplates(pp);
-		if (nt != null) {
-			pp.setRequestAttr("NamedTemplate", nt);
-		}
+		getNamedTemplate(pp);
 		return super.forward(pp);
+	}
+
+	protected NamedTemplate getNamedTemplate(final PageParameter pp) {
+		NamedTemplate nt = (NamedTemplate) pp.getRequestAttr("NamedTemplate");
+		if (nt == null) {
+			pp.setRequestAttr("NamedTemplate", nt = createNamedTemplates(pp));
+		}
+		return nt;
 	}
 
 	@Override
 	protected String replaceExpr(final PageParameter pp, final InputStream htmlStream,
 			final Map<String, Object> variables) throws IOException {
-		final NamedTemplate nt = (NamedTemplate) pp.getRequestAttr("NamedTemplate");
+		final NamedTemplate nt = getNamedTemplate(pp);
 		return MVEL2Template.replace(variables, super.replaceExpr(pp, htmlStream, variables),
 				nt == null ? null : nt);
 	}

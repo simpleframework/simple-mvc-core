@@ -31,4 +31,6 @@ public interface ITemplateHandler {
 	 * @return
 	 */
 	boolean isShowMenubar(PageParameter pp);
+
+	boolean isShowFooter(PageParameter pp);
 }
