@@ -10,7 +10,6 @@ public class Radio extends Checkbox {
 
 	public Radio(final String id, final Object labelTxt) {
 		super(id, labelTxt);
-		addStyle("vertical-align: text-top;");
 	}
 
 	@Override
