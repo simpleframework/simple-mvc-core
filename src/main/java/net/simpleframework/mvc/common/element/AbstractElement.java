@@ -9,7 +9,6 @@ import net.simpleframework.common.BeanUtils;
 import net.simpleframework.common.Convert;
 import net.simpleframework.common.StringUtils;
 import net.simpleframework.common.coll.AbstractArrayListEx;
-import net.simpleframework.common.coll.ArrayUtils;
 import net.simpleframework.common.coll.KVMap;
 import net.simpleframework.common.object.TextNamedObject;
 import net.simpleframework.common.web.html.HtmlEncoder;
@@ -107,17 +106,32 @@ public abstract class AbstractElement<T extends AbstractElement<T>> extends Text
 	}
 
 	public T addClassName(final String className) {
+		if (!StringUtils.hasText(className)) {
+			return (T) this;
+		}
+		final Set<String> set = toClassSet();
+		set.add(className.trim());
+		return setClassName(StringUtils.join(set, " "));
+	}
+
+	public T removeClassName(final String className) {
+		if (!StringUtils.hasText(className)) {
+			return (T) this;
+		}
+		final Set<String> set = toClassSet();
+		set.remove(className.trim());
+		return setClassName(StringUtils.join(set, " "));
+	}
+
+	private Set<String> toClassSet() {
 		final Set<String> set = new LinkedHashSet<String>();
-		final String _className = getClassName();
-		if (StringUtils.hasText(_className)) {
-			for (final String s : ArrayUtils.asList(StringUtils.split(_className, " "))) {
+		String _className;
+		if (StringUtils.hasText(_className = getClassName())) {
+			for (final String s : StringUtils.split(_className, " ")) {
 				set.add(s.trim());
 			}
 		}
-		if (StringUtils.hasText(className)) {
-			set.add(className.trim());
-		}
-		return setClassName(StringUtils.join(set, " "));
+		return set;
 	}
 
 	public boolean isDisabled() {
