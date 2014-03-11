@@ -422,6 +422,14 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 		return null;
 	}
 
+	protected boolean isRoleMember(final PageParameter pp) {
+		Boolean b = (Boolean) pp.getRequestAttr("_Member");
+		if (b == null) {
+			pp.setRequestAttr("_Member", b = pp.getLogin().isMember(getRole(pp)));
+		}
+		return b;
+	}
+
 	/**
 	 * 页面的标题，显示在浏览器的标题栏上
 	 * 
