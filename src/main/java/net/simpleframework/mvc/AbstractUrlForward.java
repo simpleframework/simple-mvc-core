@@ -175,8 +175,13 @@ public abstract class AbstractUrlForward extends AbstractForward {
 
 	public static String getLocalhostUrl(final PageRequestResponse rRequest) {
 		final StringBuilder sb = new StringBuilder();
-		sb.append(rRequest.getRequestScheme()).append("://localhost:")
-				.append(settings.getServletPort(rRequest));
+		// rRequest.getRequestScheme()
+		// 内部走http
+		sb.append("http://localhost");
+		final int port = settings.getServletPort(rRequest);
+		if (port != 80) {
+			sb.append(":").append(port);
+		}
 		return sb.toString();
 	}
 
