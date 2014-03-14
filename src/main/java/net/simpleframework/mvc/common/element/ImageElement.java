@@ -7,10 +7,6 @@ package net.simpleframework.mvc.common.element;
  *         http://www.simpleframework.net
  */
 public class ImageElement extends AbstractElement<ImageElement> {
-	{
-		setVerticalAlign(EVerticalAlign.middle);
-	}
-
 	private String src;
 
 	public ImageElement() {
