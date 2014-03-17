@@ -20,7 +20,8 @@ public class UtilsFilterListener implements IFilterListener, IMVCContextVar {
 			throws IOException {
 		final String ieWarnUrl;
 		if (rRequest.isHttpRequest()
-				&& StringUtils.hasText(ieWarnUrl = settings.getIEWarnPath(rRequest))) {
+				&& StringUtils.hasText(ieWarnUrl = settings.getIEWarnPath(rRequest))
+				&& !"false".equals(ieWarnUrl)) {
 			final Float ver = rRequest.getIEVersion();
 			if (ver != null && ver < 8.0 && !Convert.toBool(rRequest.getCookie("ie6_browser"))
 					&& !rRequest.getRequestURI().endsWith(ieWarnUrl)) {
