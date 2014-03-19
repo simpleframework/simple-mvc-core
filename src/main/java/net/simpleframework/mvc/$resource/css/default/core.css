@@ -91,7 +91,7 @@
 .checkbox_lbl {
   cursor: pointer;
   vertical-align: middle;
-  margin-left: 2px;
+  margin-left: 4px;
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
