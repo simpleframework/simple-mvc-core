@@ -1,6 +1,5 @@
 /**
- * @author 陈侃(cknet@126.com, 13910090885)
- *         https://github.com/simpleframework
+ * @author 陈侃(cknet@126.com, 13910090885) https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
 var Browser = {
@@ -39,7 +38,7 @@ var $Actions = {
   reloc : function() {
     window.location.reload();
   },
-  
+
   callSafely : function(act, parameters, callback) {
     if (!act)
       return;
@@ -94,9 +93,9 @@ var $UI = {
     if (!stylesheets)
       return;
 
-    for ( var i = 0; i < stylesheets.length; i++) {
+    for (var i = 0; i < stylesheets.length; i++) {
       var stylesheet = stylesheets[i].makeElement();
-      
+
       var href = stylesheet.getAttribute("href");
       if (!href)
         continue;
@@ -104,7 +103,7 @@ var $UI = {
 
       var update = false;
       var links = document.getElementsByTagName("link") || [];
-      for ( var j = links.length - 1; j >= 0; j--) {
+      for (var j = links.length - 1; j >= 0; j--) {
         var _href = links[j].getAttribute("href");
         if (_href && $UI._toUrl(_href) == href) {
           update = true;
@@ -121,7 +120,7 @@ var $UI = {
     if (!id)
       return;
     var scripts = document.getElementsByTagName("script");
-    for ( var i = scripts.length - 1; i >= 0; i--) {
+    for (var i = scripts.length - 1; i >= 0; i--) {
       var _id = scripts[i].getAttribute("id");
       if (_id && _id == id)
         return scripts[i];
@@ -152,7 +151,7 @@ var $UI = {
         src = $UI._toUrl(src);
         var _script = null;
         var _scripts = document.getElementsByTagName("script");
-        for ( var i = _scripts.length - 1; i >= 0; i--) {
+        for (var i = _scripts.length - 1; i >= 0; i--) {
           var _src = _scripts[i].getAttribute("src");
           if (_src && $UI._toUrl(_src) == src) {
             _script = _scripts[i];
@@ -162,7 +161,8 @@ var $UI = {
         if (!_script) {
           _script = $UI.createScriptElement();
           _script.done = "doing";
-          if (_script.readyState && (!document.documentMode || document.documentMode < 10)) {
+          if (_script.readyState
+              && (!document.documentMode || document.documentMode < 10)) {
             _script.onreadystatechange = function() {
               var s = _script.readyState;
               if (s == "loaded" /* || s == "complete" */) {
@@ -204,7 +204,18 @@ var $UI = {
     this.head.appendChild(script);
     return script;
   },
-  
+
+  moveCursorToEnd : function(el) {
+    if (typeof el.selectionStart == "number") {
+      el.selectionStart = el.selectionEnd = el.value.length;
+    } else if (typeof el.createTextRange != "undefined") {
+      el.focus();
+      var range = el.createTextRange();
+      range.collapse(false);
+      range.select();
+    }
+  },
+
   evalParam : function(p) {
     if (p && p.toLowerCase().startsWith("javascript:"))
       p = eval(p.substring(11));
@@ -213,8 +224,7 @@ var $UI = {
 };
 
 /** 效果对象 */
-var $Effect = {
-};
+var $Effect = {};
 
 (function() {
   /** document */
@@ -295,9 +305,9 @@ var $Effect = {
   String.prototype.convertHtmlLines = function() {
     return this.replace(/\r/g, '<br>').replace(/\n/g, '<br>');
   };
-  
+
   var hex_chr = "0123456789abcdef";
-  
+
   String.prototype.md5 = function(str) {
     /*
      * Convert a 32-bit number to a hex string with ls-byte first
@@ -473,7 +483,7 @@ var $Effect = {
       if (typeof q == "string") {
         o2 = new Object();
         var qArr = q.split("&");
-        for ( var i = 0; i < qArr.length; i++) {
+        for (var i = 0; i < qArr.length; i++) {
           var vArr = qArr[i].split("=");
           var k = vArr[0];
           if (!o2[k])
@@ -492,7 +502,7 @@ var $Effect = {
     var ret = "";
     for (property in o) {
       var v = o[property];
-      for ( var j = 0; j < v.length; j++) {
+      for (var j = 0; j < v.length; j++) {
         ret += ("&" + property + "=" + v[j]);
       }
     }
@@ -507,7 +517,8 @@ var $Effect = {
     var c = this.toString();
     var wrapper = document.createElement('div');
     wrapper.innerHTML = c;
-    return wrapper.firstElementChild || wrapper.firstChild || document.createElement(c);
+    return wrapper.firstElementChild || wrapper.firstChild
+        || document.createElement(c);
   };
 
   Number.prototype.toFileString = function() {
@@ -527,7 +538,7 @@ var $Effect = {
     }
   };
 
-  //---- Array
+  // ---- Array
   Array.prototype.empty = function() {
     return !this.length;
   };
