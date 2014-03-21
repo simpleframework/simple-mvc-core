@@ -2,7 +2,6 @@ package net.simpleframework.mvc;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
@@ -259,10 +258,6 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 		return pp.getCssResourceHomePath(pageClass);
 	}
 
-	public String getInitJavascriptCode(final PageParameter pp) {
-		return null;
-	}
-
 	/**
 	 * 获取页面依赖的组件，一般不需要覆盖，在addComponentBean时自动依赖
 	 * 
@@ -454,24 +449,34 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 	}
 
 	/**
-	 * 设置页面的meta
+	 * 格式化html元素
+	 * 
+	 * @param pp
+	 * @param element
+	 */
+	public void onHtmlNormalise(final PageParameter pp, final Element element) {
+	}
+
+	/**
+	 * 页面的meta信息，http请求时触发
 	 * 
 	 * @param pParameter
 	 * @return
 	 */
-	public Collection<Meta> html_meta(final PageParameter pp) {
-		final ArrayList<Meta> al = new ArrayList<Meta>();
-		al.add(Meta.RENDERER_WEBKIT);
-		al.add(Meta.GOOGLE_NOTRANSLATE);
-		al.add(Meta.CLEARTYPE);
-		return al;
+	public void onHttpRequestMeta(final PageParameter pp, final Collection<Meta> coll) {
+		String redirectUrl;
+		if (StringUtils.hasText(redirectUrl = getRedirectUrl(pp))) {
+			coll.add(new Meta("refresh", "0;url=" + pp.wrapContextPath(redirectUrl)));
+		}
 	}
 
-	public String html_css(final PageParameter pp) {
-		return null;
-	}
-
-	public void html_normalise(final PageParameter pp, final Element element) {
+	/**
+	 * 页面的css，http请求时触发
+	 * 
+	 * @param pp
+	 * @param sb
+	 */
+	public void onHttpRequestCSS(final PageParameter pp, final StringBuilder sb) {
 	}
 
 	/*--------------------------------- static ---------------------------------*/

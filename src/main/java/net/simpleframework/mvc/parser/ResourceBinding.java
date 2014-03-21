@@ -96,12 +96,6 @@ public class ResourceBinding extends AbstractParser {
 			}
 		}
 
-		// 初始化代码
-		final String javascriptCode = prp.getInitJavascriptCode(pp);
-		if (StringUtils.hasText(javascriptCode)) {
-			ParserUtils.addScriptText(htmlHead, javascriptCode);
-		}
-
 		// 页面依赖的组件
 		if (pageInstance != null) {
 			doDependentComponents(pp, htmlHead, pageInstance.getDependentComponents(pp));

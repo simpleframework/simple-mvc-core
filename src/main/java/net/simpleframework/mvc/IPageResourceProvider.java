@@ -19,14 +19,6 @@ public interface IPageResourceProvider extends IResourceProvider {
 	 */
 	String getName();
 
-	/**
-	 * 输出到浏览器的初始化代码
-	 * 
-	 * @param pageParameter
-	 * @return
-	 */
-	String getInitJavascriptCode(final PageParameter pp);
-
 	public static class MVCPageResourceProvider extends AbstractResourceProvider implements
 			IPageResourceProvider {
 
@@ -45,18 +37,6 @@ public interface IPageResourceProvider extends IResourceProvider {
 		public String[] getJavascriptPath(final PageParameter pp) {
 			return new String[] { DeployUtils.getResourcePath(IPageResourceProvider.class)
 					+ "/js/core.js" };
-		}
-
-		@Override
-		public String getInitJavascriptCode(final PageParameter pp) {
-			final StringBuilder sb = new StringBuilder();
-			final AbstractMVCPage pageView;
-			final String jsCode;
-			if ((pageView = pp.getPage()) != null
-					&& StringUtils.hasText(jsCode = pageView.getInitJavascriptCode(pp))) {
-				sb.append(jsCode);
-			}
-			return sb.toString();
 		}
 
 		@Override

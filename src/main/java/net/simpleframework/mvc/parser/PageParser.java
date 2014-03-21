@@ -39,7 +39,7 @@ public final class PageParser extends AbstractPageParser {
 
 	private static final MVCHtmlBuilder htmlBuilder = ctx.getPageHtmlBuilder();
 
-	private Document htmlDocument;
+	private Document htmlDoc;
 
 	private Element headElement;
 
@@ -59,11 +59,11 @@ public final class PageParser extends AbstractPageParser {
 
 			final Map<String, AbstractComponentBean> oComponentBeans = pp.getComponentBeans();
 			resourceBinding.doTag(pp, headElement, oComponentBeans);
-			normaliseNode(pp, htmlDocument, oComponentBeans);
+			normaliseNode(pp, htmlDoc, oComponentBeans);
 			javascriptRender.doTag(pp, headElement, oComponentBeans);
 
 			// 转换UrlForward直接输出的代码
-			final Elements elements = htmlDocument.select("." + IMVCConst.HTML_BASE64_CLASS);
+			final Elements elements = htmlDoc.select("." + IMVCConst.HTML_BASE64_CLASS);
 			for (int i = 0; i < elements.size(); i++) {
 				final Element element = elements.get(i);
 				final Element parent = element.parent();
@@ -99,15 +99,15 @@ public final class PageParser extends AbstractPageParser {
 
 	private void beforeCreate(final String responseString) {
 		if (pp.isHttpRequest()) {
-			htmlDocument = HtmlUtils.parseDocument(responseString);
-			headElement = htmlDocument.head();
+			htmlDoc = HtmlUtils.parseDocument(responseString);
+			headElement = htmlDoc.head();
 			// title
 			final String title = pp.getDocumentTitle();
 			if (StringUtils.hasText(title)) {
-				htmlDocument.title(title);
+				htmlDoc.title(title);
 			}
 			// meta
-			final Collection<Meta> coll = htmlBuilder.meta(pp);
+			final Collection<Meta> coll = htmlBuilder.doHttpRequestMeta(pp);
 			if (coll != null) {
 				for (final Meta attri : coll) {
 					headElement.prepend(attri.toString());
@@ -120,17 +120,17 @@ public final class PageParser extends AbstractPageParser {
 						.attr("rel", "SHORTCUT ICON").attr("href", pp.wrapContextPath(favicon));
 			}
 
-			final String css = htmlBuilder.css(pp);
+			final String css = htmlBuilder.doHttpRequestCSS(pp);
 			if (StringUtils.hasText(css)) {
-				headElement.appendChild(htmlDocument.createElement("style").attr("type", "text/css")
+				headElement.appendChild(htmlDoc.createElement("style").attr("type", "text/css")
 						.text(css));
 			}
 		} else {
-			htmlDocument = HtmlUtils.createHtmlDocument(responseString);
-			headElement = htmlDocument.select("head").first();
+			htmlDoc = HtmlUtils.createHtmlDocument(responseString);
+			headElement = htmlDoc.select("head").first();
 			if (headElement == null) {
-				headElement = htmlDocument.createElement("head");
-				htmlDocument.prependChild(headElement);
+				headElement = htmlDoc.createElement("head");
+				htmlDoc.prependChild(headElement);
 			}
 			headElement.attr("move", "true");
 		}
@@ -142,8 +142,8 @@ public final class PageParser extends AbstractPageParser {
 
 	private void normaliseNode(final PageParameter pp, final Element element,
 			final Map<String, AbstractComponentBean> componentBeans) {
-		htmlBuilder.normalise(pp, element);
-		final Element head = htmlDocument.head();
+		htmlBuilder.doHtmlNormalise(pp, element);
+		final Element head = htmlDoc.head();
 		for (final Node child : element.childNodes()) {
 			if (child instanceof Element) {
 				final String id = child.attr("id");
@@ -208,20 +208,20 @@ public final class PageParser extends AbstractPageParser {
 	}
 
 	public String toHtml() {
-		if (htmlDocument == null) {
+		if (htmlDoc == null) {
 			return "";
 		}
-		String html = htmlDocument.html();
+		String html = htmlDoc.html();
 		if (pp.isHttpRequest()) {
 			boolean doctype = false;
-			for (final Node child : htmlDocument.childNodes()) {
+			for (final Node child : htmlDoc.childNodes()) {
 				if (child instanceof DocumentType) {
 					doctype = true;
 					break;
 				}
 			}
 			if (!doctype) {
-				html = htmlBuilder.doctype(getPageParameter()) + html;
+				html = htmlBuilder.doHttpRequestDoctype(getPageParameter()) + html;
 			}
 		}
 		return html;
