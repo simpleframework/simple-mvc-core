@@ -34,11 +34,13 @@ public abstract class AbstractUrlForward extends AbstractForward {
 	}
 
 	protected String getRequestUrl(final PageRequestResponse rRequest) {
+		final String url = getUrl();
+		if (HttpUtils.isAbsoluteUrl(url)) {
+			return url;
+		}
 		final StringBuilder sb = new StringBuilder();
-
 		final Map<String, Object> qMap = HttpUtils.toQueryParams(putRequestData(rRequest,
 				getIncludeRequestData()));
-		final String url = getUrl();
 		final int qp = url.indexOf("?");
 		if (qp > -1) {
 			sb.append(url.substring(0, qp));
