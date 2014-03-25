@@ -5,6 +5,10 @@
 var Browser = {
   support : {
     canvas : !!document.createElement("canvas").getContext
+  },
+  
+  getIEVersion : function() {
+    return parseFloat(navigator.appVersion.split(';')[1].trim().split(' ')[1]);
   }
 };
 
