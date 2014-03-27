@@ -15,6 +15,7 @@ import net.simpleframework.lib.org.jsoup.Jsoup;
  *         http://www.simpleframework.net
  */
 public class UrlForward extends AbstractUrlForward {
+	private boolean redirect;
 
 	public UrlForward(final String url, final String includeRequestData) {
 		super(url, includeRequestData);
@@ -22,6 +23,15 @@ public class UrlForward extends AbstractUrlForward {
 
 	public UrlForward(final String url) {
 		super(url);
+	}
+
+	public boolean isRedirect() {
+		return redirect;
+	}
+
+	public UrlForward setRedirect(final boolean redirect) {
+		this.redirect = redirect;
+		return this;
 	}
 
 	@Override

@@ -124,6 +124,15 @@ public class MVCFilter extends ObjectEx implements Filter, IMVCConst {
 						return;
 					}
 
+					if (bHttpRequest) {
+						// 重定向
+						UrlForward uf;
+						if (forward instanceof UrlForward && (uf = (UrlForward) forward).isRedirect()) {
+							pp.sendRedirect(pp.wrapContextPath(uf.getUrl()));
+							return;
+						}
+					}
+
 					String rHTML = forward != null ? forward.getResponseText(pp) : _response.toString();
 					// html解析并组合
 					if (!Convert.toBool(pp.getBeanProperty("disabled"))
