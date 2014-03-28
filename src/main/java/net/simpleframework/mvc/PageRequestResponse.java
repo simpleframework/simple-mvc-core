@@ -208,10 +208,6 @@ public class PageRequestResponse implements IMVCContextVar {
 		HttpUtils.setNoCache(response);
 	}
 
-	public void sendRedirect(final String location) throws IOException {
-		response.sendRedirect(location);
-	}
-
 	// Session Wrapper
 
 	public HttpSession getSession() {

@@ -128,7 +128,7 @@ public class MVCFilter extends ObjectEx implements Filter, IMVCConst {
 						// 重定向
 						UrlForward uf;
 						if (forward instanceof UrlForward && (uf = (UrlForward) forward).isRedirect()) {
-							pp.sendRedirect(pp.wrapContextPath(uf.getUrl()));
+							pp.loc(uf.getUrl());
 							return;
 						}
 					}
