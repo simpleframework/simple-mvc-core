@@ -125,11 +125,8 @@ public abstract class AbstractElement<T extends AbstractElement<T>> extends Text
 
 	private Set<String> toClassSet() {
 		final Set<String> set = new LinkedHashSet<String>();
-		String _className;
-		if (StringUtils.hasText(_className = getClassName())) {
-			for (final String s : StringUtils.split(_className, " ")) {
-				set.add(s.trim());
-			}
+		for (final String s : StringUtils.split(getClassName(), " ")) {
+			set.add(s.trim());
 		}
 		return set;
 	}
@@ -324,11 +321,9 @@ public abstract class AbstractElement<T extends AbstractElement<T>> extends Text
 
 	public static Map<String, String> toStyle(final String style) {
 		final Map<String, String> styles = new LinkedHashMap<String, String>();
-		if (StringUtils.hasText(style)) {
-			for (final String s : StringUtils.split(style, ";")) {
-				final String[] arr = StringUtils.split(s.toLowerCase(), ":");
-				styles.put(arr[0].trim(), arr.length > 1 ? arr[1].trim() : "");
-			}
+		for (final String s : StringUtils.split(style, ";")) {
+			final String[] arr = StringUtils.split(s.toLowerCase(), ":");
+			styles.put(arr[0].trim(), arr.length > 1 ? arr[1].trim() : "");
 		}
 		return styles;
 	}
