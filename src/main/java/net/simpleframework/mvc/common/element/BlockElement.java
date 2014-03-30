@@ -12,7 +12,7 @@ public class BlockElement extends AbstractTagElement<BlockElement> {
 
 	public static BlockElement CLEAR = new BlockElement().setClassName("clearfix");
 
-	public static BlockElement tip(final String text) {
+	public static BlockElement tipText(final String text) {
 		return new BlockElement().addStyle("display: none;")
 				.setText(HtmlUtils.convertHtmlLines(text));
 	}
@@ -27,10 +27,6 @@ public class BlockElement extends AbstractTagElement<BlockElement> {
 
 	public BlockElement() {
 	}
-
-	// public BlockElement(final String id) {
-	// setId(id);
-	// }
 
 	@Override
 	protected String tag() {
