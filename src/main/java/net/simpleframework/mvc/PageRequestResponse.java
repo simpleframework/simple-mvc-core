@@ -161,7 +161,7 @@ public class PageRequestResponse implements IMVCContextVar {
 		return request.getHeaders(name);
 	}
 
-	public int getServletPort() {
+	public int getServerPort() {
 		return request.getServerPort();
 	}
 

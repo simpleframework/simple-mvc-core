@@ -77,8 +77,8 @@ public class MVCSettings extends ContextSettings {
 		return ver == null || ver > 8.0;
 	}
 
-	public int getServletPort(final PageRequestResponse rRequest) {
-		return rRequest.getServletPort();
+	public int getServerPort(final PageRequestResponse rRequest) {
+		return rRequest.getServerPort();
 	}
 
 	/**

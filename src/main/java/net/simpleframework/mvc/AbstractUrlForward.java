@@ -180,7 +180,7 @@ public abstract class AbstractUrlForward extends AbstractForward {
 		// rRequest.getRequestScheme()
 		// 内部走http
 		sb.append("http://localhost");
-		final int port = settings.getServletPort(rRequest);
+		final int port = settings.getServerPort(rRequest);
 		if (port != 80) {
 			sb.append(":").append(port);
 		}
