@@ -7,6 +7,8 @@ package net.simpleframework.mvc;
  *         http://www.simpleframework.net
  */
 public class JavascriptForward extends TextForward {
+	public static final JavascriptForward RELOC = new JavascriptForward("$Actions.reloc();");
+
 	public JavascriptForward(final String javascript) {
 		super(javascript);
 	}
