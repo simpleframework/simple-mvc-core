@@ -83,16 +83,19 @@ public class ImageCache extends ObjectEx {
 		}
 		filename += ".png";
 		final File cFile = new File(MVCUtils.getRealPath(CACHE_PATH) + File.separator + filename);
-		if (!cFile.exists() || cFile.length() == 0) {
-			final InputStream inputStream = imageLoad.getInputStream();
-			if (inputStream != null) {
-				try {
-					ImageUtils.thumbnail(inputStream, width, height, new FileOutputStream(cFile), "png");
-				} catch (final IOException e) {
-					log.warn(e);
+		synchronized (CACHE_PATH) {
+			if (!cFile.exists() || cFile.length() == 0) {
+				final InputStream inputStream = imageLoad.getInputStream();
+				if (inputStream != null) {
+					try {
+						ImageUtils.thumbnail(inputStream, width, height, new FileOutputStream(cFile),
+								"png");
+					} catch (final IOException e) {
+						log.warn(e);
+					}
+				} else {
+					return null;
 				}
-			} else {
-				return null;
 			}
 		}
 		return filename;
