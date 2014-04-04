@@ -11,8 +11,9 @@ import net.simpleframework.mvc.IMVCContextVar;
  */
 public class LinkElement extends AbstractLinkElement<LinkElement> implements IMVCContextVar {
 
-	public static LinkElement HOME = new LinkElement($m("LinkElement.0")).setHref(settings
-			.getFilterPath());
+	public static LinkElement HOME() {
+		return new LinkElement($m("LinkElement.0")).setHref(settings.getFilterPath());
+	}
 
 	public static LinkElement BLANK(final Object text) {
 		return new LinkElement(text).setTarget("_blank");
