@@ -345,15 +345,16 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 	 * @param queryString
 	 * @return
 	 */
-	public static String url(final Class<? extends AbstractMVCPage> clazz, final String queryString) {
-		String url = urlCache.get(clazz);
+	public static String url(final Class<? extends AbstractMVCPage> pageClass,
+			final String queryString) {
+		String url = urlCache.get(pageClass);
 		if (!StringUtils.hasText(url)) {
 			url = settings.getFilterPath();
 			if (!url.endsWith("/")) {
 				url += "/";
 			}
 			final Map<String, String> pagePackages = settings.getFilterPackages();
-			String className = clazz.getName();
+			String className = pageClass.getName();
 			String val = null;
 			if (pagePackages != null) {
 				for (final Map.Entry<String, String> entry : pagePackages.entrySet()) {
@@ -373,7 +374,7 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 			if (val != null) {
 				className = className.equals(val) ? "" : className.substring(val.length() + 1);
 			}
-			urlCache.put(clazz, url += StringUtils.replace(className, ".", "-"));
+			urlCache.put(pageClass, url += StringUtils.replace(className, ".", "-"));
 		}
 		if (StringUtils.hasText(queryString)) {
 			url += "?" + queryString;
@@ -381,8 +382,8 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 		return url;
 	}
 
-	public static String url(final Class<? extends AbstractMVCPage> clazz) {
-		return url(clazz, null);
+	public static String url(final Class<? extends AbstractMVCPage> pageClass) {
+		return url(pageClass, null);
 	}
 
 	/**
