@@ -60,7 +60,7 @@ public class PageRequest extends HttpServletRequestWrapper implements IMVCContex
 			return null;
 		}
 		if (httpSession == null || !httpSession.getId().equals(httpSession2.getId())) {
-			httpSession = ctx.createHttpSession(httpSession2);
+			httpSession = mvcContext.createHttpSession(httpSession2);
 		}
 		return httpSession;
 	}

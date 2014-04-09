@@ -164,17 +164,9 @@ public class MVCContext extends AbstractApplicationContextBase implements IMVCCo
 	}
 
 	@Override
-	public ITemplateHandler getTemplate(final PageParameter pp) {
-		/**
-		 * 此方法由子类实现
-		 */
-		return null;
-	}
-
-	@Override
 	public MVCSettings getMVCSettings() {
 		if (settings == null) {
-			settings = MVCSettings.get();
+			settings = MVCSettings.getDefault();
 		}
 		return settings;
 	}

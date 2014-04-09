@@ -14,7 +14,7 @@ import net.simpleframework.ctx.settings.ContextSettings;
  */
 public class MVCSettings extends ContextSettings {
 
-	public static MVCSettings get() {
+	public static MVCSettings getDefault() {
 		return singleton(MVCSettings.class);
 	}
 

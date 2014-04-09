@@ -32,7 +32,7 @@
       <div style="float: left" class="f3">#(error.0)</div>
     </div>
     <div class="simple_toolbar wrap_text" style="margin: 6px 0px; color: #8D3212;"><%=HtmlUtils.convertHtmlLines(HtmlEncoder
-					.text(IMVCContextVar.ctx.getThrowableMessage(th)))%></div>
+					.text(IMVCContextVar.mvcContext.getThrowableMessage(th)))%></div>
     <div class="simple_toolbar1" style="padding: 4px;">
       <textarea style="height: 300px; border: 0; width: 100%; background-image: none;" readonly><%=HtmlEncoder.text(Convert.toString(th))%></textarea>
     </div>

@@ -16,7 +16,7 @@ public class LastUrlListener implements IFilterListener, IMVCContextVar {
 	public EFilterResult doFilter(final PageRequestResponse rRequest, final FilterChain filterChain)
 			throws IOException {
 		String accept;
-		if (rRequest.isHttpRequest() && !ctx.isSystemUrl(rRequest)
+		if (rRequest.isHttpRequest() && !mvcContext.isSystemUrl(rRequest)
 				&& (accept = rRequest.getRequestHeader("Accept")) != null
 				&& accept.contains("text/html")) {
 			rRequest.setSessionAttr(IMVCConst.SESSION_ATTRI_LASTURL,

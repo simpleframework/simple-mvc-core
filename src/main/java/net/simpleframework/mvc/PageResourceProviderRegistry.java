@@ -34,7 +34,7 @@ public class PageResourceProviderRegistry extends ObjectEx implements IMVCContex
 			return provider;
 		}
 		if (defaultProvider == null) {
-			registered(defaultProvider = ctx.getDefaultPageResourceProvider());
+			registered(defaultProvider = mvcContext.getDefaultPageResourceProvider());
 		}
 		return defaultProvider;
 	}

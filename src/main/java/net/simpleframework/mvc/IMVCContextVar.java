@@ -12,9 +12,10 @@ import net.simpleframework.ctx.ApplicationContextFactory;
  */
 public interface IMVCContextVar {
 
-	static IMVCContext ctx = (IMVCContext) ApplicationContextFactory.ctx();
+	static IMVCContext mvcContext = (IMVCContext) ApplicationContextFactory.ctx();
 
-	static MVCSettings settings = ctx != null ? ctx.getMVCSettings() : MVCSettings.get();
+	static MVCSettings settings = mvcContext != null ? mvcContext.getMVCSettings() : MVCSettings
+			.getDefault();
 
-	static ServletContext servlet = ctx != null ? ctx.getServletContext() : null;
+	static ServletContext servlet = mvcContext != null ? mvcContext.getServletContext() : null;
 }

@@ -131,7 +131,7 @@ public abstract class MVCUtils implements IMVCContextVar {
 	public static Map<String, Object> createException(final PageRequestResponse rRequest,
 			final Throwable th) {
 		final KVMap exception = new KVMap();
-		exception.put("title", ctx.getThrowableMessage(th));
+		exception.put("title", mvcContext.getThrowableMessage(th));
 		final String detail = Convert.toString(th);
 		exception.put("detail", detail);
 		exception.put("hash", ObjectUtils.hashStr(detail));

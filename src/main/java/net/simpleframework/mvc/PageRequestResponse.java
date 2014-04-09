@@ -244,7 +244,7 @@ public class PageRequestResponse implements IMVCContextVar {
 	public boolean isGzipResponse() {
 		final String browserEncodings = getRequestHeader("accept-encoding");
 		return ((browserEncodings != null) && (browserEncodings.indexOf("gzip") != -1))
-				&& ctx.getMVCSettings().isGzipResponse(this) && !isHttpClientRequest();
+				&& mvcContext.getMVCSettings().isGzipResponse(this) && !isHttpClientRequest();
 	}
 
 	public boolean isHttpClientRequest() {
@@ -390,7 +390,7 @@ public class PageRequestResponse implements IMVCContextVar {
 
 	/* 权限相关的一些函数 */
 	public IPagePermissionHandler getPermission() {
-		return ctx.getPermission();
+		return mvcContext.getPermission();
 	}
 
 	public ID getLoginId() {

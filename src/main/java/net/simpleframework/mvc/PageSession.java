@@ -16,7 +16,7 @@ import javax.servlet.http.HttpSessionContext;
 @SuppressWarnings("deprecation")
 public class PageSession implements HttpSession, IMVCContextVar {
 
-	private final MVCEventAdapter adapter = ctx.getEventAdapter();
+	private final MVCEventAdapter adapter = mvcContext.getEventAdapter();
 
 	private final HttpSession httpSession;
 

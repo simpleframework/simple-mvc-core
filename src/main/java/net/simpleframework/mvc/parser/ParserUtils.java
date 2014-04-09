@@ -38,7 +38,7 @@ public abstract class ParserUtils implements IMVCContextVar {
 			scripts = element.select("script[src^=" + src + "]");
 			size = scripts.size();
 			if (size == 0) {
-				src = HttpUtils.addParameters(src, "v=" + ctx.getVersion());
+				src = HttpUtils.addParameters(src, "v=" + mvcContext.getVersion());
 			}
 		}
 		if (size == 0) {
@@ -62,7 +62,7 @@ public abstract class ParserUtils implements IMVCContextVar {
 			links = element.select("link[href^=" + href + "]");
 			size = links.size();
 			if (size == 0) {
-				href = HttpUtils.addParameters(href, "v=" + ctx.getVersion());
+				href = HttpUtils.addParameters(href, "v=" + mvcContext.getVersion());
 			}
 		}
 		if (size == 0) {

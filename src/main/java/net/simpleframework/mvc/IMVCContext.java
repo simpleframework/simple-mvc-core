@@ -56,14 +56,6 @@ public interface IMVCContext extends IApplicationContextBase {
 	boolean isSystemUrl(PageRequestResponse rRequest);
 
 	/**
-	 * 获取模板实例。模板开发者需要继承该接口，该接口完成app和模板的连接
-	 * 
-	 * @param pp
-	 * @return
-	 */
-	ITemplateHandler getTemplate(PageParameter pp);
-
-	/**
 	 * 后处理中，组合html的类
 	 * 
 	 * 通过覆盖，可以自定义自己的html

@@ -26,7 +26,7 @@ public class PermissionFilterListener implements IFilterListener, IMVCContextVar
 	@Override
 	public EFilterResult doFilter(final PageRequestResponse rRequest, final FilterChain filterChain)
 			throws IOException {
-		final IPagePermissionHandler permission = ctx.getPermission();
+		final IPagePermissionHandler permission = mvcContext.getPermission();
 
 		if (rRequest.isHttpRequest()) {
 			// 获取页面角色

@@ -37,7 +37,7 @@ import net.simpleframework.mvc.component.AbstractComponentBean;
  */
 public final class PageParser extends AbstractPageParser {
 
-	private static final MVCHtmlBuilder htmlBuilder = ctx.getPageHtmlBuilder();
+	private static final MVCHtmlBuilder htmlBuilder = mvcContext.getPageHtmlBuilder();
 
 	private Document htmlDoc;
 
