@@ -2,10 +2,12 @@ package net.simpleframework.mvc;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
-import net.simpleframework.common.coll.AbstractKVMap;
 import net.simpleframework.ctx.script.MVEL2Template;
+import net.simpleframework.ctx.script.MVEL2Template.INamedTemplate;
 
 /**
  * Licensed under the Apache License, Version 2.0
@@ -48,18 +50,47 @@ public abstract class AbstractMVELTemplatePage extends AbstractMVCPage {
 				nt == null ? null : nt);
 	}
 
-	public static class NamedTemplate extends AbstractKVMap<String, NamedTemplate> {
+	public static class NamedTemplate implements INamedTemplate {
+		private final Map<String, TemplateVal> templates = new HashMap<String, TemplateVal>();
+
 		private final PageParameter pp;
 
 		public NamedTemplate(final PageParameter pp) {
 			this.pp = pp;
 		}
 
-		public NamedTemplate add(final String key, final Class<? extends AbstractMVCPage> pageClass) {
-			// + "?referer=" + pp.getRequestURI()
-			return add(key, pp.includeUrl(pageClass));
+		@Override
+		public String get(final String key) {
+			final TemplateVal val = templates.get(key);
+			return val != null ? val.getVal(pp) : null;
 		}
 
-		private static final long serialVersionUID = 3291319165215636903L;
+		@Override
+		public Set<String> keySet() {
+			return templates.keySet();
+		}
+
+		public NamedTemplate add(final String key, final Class<? extends AbstractMVCPage> pageClass) {
+			// + "?referer=" + pp.getRequestURI()
+			templates.put(key, new TemplateVal(pageClass));
+			return this;
+		}
+	}
+
+	static class TemplateVal {
+		Class<? extends AbstractMVCPage> pageClass;
+
+		String val;
+
+		TemplateVal(final Class<? extends AbstractMVCPage> pageClass) {
+			this.pageClass = pageClass;
+		}
+
+		String getVal(final PageParameter pp) {
+			if (val == null) {
+				val = pp.includeUrl(pageClass);
+			}
+			return val;
+		}
 	}
 }
