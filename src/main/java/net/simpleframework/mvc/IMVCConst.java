@@ -15,7 +15,7 @@ public interface IMVCConst {
 	/* request parameter */
 	final static String PARAM_XMLPATH = "_xmlpath";
 	final static String PARAM_REFERER = "_referer";
-	final static String PARAM_DOCUMENT = "_document";
+	final static String PARAM_PARENT_PAGE = "_parent";
 
 	/* request attribute */
 
