@@ -139,6 +139,11 @@ public class DefaultPagePermissionHandler extends DefaultPermissionHandler imple
 	}
 
 	@Override
+	public void login(final PageRequestResponse rRequest, final String login, final String password) {
+		login(rRequest, login, password, null);
+	}
+
+	@Override
 	public void logout(final PageRequestResponse rRequest) {
 		throw NotImplementedException.of(getClass(), "logout");
 	}

@@ -53,6 +53,8 @@ public interface IPagePermissionHandler extends IPermissionHandler {
 	void login(PageRequestResponse rRequest, String login, String password,
 			Map<String, Object> params);
 
+	void login(PageRequestResponse rRequest, String login, String password);
+
 	/**
 	 * 注销
 	 * 
