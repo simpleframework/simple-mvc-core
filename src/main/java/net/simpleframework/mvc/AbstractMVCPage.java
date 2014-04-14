@@ -2,6 +2,7 @@ package net.simpleframework.mvc;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
@@ -127,10 +128,6 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 		addHtmlViewVariable(pp, pageClass, variable, getClassName(pageClass) + ".html");
 	}
 
-	protected String getMethod(final PageParameter pp) {
-		return pp.getParameter("method");
-	}
-
 	/**
 	 * 页面的核心处理方法，该方法将委托给onForward和toHTML分别处理页面逻辑及展示
 	 * 
@@ -140,20 +137,29 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 	 * @return
 	 */
 	public IForward forward(final PageParameter pp) {
-		onForward(pp);
-		final String methodStr = getMethod(pp);
-		if (StringUtils.hasText(methodStr)) {
-			try {
-				return (IForward) ClassUtils.invoke(getClass()
-						.getMethod(methodStr, PageParameter.class), this, pp);
-			} catch (final NoSuchMethodException e) {
-				log.warn(e);
-			}
+		final IForward _forward = getMethodForward(pp);
+		if (_forward != null) {
+			return _forward;
 		}
+
+		onForward(pp);
 		try {
 			return new TextForward(getPageForward(pp, getClass(), getVariables(pp)));
 		} catch (final IOException e) {
 			log.warn(e);
+		}
+		return null;
+	}
+
+	protected IForward getMethodForward(final PageParameter pp) {
+		final String method = pp.getParameter("method");
+		if (StringUtils.hasText(method)) {
+			try {
+				final Method _method = getClass().getMethod(method, PageParameter.class);
+				return (IForward) ClassUtils.invoke(_method, this, pp);
+			} catch (final NoSuchMethodException e) {
+				log.warn(e);
+			}
 		}
 		return null;
 	}
