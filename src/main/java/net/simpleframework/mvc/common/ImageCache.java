@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
+import net.simpleframework.common.Convert;
 import net.simpleframework.common.FileUtils;
 import net.simpleframework.common.ImageUtils;
 import net.simpleframework.common.StringUtils;
@@ -62,7 +63,7 @@ public class ImageCache extends ObjectEx {
 		}
 	}
 
-	public ImageCache(final InputStream inputStream, final String id, final int width,
+	public ImageCache(final InputStream inputStream, final Object id, final int width,
 			final int height) {
 		filename = load(id, width, height, new IImageStream() {
 			@Override
@@ -72,9 +73,9 @@ public class ImageCache extends ObjectEx {
 		});
 	}
 
-	private String load(final String imageId, final int width, final int height,
+	private String load(final Object imageId, final int width, final int height,
 			final IImageStream imageLoad) {
-		String filename = imageId;
+		String filename = Convert.toString(imageId);
 		if (width > 0) {
 			filename += "_" + width;
 		}

@@ -9,6 +9,7 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import net.simpleframework.common.BeanUtils;
 import net.simpleframework.common.ClassUtils;
 import net.simpleframework.common.Convert;
 import net.simpleframework.common.DateUtils;
@@ -580,5 +581,14 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 
 	public IComponentHandler createComponentHandler(final ComponentParameter cp) {
 		return null;
+	}
+
+	protected void setBeanProperties(final PageParameter pp, final Object bean, final String... keys) {
+		for (final String k : keys) {
+			final String val = pp.getParameter(k);
+			if (val != null) {
+				BeanUtils.setProperty(bean, k, val);
+			}
+		}
 	}
 }
