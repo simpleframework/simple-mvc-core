@@ -187,7 +187,8 @@ public class PageRequestResponse implements IMVCContextVar {
 	}
 
 	public boolean isMultipartRequest() {
-		return request.getContentType().toLowerCase().contains("multipart/");
+		final String type = request.getContentType();
+		return type != null && type.toLowerCase().contains("multipart/");
 	}
 
 	// Response Wrapper
