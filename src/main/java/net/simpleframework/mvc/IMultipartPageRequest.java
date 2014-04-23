@@ -1,5 +1,7 @@
 package net.simpleframework.mvc;
 
+import java.util.Enumeration;
+
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -11,4 +13,11 @@ import javax.servlet.http.HttpServletRequest;
 public interface IMultipartPageRequest extends HttpServletRequest {
 
 	IMultipartFile getFile(String name);
+
+	/**
+	 * 获取所有的附件名称
+	 * 
+	 * @return
+	 */
+	Enumeration<String> getFileNames();
 }

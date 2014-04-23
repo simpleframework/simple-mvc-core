@@ -186,6 +186,10 @@ public class PageRequestResponse implements IMVCContextVar {
 		return request.getCookies();
 	}
 
+	public boolean isMultipartRequest() {
+		return request.getContentType().toLowerCase().contains("multipart/");
+	}
+
 	// Response Wrapper
 
 	public PrintWriter getResponseWriter() throws IOException {

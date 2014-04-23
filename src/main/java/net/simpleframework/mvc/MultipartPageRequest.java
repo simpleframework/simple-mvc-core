@@ -52,6 +52,12 @@ public class MultipartPageRequest extends HttpServletRequestWrapper implements
 		return mRequest.getParameter(name);
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public Enumeration<String> getFileNames() {
+		return (Enumeration<String>) mRequest.getFileNames();
+	}
+
 	@Override
 	public IMultipartFile getFile(final String name) {
 		return new IMultipartFile() {
