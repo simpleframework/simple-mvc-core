@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
+import net.simpleframework.ado.bean.IAttachmentLobAware;
 import net.simpleframework.common.Convert;
 import net.simpleframework.common.FileUtils;
 import net.simpleframework.common.ImageUtils;
@@ -71,6 +72,10 @@ public class ImageCache extends ObjectEx {
 				return inputStream;
 			}
 		});
+	}
+
+	public ImageCache(final IAttachmentLobAware lob, final int width, final int height) {
+		this(lob.getAttachment(), lob.getMd(), width, height);
 	}
 
 	private String load(final Object imageId, final int width, final int height,
