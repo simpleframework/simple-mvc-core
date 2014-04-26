@@ -36,6 +36,10 @@ public class JsonForward extends TextForward {
 		return this;
 	}
 
+	public Object get(final String key) {
+		return kv.get(key);
+	}
+
 	@Override
 	public String getResponseText(final PageRequestResponse rRequest) {
 		return kv.toJSON();
