@@ -96,6 +96,10 @@ public class PageRequestResponse implements IMVCContextVar {
 		return Convert.toShort(getParameter(key));
 	}
 
+	public float getFloatParameter(final String key) {
+		return Convert.toFloat(getParameter(key));
+	}
+
 	public double getDoubleParameter(final String key) {
 		return Convert.toDouble(getParameter(key));
 	}
