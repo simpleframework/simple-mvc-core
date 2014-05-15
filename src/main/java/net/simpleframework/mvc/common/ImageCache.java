@@ -34,39 +34,39 @@ public class ImageCache extends ObjectEx {
 		FileUtils.createDirectoryRecursively(new File(MVCUtils.getRealPath(CACHE_PATH)));
 	}
 
-	private String filename;
+	private String _filename;
 
 	public ImageCache(final String url) {
-		this(url, 128, 128);
+		this(url, 128, 128, false);
 	}
 
-	public ImageCache(final String oUrl, final int width, final int height) {
+	public ImageCache(final String oUrl, final int width, final int height, final boolean overwrite) {
 		if (StringUtils.hasText(oUrl)) {
-			filename = load(ObjectUtils.hashStr(oUrl), width, height, new IImageStream() {
+			_filename = load(ObjectUtils.hashStr(oUrl), width, height, overwrite, new IImageStream() {
 				@Override
 				public InputStream getInputStream() {
-					InputStream inputStream = null;
+					InputStream is = null;
 					try {
 						if (HttpUtils.isAbsoluteUrl(oUrl)) {
-							inputStream = new URL(oUrl).openStream();
+							is = new URL(oUrl).openStream();
 						}
 					} catch (final IOException e) {
 					}
-					if (inputStream == null) {
+					if (is == null) {
 						try {
-							inputStream = new FileInputStream(new File(MVCUtils.getRealPath(oUrl)));
+							is = new FileInputStream(new File(MVCUtils.getRealPath(oUrl)));
 						} catch (final FileNotFoundException e) {
 						}
 					}
-					return inputStream;
+					return is;
 				}
 			});
 		}
 	}
 
 	public ImageCache(final InputStream inputStream, final Object id, final int width,
-			final int height) {
-		filename = load(id, width, height, new IImageStream() {
+			final int height, final boolean overwrite) {
+		_filename = load(id, width, height, overwrite, new IImageStream() {
 			@Override
 			public InputStream getInputStream() {
 				return inputStream;
@@ -74,13 +74,23 @@ public class ImageCache extends ObjectEx {
 		});
 	}
 
-	public ImageCache(final IAttachmentLobAware lob, final int width, final int height) {
-		this(lob.getAttachment(), lob.getMd(), width, height);
+	public ImageCache(final InputStream inputStream, final Object id, final int width,
+			final int height) {
+		this(inputStream, id, width, height, false);
 	}
 
-	private String load(final Object imageId, final int width, final int height,
+	public ImageCache(final IAttachmentLobAware lob, final int width, final int height,
+			final boolean overwrite) {
+		this(lob.getAttachment(), lob.getMd(), width, height, overwrite);
+	}
+
+	public ImageCache(final IAttachmentLobAware lob, final int width, final int height) {
+		this(lob, width, height, false);
+	}
+
+	private String load(final Object id, final int width, final int height, final boolean overwrite,
 			final IImageStream imageLoad) {
-		String filename = Convert.toString(imageId);
+		String filename = Convert.toString(id);
 		if (width > 0) {
 			filename += "_" + width;
 		}
@@ -88,14 +98,13 @@ public class ImageCache extends ObjectEx {
 			filename += "_" + height;
 		}
 		filename += ".png";
-		final File cFile = new File(MVCUtils.getRealPath(CACHE_PATH) + File.separator + filename);
+		final File oFile = new File(MVCUtils.getRealPath(CACHE_PATH) + File.separator + filename);
 		synchronized (CACHE_PATH) {
-			if (!cFile.exists() || cFile.length() == 0) {
-				final InputStream inputStream = imageLoad.getInputStream();
-				if (inputStream != null) {
+			if (overwrite || !oFile.exists() || oFile.length() == 0) {
+				final InputStream is = imageLoad.getInputStream();
+				if (is != null) {
 					try {
-						ImageUtils.thumbnail(inputStream, width, height, new FileOutputStream(cFile),
-								"png");
+						ImageUtils.thumbnail(is, width, height, new FileOutputStream(oFile), "png");
 					} catch (final IOException e) {
 						log.warn(e);
 					}
@@ -107,12 +116,17 @@ public class ImageCache extends ObjectEx {
 		return filename;
 	}
 
-	public String getPath() {
-		return StringUtils.hasText(filename) ? CACHE_PATH + filename : NO_IMAGE_PATH;
+	public String getPath(final PageRequestResponse rRequest) {
+		return getPath(rRequest, false);
 	}
 
-	public String getPath(final PageRequestResponse rRequest) {
-		return rRequest.wrapContextPath(getPath());
+	public String getPath(final PageRequestResponse rRequest, final boolean timestamp) {
+		String path = rRequest.wrapContextPath(StringUtils.hasText(_filename) ? CACHE_PATH
+				+ _filename : NO_IMAGE_PATH);
+		if (timestamp) {
+			path = HttpUtils.addParameters(path, "t=" + System.currentTimeMillis());
+		}
+		return path;
 	}
 
 	interface IImageStream {
