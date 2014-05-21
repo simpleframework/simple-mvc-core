@@ -26,8 +26,11 @@ import net.simpleframework.mvc.PageRequestResponse;
  *         http://www.simpleframework.net
  */
 public class ImageCache extends ObjectEx {
-	private static final String NO_IMAGE_PATH = MVCUtils.getPageResourcePath()
-			+ "/images/no_image.jpg";
+	public static void setNoImagePath(final String path) {
+		NO_IMAGE_PATH = path;
+	}
+
+	private static String NO_IMAGE_PATH = MVCUtils.getPageResourcePath() + "/images/no_image.jpg";
 
 	private static final String CACHE_PATH = "/$image_cache/";
 	static {
@@ -121,8 +124,16 @@ public class ImageCache extends ObjectEx {
 	}
 
 	public String getPath(final PageRequestResponse rRequest, final boolean timestamp) {
-		String path = rRequest.wrapContextPath(StringUtils.hasText(_filename) ? CACHE_PATH
-				+ _filename : NO_IMAGE_PATH);
+		String path;
+		if (StringUtils.hasText(_filename)) {
+			path = rRequest.wrapContextPath(CACHE_PATH + _filename);
+		} else {
+			if (StringUtils.hasText(NO_IMAGE_PATH)) {
+				path = rRequest.wrapContextPath(NO_IMAGE_PATH);
+			} else {
+				return null;
+			}
+		}
 		if (timestamp) {
 			path = HttpUtils.addParameters(path, "t=" + System.currentTimeMillis());
 		}
