@@ -31,12 +31,7 @@ public abstract class DownloadUtils {
 			final Class<? extends IDownloadHandler> handlerClass) {
 		final StringBuilder sb = new StringBuilder();
 		sb.append(MVCUtils.getPageResourcePath()).append("/jsp/download.jsp?filename=");
-		String topic = af.getTopic();
-		final String type = af.getType();
-		if (type != null && !topic.endsWith(type)) {
-			topic += "." + type;
-		}
-		sb.append(HttpUtils.encodeUrl(topic));
+		sb.append(HttpUtils.encodeUrl(af.toFilename()));
 		sb.append("&path=");
 		try {
 			final File attachment = af.getAttachment();
