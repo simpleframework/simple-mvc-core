@@ -39,8 +39,15 @@ public class ImageCache extends ObjectEx {
 
 	private String _filename;
 
+	public ImageCache() {
+	}
+
 	public ImageCache(final String url) {
-		this(url, 128, 128, false);
+		this(url, 128, 128);
+	}
+
+	public ImageCache(final String oUrl, final int width, final int height) {
+		this(oUrl, width, height, false);
 	}
 
 	public ImageCache(final String oUrl, final int width, final int height, final boolean overwrite) {
