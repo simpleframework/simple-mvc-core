@@ -38,6 +38,17 @@ public class Option extends AbstractElement<Option> {
 		return opts;
 	}
 
+	public static void setSelected(final Option[] opts, final Enum<?> val) {
+		if (opts != null && val != null) {
+			for (final Option opt : opts) {
+				if (val.name().equals(opt.getName())) {
+					opt.setSelected(true);
+					break;
+				}
+			}
+		}
+	}
+
 	private boolean selected;
 
 	public Option() {
