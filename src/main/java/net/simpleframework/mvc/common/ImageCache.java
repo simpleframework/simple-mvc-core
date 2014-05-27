@@ -107,14 +107,14 @@ public class ImageCache extends ObjectEx {
 		if (height > 0) {
 			filename += "_" + height;
 		}
-		filename += ".png";
+		filename += ".jpg";
 		final File oFile = new File(MVCUtils.getRealPath(CACHE_PATH) + File.separator + filename);
 		synchronized (CACHE_PATH) {
 			if (overwrite || !oFile.exists() || oFile.length() == 0) {
 				final InputStream is = imageLoad.getInputStream();
 				if (is != null) {
 					try {
-						ImageUtils.thumbnail(is, width, height, new FileOutputStream(oFile), "png");
+						ImageUtils.thumbnail(is, width, height, new FileOutputStream(oFile), "jpg");
 					} catch (final IOException e) {
 						log.warn(e);
 					}
