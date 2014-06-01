@@ -7,6 +7,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 import net.simpleframework.ado.bean.IAttachmentLobAware;
 import net.simpleframework.common.Convert;
@@ -107,21 +109,22 @@ public class ImageCache extends ObjectEx {
 		this(lob, filetype, width, height, false);
 	}
 
+	private static Map<String, String> cache = new HashMap<String, String>();
+
 	private String load(final Object id, final String filetype, final int width, final int height,
-			final boolean overwrite, final IImageStream imageLoad) {
+			boolean overwrite, final IImageStream iStream) {
 		String filename = Convert.toString(id);
-		if (width > 0) {
-			filename += "_" + width;
-		}
-		if (height > 0) {
-			filename += "_" + height;
+		final String val = width + "_" + height;
+		if (!val.equals(cache.get(filename))) {
+			cache.put(filename, val);
+			overwrite = true;
 		}
 		final String _type = StringUtils.hasText(filetype) ? filetype.toLowerCase() : "jpg";
 		filename += "." + _type;
 		final File oFile = new File(MVCUtils.getRealPath(CACHE_PATH) + File.separator + filename);
 		synchronized (CACHE_PATH) {
 			if (overwrite || !oFile.exists() || oFile.length() == 0) {
-				final InputStream is = imageLoad.getInputStream();
+				final InputStream is = iStream.getInputStream();
 				if (is != null) {
 					try {
 						ImageUtils.thumbnail(is, width, height, new FileOutputStream(oFile), _type);
