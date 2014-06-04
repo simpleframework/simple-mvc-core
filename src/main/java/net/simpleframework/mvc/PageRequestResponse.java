@@ -364,7 +364,8 @@ public class PageRequestResponse implements IMVCContextVar {
 			return null;
 		}
 		final int end = userAgent.indexOf(";", start);
-		return Convert.toFloat(userAgent.substring(start + 5, end));
+		final float ver = Convert.toFloat(userAgent.substring(start + 5, end), 0);
+		return ver == 0 ? null : ver;
 	}
 
 	public boolean loc(final String url) throws IOException {
