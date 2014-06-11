@@ -41,6 +41,12 @@ public class JsonForward extends TextForward {
 	}
 
 	@Override
+	public void clear() {
+		super.clear();
+		kv.clear();
+	}
+
+	@Override
 	public String getResponseText(final PageRequestResponse rRequest) {
 		return kv.toJSON();
 	}
