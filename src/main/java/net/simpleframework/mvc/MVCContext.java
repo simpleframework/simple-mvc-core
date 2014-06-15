@@ -187,7 +187,7 @@ public class MVCContext extends AbstractApplicationContextBase implements IMVCCo
 		if (requestURI.endsWith(".jsp")) {
 			return true;
 		}
-		if (requestURI.indexOf("jsessionid=") > -1) {
+		if (requestURI.indexOf(IMVCConst.JSESSIONID + "=") > -1) {
 			return true;
 		}
 		final String lPath = getMVCSettings().getLoginPath(rRequest);
