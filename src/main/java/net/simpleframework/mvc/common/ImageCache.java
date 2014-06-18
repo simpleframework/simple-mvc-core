@@ -12,7 +12,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.simpleframework.ado.bean.IAttachmentLobAware;
 import net.simpleframework.common.Convert;
 import net.simpleframework.common.FileUtils;
 import net.simpleframework.common.ImageUtils;
@@ -56,8 +55,8 @@ public class ImageCache extends ObjectEx {
 
 	private static Map<String, List<String>> cache = new HashMap<String, List<String>>();
 
-	private String _load(final Object id, final IImageStream iStream) {
-		final String _id = Convert.toString(id);
+	private String _load(final ImageStream iStream) {
+		final String _id = Convert.toString(iStream.id);
 		String filename = _id;
 		if (scale > 0) {
 			filename += "_" + scale;
@@ -95,50 +94,47 @@ public class ImageCache extends ObjectEx {
 
 		synchronized (CACHE_PATH) {
 			if (!oFile.exists() || oFile.length() == 0) {
-				final InputStream is = iStream.getInputStream();
-				if (is != null) {
-					try {
+				try {
+					final InputStream is = iStream.getInputStream();
+					if (is != null) {
 						if (scale > 0) {
 							ImageUtils.thumbnail(is, scale, new FileOutputStream(oFile), _type);
 						} else {
 							ImageUtils.thumbnail(is, width, height, new FileOutputStream(oFile), _type);
 						}
-					} catch (final IOException e) {
-						log.warn(e);
+					} else {
+						return null;
 					}
-				} else {
-					return null;
+				} catch (final IOException e) {
+					log.warn(e);
 				}
 			}
 		}
 		return filename;
 	}
 
-	public String getPath(final PageRequestResponse rRequest, final InputStream inputStream,
-			final Object id) {
-		_filename = _load(id, new IImageStream() {
-			@Override
-			public InputStream getInputStream() {
-				return inputStream;
-			}
-		});
+	public String getPath(final PageRequestResponse rRequest, final ImageStream iStream) {
+		_filename = _load(iStream);
 		return getPath(rRequest);
-	}
-
-	public String getPath(final PageRequestResponse rRequest, final IAttachmentLobAware lob) {
-		return getPath(rRequest, lob.getAttachment(), lob.getMd());
 	}
 
 	public String getPath(final PageRequestResponse rRequest, final AttachmentFile aFile)
 			throws IOException {
 		filetype = aFile.getExt();
-		return getPath(rRequest, new FileInputStream(aFile.getAttachment()), aFile.getMd5());
+		return getPath(rRequest, new ImageStream(aFile.getMd5()) {
+
+			@Override
+			public InputStream getInputStream() throws IOException {
+				return new FileInputStream(aFile.getAttachment());
+			}
+		});
 	}
 
 	public String getPath(final PageRequestResponse rRequest, final String oUrl) {
 		if (StringUtils.hasText(oUrl)) {
 			filetype = FileUtils.getFilenameExtension(oUrl);
-			_filename = _load(ObjectUtils.hashStr(oUrl), new IImageStream() {
+			_filename = _load(new ImageStream(ObjectUtils.hashStr(oUrl)) {
+
 				@Override
 				public InputStream getInputStream() {
 					InputStream is = null;
@@ -203,8 +199,14 @@ public class ImageCache extends ObjectEx {
 		return this;
 	}
 
-	interface IImageStream {
+	public static abstract class ImageStream {
 
-		InputStream getInputStream();
+		final Object id;
+
+		public ImageStream(final Object id) {
+			this.id = id;
+		}
+
+		protected abstract InputStream getInputStream() throws IOException;
 	}
 }
