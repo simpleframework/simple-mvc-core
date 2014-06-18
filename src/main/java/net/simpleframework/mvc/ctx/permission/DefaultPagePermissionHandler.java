@@ -1,6 +1,7 @@
 package net.simpleframework.mvc.ctx.permission;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,6 +10,7 @@ import java.util.Map;
 import net.simpleframework.common.FileUtils;
 import net.simpleframework.common.ID;
 import net.simpleframework.common.ImageUtils;
+import net.simpleframework.common.IoUtils;
 import net.simpleframework.common.StringUtils;
 import net.simpleframework.common.th.NotImplementedException;
 import net.simpleframework.ctx.permission.DefaultPermissionHandler;
@@ -88,7 +90,8 @@ public class DefaultPagePermissionHandler extends DefaultPermissionHandler imple
 		final String path = MVCUtils.getPageResourcePath() + "/images";
 		final PermissionUser pUser = user instanceof PermissionUser ? (PermissionUser) user
 				: getUser(user);
-		final File photoCache = new File(MVCUtils.getRealPath(path + "/photo-cache/"));
+		final String hPath = path + "/photo-cache/";
+		final File photoCache = new File(MVCUtils.getRealPath(hPath));
 		if (!photoCache.exists()) {
 			FileUtils.createDirectoryRecursively(photoCache);
 		}
@@ -96,18 +99,19 @@ public class DefaultPagePermissionHandler extends DefaultPermissionHandler imple
 		final File photoFile = new File(photoCache.getAbsolutePath() + File.separator + filename);
 		if (!photoFile.exists() || photoFile.length() == 0) {
 			final InputStream inputStream = pUser.getPhotoStream();
-			if (inputStream == null) {
-				sb.append(path).append("/none_user.gif");
-				return sb.toString();
-			} else {
-				try {
+			try {
+				if (inputStream == null) {
+					IoUtils.copyStream(
+							new FileInputStream(MVCUtils.getRealPath(path + "/none_user.gif")),
+							new FileOutputStream(photoFile));
+				} else {
 					ImageUtils.thumbnail(inputStream, width, height, new FileOutputStream(photoFile));
-				} catch (final IOException e) {
-					log.warn(e);
 				}
+			} catch (final IOException e) {
+				log.warn(e);
 			}
 		}
-		sb.append(path).append("/photo-cache/").append(filename);
+		sb.append(hPath).append(filename);
 		return sb.toString();
 	}
 
