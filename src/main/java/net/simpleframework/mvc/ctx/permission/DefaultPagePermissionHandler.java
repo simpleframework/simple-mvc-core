@@ -85,29 +85,29 @@ public class DefaultPagePermissionHandler extends DefaultPermissionHandler imple
 	public String getPhotoUrl(final PageRequestResponse rRequest, final Object user,
 			final int width, final int height) {
 		final StringBuilder sb = new StringBuilder();
-		String path = MVCUtils.getPageResourcePath() + "/images";
+		final String path = MVCUtils.getPageResourcePath() + "/images";
 		final PermissionUser pUser = user instanceof PermissionUser ? (PermissionUser) user
 				: getUser(user);
-		final InputStream inputStream = pUser.getPhotoStream();
-		if (inputStream == null) {
-			sb.append(path).append("/none_user.gif");
-		} else {
-			path += "/photo-cache/";
-			final File photoCache = new File(MVCUtils.getRealPath(path));
-			if (!photoCache.exists()) {
-				FileUtils.createDirectoryRecursively(photoCache);
-			}
-			final String filename = pUser.getId() + "_" + width + "_" + height + ".png";
-			final File photoFile = new File(photoCache.getAbsolutePath() + File.separator + filename);
-			if (!photoFile.exists() || photoFile.length() == 0) {
+		final File photoCache = new File(MVCUtils.getRealPath(path + "/photo-cache/"));
+		if (!photoCache.exists()) {
+			FileUtils.createDirectoryRecursively(photoCache);
+		}
+		final String filename = pUser.getId() + "_" + width + "_" + height + ".png";
+		final File photoFile = new File(photoCache.getAbsolutePath() + File.separator + filename);
+		if (!photoFile.exists() || photoFile.length() == 0) {
+			final InputStream inputStream = pUser.getPhotoStream();
+			if (inputStream == null) {
+				sb.append(path).append("/none_user.gif");
+				return sb.toString();
+			} else {
 				try {
 					ImageUtils.thumbnail(inputStream, width, height, new FileOutputStream(photoFile));
 				} catch (final IOException e) {
 					log.warn(e);
 				}
 			}
-			sb.append(path).append(filename);
 		}
+		sb.append(path).append("/photo-cache/").append(filename);
 		return sb.toString();
 	}
 
