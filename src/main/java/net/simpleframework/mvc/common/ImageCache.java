@@ -102,12 +102,12 @@ public class ImageCache extends ObjectEx {
 						} else {
 							ImageUtils.thumbnail(is, width, height, new FileOutputStream(oFile), _type);
 						}
-					} else {
-						return null;
+						return filename;
 					}
 				} catch (final IOException e) {
 					log.warn(e);
 				}
+				return null;
 			}
 		}
 		return filename;
