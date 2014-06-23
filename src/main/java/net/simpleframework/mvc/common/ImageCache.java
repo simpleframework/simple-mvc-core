@@ -105,7 +105,7 @@ public class ImageCache extends ObjectEx {
 						return filename;
 					}
 				} catch (final IOException e) {
-					log.warn(e);
+					log.warn(e.getMessage());
 				}
 				return null;
 			}
