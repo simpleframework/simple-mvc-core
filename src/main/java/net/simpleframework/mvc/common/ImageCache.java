@@ -20,6 +20,7 @@ import net.simpleframework.common.object.ObjectEx;
 import net.simpleframework.common.object.ObjectUtils;
 import net.simpleframework.common.web.HttpUtils;
 import net.simpleframework.ctx.common.bean.AttachmentFile;
+import net.simpleframework.mvc.IMVCContextVar;
 import net.simpleframework.mvc.MVCUtils;
 import net.simpleframework.mvc.PageRequestResponse;
 
@@ -29,7 +30,7 @@ import net.simpleframework.mvc.PageRequestResponse;
  * @author 陈侃(cknet@126.com, 13910090885) https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
-public class ImageCache extends ObjectEx {
+public class ImageCache extends ObjectEx implements IMVCContextVar {
 	public static void setNoImagePath(final String path) {
 		NO_IMAGE_PATH = path;
 	}
@@ -105,7 +106,7 @@ public class ImageCache extends ObjectEx {
 						return filename;
 					}
 				} catch (final IOException e) {
-					log.warn(e.getMessage());
+					log.warn(mvcContext.getThrowableMessage(e));
 				}
 				return null;
 			}
