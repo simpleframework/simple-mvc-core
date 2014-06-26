@@ -105,7 +105,7 @@ public class ImageCache extends ObjectEx implements IMVCContextVar {
 						}
 						return filename;
 					}
-				} catch (final IOException e) {
+				} catch (final Exception e) {
 					log.warn(mvcContext.getThrowableMessage(e));
 				}
 				return null;
