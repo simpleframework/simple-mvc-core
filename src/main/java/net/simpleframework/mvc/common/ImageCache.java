@@ -7,14 +7,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import net.simpleframework.common.Convert;
 import net.simpleframework.common.FileUtils;
 import net.simpleframework.common.ImageUtils;
+import net.simpleframework.common.IoUtils;
 import net.simpleframework.common.StringUtils;
 import net.simpleframework.common.object.ObjectEx;
 import net.simpleframework.common.object.ObjectUtils;
@@ -38,15 +35,16 @@ public class ImageCache extends ObjectEx implements IMVCContextVar {
 	private static String NO_IMAGE_PATH = MVCUtils.getPageResourcePath() + "/images/no_image.jpg";
 
 	private static final String CACHE_PATH = "/$image_cache/";
-	static {
-		FileUtils.createDirectoryRecursively(new File(MVCUtils.getRealPath(CACHE_PATH)));
-	}
 
 	private static IImageLoadHandler _handler;
 
 	public static IImageLoadHandler getImageLoadHandler() {
 		if (_handler == null) {
 			_handler = new IImageLoadHandler() {
+				@Override
+				public String load(final ImageCache iCache, final ImageStream iStream) {
+					return iCache._load(iStream);
+				}
 			};
 		}
 		return _handler;
@@ -68,68 +66,47 @@ public class ImageCache extends ObjectEx implements IMVCContextVar {
 
 	private String filetype;
 
-	private static Map<String, List<String>> cache = new HashMap<String, List<String>>();
-
 	private String _load(final ImageStream iStream) {
 		final String _id = Convert.toString(iStream.id);
-		String filename = _id;
-		if (scale > 0) {
-			filename += "_" + scale;
-		} else {
-			if (width > 0) {
-				filename += "_" + width;
-			}
-			if (height > 0) {
-				filename += "_" + height;
-			}
-		}
-
-		final boolean m = !filename.equals(_id);
-		final String _type = StringUtils.hasText(filetype) ? filetype.toLowerCase() : "jpg";
-		filename += "." + _type;
-		if (m) {
-			List<String> l = cache.get(_id);
-			if (l == null) {
-				cache.put(_id, l = new ArrayList<String>());
-			}
-			l.add(filename);
-		}
-
-		final String cpath = MVCUtils.getRealPath(CACHE_PATH);
-		final File oFile = new File(cpath + File.separator + filename);
+		final File dir = new File(MVCUtils.getRealPath(CACHE_PATH + _id));
 		if (overwrite) {
-			oFile.delete();
-			final List<String> l = cache.get(_id);
-			if (l != null) {
-				for (final String s : l) {
-					new File(cpath + File.separator + s).delete();
-				}
-			}
+			dir.delete();
 		}
 
-		synchronized (CACHE_PATH) {
-			if (!oFile.exists() || oFile.length() == 0) {
-				try {
-					final InputStream is = iStream.getInputStream();
-					if (is != null) {
-						if (scale > 0) {
-							ImageUtils.thumbnail(is, scale, new FileOutputStream(oFile), _type);
-						} else {
-							ImageUtils.thumbnail(is, width, height, new FileOutputStream(oFile), _type);
+		if (FileUtils.createDirectoryRecursively(dir)) {
+			String filename = scale > 0 ? "" + scale : width + "_" + height;
+			final String _type = StringUtils.hasText(filetype) ? filetype.toLowerCase() : "jpg";
+			filename += "." + _type;
+
+			final File oFile = new File(dir.getAbsolutePath() + File.separator + filename);
+			synchronized (dir) {
+				if (!oFile.exists() || oFile.length() == 0) {
+					try {
+						final InputStream is = iStream.getInputStream();
+						if (is != null) {
+							if (scale > 0) {
+								ImageUtils.thumbnail(is, scale, new FileOutputStream(oFile), _type);
+							} else {
+								if (width == 0 && height == 0) {
+									IoUtils.copyStream(is, new FileOutputStream(oFile));
+								} else {
+									ImageUtils.thumbnail(is, width, height, new FileOutputStream(oFile),
+											_type);
+								}
+							}
 						}
-						return filename;
+					} catch (final Exception e) {
+						log.warn(mvcContext.getThrowableMessage(e));
 					}
-				} catch (final Exception e) {
-					log.warn(mvcContext.getThrowableMessage(e));
 				}
-				return null;
 			}
+			return _id + "/" + filename;
 		}
-		return filename;
+		return null;
 	}
 
 	public String getPath(final PageRequestResponse rRequest, final ImageStream iStream) {
-		_filename = _load(iStream);
+		_filename = getImageLoadHandler().load(this, iStream);
 		return getPath(rRequest);
 	}
 
@@ -148,7 +125,7 @@ public class ImageCache extends ObjectEx implements IMVCContextVar {
 	public String getPath(final PageRequestResponse rRequest, final String oUrl) {
 		if (StringUtils.hasText(oUrl)) {
 			filetype = FileUtils.getFilenameExtension(oUrl);
-			_filename = _load(new ImageStream(ObjectUtils.hashStr(oUrl)) {
+			_filename = getImageLoadHandler().load(this, new ImageStream(ObjectUtils.hashStr(oUrl)) {
 
 				@Override
 				public InputStream getInputStream() {
@@ -227,5 +204,6 @@ public class ImageCache extends ObjectEx implements IMVCContextVar {
 
 	public static interface IImageLoadHandler {
 
+		String load(ImageCache iCache, ImageStream iStream);
 	}
 }
