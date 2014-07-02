@@ -41,10 +41,6 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 
 	private String lookupPath;
 
-	public AbstractMVCPage() {
-		this.enableAttributes();
-	}
-
 	/**
 	 * 页面创建时运行
 	 * 

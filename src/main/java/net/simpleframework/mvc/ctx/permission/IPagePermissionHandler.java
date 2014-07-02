@@ -21,7 +21,7 @@ public interface IPagePermissionHandler extends IPermissionHandler {
 	 * 
 	 * @param compParameter
 	 * @param role
-	 *           角色名
+	 *        角色名
 	 * @return
 	 */
 	IForward accessForward(PageRequestResponse rRequest, Object role);

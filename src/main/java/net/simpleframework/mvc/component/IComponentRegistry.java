@@ -33,7 +33,7 @@ public interface IComponentRegistry {
 	 * 
 	 * @param pParameter
 	 * @param data
-	 *           根据xml元素或map对象对象创建
+	 *        根据xml元素或map对象对象创建
 	 * @return
 	 */
 	AbstractComponentBean createComponentBean(PageParameter pp, Object attriData);

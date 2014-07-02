@@ -42,6 +42,20 @@ public class ImageCache extends ObjectEx implements IMVCContextVar {
 		FileUtils.createDirectoryRecursively(new File(MVCUtils.getRealPath(CACHE_PATH)));
 	}
 
+	private static IImageLoadHandler _handler;
+
+	public static IImageLoadHandler getImageLoadHandler() {
+		if (_handler == null) {
+			_handler = new IImageLoadHandler() {
+			};
+		}
+		return _handler;
+	}
+
+	public static void setImageLoadHandler(final IImageLoadHandler _handler) {
+		ImageCache._handler = _handler;
+	}
+
 	private String _filename;
 
 	private int width = 0;
@@ -209,5 +223,9 @@ public class ImageCache extends ObjectEx implements IMVCContextVar {
 		}
 
 		protected abstract InputStream getInputStream() throws IOException;
+	}
+
+	public static interface IImageLoadHandler {
+
 	}
 }
