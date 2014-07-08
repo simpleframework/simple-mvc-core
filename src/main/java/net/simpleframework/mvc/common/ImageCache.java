@@ -34,7 +34,7 @@ public class ImageCache extends ObjectEx implements IMVCContextVar {
 
 	private static String NO_IMAGE_PATH = MVCUtils.getPageResourcePath() + "/images/no_image.jpg";
 
-	private static final String CACHE_PATH = "/$image_cache/";
+	private static final String CACHE_PATH = "/_imagecache/";
 
 	private static IImageLoadHandler _handler;
 
