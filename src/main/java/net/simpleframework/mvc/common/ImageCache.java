@@ -70,7 +70,10 @@ public class ImageCache extends ObjectEx implements IMVCContextVar {
 		final String _id = Convert.toString(iStream.id);
 		final File dir = new File(MVCUtils.getRealPath(CACHE_PATH + _id));
 		if (overwrite) {
-			dir.delete();
+			try {
+				FileUtils.deleteAll(dir, true);
+			} catch (final IOException e) {
+			}
 		}
 
 		if (FileUtils.createDirectoryRecursively(dir)) {
@@ -80,24 +83,30 @@ public class ImageCache extends ObjectEx implements IMVCContextVar {
 
 			final File oFile = new File(dir.getAbsolutePath() + File.separator + filename);
 			synchronized (dir) {
-				if (!oFile.exists() || oFile.length() == 0) {
-					try {
-						final InputStream is = iStream.getInputStream();
-						if (is != null) {
+				try {
+					InputStream is;
+					if ((!oFile.exists() || oFile.length() == 0)
+							&& (is = iStream.getInputStream()) != null) {
+						final FileOutputStream fos = new FileOutputStream(oFile);
+						try {
 							if (scale > 0) {
-								ImageUtils.thumbnail(is, scale, new FileOutputStream(oFile), _type);
+								ImageUtils.thumbnail(is, scale, fos, _type);
 							} else {
 								if (width == 0 && height == 0) {
-									IoUtils.copyStream(is, new FileOutputStream(oFile));
+									IoUtils.copyStream(is, fos);
 								} else {
-									ImageUtils.thumbnail(is, width, height, new FileOutputStream(oFile),
-											_type);
+									ImageUtils.thumbnail(is, width, height, fos, _type);
 								}
 							}
+						} finally {
+							try {
+								fos.close();
+							} catch (final IOException e) {
+							}
 						}
-					} catch (final Exception e) {
-						log.warn(mvcContext.getThrowableMessage(e));
 					}
+				} catch (final Exception e) {
+					log.warn(mvcContext.getThrowableMessage(e));
 				}
 			}
 			return _id + "/" + filename;
