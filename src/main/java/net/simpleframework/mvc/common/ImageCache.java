@@ -64,6 +64,8 @@ public class ImageCache extends ObjectEx implements IMVCContextVar {
 
 	private boolean overwrite;
 
+	private long lastModified;
+
 	private String filetype;
 
 	private String _load(final ImageStream iStream) {
@@ -109,6 +111,7 @@ public class ImageCache extends ObjectEx implements IMVCContextVar {
 					log.warn(mvcContext.getThrowableMessage(e));
 				}
 			}
+			lastModified = oFile.lastModified();
 			return _id + "/" + filename;
 		}
 		return null;
@@ -169,8 +172,8 @@ public class ImageCache extends ObjectEx implements IMVCContextVar {
 				return null;
 			}
 		}
-		if (overwrite) {
-			path = HttpUtils.addParameters(path, "t=" + System.currentTimeMillis());
+		if (lastModified > 0) {
+			path = HttpUtils.addParameters(path, "t=" + lastModified);
 		}
 		return path;
 	}
