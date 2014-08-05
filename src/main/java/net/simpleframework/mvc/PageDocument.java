@@ -231,7 +231,7 @@ public class PageDocument extends XmlDocument {
 								pObject = ClassUtils.forName(importPage);
 								continue;
 							} catch (final ClassNotFoundException e) {
-								log.warn(e);
+								getLog().warn(e);
 							}
 						}
 					}

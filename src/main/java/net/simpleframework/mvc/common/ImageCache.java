@@ -108,7 +108,7 @@ public class ImageCache extends ObjectEx implements IMVCContextVar {
 						}
 					}
 				} catch (final Exception e) {
-					log.warn(mvcContext.getThrowableMessage(e));
+					getLog().warn(mvcContext.getThrowableMessage(e));
 				}
 			}
 			lastModified = oFile.lastModified();

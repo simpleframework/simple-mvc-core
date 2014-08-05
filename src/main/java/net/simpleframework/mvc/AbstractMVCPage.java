@@ -143,7 +143,7 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 		try {
 			return new TextForward(getPageForward(pp, getClass(), getVariables(pp)));
 		} catch (final IOException e) {
-			log.warn(e);
+			getLog().warn(e);
 		}
 		return null;
 	}
@@ -155,7 +155,7 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 				final Method _method = getClass().getMethod(method, PageParameter.class);
 				return (IForward) ClassUtils.invoke(_method, this, pp);
 			} catch (final NoSuchMethodException e) {
-				log.warn(e);
+				getLog().warn(e);
 			}
 		}
 		return null;

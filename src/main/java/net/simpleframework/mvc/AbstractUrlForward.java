@@ -90,7 +90,7 @@ public abstract class AbstractUrlForward extends AbstractForward {
 	}
 
 	protected RuntimeException convertRuntimeException(final Exception ex, final String url) {
-		log.warn(ex);
+		getLog().warn(ex);
 		return RuntimeExceptionEx._of(MVCException.class, "url: " + url, ex);
 	}
 

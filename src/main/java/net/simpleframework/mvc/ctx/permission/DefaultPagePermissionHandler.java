@@ -105,7 +105,7 @@ public class DefaultPagePermissionHandler extends DefaultPermissionHandler imple
 				try {
 					ImageUtils.thumbnail(inputStream, width, height, new FileOutputStream(photoFile));
 				} catch (final IOException e) {
-					log.warn(e);
+					getLog().warn(e);
 				}
 			}
 		}

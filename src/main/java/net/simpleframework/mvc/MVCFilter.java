@@ -43,7 +43,7 @@ public class MVCFilter extends ObjectEx implements Filter, IMVCConst {
 			ctx.setScanPackageNames(StringUtils.split(filterConfig.getInitParameter("scan-packages")));
 			ctx.onInit();
 		} catch (final Exception e) {
-			log.error(e);
+			getLog().error(e);
 		}
 	}
 
@@ -161,7 +161,7 @@ public class MVCFilter extends ObjectEx implements Filter, IMVCConst {
 					write(pp, rHTML);
 				}
 			} catch (final Throwable e) {
-				log.error(e);
+				getLog().error(e);
 				doThrowable(e, rRequest);
 			}
 		} else {
