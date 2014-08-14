@@ -136,7 +136,8 @@ public class ImageCache extends ObjectEx implements IMVCContextVar {
 
 	public String getPath(final PageRequestResponse rRequest, final String oUrl) {
 		if (StringUtils.hasText(oUrl)) {
-			filetype = FileUtils.getFilenameExtension(oUrl);
+			final int p = oUrl.lastIndexOf("?");
+			filetype = FileUtils.getFilenameExtension(p > 0 ? oUrl.substring(0, p) : oUrl);
 			_filename = getImageLoadHandler().load(this, new ImageStream(ObjectUtils.hashStr(oUrl)) {
 
 				@Override
