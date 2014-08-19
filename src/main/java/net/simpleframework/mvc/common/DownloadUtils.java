@@ -3,6 +3,7 @@ package net.simpleframework.mvc.common;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 
 import net.simpleframework.common.IoUtils;
@@ -52,12 +53,19 @@ public abstract class DownloadUtils {
 		final File oFile = new File(StringUtils.decodeHexString(rRequest.getParameter("path")));
 		final OutputStream outputStream = rRequest.getBinaryOutputStream(
 				HttpUtils.toLocaleString(rRequest.getParameter("filename")), oFile.length());
-		IoUtils.copyStream(new FileInputStream(oFile), outputStream);
-
-		final String handlerClass = rRequest.getParameter("handlerClass");
-		if (StringUtils.hasText(handlerClass)) {
-			((IDownloadHandler) ObjectFactory.singleton(handlerClass)).onDownloaded(
-					rRequest.getParameter("id"), rRequest.getParameter("filename"), oFile);
+		final InputStream iStream = new FileInputStream(oFile);
+		try {
+			IoUtils.copyStream(iStream, outputStream);
+			final String handlerClass = rRequest.getParameter("handlerClass");
+			if (StringUtils.hasText(handlerClass)) {
+				((IDownloadHandler) ObjectFactory.singleton(handlerClass)).onDownloaded(
+						rRequest.getParameter("id"), rRequest.getParameter("filename"), oFile);
+			}
+		} finally {
+			try {
+				iStream.close();
+			} catch (final IOException e) {
+			}
 		}
 	}
 
