@@ -513,7 +513,7 @@ var $Effect = {};
     return request + ret;
   };
 
-  String.prototype.makeElement = function(parameters) {
+  String.prototype.makeElement = function() {
     var c = this.toString();
     var wrapper = document.createElement('div');
     wrapper.innerHTML = c;
