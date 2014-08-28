@@ -482,7 +482,7 @@ var $Effect = {};
       var o2;
       if (typeof q == "string") {
         o2 = new Object();
-        var qArr = q.split("&");
+        var qArr = q.length > 0 ? q.split("&") : "";
         for (var i = 0; i < qArr.length; i++) {
           var vArr = qArr[i].split("=");
           var k = vArr[0];
