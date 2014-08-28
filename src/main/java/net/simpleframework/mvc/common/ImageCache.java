@@ -111,8 +111,10 @@ public class ImageCache extends ObjectEx implements IMVCContextVar {
 					getLog().warn(mvcContext.getThrowableMessage(e));
 				}
 			}
-			lastModified = oFile.lastModified();
-			return _id + "/" + filename;
+			if (oFile.exists()) {
+				lastModified = oFile.lastModified();
+				return _id + "/" + filename;
+			}
 		}
 		return null;
 	}
