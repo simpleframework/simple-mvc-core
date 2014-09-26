@@ -15,7 +15,7 @@ public class MVCException extends RuntimeExceptionEx {
 		super(msg, cause);
 	}
 
-	public static RuntimeException of(final Throwable throwable) {
+	public static MVCException of(final Throwable throwable) {
 		return _of(MVCException.class, null, throwable);
 	}
 }

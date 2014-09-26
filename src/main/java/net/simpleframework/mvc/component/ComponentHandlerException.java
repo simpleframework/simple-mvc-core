@@ -19,7 +19,7 @@ public class ComponentHandlerException extends RuntimeExceptionEx {
 		return _of(ComponentHandlerException.class, msg);
 	}
 
-	public static RuntimeException of(final Throwable throwable) {
+	public static ComponentHandlerException of(final Throwable throwable) {
 		return _of(ComponentHandlerException.class, null, throwable);
 	}
 }
