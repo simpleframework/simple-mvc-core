@@ -323,7 +323,9 @@ public abstract class AbstractElement<T extends AbstractElement<T>> extends Text
 		final Map<String, String> styles = new LinkedHashMap<String, String>();
 		for (final String s : StringUtils.split(style, ";")) {
 			final String[] arr = StringUtils.split(s.toLowerCase(), ":");
-			styles.put(arr[0].trim(), arr.length > 1 ? arr[1].trim() : "");
+			if (arr.length > 0) {
+				styles.put(arr[0].trim(), arr.length > 1 ? arr[1].trim() : "");
+			}
 		}
 		return styles;
 	}
