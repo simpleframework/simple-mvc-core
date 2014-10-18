@@ -54,10 +54,9 @@
 	word-wrap: normal;
 }
 
-
 @-moz-document url-prefix() {
 	.nnum { 
-		text-shadow:01px1px#ddd;	
+		text-shadow: 0 1px 1px #ddd;	
 	}
 }
 
