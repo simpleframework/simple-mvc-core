@@ -25,6 +25,8 @@ import net.simpleframework.common.logger.Log;
 import net.simpleframework.common.logger.LogFactory;
 import net.simpleframework.common.web.HttpUtils;
 import net.simpleframework.common.web.html.HtmlUtils;
+import net.simpleframework.ctx.permission.LoginUser;
+import net.simpleframework.ctx.permission.LoginUser.LoginWrapper;
 import net.simpleframework.ctx.permission.PermissionUser;
 import net.simpleframework.mvc.ctx.permission.IPagePermissionHandler;
 
@@ -417,6 +419,10 @@ public class PageRequestResponse implements IMVCContextVar {
 
 	public PermissionUser getUser(final Object user) {
 		return getPermission().getUser(user);
+	}
+
+	public void setLoginUser(final Object user) {
+		LoginUser.set(new LoginWrapper(getUser(user)).setIp(getRemoteAddr()));
 	}
 
 	public String getPhotoUrl() {
