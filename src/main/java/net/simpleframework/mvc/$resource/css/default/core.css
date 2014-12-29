@@ -13,6 +13,14 @@
   clear: both;
 }
 
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
 .f1,
 .f2,
 .f3 {
