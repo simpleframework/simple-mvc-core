@@ -273,9 +273,7 @@ public abstract class AbstractElement<T extends AbstractElement<T>> extends Text
 		if (attributes == null) {
 			attributes = new KVMap();
 		}
-		if (attributes.get(key) == null) {
-			attributes.put(key, val);
-		}
+		attributes.put(key, val);
 		return (T) this;
 	}
 
