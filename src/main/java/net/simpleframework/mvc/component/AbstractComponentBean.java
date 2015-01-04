@@ -177,4 +177,13 @@ public abstract class AbstractComponentBean extends AbstractElementBean implemen
 	public IComponentRegistry getComponentRegistry() {
 		return AbstractComponentRegistry.getComponentRegistry(getClass());
 	}
+
+	@Override
+	public XmlElement getElement() {
+		XmlElement element = super.getElement();
+		if (element == null) {
+			setElement(element = getPageDocument().getRoot());
+		}
+		return element;
+	}
 }
