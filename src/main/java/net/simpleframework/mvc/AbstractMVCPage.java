@@ -22,6 +22,7 @@ import net.simpleframework.common.coll.ParameterMap;
 import net.simpleframework.common.logger.Log;
 import net.simpleframework.common.logger.LogFactory;
 import net.simpleframework.common.object.ObjectFactory;
+import net.simpleframework.ctx.IModuleContext;
 import net.simpleframework.lib.org.jsoup.nodes.Element;
 import net.simpleframework.mvc.common.element.Meta;
 import net.simpleframework.mvc.component.AbstractComponentBean;
@@ -418,6 +419,10 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 	}
 
 	public String getRole(final PageParameter pp) {
+		final IModuleContext ctx = getModuleContext();
+		if (ctx != null) {
+			return ctx.getModule().getRole();
+		}
 		return null;
 	}
 
