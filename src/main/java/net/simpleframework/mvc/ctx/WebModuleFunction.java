@@ -1,6 +1,7 @@
 package net.simpleframework.mvc.ctx;
 
 import net.simpleframework.common.StringUtils;
+import net.simpleframework.ctx.IModuleContext;
 import net.simpleframework.ctx.ModuleFunction;
 import net.simpleframework.mvc.AbstractMVCPage;
 
@@ -19,10 +20,13 @@ public class WebModuleFunction extends ModuleFunction {
 	/* 显示的16px图标 */
 	private String icon16, icon32, icon64;
 
-	public WebModuleFunction() {
+	public WebModuleFunction(final IModuleContext moduleContext) {
+		super(moduleContext);
 	}
 
-	public WebModuleFunction(final Class<? extends AbstractMVCPage> pageClass) {
+	public WebModuleFunction(final IModuleContext moduleContext,
+			final Class<? extends AbstractMVCPage> pageClass) {
+		super(moduleContext);
 		this.pageClass = pageClass;
 	}
 
