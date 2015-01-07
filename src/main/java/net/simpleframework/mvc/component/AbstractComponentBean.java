@@ -159,19 +159,18 @@ public abstract class AbstractComponentBean extends AbstractElementBean implemen
 		return ComponentUtils.getComponentHandler(rRequest, this);
 	}
 
-	private String _hashId;
+	private String _componentHashId;
 
 	public String hashId() {
-		if (_hashId == null) {
-			final XmlElement element = getElement();
-			final String name = element != null ? element.attributeValue("name") : getName();
-			if (StringUtils.hasText(name)) {
-				_hashId = ComponentUtils.getComponentHashByName(pageDocument, name);
-			} else {
-				_hashId = ObjectUtils.hashStr(this);
+		if (_componentHashId == null) {
+			String name = getName();
+			if (!StringUtils.hasText(name)) {
+				name = getElement().attributeValue("name");
 			}
+			_componentHashId = StringUtils.hasText(name) ? ComponentUtils.getComponentHashByName(
+					pageDocument, name) : ObjectUtils.hashStr(this);
 		}
-		return _hashId;
+		return _componentHashId;
 	}
 
 	public IComponentRegistry getComponentRegistry() {
