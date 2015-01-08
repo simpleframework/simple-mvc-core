@@ -1,5 +1,8 @@
 package net.simpleframework.mvc.ctx;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 import net.simpleframework.common.StringUtils;
 import net.simpleframework.ctx.IModuleContext;
 import net.simpleframework.ctx.ModuleFunction;
@@ -12,6 +15,15 @@ import net.simpleframework.mvc.AbstractMVCPage;
  *         http://www.simpleframework.net
  */
 public class WebModuleFunction extends ModuleFunction {
+	private static Map<Class<? extends AbstractMVCPage>, WebModuleFunction> moduleFunctions;
+
+	public static Map<Class<? extends AbstractMVCPage>, WebModuleFunction> getModulefunctions() {
+		if (moduleFunctions == null) {
+			moduleFunctions = new ConcurrentHashMap<Class<? extends AbstractMVCPage>, WebModuleFunction>();
+		}
+		return moduleFunctions;
+	}
+
 	/* 功能的主操作页面的地址 */
 	private String url;
 
@@ -27,7 +39,7 @@ public class WebModuleFunction extends ModuleFunction {
 	public WebModuleFunction(final IModuleContext moduleContext,
 			final Class<? extends AbstractMVCPage> pageClass) {
 		super(moduleContext);
-		this.pageClass = pageClass;
+		getModulefunctions().put(this.pageClass = pageClass, this);
 	}
 
 	public String getUrl() {
