@@ -29,6 +29,7 @@ import net.simpleframework.mvc.component.AbstractComponentBean;
 import net.simpleframework.mvc.component.ComponentHandlerException;
 import net.simpleframework.mvc.component.ComponentParameter;
 import net.simpleframework.mvc.component.IComponentHandler;
+import net.simpleframework.mvc.ctx.WebModuleFunction;
 
 /**
  * Licensed under the Apache License, Version 2.0
@@ -419,6 +420,10 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 	}
 
 	public String getRole(final PageParameter pp) {
+		final WebModuleFunction func = WebModuleFunction.getModulefunctions().get(getClass());
+		if (func != null) {
+			return func.getRole();
+		}
 		final IModuleContext ctx = getModuleContext();
 		if (ctx != null) {
 			return ctx.getModule().getRole();
