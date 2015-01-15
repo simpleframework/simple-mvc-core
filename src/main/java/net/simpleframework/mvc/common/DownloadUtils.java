@@ -1,11 +1,14 @@
 package net.simpleframework.mvc.common;
 
+import static net.simpleframework.common.I18n.$m;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import net.simpleframework.common.Convert;
 import net.simpleframework.common.IoUtils;
 import net.simpleframework.common.StringUtils;
 import net.simpleframework.common.logger.Log;
@@ -13,6 +16,7 @@ import net.simpleframework.common.logger.LogFactory;
 import net.simpleframework.common.object.ObjectFactory;
 import net.simpleframework.common.web.HttpUtils;
 import net.simpleframework.ctx.common.bean.AttachmentFile;
+import net.simpleframework.mvc.MVCException;
 import net.simpleframework.mvc.MVCUtils;
 import net.simpleframework.mvc.PageRequestResponse;
 
@@ -49,7 +53,12 @@ public abstract class DownloadUtils {
 		return sb.toString();
 	}
 
+	public static final String DOWNLOAD_LOGIN = "download_login";
+
 	public static void doDownload(final PageRequestResponse rRequest) throws IOException {
+		if (Convert.toBool(rRequest.getParameter(DOWNLOAD_LOGIN), true) && !rRequest.isLogin()) {
+			throw MVCException.of($m("DownloadUtils.0"));
+		}
 		final File oFile = new File(StringUtils.decodeHexString(rRequest.getParameter("path")));
 		final OutputStream outputStream = rRequest.getBinaryOutputStream(
 				HttpUtils.toLocaleString(rRequest.getParameter("filename")), oFile.length());

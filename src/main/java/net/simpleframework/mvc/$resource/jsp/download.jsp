@@ -5,14 +5,15 @@
 <%
 	try {
 		DownloadUtils.doDownload(PageRequestResponse.get(request,
-		response));
+				response));
 	} catch (Throwable th) {
-		System.out.println(IMVCContextVar.mvcContext.getThrowableMessage(th));
+		System.out.println(IMVCContextVar.mvcContext
+				.getThrowableMessage(th));
 	} finally {
 		try {
-	out.clear();
-	out.clearBuffer();
-	out = pageContext.pushBody();
+			out.clear();
+			out.clearBuffer();
+			out = pageContext.pushBody();
 		} catch (Throwable th) {
 		}
 	}
