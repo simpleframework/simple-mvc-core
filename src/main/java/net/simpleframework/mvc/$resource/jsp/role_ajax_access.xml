@@ -3,7 +3,7 @@
   <evalScope>application</evalScope>
   <scriptInit>
     String role = net.simpleframework.ctx.permission.IPermissionHandler.ROLE_ANONYMOUS;
-	</scriptInit>  <importCSS>
+  </scriptInit>  <importCSS>
     <value>${parameter.getCssResourceHomePath()}/role_ajax_access.css</value>
   </importCSS>
   <role>${role}</role>  <components>

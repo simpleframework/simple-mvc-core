@@ -33,8 +33,8 @@
         <%
         	if (http) {
         %>
-        <input type="button" value="#(role_http_access.2)" onclick="history.back();" /> <input
-          type="button" value="#(role_http_access.3)" onclick="$Actions.loc('/');" />
+        <input type="button" value="#(role_http_access.2)" onclick="history.back();" /> <input type="button" value="#(role_http_access.3)"
+          onclick="$Actions.loc('/');" />
         <%
         	} else {
         %>

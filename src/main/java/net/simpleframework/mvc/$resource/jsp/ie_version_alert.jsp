@@ -6,15 +6,13 @@
       #(ie_version_alert.1)&nbsp;<a href="javascript:go_browser();">#(ie_version_alert.2)&raquo;</a>
     </p>
     <p class="s">
-      <a target="_blank" href="http://www.google.com/chrome/">Chrome</a>, <a target="_blank"
-        href="http://firefox.com.cn/">Firefox</a>, <a target="_blank"
-        href="http://www.opera.com/download/">Opera</a>#(ie_version_alert.9)<a target="_blank"
+      <a target="_blank" href="http://www.google.com/chrome/">Chrome</a>, <a target="_blank" href="http://firefox.com.cn/">Firefox</a>, <a
+        target="_blank" href="http://www.opera.com/download/">Opera</a>#(ie_version_alert.9)<a target="_blank"
         href="http://windows.microsoft.com/zh-CN/internet-explorer/downloads/ie">IE9+</a>#(ie_version_alert.3)
     </p>
     <p class="s">
-      #(ie_version_alert.4)<a target="_blank" href="http://www.google.com/chrome/">Chrome</a>#(ie_version_alert.5)<a
-        target="_blank" href="http://chrome.360.cn/">#(ie_version_alert.6)</a>、<a target="_blank"
-        href="http://ie.sogou.com/">#(ie_version_alert.7)</a>#(ie_version_alert.8)
+      #(ie_version_alert.4)<a target="_blank" href="http://www.google.com/chrome/">Chrome</a>#(ie_version_alert.5)<a target="_blank"
+        href="http://chrome.360.cn/">#(ie_version_alert.6)</a>、<a target="_blank" href="http://ie.sogou.com/">#(ie_version_alert.7)</a>#(ie_version_alert.8)
     </p>
     <p>#(ie_version_alert.10)</p>
   </div>

@@ -1,34 +1,36 @@
-.job_ajax_access .simple_toolbar {
-	margin: 2px;
+.job_ajax_access .cbar {
+  background-color: #f9ffff;
+  border-bottom: 1px solid #ccc;
+  padding: 12px;
 }
 
 .job_ajax_access .error_image {
-	float: left;
+  float: left;
 }
 
 .job_ajax_access .detail {
-	text-align: left;
-	padding-left: 45px;
+  text-align: left;
+  padding-left: 45px;
 }
 
 .job_ajax_access .t1 {
-	font-size: 16pt;
-	font-weight: bold;
-	line-height: 1.2;
+  font-size: 16pt;
+  font-weight: bold;
+  line-height: 1.2;
 }
 
 .job_ajax_access .s1 {
-	font-size: 9.5pt;
-	margin-left: 8px;
-	font-weight: normal;
+  font-size: 9.5pt;
+  margin-left: 8px;
+  font-weight: normal;
 }
 
 .job_ajax_access .t2 {
-	font-size: 9.5pt;
-	margin-top: 12px;
+  font-size: 9.5pt;
+  margin-top: 12px;
 }
 
 .job_ajax_access .bbar {
-	text-align: center;
-	margin-top: 8px;
+  text-align: center;
+  margin-top: 8px;
 }
