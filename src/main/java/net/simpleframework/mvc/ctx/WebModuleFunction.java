@@ -15,7 +15,7 @@ import net.simpleframework.mvc.AbstractMVCPage;
  *         http://www.simpleframework.net
  */
 public class WebModuleFunction extends ModuleFunction {
-	private static Map<Class<? extends AbstractMVCPage>, WebModuleFunction> moduleFunctions;
+	private static volatile Map<Class<? extends AbstractMVCPage>, WebModuleFunction> moduleFunctions;
 
 	public static Map<Class<? extends AbstractMVCPage>, WebModuleFunction> getModulefunctions() {
 		if (moduleFunctions == null) {

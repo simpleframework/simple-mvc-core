@@ -36,7 +36,7 @@ public class ImageCache extends ObjectEx implements IMVCContextVar {
 
 	private static final String CACHE_PATH = "/$image_cache/";
 
-	private static IImageLoadHandler _handler;
+	private static volatile IImageLoadHandler _handler;
 
 	public static IImageLoadHandler getImageLoadHandler() {
 		if (_handler == null) {
