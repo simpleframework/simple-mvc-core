@@ -209,7 +209,7 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 		final Class<? extends AbstractMVCPage> superPageClass = (Class<? extends AbstractMVCPage>) pageClass
 				.getSuperclass();
 		if (!isExtend(pp, pageClass) || superPageClass.equals(AbstractMVCPage.class)) {
-			final InputStream htmlStream = getResource(pageClass, ".html");
+			final InputStream htmlStream = getTemplateFileResource(pageClass, ".html");
 			if (htmlStream != null) {
 				return replaceExpr(pp, htmlStream, variables);
 			} else {
@@ -219,7 +219,7 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 		} else {
 			final ParameterMap htmlViews = getHtmlViewVariables(pp).get(pageClass);
 			if (htmlViews == null || htmlViews.size() == 0) {
-				final InputStream htmlStream = getResource(pageClass, ".html");
+				final InputStream htmlStream = getTemplateFileResource(pageClass, ".html");
 				final String html = htmlStream != null ? replaceExpr(pp, htmlStream, variables)
 						: toHtml(pp, pageClass, variables, null);
 				if (html != null) {
@@ -229,7 +229,7 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 				for (final Map.Entry<String, String> entry : htmlViews.entrySet()) {
 					final String key = entry.getKey();
 					final String filename = entry.getValue();
-					final InputStream htmlStream = getResource(pageClass, filename);
+					final InputStream htmlStream = getTemplateFileResource(pageClass, filename);
 					if (htmlStream != null) {
 						variables.put(key, replaceExpr(pp, htmlStream, variables));
 					} else {
@@ -245,6 +245,11 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 			}
 			return getPageForward(pp, superPageClass, variables);
 		}
+	}
+
+	protected InputStream getTemplateFileResource(final Class<?> resourceClass, final String filename) {
+		return ClassUtils.getResourceAsStream(resourceClass,
+				filename.startsWith(".") ? getClassName(resourceClass) + filename : filename);
 	}
 
 	public String getResourceHomePath() {
@@ -498,20 +503,16 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 		return ObjectFactory.original(pageClass).getSimpleName();
 	}
 
-	protected static InputStream getResource(final Class<?> resourceClass, final String filename) {
-		return ClassUtils.getResourceAsStream(resourceClass,
-				filename.startsWith(".") ? getClassName(resourceClass) + filename : filename);
-	}
-
 	public static final String NULL_PAGEDOCUMENT = "@null_pagedocument";
 
 	static PageDocument createPageDocument(final Class<? extends AbstractMVCPage> pageClass,
 			final PageRequestResponse rRequest) {
 		PageDocument pageDocument = null;
-		InputStream inputStream = getResource(pageClass, ".xml");
+		InputStream inputStream = ClassUtils.getResourceAsStream(pageClass, getClassName(pageClass)
+				+ ".xml");
 		if (inputStream == null) {
 			rRequest.setRequestAttr(NULL_PAGEDOCUMENT, Boolean.TRUE);
-			inputStream = getResource(AbstractMVCPage.class, "page-null.xml");
+			inputStream = ClassUtils.getResourceAsStream(AbstractMVCPage.class, "page-null.xml");
 		}
 		try {
 			pageDocument = new PageDocument(pageClass, inputStream, rRequest);
