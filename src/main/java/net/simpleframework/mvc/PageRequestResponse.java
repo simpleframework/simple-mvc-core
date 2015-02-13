@@ -437,6 +437,22 @@ public class PageRequestResponse implements IMVCContextVar {
 		return getPermission().getPhotoUrl(this, user, width, height);
 	}
 
+	@SuppressWarnings("unchecked")
+	public <T> T getCache(final String key, final IVal<T> i) {
+		T val = (T) getRequestAttr(key);
+		if (val == null) {
+			val = i.get();
+			if (val != null) {
+				setRequestAttr(key, val);
+			}
+		}
+		return val;
+	}
+
+	public static interface IVal<T> {
+		T get();
+	}
+
 	public static PageRequestResponse get(final HttpServletRequest request,
 			final HttpServletResponse response) {
 		return new PageRequestResponse(request, response);

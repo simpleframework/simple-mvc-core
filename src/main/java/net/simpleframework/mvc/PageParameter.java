@@ -220,20 +220,4 @@ public class PageParameter extends PageRequestResponse {
 			final HttpServletResponse response, final PageDocument pageDocument) {
 		return new PageParameter(request, response, pageDocument);
 	}
-
-	@SuppressWarnings("unchecked")
-	public <T> T getCache(final String key, final IVal<T> i) {
-		T val = (T) getRequestAttr(key);
-		if (val == null) {
-			val = i.get();
-			if (val != null) {
-				setRequestAttr(key, val);
-			}
-		}
-		return val;
-	}
-
-	public static interface IVal<T> {
-		T get();
-	}
 }
