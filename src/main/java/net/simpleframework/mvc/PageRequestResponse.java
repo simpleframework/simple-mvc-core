@@ -414,7 +414,12 @@ public class PageRequestResponse implements IMVCContextVar {
 	}
 
 	public PermissionUser getLogin() {
-		return getPermission().getLogin(this);
+		return getCache("@PermissionUser", new IVal<PermissionUser>() {
+			@Override
+			public PermissionUser get() {
+				return getPermission().getLogin(PageRequestResponse.this);
+			}
+		});
 	}
 
 	public PermissionUser getUser(final Object user) {
