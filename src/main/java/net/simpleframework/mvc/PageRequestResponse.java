@@ -454,6 +454,18 @@ public class PageRequestResponse implements IMVCContextVar {
 		return val;
 	}
 
+	@SuppressWarnings("unchecked")
+	public <T> T getSessionCache(final String key, final IVal<T> i) {
+		T val = (T) getSessionAttr(key);
+		if (val == null) {
+			val = i.get();
+			if (val != null) {
+				setSessionAttr(key, val);
+			}
+		}
+		return val;
+	}
+
 	public static interface IVal<T> {
 		T get();
 	}
