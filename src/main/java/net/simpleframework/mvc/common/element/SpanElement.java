@@ -17,7 +17,7 @@ public class SpanElement extends AbstractTagElement<SpanElement> {
 		return new SpanElement().addStyle("width: " + width + "px; display: inline-block;");
 	}
 
-	public static SpanElement SPACE = SPACE(6);
+	public static SpanElement SPACE = SPACE(5);
 
 	public static SpanElement SPACE15 = SPACE(15);
 
