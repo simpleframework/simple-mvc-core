@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 
 import net.simpleframework.common.TextUtils;
+import net.simpleframework.common.buffer.FastCharBuffer;
 
 /**
  * Licensed under the Apache License, Version 2.0
@@ -130,7 +131,7 @@ public class PageResponse extends HttpServletResponseWrapper implements IMVCCont
 			// 至少是CharArrayWriter的一半时间
 			// writer = new PrintWriter(output = new CharArrayWriter());
 			writer = new PrintWriter(output = new Writer() {
-				final StringBuilder buffer = new StringBuilder(1024);
+				final FastCharBuffer buffer = new FastCharBuffer(1024);
 
 				@Override
 				public void write(final char[] cbuf, final int off, final int len) throws IOException {
