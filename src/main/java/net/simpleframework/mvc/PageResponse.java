@@ -1,6 +1,7 @@
 package net.simpleframework.mvc;
 
 import java.io.ByteArrayOutputStream;
+import java.io.CharArrayWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
@@ -16,7 +17,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 
 import net.simpleframework.common.TextUtils;
-import net.simpleframework.common.buffer.FastCharBuffer;
 
 /**
  * Licensed under the Apache License, Version 2.0
@@ -131,7 +131,7 @@ public class PageResponse extends HttpServletResponseWrapper implements IMVCCont
 			// 至少是CharArrayWriter的一半时间
 			// writer = new PrintWriter(output = new CharArrayWriter());
 			writer = new PrintWriter(output = new Writer() {
-				final FastCharBuffer buffer = new FastCharBuffer(1024);
+				final StringBuffer buffer = new StringBuffer(1024);
 
 				@Override
 				public void write(final char[] cbuf, final int off, final int len) throws IOException {
@@ -158,6 +158,37 @@ public class PageResponse extends HttpServletResponseWrapper implements IMVCCont
 			});
 		}
 		return writer;
+	}
+
+	public static void main(final String[] args) {
+		final int c = 100000000;
+		final int l = 10000;
+		final StringBuilder sb1 = new StringBuilder(1024);
+		long time = System.currentTimeMillis();
+		for (int i = 0; i < c; i++) {
+			sb1.append("c");
+			if (sb1.length() == l)
+				sb1.setLength(0);
+		}
+		System.out.println("StringBuilder: " + (System.currentTimeMillis() - time));
+
+		final CharArrayWriter sb2 = new CharArrayWriter();
+		time = System.currentTimeMillis();
+		for (int i = 0; i < c; i++) {
+			sb2.append("c");
+			if (sb2.size() == l)
+				sb2.reset();
+		}
+		System.out.println("CharArrayWriter: " + (System.currentTimeMillis() - time));
+
+		final StringBuffer sb3 = new StringBuffer(1024);
+		time = System.currentTimeMillis();
+		for (int i = 0; i < c; i++) {
+			sb3.append("c");
+			if (sb3.length() == l)
+				sb3.setLength(0);
+		}
+		System.out.println("StringBuffer: " + (System.currentTimeMillis() - time));
 	}
 
 	@Override
