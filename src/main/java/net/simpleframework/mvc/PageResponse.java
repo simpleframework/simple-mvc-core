@@ -167,8 +167,9 @@ public class PageResponse extends HttpServletResponseWrapper implements IMVCCont
 		long time = System.currentTimeMillis();
 		for (int i = 0; i < c; i++) {
 			sb1.append("c");
-			if (sb1.length() == l)
+			if (sb1.length() == l) {
 				sb1.setLength(0);
+			}
 		}
 		System.out.println("StringBuilder: " + (System.currentTimeMillis() - time));
 
@@ -176,8 +177,9 @@ public class PageResponse extends HttpServletResponseWrapper implements IMVCCont
 		time = System.currentTimeMillis();
 		for (int i = 0; i < c; i++) {
 			sb2.append("c");
-			if (sb2.size() == l)
+			if (sb2.size() == l) {
 				sb2.reset();
+			}
 		}
 		System.out.println("CharArrayWriter: " + (System.currentTimeMillis() - time));
 
@@ -185,8 +187,9 @@ public class PageResponse extends HttpServletResponseWrapper implements IMVCCont
 		time = System.currentTimeMillis();
 		for (int i = 0; i < c; i++) {
 			sb3.append("c");
-			if (sb3.length() == l)
+			if (sb3.length() == l) {
 				sb3.setLength(0);
+			}
 		}
 		System.out.println("StringBuffer: " + (System.currentTimeMillis() - time));
 	}
