@@ -184,7 +184,7 @@ public class MVCContext extends AbstractApplicationContextBase implements IMVCCo
 	@Override
 	public boolean isSystemUrl(final PageRequestResponse rRequest) {
 		final String requestURI = rRequest.getRequestURI();
-		if (requestURI.endsWith(".jsp")) {
+		if (requestURI.endsWith(".jsp") || requestURI.contains("/favicon.ico")) {
 			return true;
 		}
 		if (requestURI.indexOf(IMVCConst.JSESSIONID + "=") > -1) {
