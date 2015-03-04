@@ -33,6 +33,10 @@ public class SpanElement extends AbstractTagElement<SpanElement> {
 		return new SpanElement(num).setClassName("num");
 	}
 
+	public static SpanElement grey999(final Object txt) {
+		return new SpanElement(txt).setColor("#999");
+	}
+
 	public SpanElement() {
 	}
 
