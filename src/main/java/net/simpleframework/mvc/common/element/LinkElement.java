@@ -1,7 +1,9 @@
 package net.simpleframework.mvc.common.element;
 
 import static net.simpleframework.common.I18n.$m;
+import net.simpleframework.ctx.ModuleFunction;
 import net.simpleframework.mvc.IMVCContextVar;
+import net.simpleframework.mvc.ctx.WebModuleFunction;
 
 /**
  * Licensed under the Apache License, Version 2.0
@@ -25,6 +27,14 @@ public class LinkElement extends AbstractLinkElement<LinkElement> implements IMV
 
 	public static final LinkElement deleteLink() {
 		return new LinkElement($m("Delete"));
+	}
+
+	public static LinkElement of(final ModuleFunction mf) {
+		final LinkElement le = new LinkElement(mf.getText());
+		if (mf instanceof WebModuleFunction) {
+			le.setHref(((WebModuleFunction) mf).getUrl());
+		}
+		return le;
 	}
 
 	public LinkElement() {
