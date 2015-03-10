@@ -2,6 +2,7 @@ package net.simpleframework.mvc.common.element;
 
 import static net.simpleframework.common.I18n.$m;
 import net.simpleframework.ctx.ModuleFunction;
+import net.simpleframework.mvc.AbstractMVCPage;
 import net.simpleframework.mvc.IMVCContextVar;
 import net.simpleframework.mvc.ctx.WebModuleFunction;
 
@@ -38,6 +39,11 @@ public class LinkElement extends AbstractLinkElement<LinkElement> implements IMV
 	}
 
 	public LinkElement() {
+	}
+
+	public LinkElement(final Object text, final Class<? extends AbstractMVCPage> pageClass) {
+		this(text);
+		setHref(AbstractMVCPage.url(pageClass));
 	}
 
 	public LinkElement(final Object text) {
