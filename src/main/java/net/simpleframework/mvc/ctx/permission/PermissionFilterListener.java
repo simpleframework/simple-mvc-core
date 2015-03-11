@@ -6,9 +6,9 @@ import javax.servlet.FilterChain;
 
 import net.simpleframework.common.AlgorithmUtils;
 import net.simpleframework.common.StringUtils;
-import net.simpleframework.ctx.permission.IPermissionConst;
 import net.simpleframework.ctx.permission.LoginUser;
 import net.simpleframework.ctx.permission.LoginUser.LoginWrapper;
+import net.simpleframework.ctx.permission.PermissionConst;
 import net.simpleframework.mvc.IFilterListener;
 import net.simpleframework.mvc.IMVCContextVar;
 import net.simpleframework.mvc.MVCUtils;
@@ -55,7 +55,7 @@ public class PermissionFilterListener implements IFilterListener, IMVCContextVar
 			}
 
 			// 权限判断
-			if (StringUtils.hasText(role) && !IPermissionConst.ROLE_ANONYMOUS.equals(role)) {
+			if (StringUtils.hasText(role) && !PermissionConst.ROLE_ANONYMOUS.equals(role)) {
 				if (!permission.getLogin(rRequest).isMember(role)) {
 					final String v = AlgorithmUtils.base64Encode(rRequest.getRequestAndQueryStringUrl()
 							.getBytes());

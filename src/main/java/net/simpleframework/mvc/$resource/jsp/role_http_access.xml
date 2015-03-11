@@ -4,5 +4,5 @@
   <importCSS>
     <value>${parameter.getCssResourceHomePath()}/role_http_access.css</value>
   </importCSS>
-  <role>${net.simpleframework.ctx.permission.IPermissionHandler.ROLE_ANONYMOUS}</role>
+  <role>${net.simpleframework.ctx.permission.PermissionConst.ROLE_ANONYMOUS}</role>
 </page>

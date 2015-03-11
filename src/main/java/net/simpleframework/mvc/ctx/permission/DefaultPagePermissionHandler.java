@@ -12,6 +12,7 @@ import net.simpleframework.common.ImageUtils;
 import net.simpleframework.common.StringUtils;
 import net.simpleframework.common.th.NotImplementedException;
 import net.simpleframework.ctx.permission.DefaultPermissionHandler;
+import net.simpleframework.ctx.permission.PermissionConst;
 import net.simpleframework.ctx.permission.PermissionUser;
 import net.simpleframework.mvc.IForward;
 import net.simpleframework.mvc.IMVCContextVar;
@@ -40,7 +41,7 @@ public class DefaultPagePermissionHandler extends DefaultPermissionHandler imple
 			return null;
 		}
 		// 不存在角色或角色是匿名
-		if (!StringUtils.hasText(role) || ROLE_ANONYMOUS.equals(role)) {
+		if (!StringUtils.hasText(role) || PermissionConst.ROLE_ANONYMOUS.equals(role)) {
 			return null;
 		}
 

@@ -2,5 +2,5 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
   xsi:noNamespaceSchemaLocation="http://simpleframework.net/xsd/default/simple.xsd">
   <evalScope>application</evalScope>
-  <role>${net.simpleframework.ctx.permission.IPermissionHandler.ROLE_ANONYMOUS}</role>
+  <role>${net.simpleframework.ctx.permission.PermissionConst.ROLE_ANONYMOUS}</role>
 </page>
