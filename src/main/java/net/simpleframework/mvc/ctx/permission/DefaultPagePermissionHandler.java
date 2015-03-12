@@ -10,6 +10,7 @@ import net.simpleframework.common.FileUtils;
 import net.simpleframework.common.ID;
 import net.simpleframework.common.ImageUtils;
 import net.simpleframework.common.StringUtils;
+import net.simpleframework.common.coll.KVMap;
 import net.simpleframework.common.th.NotImplementedException;
 import net.simpleframework.ctx.permission.DefaultPermissionHandler;
 import net.simpleframework.ctx.permission.PermissionConst;
@@ -69,14 +70,15 @@ public class DefaultPagePermissionHandler extends DefaultPermissionHandler imple
 
 	@Override
 	public IForward accessForward(final PageRequestResponse rRequest, final Object role) {
-		final String roleName = getRole(role).getName();
-		final String redirectUrl = getLoginRedirectUrl(rRequest, roleName);
+		final String rolename = getRole(role,
+				new KVMap().add(PermissionConst.VAL_USERID, rRequest.getLoginId())).getName();
+		final String redirectUrl = getLoginRedirectUrl(rRequest, rolename);
 		if (StringUtils.hasText(redirectUrl)) {
 			return new UrlForward(redirectUrl);
-		} else if (rRequest instanceof ComponentParameter && StringUtils.hasText(roleName)) {
+		} else if (rRequest instanceof ComponentParameter && StringUtils.hasText(rolename)) {
 			if (!rRequest.getLogin().isMember(role)) {
 				return new UrlForward(MVCUtils.getPageResourcePath() + "/jsp/role_ajax_access.jsp?v="
-						+ ((ComponentParameter) rRequest).getComponentName() + "&role=" + roleName);
+						+ ((ComponentParameter) rRequest).getComponentName() + "&role=" + rolename);
 			}
 		}
 		return null;
