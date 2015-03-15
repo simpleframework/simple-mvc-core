@@ -87,6 +87,4 @@ public class WebModuleFunction extends ModuleFunction {
 		this.icon64 = icon64;
 		return this;
 	}
-
-	private static final long serialVersionUID = -7070465803484944460L;
 }
