@@ -14,6 +14,7 @@ import net.simpleframework.common.ClassUtils;
 import net.simpleframework.common.Convert;
 import net.simpleframework.common.DateUtils;
 import net.simpleframework.common.I18n;
+import net.simpleframework.common.ID;
 import net.simpleframework.common.IoUtils;
 import net.simpleframework.common.StringUtils;
 import net.simpleframework.common.coll.ArrayUtils;
@@ -23,13 +24,17 @@ import net.simpleframework.common.logger.Log;
 import net.simpleframework.common.logger.LogFactory;
 import net.simpleframework.common.object.ObjectFactory;
 import net.simpleframework.ctx.IModuleContext;
+import net.simpleframework.ctx.permission.PermissionDept;
+import net.simpleframework.ctx.permission.PermissionUser;
 import net.simpleframework.lib.org.jsoup.nodes.Element;
+import net.simpleframework.mvc.PageRequestResponse.IVal;
 import net.simpleframework.mvc.common.element.Meta;
 import net.simpleframework.mvc.component.AbstractComponentBean;
 import net.simpleframework.mvc.component.ComponentHandlerException;
 import net.simpleframework.mvc.component.ComponentParameter;
 import net.simpleframework.mvc.component.IComponentHandler;
 import net.simpleframework.mvc.ctx.WebModuleFunction;
+import net.simpleframework.mvc.ctx.permission.IPagePermissionHandler;
 
 /**
  * Licensed under the Apache License, Version 2.0
@@ -597,5 +602,27 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 				BeanUtils.setProperty(bean, k, val);
 			}
 		}
+	}
+
+	public static PermissionDept getPermissionOrg(final PageParameter pp) {
+		return getPermissionOrg(pp, "orgId");
+	}
+
+	public static PermissionDept getPermissionOrg(final PageParameter pp, final String key) {
+		return pp.getCache("@PermissionOrg", new IVal<PermissionDept>() {
+			@Override
+			public PermissionDept get() {
+				PermissionDept org = null;
+				final IPagePermissionHandler hdl = pp.getPermission();
+				final PermissionUser login = pp.getLogin();
+				if (login.isManager()) {
+					org = hdl.getDept(ID.of(pp.getParameter(key)));
+				}
+				if (org == null) {
+					org = hdl.getDept(login.getDept().getDomainId());
+				}
+				return org;
+			}
+		});
 	}
 }
