@@ -230,6 +230,10 @@ public abstract class AbstractElement<T extends AbstractElement<T>> extends Text
 		return (T) this;
 	}
 
+	public T setColor_gray(final boolean gray) {
+		return gray ? setColor("#999") : (T) this;
+	}
+
 	public T addElements(final AbstractElement<?>... elements) {
 		final StringBuilder sb = new StringBuilder();
 		final String txt = getText();
