@@ -27,7 +27,6 @@ import net.simpleframework.ctx.IModuleContext;
 import net.simpleframework.ctx.permission.PermissionDept;
 import net.simpleframework.ctx.permission.PermissionUser;
 import net.simpleframework.lib.org.jsoup.nodes.Element;
-import net.simpleframework.mvc.PageRequestResponse.IVal;
 import net.simpleframework.mvc.common.element.Meta;
 import net.simpleframework.mvc.component.AbstractComponentBean;
 import net.simpleframework.mvc.component.ComponentHandlerException;
@@ -609,7 +608,7 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 	}
 
 	public static PermissionDept getPermissionOrg(final PageParameter pp, final String key) {
-		return pp.getCache("@PermissionOrg", new IVal<PermissionDept>() {
+		return pp.getRequestCache("@PermissionOrg", new IVal<PermissionDept>() {
 			@Override
 			public PermissionDept get() {
 				PermissionDept org = null;

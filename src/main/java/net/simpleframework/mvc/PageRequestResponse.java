@@ -23,6 +23,7 @@ import net.simpleframework.common.coll.KVMap;
 import net.simpleframework.common.coll.ParameterMap;
 import net.simpleframework.common.logger.Log;
 import net.simpleframework.common.logger.LogFactory;
+import net.simpleframework.common.object.ObjectEx;
 import net.simpleframework.common.web.HttpUtils;
 import net.simpleframework.common.web.html.HtmlUtils;
 import net.simpleframework.ctx.permission.LoginUser;
@@ -36,7 +37,7 @@ import net.simpleframework.mvc.ctx.permission.IPagePermissionHandler;
  * @author 陈侃(cknet@126.com, 13910090885) https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
-public class PageRequestResponse implements IMVCContextVar {
+public class PageRequestResponse extends ObjectEx implements IMVCContextVar {
 
 	public HttpServletRequest request;
 
@@ -414,7 +415,7 @@ public class PageRequestResponse implements IMVCContextVar {
 	}
 
 	public PermissionUser getLogin() {
-		return getCache("@PermissionUser", new IVal<PermissionUser>() {
+		return getRequestCache("@PermissionUser", new IVal<PermissionUser>() {
 			@Override
 			public PermissionUser get() {
 				return getPermission().getLogin(PageRequestResponse.this);
@@ -443,11 +444,10 @@ public class PageRequestResponse implements IMVCContextVar {
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T> T getCache(final String key, final IVal<T> i) {
+	public <T> T getRequestCache(final String key, final IVal<T> i) {
 		T val = (T) getRequestAttr(key);
 		if (val == null) {
-			val = i.get();
-			if (val != null) {
+			if ((val = i.get()) != null) {
 				setRequestAttr(key, val);
 			}
 		}
@@ -458,16 +458,11 @@ public class PageRequestResponse implements IMVCContextVar {
 	public <T> T getSessionCache(final String key, final IVal<T> i) {
 		T val = (T) getSessionAttr(key);
 		if (val == null) {
-			val = i.get();
-			if (val != null) {
+			if ((val = i.get()) != null) {
 				setSessionAttr(key, val);
 			}
 		}
 		return val;
-	}
-
-	public static interface IVal<T> {
-		T get();
 	}
 
 	public static PageRequestResponse get(final HttpServletRequest request,
