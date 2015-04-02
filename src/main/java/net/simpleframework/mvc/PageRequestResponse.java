@@ -296,6 +296,22 @@ public class PageRequestResponse extends ObjectEx implements IMVCContextVar {
 		return m;
 	}
 
+	public String getParamsString() {
+		final Enumeration<String> e = getParameterNames();
+		final StringBuilder sb = new StringBuilder();
+		int i = 0;
+		while (e.hasMoreElements()) {
+			final String key = e.nextElement();
+			if (!IMVCConst.REQUEST_ID.equals(key)) {
+				if (i++ > 0) {
+					sb.append("&");
+				}
+				sb.append(key).append("=").append(getParameter(key));
+			}
+		}
+		return sb.toString();
+	}
+
 	/*-----------------------utils cookie--------------------*/
 	public String getCookie(final String key) {
 		return HttpUtils.getCookie(request, key);
