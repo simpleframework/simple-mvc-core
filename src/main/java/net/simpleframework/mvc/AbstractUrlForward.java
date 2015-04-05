@@ -50,9 +50,11 @@ public abstract class AbstractUrlForward extends AbstractForward {
 		}
 
 		/* 加入PageDocument */
+		PageDocument document;
 		Class<?> parent;
 		if (rRequest instanceof PageParameter
-				&& (parent = ((PageParameter) rRequest).getPageDocument().getPageClass()) != null) {
+				&& (document = ((PageParameter) rRequest).getPageDocument()) != null
+				&& (parent = document.getPageClass()) != null) {
 			qMap.put(PARAM_PARENT_PAGE, parent.getName());
 		}
 		/* 加入引用地址 */

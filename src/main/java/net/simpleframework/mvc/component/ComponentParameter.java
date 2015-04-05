@@ -34,7 +34,7 @@ public final class ComponentParameter extends PageParameter {
 	@Override
 	public PageDocument getPageDocument() {
 		PageDocument pageDocument = super.getPageDocument();
-		if (pageDocument == null) {
+		if (pageDocument == null && componentBean != null) {
 			pageDocument = componentBean.getPageDocument();
 		}
 		return pageDocument;
