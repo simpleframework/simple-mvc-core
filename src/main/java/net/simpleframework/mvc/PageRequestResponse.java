@@ -132,6 +132,10 @@ public class PageRequestResponse extends ObjectEx implements IMVCContextVar {
 		return request.getParameterNames();
 	}
 
+	public String getRefererParam() {
+		return getParameter(IMVCConst.PARAM_REFERER);
+	}
+
 	public Object getRequestAttr(final String key) {
 		return getPageRequest(request).getAttribute(key);
 	}
@@ -259,20 +263,25 @@ public class PageRequestResponse extends ObjectEx implements IMVCContextVar {
 				&& mvcContext.getMVCSettings().isGzipResponse(this) && !isHttpClientRequest();
 	}
 
-	public boolean isHttpClientRequest() {
-		return getUserAgent().indexOf("HttpClient") > -1;
-	}
-
-	private final static String PARAM_AJAX_REQUEST_MARK = "_ajax_request_mark";
+	private final static String PARAM_AJAX_REQUEST = "AJAX-REQUEST",
+			PARAM_HTTP_REQUEST = "HTTP-REQUEST";
 
 	public boolean isAjaxRequest() {
 		// prototype
 		return "XMLHttpRequest".equals(request.getHeader("X-Requested-With"))
-				|| getBoolParameter(PARAM_AJAX_REQUEST_MARK);
+				|| getBoolParameter(PARAM_AJAX_REQUEST);
+	}
+
+	public void setHttpRequest() {
+		putParameter(PARAM_HTTP_REQUEST, "true");
 	}
 
 	public boolean isHttpRequest() {
-		return !isAjaxRequest() && !isHttpClientRequest();
+		return !(isAjaxRequest() || isHttpClientRequest()) || getBoolParameter(PARAM_HTTP_REQUEST);
+	}
+
+	public boolean isHttpClientRequest() {
+		return getUserAgent().indexOf("HttpClient") > -1;
 	}
 
 	public String stripHTMLContextPath(final String html) {

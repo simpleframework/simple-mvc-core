@@ -58,7 +58,7 @@ public abstract class AbstractUrlForward extends AbstractForward {
 			qMap.put(PARAM_PARENT_PAGE, parent.getName());
 		}
 		/* 加入引用地址 */
-		if (!StringUtils.hasText(rRequest.getParameter(PARAM_REFERER))) {
+		if (!StringUtils.hasText(rRequest.getRefererParam())) {
 			qMap.put(PARAM_REFERER, rRequest.getRequestAndQueryStringUrl());
 		}
 

@@ -52,8 +52,7 @@ public class DefaultPagePermissionHandler extends DefaultPermissionHandler imple
 		}
 
 		String wUrl;
-		if (rRequest.isHttpRequest() || rRequest.getBoolParameter("HTTP-REQUEST")
-				|| (wUrl = getLoginWindowRedirectUrl(rRequest)) == null) {
+		if (rRequest.isHttpRequest() || (wUrl = getLoginWindowRedirectUrl(rRequest)) == null) {
 			String lUrl = settings.getLoginPath(rRequest);
 			if (!StringUtils.hasText(lUrl)) {
 				lUrl = rPath + "/jsp/login_alert.jsp";
