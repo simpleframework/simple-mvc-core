@@ -1,7 +1,10 @@
 package net.simpleframework.mvc;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import net.simpleframework.ctx.IApplicationContextBase;
 import net.simpleframework.ctx.settings.ContextSettings;
@@ -90,15 +93,15 @@ public class MVCSettings extends ContextSettings {
 		return isDebug() ? false : true;
 	}
 
-	private static final String[] pKeys = new String[] { IMVCConst.REQUEST_ID,
-			IMVCConst.PARAM_XMLPATH };
+	private static Set<String> pKeys = new HashSet<String>(Arrays.asList(new String[] {
+			IMVCConst.REQUEST_ID, IMVCConst.PARAM_XMLPATH }));
 
 	/**
 	 * 获取系统请求参数
 	 * 
 	 * @return
 	 */
-	public String[] getSystemParamKeys() {
+	public Set<String> getSystemParamKeys() {
 		return pKeys;
 	}
 

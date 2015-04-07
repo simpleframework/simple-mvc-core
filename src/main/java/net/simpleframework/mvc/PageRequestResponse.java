@@ -8,6 +8,7 @@ import java.net.URLEncoder;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;
@@ -309,9 +310,10 @@ public class PageRequestResponse extends ObjectEx implements IMVCContextVar {
 		final Enumeration<String> e = getParameterNames();
 		final StringBuilder sb = new StringBuilder();
 		int i = 0;
+		final Set<String> keys = settings.getSystemParamKeys();
 		while (e.hasMoreElements()) {
 			final String key = e.nextElement();
-			if (!IMVCConst.REQUEST_ID.equals(key)) {
+			if (!keys.contains(key)) {
 				if (i++ > 0) {
 					sb.append("&");
 				}
