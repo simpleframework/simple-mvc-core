@@ -29,6 +29,10 @@ public class SpanElement extends AbstractTagElement<SpanElement> {
 		return new SpanElement(text).addStyle("font-size: 9.5pt; color: #666; font-weight: bold;");
 	}
 
+	public static SpanElement warnText(final Object text) {
+		return new SpanElement(text).addStyle("font-size: 11.5pt; color: #e00;");
+	}
+
 	public static SpanElement num(final Object num) {
 		return new SpanElement(num).setClassName("num");
 	}
