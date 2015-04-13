@@ -55,9 +55,9 @@
 }
 
 .num {
-  font-size: 9.5pt;
+  font-size: 9pt;
   color: #a00;
-  font-family: candara;
+  font-style: italic;
   word-break: normal;
 	word-wrap: normal;
 }
