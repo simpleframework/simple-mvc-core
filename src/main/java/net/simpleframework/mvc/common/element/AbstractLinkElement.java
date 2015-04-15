@@ -38,6 +38,8 @@ public abstract class AbstractLinkElement<T extends AbstractTagElement<T>> exten
 		addAttribute("target", getTarget());
 		if (!isDisabled()) {
 			addAttribute("href", getHref());
+		} else {
+			addClassName("disabled");
 		}
 		super.doAttri(sb);
 	}
