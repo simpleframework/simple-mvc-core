@@ -14,7 +14,6 @@ import net.simpleframework.common.ClassUtils;
 import net.simpleframework.common.Convert;
 import net.simpleframework.common.DateUtils;
 import net.simpleframework.common.I18n;
-import net.simpleframework.common.ID;
 import net.simpleframework.common.IoUtils;
 import net.simpleframework.common.StringUtils;
 import net.simpleframework.common.coll.ArrayUtils;
@@ -615,7 +614,7 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 				final IPagePermissionHandler hdl = pp.getPermission();
 				final PermissionUser login = pp.getLogin();
 				if (login.isManager()) {
-					org = hdl.getDept(ID.of(pp.getParameter(key)));
+					org = hdl.getDept(pp.toID(key));
 				}
 				if (org == null) {
 					org = hdl.getDept(login.getDept().getDomainId());

@@ -412,6 +412,10 @@ public class PageRequestResponse extends ObjectEx implements IMVCContextVar {
 		return HttpUtils.getBinaryOutputStream(request, response, filename, filesize);
 	}
 
+	public ID toID(final String key) {
+		return ID.of(getParameter(key));
+	}
+
 	/* 权限相关的一些函数 */
 	public IPagePermissionHandler getPermission() {
 		return mvcContext.getPermission();
