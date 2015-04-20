@@ -28,6 +28,8 @@ import net.simpleframework.common.web.HttpUtils;
 import net.simpleframework.common.web.html.HtmlUtils;
 import net.simpleframework.ctx.permission.LoginUser;
 import net.simpleframework.ctx.permission.LoginUser.LoginWrapper;
+import net.simpleframework.ctx.permission.PermissionConst;
+import net.simpleframework.ctx.permission.PermissionRole;
 import net.simpleframework.ctx.permission.PermissionUser;
 import net.simpleframework.mvc.ctx.permission.IPagePermissionHandler;
 
@@ -421,6 +423,11 @@ public class PageRequestResponse extends ObjectEx implements IMVCContextVar {
 
 	public boolean isLogin() {
 		return getLoginId() != null;
+	}
+
+	public PermissionRole getRole(final Object role) {
+		return getPermission().getRole(role,
+				new KVMap().add(PermissionConst.VAL_USERID, getLoginId()));
 	}
 
 	public PermissionUser getLogin() {
