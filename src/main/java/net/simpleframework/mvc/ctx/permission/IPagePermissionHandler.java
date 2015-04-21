@@ -1,9 +1,11 @@
 package net.simpleframework.mvc.ctx.permission;
 
+import java.util.Iterator;
 import java.util.Map;
 
 import net.simpleframework.common.ID;
 import net.simpleframework.ctx.permission.IPermissionHandler;
+import net.simpleframework.ctx.permission.PermissionRole;
 import net.simpleframework.ctx.permission.PermissionUser;
 import net.simpleframework.mvc.IForward;
 import net.simpleframework.mvc.PageRequestResponse;
@@ -94,4 +96,10 @@ public interface IPagePermissionHandler extends IPermissionHandler {
 	String getPhotoUrl(PageRequestResponse rRequest, Object user);
 
 	String getLoginPhotoUrl(PageRequestResponse rRequest);
+
+	Iterator<ID> users(PageRequestResponse rRequest, Object role, ID deptId);
+
+	Iterator<ID> users(PageRequestResponse rRequest, Object role);
+
+	PermissionRole getRole(PageRequestResponse rRequest, Object role);
 }

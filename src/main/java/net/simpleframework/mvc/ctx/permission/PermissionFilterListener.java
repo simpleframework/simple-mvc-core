@@ -56,7 +56,7 @@ public class PermissionFilterListener implements IFilterListener, IMVCContextVar
 
 			// 权限判断
 			if (StringUtils.hasText(role) && !PermissionConst.ROLE_ANONYMOUS.equals(role)) {
-				if (!permission.getLogin(rRequest).isMember(role)) {
+				if (!rRequest.isLmember(role)) {
 					final String v = AlgorithmUtils.base64Encode(rRequest.getRequestAndQueryStringUrl()
 							.getBytes());
 					rRequest.loc(MVCUtils.getPageResourcePath() + "/jsp/role_http_access.jsp?v=" + v

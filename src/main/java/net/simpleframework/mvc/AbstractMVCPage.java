@@ -24,7 +24,6 @@ import net.simpleframework.common.logger.LogFactory;
 import net.simpleframework.common.object.ObjectFactory;
 import net.simpleframework.ctx.IModuleContext;
 import net.simpleframework.ctx.permission.PermissionDept;
-import net.simpleframework.ctx.permission.PermissionUser;
 import net.simpleframework.lib.org.jsoup.nodes.Element;
 import net.simpleframework.mvc.common.element.Meta;
 import net.simpleframework.mvc.component.AbstractComponentBean;
@@ -442,7 +441,7 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 	protected boolean isRoleMember(final PageParameter pp) {
 		Boolean b = (Boolean) pp.getRequestAttr("_Member");
 		if (b == null) {
-			pp.setRequestAttr("_Member", b = pp.getLogin().isMember(getRole(pp)));
+			pp.setRequestAttr("_Member", b = pp.isLmember(getRole(pp)));
 		}
 		return b;
 	}
@@ -612,12 +611,11 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 			public PermissionDept get() {
 				PermissionDept org = null;
 				final IPagePermissionHandler hdl = pp.getPermission();
-				final PermissionUser login = pp.getLogin();
-				if (login.isManager()) {
+				if (pp.isLmanager()) {
 					org = hdl.getDept(pp.toID(key));
 				}
 				if (org == null) {
-					org = hdl.getDept(login.getDept().getDomainId());
+					org = hdl.getDept(pp.getLogin().getDept().getDomainId());
 				}
 				return org;
 			}

@@ -135,7 +135,7 @@ public abstract class MVCUtils implements IMVCContextVar {
 		final String detail = Convert.toString(th);
 		exception.put("detail", detail);
 		exception.put("hash", ObjectUtils.hashStr(detail));
-		exception.put("more", rRequest.getLogin().isManager());
+		exception.put("more", rRequest.isLmanager());
 		return exception;
 	}
 

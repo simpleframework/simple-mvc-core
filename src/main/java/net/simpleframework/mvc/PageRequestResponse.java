@@ -28,7 +28,6 @@ import net.simpleframework.common.web.HttpUtils;
 import net.simpleframework.common.web.html.HtmlUtils;
 import net.simpleframework.ctx.permission.LoginUser;
 import net.simpleframework.ctx.permission.LoginUser.LoginWrapper;
-import net.simpleframework.ctx.permission.PermissionConst;
 import net.simpleframework.ctx.permission.PermissionRole;
 import net.simpleframework.ctx.permission.PermissionUser;
 import net.simpleframework.mvc.ctx.permission.IPagePermissionHandler;
@@ -430,12 +429,15 @@ public class PageRequestResponse extends ObjectEx implements IMVCContextVar {
 	}
 
 	public PermissionRole getRole(final Object role) {
-		return getPermission().getRole(role,
-				new KVMap().add(PermissionConst.VAL_USERID, getLoginId()));
+		return getPermission().getRole(this, role);
+	}
+
+	public PermissionUser getUser(final Object user) {
+		return getPermission().getUser(user);
 	}
 
 	public PermissionUser getLogin() {
-		return getRequestCache("@PermissionUser", new IVal<PermissionUser>() {
+		return getRequestCache("@getLogin", new IVal<PermissionUser>() {
 			@Override
 			public PermissionUser get() {
 				return getPermission().getLogin(PageRequestResponse.this);
@@ -443,8 +445,12 @@ public class PageRequestResponse extends ObjectEx implements IMVCContextVar {
 		});
 	}
 
-	public PermissionUser getUser(final Object user) {
-		return getPermission().getUser(user);
+	public boolean isLmember(final Object role) {
+		return getLogin().isMember(role);
+	}
+
+	public boolean isLmanager() {
+		return getLogin().isManager();
 	}
 
 	public void setLoginUser(final Object user) {
