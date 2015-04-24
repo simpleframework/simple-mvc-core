@@ -16,7 +16,6 @@ import net.simpleframework.ctx.script.MVEL2Template.INamedTemplate;
  *         http://www.simpleframework.net
  */
 public abstract class AbstractMVELTemplatePage extends AbstractMVCPage {
-
 	@Override
 	protected String replaceExpr(final PageParameter pp, final InputStream htmlStream,
 			final Map<String, Object> variables) throws IOException {
