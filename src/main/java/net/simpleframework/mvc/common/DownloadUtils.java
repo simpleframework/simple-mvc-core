@@ -62,6 +62,10 @@ public abstract class DownloadUtils {
 		final File oFile = new File(StringUtils.decodeHexString(rRequest.getParameter("path")));
 		final OutputStream outputStream = rRequest.getBinaryOutputStream(
 				HttpUtils.toLocaleString(rRequest.getParameter("filename")), oFile.length());
+		String disposition=rRequest.getParameter("disposition");
+		if(null!=disposition)
+			rRequest.response.setHeader("Content-Disposition", disposition);
+		
 		final InputStream iStream = new FileInputStream(oFile);
 		try {
 			IoUtils.copyStream(iStream, outputStream);
