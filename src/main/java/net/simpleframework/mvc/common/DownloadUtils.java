@@ -62,10 +62,18 @@ public abstract class DownloadUtils {
 		final File oFile = new File(StringUtils.decodeHexString(rRequest.getParameter("path")));
 		final OutputStream outputStream = rRequest.getBinaryOutputStream(
 				HttpUtils.toLocaleString(rRequest.getParameter("filename")), oFile.length());
-		String disposition=rRequest.getParameter("disposition");
-		if(null!=disposition)
-			rRequest.response.setHeader("Content-Disposition", disposition);
-		
+
+		// setResponseHeader
+		final String[] headers = StringUtils.split("response-headers", ";");
+		if (headers != null) {
+			for (final String s : headers) {
+				final String[] kv = StringUtils.split(s, ":");
+				if (kv.length == 2) {
+					rRequest.setResponseHeader(kv[0], kv[1]);
+				}
+			}
+		}
+
 		final InputStream iStream = new FileInputStream(oFile);
 		try {
 			IoUtils.copyStream(iStream, outputStream);

@@ -221,6 +221,10 @@ public class PageRequestResponse extends ObjectEx implements IMVCContextVar {
 		response.setCharacterEncoding(charset);
 	}
 
+	public void setResponseHeader(final String name, final String value) {
+		response.setHeader(name, value);
+	}
+
 	public void setResponseNoCache() {
 		HttpUtils.setNoCache(response);
 	}
