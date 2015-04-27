@@ -63,7 +63,7 @@ public abstract class DownloadUtils {
 		final OutputStream outputStream = rRequest.getBinaryOutputStream(
 				HttpUtils.toLocaleString(rRequest.getParameter("filename")), oFile.length());
 
-		final String[] headers = StringUtils.split("response-headers", ";");
+		final String[] headers = StringUtils.split(rRequest.getParameter("response-headers"), ";");
 		if (headers != null) {
 			for (final String s : headers) {
 				final String[] kv = StringUtils.split(s, ":");
