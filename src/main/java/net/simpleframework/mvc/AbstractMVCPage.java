@@ -606,7 +606,7 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 	}
 
 	public static PermissionDept getPermissionOrg(final PageParameter pp, final String key) {
-		return pp.getRequestCache("@PermissionOrg", new IVal<PermissionDept>() {
+		return pp.getRequestCache("_getPermissionOrg", new CacheV<PermissionDept>() {
 			@Override
 			public PermissionDept get() {
 				PermissionDept org = null;

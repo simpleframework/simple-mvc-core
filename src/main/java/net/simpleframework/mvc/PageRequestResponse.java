@@ -441,7 +441,12 @@ public class PageRequestResponse extends ObjectEx implements IMVCContextVar {
 	}
 
 	public PermissionUser getLogin() {
-		return getRequestCache("@getLogin", new IVal<PermissionUser>() {
+		return getRequestCache("_getLogin", new CacheV<PermissionUser>() {
+			@Override
+			public boolean hasVal(final PermissionUser val) {
+				return val != null && val.getId() != null;
+			}
+
 			@Override
 			public PermissionUser get() {
 				return getPermission().getLogin(PageRequestResponse.this);
@@ -474,23 +479,19 @@ public class PageRequestResponse extends ObjectEx implements IMVCContextVar {
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T> T getRequestCache(final String key, final IVal<T> i) {
+	public <T> T getRequestCache(final String key, final CacheV<T> i) {
 		T val = (T) getRequestAttr(key);
-		if (val == null) {
-			if ((val = i.get()) != null) {
-				setRequestAttr(key, val);
-			}
+		if (val == null && i.hasVal(val = i.get())) {
+			setRequestAttr(key, val);
 		}
 		return val;
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T> T getSessionCache(final String key, final IVal<T> i) {
+	public <T> T getSessionCache(final String key, final CacheV<T> i) {
 		T val = (T) getSessionAttr(key);
-		if (val == null) {
-			if ((val = i.get()) != null) {
-				setSessionAttr(key, val);
-			}
+		if (val == null && i.hasVal(val = i.get())) {
+			setSessionAttr(key, val);
 		}
 		return val;
 	}
