@@ -265,7 +265,7 @@ public class PageRequestResponse extends ObjectEx implements IMVCContextVar {
 	public boolean isGzipResponse() {
 		final String browserEncodings = getRequestHeader("accept-encoding");
 		return ((browserEncodings != null) && (browserEncodings.indexOf("gzip") != -1))
-				&& mvcContext.getMVCSettings().isGzipResponse(this) && !isHttpClientRequest();
+				&& settings.isGzipResponse(this) && !isHttpClientRequest();
 	}
 
 	private final static String PARAM_AJAX_REQUEST = "AJAX-REQUEST",
