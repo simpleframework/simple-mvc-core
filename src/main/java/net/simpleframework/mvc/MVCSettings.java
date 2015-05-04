@@ -1,12 +1,14 @@
 package net.simpleframework.mvc;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
-import net.simpleframework.ctx.IApplicationContextBase;
+import net.simpleframework.common.object.ObjectEx;
 import net.simpleframework.ctx.settings.ContextSettings;
 
 /**
@@ -15,14 +17,11 @@ import net.simpleframework.ctx.settings.ContextSettings;
  * @author 陈侃(cknet@126.com, 13910090885) https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
-public class MVCSettings extends ContextSettings {
+public class MVCSettings extends ObjectEx {
+	/* 上下文环境配置 */
+	private ContextSettings contextSettings;
 
-	public static MVCSettings getDefault() {
-		return singleton(MVCSettings.class);
-	}
-
-	@Override
-	public void onInit(final IApplicationContextBase context) throws Exception {
+	public MVCSettings(final IMVCContext context, final ContextSettings contextSettings) {
 		final Map<String, String> packages = getFilterPackages();
 		if (packages != null) {
 			for (final String key : new ArrayList<String>(packages.keySet())) {
@@ -31,14 +30,43 @@ public class MVCSettings extends ContextSettings {
 				}
 			}
 		}
-		if (context instanceof IMVCContext) {
-			// 设置settings
-			((IMVCContext) context).setMVCSettings(this);
-		}
+
+		// 关联到context
+		context.setMVCSettings(this);
+		// 引用contextSettings
+		this.contextSettings = contextSettings;
 	}
 
-	public String getRealPath(final String url) {
-		return MVCUtils.getRealPath(url);
+	public MVCSettings(final IMVCContext context) {
+		this(context, null);
+	}
+
+	public ContextSettings getContextSettings() {
+		return contextSettings;
+	}
+
+	public void setContextSettings(final ContextSettings contextSettings) {
+		this.contextSettings = contextSettings;
+	}
+
+	public boolean isDebug() {
+		return getContextSettings().isDebug();
+	}
+
+	public String getCharset() {
+		return getContextSettings().getCharset();
+	}
+
+	public File getHomeFileDir() {
+		return getContextSettings().getHomeFileDir();
+	}
+
+	public File getTmpFiledir() {
+		return getContextSettings().getTmpFiledir();
+	}
+
+	public String getDefaultRole() {
+		return getContextSettings().getDefaultRole();
 	}
 
 	/**
@@ -51,10 +79,26 @@ public class MVCSettings extends ContextSettings {
 		return isDebug() ? false : true;
 	}
 
-	private static final String IE_VERSION_PAGE = "/jsp/ie_version_alert.jsp";
+	/**
+	 * 资源是否压缩，js和css
+	 * 
+	 * @return
+	 */
+	public boolean isResourceCompress() {
+		return isDebug() ? false : true;
+	}
+
+	public int getServerPort(final PageRequestResponse rRequest) {
+		return rRequest.getServerPort();
+	}
+
+	public boolean isEffect(final PageRequestResponse rRequest) {
+		final Float ver = rRequest.getIEVersion();
+		return ver == null || ver > 8.0;
+	}
 
 	public String getIEWarnPath(final PageRequestResponse rRequest) {
-		return MVCUtils.getPageResourcePath() + IE_VERSION_PAGE;
+		return MVCUtils.getPageResourcePath() + "/jsp/ie_version_alert.jsp";
 	}
 
 	public String getErrorPath(final PageRequestResponse rRequest) {
@@ -73,24 +117,6 @@ public class MVCSettings extends ContextSettings {
 	 */
 	public String getHomePath(final PageRequestResponse rRequest) {
 		return null;
-	}
-
-	public boolean isEffect(final PageRequestResponse rRequest) {
-		final Float ver = rRequest.getIEVersion();
-		return ver == null || ver > 8.0;
-	}
-
-	public int getServerPort(final PageRequestResponse rRequest) {
-		return rRequest.getServerPort();
-	}
-
-	/**
-	 * 资源是否压缩，js和css
-	 * 
-	 * @return
-	 */
-	public boolean isResourceCompress() {
-		return isDebug() ? false : true;
 	}
 
 	private static Set<String> pKeys = new HashSet<String>(Arrays.asList(new String[] {
@@ -116,7 +142,12 @@ public class MVCSettings extends ContextSettings {
 		return "/";
 	}
 
+	private final Map<String, String> packages = new LinkedHashMap<String, String>();
+	{
+		packages.put("/sf", "net.simpleframework");
+	}
+
 	public Map<String, String> getFilterPackages() {
-		return null;
+		return packages;
 	}
 }

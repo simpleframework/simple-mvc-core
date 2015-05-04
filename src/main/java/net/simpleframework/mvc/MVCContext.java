@@ -165,9 +165,6 @@ public class MVCContext extends AbstractApplicationContextBase implements IMVCCo
 
 	@Override
 	public MVCSettings getMVCSettings() {
-		if (settings == null) {
-			settings = MVCSettings.getDefault();
-		}
 		return settings;
 	}
 

@@ -14,8 +14,7 @@ public interface IMVCContextVar {
 
 	static IMVCContext mvcContext = (IMVCContext) ApplicationContextFactory.ctx();
 
-	static MVCSettings settings = mvcContext != null ? mvcContext.getMVCSettings() : MVCSettings
-			.getDefault();
+	static MVCSettings settings = mvcContext != null ? mvcContext.getMVCSettings() : null;
 
 	static ServletContext servlet = mvcContext != null ? mvcContext.getServletContext() : null;
 }
