@@ -59,7 +59,7 @@ public class PageDocumentFactory implements IMVCContextVar {
 	}
 
 	@SuppressWarnings("unchecked")
-	private static PageDocument getPageDocument(final PageRequestResponse rRequest,
+	public static PageDocument getPageDocument(final PageRequestResponse rRequest,
 			final String lookupPath) {
 		final String filterPath = settings.getFilterPath();
 		PageDocument pageDocument = null;
