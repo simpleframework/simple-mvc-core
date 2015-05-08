@@ -113,8 +113,8 @@ public class MVCFilter extends ObjectEx implements Filter, IMVCConst {
 						return;
 					}
 
-					final AbstractMVCPage abstractPage = pp.getPage();
 					IForward forward = null;
+					final AbstractMVCPage abstractPage = pp.getPage();
 					if (abstractPage != null) {
 						forward = abstractPage.forward(pp);
 						/* forward函数调用write，直接交给httpResponse并返回 */
