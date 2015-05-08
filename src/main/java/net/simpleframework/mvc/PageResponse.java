@@ -207,6 +207,6 @@ public class PageResponse extends HttpServletResponseWrapper implements IMVCCont
 			} catch (final UnsupportedEncodingException e) {
 			}
 		}
-		return super.toString();
+		return null;
 	}
 }

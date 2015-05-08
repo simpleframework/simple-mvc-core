@@ -114,12 +114,23 @@ public class MVCFilter extends ObjectEx implements Filter, IMVCConst {
 					}
 
 					final AbstractMVCPage abstractPage = pp.getPage();
-					final IForward forward = abstractPage != null ? abstractPage.forward(pp) : null;
+					IForward forward = null;
+					if (abstractPage != null) {
+						forward = abstractPage.forward(pp);
+						/* forward函数调用write，直接交给httpResponse并返回 */
+						final String rHTML = _response.toString();
+						if (rHTML != null) {
+							final PrintWriter writer = httpResponse.getWriter();
+							writer.write(rHTML);
+							writer.close();
+							return;
+						}
+					}
+
 					if (forward == null) {
 						/* 产生 _response.toString() */
 						filterChain.doFilter(pp.request, _response);
 					}
-
 					if (_response.isCommitted()) {
 						return;
 					}
