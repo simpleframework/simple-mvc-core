@@ -11,8 +11,9 @@ import net.simpleframework.common.StringUtils;
  */
 public class ButtonElement extends AbstractElement<ButtonElement> {
 
-	public static final ButtonElement WINDOW_CLOSE = new ButtonElement().setOnclick(
-			"$win(this).close();").setText($m("Button.Close"));
+	public static final ButtonElement closeBtn() {
+		return new ButtonElement().setOnclick("$win(this).close();").setText($m("Button.Close"));
+	}
 
 	public static final ButtonElement editBtn() {
 		return new ButtonElement($m("Edit"));
