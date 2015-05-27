@@ -106,6 +106,7 @@ public class SessionCache implements IMVCContextVar {
 				public void sessionDestroyed(final String sessionId) {
 					if (sessionId != null) {
 						_attributes.remove(sessionId);
+						System.out.println("sessionDestroyed[ISessionAttribute]: " + sessionId);
 					}
 				}
 
@@ -159,7 +160,6 @@ public class SessionCache implements IMVCContextVar {
 
 		@Override
 		public void sessionDestroyed(final HttpSessionEvent httpSessionEvent) {
-			// System.out.println("remove objects from session: " + sessionId);
 			final String jsessionId = httpSessionEvent.getSession().getId();
 			_cache.getSessionAttribute().sessionDestroyed(jsessionId);
 			_lcache.getSessionAttribute().sessionDestroyed(jsessionId);
