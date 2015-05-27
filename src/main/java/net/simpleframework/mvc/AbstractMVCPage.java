@@ -615,7 +615,7 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 					org = hdl.getDept(pp.toID(key));
 				}
 				if (org == null) {
-					org = hdl.getDept(pp.getLogin().getDept().getDomainId());
+					org = hdl.getDept(pp.getLdept().getDomainId());
 				}
 				return org;
 			}
