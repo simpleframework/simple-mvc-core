@@ -48,15 +48,18 @@ public class MVCContext extends AbstractApplicationContextBase implements IMVCCo
 	}
 
 	@Override
-	public void onInit() throws Exception {
+	protected void onBeforeInit() throws Exception {
+		super.onBeforeInit();
 		// servlet 3.0
 		if (servletContext.getMajorVersion() >= 3) {
 			// servletContext.addListener(MVCEventAdapter.class.getName());
 		}
-
 		getEventAdapter().addListener(SessionCache.SESSIONCACHE_LISTENER);
+	}
 
-		super.onInit();
+	@Override
+	protected void onAfterInit() throws Exception {
+		super.onAfterInit();
 
 		addFilterListener(new UtilsFilterListener());
 		addFilterListener(new LastUrlListener());
@@ -64,8 +67,8 @@ public class MVCContext extends AbstractApplicationContextBase implements IMVCCo
 	}
 
 	@Override
-	protected void doScanResources(final String[] packageNames) throws Exception {
-		super.doScanResources(packageNames);
+	protected void doInternalInit(final String[] packageNames) throws Exception {
+		super.doInternalInit(packageNames);
 		// 资源
 		IScanResourcesCallback callback = DeployUtils.newDeployResourcesCallback();
 		for (final String packageName : packageNames) {
