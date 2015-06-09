@@ -59,12 +59,19 @@ public abstract class AbstractElement<T extends AbstractElement<T>> extends Text
 	}
 
 	public T setId(final String id) {
+		// if (id != null && !id.matches("^.*[A-Z_]+.*$")) {
+		// throw ParserException.of("id值至少要含有一个大写字母！");
+		// }
 		this.id = id;
 		return (T) this;
 	}
 
 	public String getStyle() {
 		return style;
+	}
+
+	public static void main(final String[] args) {
+		System.out.println("pager_@bid".matches("^.*[A-Z_]+.*$"));
 	}
 
 	public T setStyle(final String style) {
