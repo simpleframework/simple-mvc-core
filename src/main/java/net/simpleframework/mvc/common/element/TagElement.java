@@ -18,6 +18,15 @@ public class TagElement extends AbstractTagElement<TagElement> {
 		return _tag;
 	}
 
+	public static TagElement br() {
+		return new TagElement("br") {
+			@Override
+			public String toString() {
+				return "<br>";
+			}
+		};
+	}
+
 	public static TagElement table() {
 		return new TagElement("table").setWidth("100%");
 	}
