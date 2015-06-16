@@ -1,6 +1,5 @@
 package net.simpleframework.mvc;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -8,7 +7,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
-import net.simpleframework.common.object.ObjectEx;
 import net.simpleframework.ctx.settings.ContextSettings;
 
 /**
@@ -17,11 +15,9 @@ import net.simpleframework.ctx.settings.ContextSettings;
  * @author 陈侃(cknet@126.com, 13910090885) https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
-public class MVCSettings extends ObjectEx {
-	/* 上下文环境配置 */
-	private ContextSettings contextSettings;
+public class MVCSettings extends ContextSettings {
 
-	public MVCSettings(final IMVCContext context, final ContextSettings contextSettings) {
+	public MVCSettings(final IMVCContext context, final ContextSettings applicationSettings) {
 		final Map<String, String> packages = getFilterPackages();
 		if (packages != null) {
 			for (final String key : new ArrayList<String>(packages.keySet())) {
@@ -34,39 +30,11 @@ public class MVCSettings extends ObjectEx {
 		// 关联到context
 		context.setMVCSettings(this);
 		// 引用contextSettings
-		this.contextSettings = contextSettings;
+		setApplicationSettings(applicationSettings);
 	}
 
 	public MVCSettings(final IMVCContext context) {
 		this(context, null);
-	}
-
-	public ContextSettings getContextSettings() {
-		return contextSettings;
-	}
-
-	public void setContextSettings(final ContextSettings contextSettings) {
-		this.contextSettings = contextSettings;
-	}
-
-	public boolean isDebug() {
-		return getContextSettings().isDebug();
-	}
-
-	public String getCharset() {
-		return getContextSettings().getCharset();
-	}
-
-	public File getHomeFileDir() {
-		return getContextSettings().getHomeFileDir();
-	}
-
-	public File getTmpFiledir() {
-		return getContextSettings().getTmpFiledir();
-	}
-
-	public String getDefaultRole() {
-		return getContextSettings().getDefaultRole();
 	}
 
 	/**
