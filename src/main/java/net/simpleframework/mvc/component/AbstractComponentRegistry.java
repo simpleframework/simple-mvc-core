@@ -51,7 +51,7 @@ public abstract class AbstractComponentRegistry extends ObjectEx implements ICom
 	}
 
 	public static IScanResourcesCallback newComponentRegistryCallback() {
-		System.out.println($m("AbstractComponentRegistry.0"));
+		oprintln($m("AbstractComponentRegistry.0"));
 		final ComponentRegistryFactory factory = ComponentRegistryFactory.get();
 		return new ScanClassResourcesCallback() {
 			@Override

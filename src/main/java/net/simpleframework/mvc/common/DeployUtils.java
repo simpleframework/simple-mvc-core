@@ -14,6 +14,7 @@ import net.simpleframework.common.ClassUtils;
 import net.simpleframework.common.ClassUtils.IScanResourcesCallback;
 import net.simpleframework.common.Convert;
 import net.simpleframework.common.FileUtils;
+import net.simpleframework.common.object.ObjectEx;
 import net.simpleframework.common.object.ObjectUtils;
 import net.simpleframework.common.web.JavascriptUtils;
 import net.simpleframework.mvc.IMVCContextVar;
@@ -30,7 +31,7 @@ public abstract class DeployUtils implements IMVCContextVar {
 	private final static String RESOURCE_NAME = "$resource";
 
 	public static IScanResourcesCallback newDeployResourcesCallback() {
-		System.out.println($m("DeployUtils.0"));
+		ObjectEx.oprintln($m("DeployUtils.0"));
 		return new IScanResourcesCallback() {
 			private final Map<String, Properties> rProperties = new HashMap<String, Properties>();
 
