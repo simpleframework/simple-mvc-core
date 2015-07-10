@@ -58,7 +58,7 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 	 * 
 	 * @param pageParameter
 	 */
-	protected void onForward(final PageParameter pp) {
+	protected void onForward(final PageParameter pp) throws Exception {
 	}
 
 	protected static final String[] NULL_ARR = new String[0];
@@ -137,19 +137,14 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 	 * @param pp
 	 * @return
 	 */
-	public IForward forward(final PageParameter pp) {
+	public IForward forward(final PageParameter pp) throws Exception {
 		final IForward _forward = getMethodForward(pp);
 		if (_forward != null) {
 			return _forward;
 		}
 
 		onForward(pp);
-		try {
-			return new TextForward(getPageForward(pp, getClass(), getVariables(pp)));
-		} catch (final IOException e) {
-			getLog().warn(e);
-		}
-		return null;
+		return new TextForward(getPageForward(pp, getClass(), getVariables(pp)));
 	}
 
 	protected IForward getMethodForward(final PageParameter pp) {

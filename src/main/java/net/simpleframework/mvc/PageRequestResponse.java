@@ -10,6 +10,7 @@ import java.util.Enumeration;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
+import javax.servlet.ServletInputStream;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
@@ -202,6 +203,10 @@ public class PageRequestResponse extends ObjectEx implements IMVCContextVar {
 	public boolean isMultipartRequest() {
 		final String type = request.getContentType();
 		return type != null && type.toLowerCase().contains("multipart/");
+	}
+
+	public ServletInputStream getRequestInputStream() throws IOException {
+		return request.getInputStream();
 	}
 
 	// Response Wrapper
