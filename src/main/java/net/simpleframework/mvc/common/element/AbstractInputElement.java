@@ -55,6 +55,9 @@ public abstract class AbstractInputElement<T extends AbstractInputElement<T>> ex
 	}
 
 	public int getRows() {
+		if (rows < 1) {
+			return 1;
+		}
 		return rows;
 	}
 
@@ -109,6 +112,7 @@ public abstract class AbstractInputElement<T extends AbstractInputElement<T>> ex
 		if (type == EInputType.textarea) {
 			addAttribute("rows", getRows());
 			if (isAutoRows()) {
+				addStyle("min-height: " + (20 * getRows()) + "px;");
 				addAttribute("oninput",
 						"this.style.height='0px'; this.style.height = (this.scrollHeight + 'px');")
 						.addAttribute("onpropertychange",
