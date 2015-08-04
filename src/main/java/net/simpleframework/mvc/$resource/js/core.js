@@ -35,10 +35,13 @@ var $Actions = {
       window.location = url;
   },
 
-  reloc : function() {
-    window.location.reload();
+  reloc : function(params) {
+    if (params)
+      location.href = location.href.addParameter(params);
+    else
+      window.location.reload();
   },
-
+  
   callSafely : function(act, parameters, callback) {
     if (!act)
       return;
