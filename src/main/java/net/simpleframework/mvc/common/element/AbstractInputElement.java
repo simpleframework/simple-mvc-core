@@ -111,13 +111,14 @@ public abstract class AbstractInputElement<T extends AbstractInputElement<T>> ex
 		}
 		if (type == EInputType.textarea) {
 			if (isAutoRows()) {
-				addStyle("min-height: " + (20 * getRows()) + "px;");
-				final String txt = getText();
-				addAttribute("rows", StringUtils.charCount(txt, '\n') + 1);
+				addStyle("line-height: 21px; min-height: " + (21 * getRows()) + "px;");
+				final int rows = StringUtils.charCount(getText(), '\n') + 1;
+				addAttribute("rows", rows);
+				addStyle("height: " + (21 * rows) + "px");
+
 				addAttribute("oninput",
-						"this.style.height='0px'; this.style.height = (this.scrollHeight + 'px');")
-						.addAttribute("onpropertychange",
-								"this.style.height = (this.scrollHeight + 'px')");
+						"this.style.height='0px'; this.style.height = (this.scrollHeight + 'px');");
+				addAttribute("onpropertychange", "this.style.height = (this.scrollHeight + 'px');");
 			} else {
 				addAttribute("rows", getRows());
 			}
