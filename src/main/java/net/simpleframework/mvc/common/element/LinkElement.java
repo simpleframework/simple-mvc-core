@@ -14,6 +14,10 @@ import net.simpleframework.mvc.ctx.WebModuleFunction;
  */
 public class LinkElement extends AbstractLinkElement<LinkElement> implements IMVCContextVar {
 
+	public static LinkElement style2(final Object text) {
+		return new LinkElement(text).setClassName("simple_btn2");
+	}
+
 	public static LinkElement HOME() {
 		return new LinkElement($m("LinkElement.0")).setHref(settings.getFilterPath());
 	}
