@@ -22,6 +22,7 @@ import net.simpleframework.common.coll.KVMap;
 import net.simpleframework.common.object.ObjectEx;
 import net.simpleframework.common.web.html.HtmlConst;
 import net.simpleframework.mvc.IFilterListener.EFilterResult;
+import net.simpleframework.mvc.common.element.JS;
 import net.simpleframework.mvc.parser.PageParser;
 
 /**
@@ -243,7 +244,7 @@ public class MVCFilter extends ObjectEx implements Filter, IMVCConst {
 				// 如果是HttpClient请求,则生成跳转脚本
 				final StringBuilder sb = new StringBuilder();
 				sb.append(HtmlConst.TAG_SCRIPT_START);
-				sb.append("$Actions.loc('").append(getRedirectError(rRequest)).append("');");
+				sb.append(JS.loc(getRedirectError(rRequest)));
 				sb.append(HtmlConst.TAG_SCRIPT_END);
 				write(rRequest, sb.toString());
 			} else {
