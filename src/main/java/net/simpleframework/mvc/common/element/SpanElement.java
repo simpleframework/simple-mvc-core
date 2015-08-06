@@ -37,12 +37,28 @@ public class SpanElement extends AbstractTagElement<SpanElement> {
 		return new SpanElement(num).setClassName("num");
 	}
 
-	public static SpanElement grey777(final Object txt) {
-		return new SpanElement(txt).setColor("#777");
+	public static SpanElement color777(final Object txt) {
+		return color(txt, "#777");
 	}
 
-	public static SpanElement grey999(final Object txt) {
-		return new SpanElement(txt).setColor("#999");
+	public static SpanElement color999(final Object txt) {
+		return color(txt, "#999");
+	}
+
+	public static SpanElement color060(final Object txt) {
+		return color(txt, "#060");
+	}
+
+	public static SpanElement color600(final Object txt) {
+		return color(txt, "#600");
+	}
+
+	public static SpanElement colora00(final Object txt) {
+		return color(txt, "#a00");
+	}
+
+	private static SpanElement color(final Object txt, final String color) {
+		return new SpanElement(txt).setColor(color);
 	}
 
 	public SpanElement() {
