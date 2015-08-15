@@ -45,7 +45,8 @@ public class MVCHtmlBuilder extends ObjectEx implements IMVCContextVar {
 	public String doHttpRequestCSS(final PageParameter pp) {
 		final StringBuilder sb = new StringBuilder();
 		sb.append("body, body * { font-family: Verdana,");
-		if (pp.getUserAgent().indexOf("Windows NT 6.") > -1) {
+		final String userAgent = pp.getUserAgent();
+		if (userAgent.indexOf("NT 6.") > -1 || userAgent.indexOf("NT 10.") > -1) {
 			sb.append("'Microsoft YaHei',");
 		} else {
 			sb.append("SimSun,");
