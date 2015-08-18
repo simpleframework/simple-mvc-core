@@ -255,6 +255,8 @@ var $Effect = {};
   };
 
   document.setCookie = function(key, value, hour) {
+    if (!(typeof key == "string" && key.length > 0))
+      return;
     var expires = "";
     if (hour) {
       var date = new Date();
