@@ -19,6 +19,10 @@ public class ButtonElement extends AbstractElement<ButtonElement> {
 		return new ButtonElement($m("Edit"));
 	}
 
+	public static final ButtonElement addBtn() {
+		return new ButtonElement($m("Add"));
+	}
+
 	public static final ButtonElement deleteBtn() {
 		return new ButtonElement($m("Delete"));
 	}
