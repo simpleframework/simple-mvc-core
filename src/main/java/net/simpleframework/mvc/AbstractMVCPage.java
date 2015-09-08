@@ -421,7 +421,7 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 		this.lookupPath = lookupPath;
 	}
 
-	public String getRole(final PageParameter pp) {
+	public String getPageRole(final PageParameter pp) {
 		final WebModuleFunction func = WebModuleFunction.getModulefunctions().get(getClass());
 		if (func != null) {
 			return func.getRole();
@@ -436,7 +436,7 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 	protected boolean isRoleMember(final PageParameter pp) {
 		Boolean b = (Boolean) pp.getRequestAttr("_Member");
 		if (b == null) {
-			pp.setRequestAttr("_Member", b = pp.isLmember(getRole(pp)));
+			pp.setRequestAttr("_Member", b = pp.isLmember(getPageRole(pp)));
 		}
 		return b;
 	}
@@ -548,7 +548,7 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 	 */
 	public Object getPageBeanProperty(final PageParameter pp, final String beanProperty) {
 		if ("role".equals(beanProperty)) {
-			return getRole(pp);
+			return getPageRole(pp);
 		} else if ("title".equals(beanProperty)) {
 			return getTitle(pp);
 		} else if ("favicon".equals(beanProperty)) {
