@@ -1,5 +1,6 @@
 package net.simpleframework.mvc.common.element;
 
+import net.simpleframework.common.Convert;
 import net.simpleframework.common.StringUtils;
 import net.simpleframework.common.web.html.HtmlEncoder;
 import net.simpleframework.mvc.PageRequestResponse;
@@ -86,6 +87,10 @@ public abstract class AbstractInputElement<T extends AbstractInputElement<T>> ex
 
 	public T setValue(final String value) {
 		return setText(value);
+	}
+
+	public T setVal(final Object val) {
+		return setValue(Convert.toString(val));
 	}
 
 	public T setValue(final PageRequestResponse rRequest) {
