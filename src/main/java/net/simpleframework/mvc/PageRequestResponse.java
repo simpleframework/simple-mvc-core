@@ -98,6 +98,10 @@ public class PageRequestResponse extends ObjectEx implements IMVCContextVar {
 		return Convert.toInt(getParameter(key));
 	}
 
+	public long getLongParameter(final String key) {
+		return Convert.toLong(getParameter(key));
+	}
+
 	public short getShortParameter(final String key) {
 		return Convert.toShort(getParameter(key));
 	}
