@@ -14,16 +14,24 @@ public class SpanElement extends AbstractTagElement<SpanElement> {
 		return new SpanElement(text).setStyle("margin: 0px " + mwidth + "px;");
 	}
 
+	public static SpanElement SEP(final int mwidth) {
+		return SEP("|", mwidth);
+	}
+
 	public static SpanElement SEP() {
-		return SEP("|", 5);
+		return SEP(5);
 	}
 
 	public static SpanElement NAV(final String text, final int mwidth) {
 		return new SpanElement(text).addStyle("margin: 0px " + mwidth + "px;");
 	}
 
+	public static SpanElement NAV(final int mwidth) {
+		return NAV("&raquo;", mwidth);
+	}
+
 	public static SpanElement NAV() {
-		return NAV("&raquo;", 2);
+		return NAV(2);
 	}
 
 	public static SpanElement SPACE(final int width) {
