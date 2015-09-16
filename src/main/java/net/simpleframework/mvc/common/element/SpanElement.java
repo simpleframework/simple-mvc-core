@@ -7,11 +7,24 @@ package net.simpleframework.mvc.common.element;
  *         http://www.simpleframework.net
  */
 public class SpanElement extends AbstractTagElement<SpanElement> {
-	public static SpanElement SEP = new SpanElement("|").addStyle("margin: 0px 5px;");
-
-	public static SpanElement NAV = new SpanElement("&raquo;").addStyle("margin: 0px 2px;");
 
 	public static SpanElement ELLIPSIS = new SpanElement("&hellip;").addStyle("color: black;");
+
+	public static SpanElement SEP(final String text, final int mwidth) {
+		return new SpanElement(text).setStyle("margin: 0px " + mwidth + "px;");
+	}
+
+	public static SpanElement SEP() {
+		return SEP("|", 5);
+	}
+
+	public static SpanElement NAV(final String text, final int mwidth) {
+		return new SpanElement(text).addStyle("margin: 0px " + mwidth + "px;");
+	}
+
+	public static SpanElement NAV() {
+		return NAV("&raquo;", 2);
+	}
 
 	public static SpanElement SPACE(final int width) {
 		return new SpanElement().addStyle("width: " + width + "px; display: inline-block;");
