@@ -86,7 +86,11 @@ public class SpanElement extends AbstractTagElement<SpanElement> {
 		return color(txt, "#a00");
 	}
 
-	private static SpanElement color(final Object txt, final String color) {
+	public static SpanElement colorf00(final Object txt) {
+		return color(txt, "#f00");
+	}
+
+	public static SpanElement color(final Object txt, final String color) {
 		return new SpanElement(txt).setColor(color);
 	}
 
