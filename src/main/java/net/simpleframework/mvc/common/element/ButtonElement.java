@@ -39,6 +39,14 @@ public class ButtonElement extends AbstractElement<ButtonElement> {
 		return new ButtonElement($m("Button.Log"));
 	}
 
+	public static final ButtonElement cancelBtn() {
+		return new ButtonElement($m("Button.Cancel"));
+	}
+
+	public static final ButtonElement viewBtn() {
+		return new ButtonElement($m("Button.View"));
+	}
+
 	private boolean highlight;
 
 	public ButtonElement() {
