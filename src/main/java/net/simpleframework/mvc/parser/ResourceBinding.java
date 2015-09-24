@@ -71,35 +71,6 @@ public class ResourceBinding extends AbstractParser {
 		}
 
 		final String pageHome = prp.getResourceHomePath();
-		final Collection<String> cssColl = pageDocument.getImportCSS(pp);
-		if (cssColl != null) {
-			for (String css : cssColl) {
-				if (!css.startsWith("/")) {
-					css = pageHome + "/" + css;
-				} else {
-					css = pp.wrapContextPath(css);
-				}
-				ParserUtils.addStylesheet(pp, htmlHead, css);
-			}
-		}
-
-		// page
-		final Collection<String> jsColl = pageDocument.getImportJavascript(pp);
-		if (jsColl != null) {
-			for (String js : jsColl) {
-				if (!js.startsWith("/")) {
-					js = pageHome + "/" + js;
-				} else {
-					js = pp.wrapContextPath(js);
-				}
-				ParserUtils.addScriptSRC(pp, htmlHead, js);
-			}
-		}
-
-		// 页面依赖的组件
-		if (pageInstance != null) {
-			doDependentComponents(pp, htmlHead, pageInstance.getDependentComponents(pp));
-		}
 
 		// component
 		final Set<String> keys = new LinkedHashSet<String>();
@@ -116,6 +87,37 @@ public class ResourceBinding extends AbstractParser {
 			}
 			doDependentComponents(pp, htmlHead, crp.getDependentComponents(pp));
 			doComponentResource(htmlHead, pp, crp, pageHome);
+		}
+
+		// 页面依赖的组件
+		if (pageInstance != null) {
+			doDependentComponents(pp, htmlHead, pageInstance.getDependentComponents(pp));
+		}
+
+		// page css
+		final Collection<String> cssColl = pageDocument.getImportCSS(pp);
+		if (cssColl != null) {
+			for (String css : cssColl) {
+				if (!css.startsWith("/")) {
+					css = pageHome + "/" + css;
+				} else {
+					css = pp.wrapContextPath(css);
+				}
+				ParserUtils.addStylesheet(pp, htmlHead, css);
+			}
+		}
+
+		// page js
+		final Collection<String> jsColl = pageDocument.getImportJavascript(pp);
+		if (jsColl != null) {
+			for (String js : jsColl) {
+				if (!js.startsWith("/")) {
+					js = pageHome + "/" + js;
+				} else {
+					js = pp.wrapContextPath(js);
+				}
+				ParserUtils.addScriptSRC(pp, htmlHead, js);
+			}
 		}
 	}
 
