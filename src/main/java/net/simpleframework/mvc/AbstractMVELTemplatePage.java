@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import net.simpleframework.common.th.ParserException;
 import net.simpleframework.ctx.script.MVEL2Template;
 import net.simpleframework.ctx.script.MVEL2Template.INamedTemplate;
 
@@ -19,18 +20,22 @@ public abstract class AbstractMVELTemplatePage extends AbstractMVCPage {
 	@Override
 	protected String replaceExpr(final PageParameter pp, final InputStream htmlStream,
 			final Map<String, Object> variables) throws IOException {
-		return MVEL2Template.replace(variables, super.replaceExpr(pp, htmlStream, variables),
-				new INamedTemplate() {
-					@Override
-					public Set<String> keySet() {
-						return templates.keySet();
-					}
+		try {
+			return MVEL2Template.replace(variables, super.replaceExpr(pp, htmlStream, variables),
+					new INamedTemplate() {
+						@Override
+						public Set<String> keySet() {
+							return templates.keySet();
+						}
 
-					@Override
-					public String get(final String key) {
-						return getMVELNamedTemplate(key);
-					}
-				});
+						@Override
+						public String get(final String key) {
+							return getMVELNamedTemplate(key);
+						}
+					});
+		} catch (final Exception e) {
+			throw ParserException.of(getClass().getName() + ": " + e.getMessage());
+		}
 	}
 
 	public void addMVELNamedTemplate(final PageParameter pp, final String key,
