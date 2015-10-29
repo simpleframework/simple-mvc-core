@@ -18,6 +18,11 @@ public class LinkElement extends AbstractLinkElement<LinkElement> implements IMV
 		return new LinkElement(text).setClassName("simple_btn2");
 	}
 
+	public static LinkElement style2(final Object text,
+			final Class<? extends AbstractMVCPage> pageClass) {
+		return new LinkElement(text, pageClass).setClassName("simple_btn2");
+	}
+
 	public static LinkElement HOME() {
 		return new LinkElement($m("LinkElement.0")).setHref(settings.getFilterPath());
 	}
