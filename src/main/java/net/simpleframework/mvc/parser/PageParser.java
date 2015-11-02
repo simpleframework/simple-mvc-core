@@ -35,7 +35,7 @@ import net.simpleframework.mvc.component.AbstractComponentBean;
  * @author 陈侃(cknet@126.com, 13910090885) https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
-public final class PageParser extends AbstractPageParser {
+public final class PageParser extends AbstractPageParser implements IMVCConst {
 
 	private static final MVCHtmlBuilder htmlBuilder = mvcContext.getPageHtmlBuilder();
 
@@ -63,7 +63,7 @@ public final class PageParser extends AbstractPageParser {
 			javascriptRender.doTag(pp, headElement, oComponentBeans);
 
 			// 转换UrlForward直接输出的代码
-			final Elements elements = htmlDoc.select("." + IMVCConst.HTML_BASE64_CLASS);
+			final Elements elements = htmlDoc.select("." + HTML_BASE64_CLASS);
 			for (int i = 0; i < elements.size(); i++) {
 				final Element element = elements.get(i);
 				final Element parent = element.parent();

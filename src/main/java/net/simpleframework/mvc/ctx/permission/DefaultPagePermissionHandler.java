@@ -18,6 +18,7 @@ import net.simpleframework.ctx.permission.PermissionConst;
 import net.simpleframework.ctx.permission.PermissionRole;
 import net.simpleframework.ctx.permission.PermissionUser;
 import net.simpleframework.mvc.IForward;
+import net.simpleframework.mvc.IMVCConst;
 import net.simpleframework.mvc.IMVCContextVar;
 import net.simpleframework.mvc.MVCUtils;
 import net.simpleframework.mvc.PageRequestResponse;
@@ -31,7 +32,7 @@ import net.simpleframework.mvc.component.ComponentParameter;
  *         http://www.simpleframework.net
  */
 public class DefaultPagePermissionHandler extends DefaultPermissionHandler implements
-		IPagePermissionHandler, IMVCContextVar {
+		IPagePermissionHandler, IMVCContextVar, IMVCConst {
 	@Override
 	public PermissionUser getLogin(final PageRequestResponse rRequest) {
 		return getUser(getLoginId(rRequest));
@@ -89,21 +90,22 @@ public class DefaultPagePermissionHandler extends DefaultPermissionHandler imple
 	public String getPhotoUrl(final PageRequestResponse rRequest, final Object user,
 			final int width, final int height) {
 		final StringBuilder sb = new StringBuilder();
-		final String path = MVCUtils.getPageResourcePath() + "/images";
 		final PermissionUser pUser = user instanceof PermissionUser ? (PermissionUser) user
 				: getUser(user);
 
-		final File photoCache = new File(MVCUtils.getRealPath(path + "/photo-cache/"));
+		final Object id = pUser.getId();
+		final File photoCache = new File(MVCUtils.getRealPath(IMAGES_CACHE_PATH + id));
 		if (!photoCache.exists()) {
 			FileUtils.createDirectoryRecursively(photoCache);
 		}
-		final String filename = pUser.getId() + "_" + width + "_" + height + ".png";
+
+		final String filename = width + "_" + height + ".png";
 		final File photoFile = new File(photoCache.getAbsolutePath() + File.separator + filename);
 
 		if (!photoFile.exists() || photoFile.length() == 0) {
 			final InputStream inputStream = pUser.getPhotoStream();
 			if (inputStream == null) {
-				sb.append(path).append("/none_user.gif");
+				sb.append(IMAGES_CACHE_PATH).append("none_user.gif");
 				return sb.toString();
 			} else {
 				try {
@@ -113,24 +115,22 @@ public class DefaultPagePermissionHandler extends DefaultPermissionHandler imple
 				}
 			}
 		}
-		sb.append(path).append("/photo-cache/").append(filename);
+		sb.append(IMAGES_CACHE_PATH).append(id).append("/").append(filename).append("?last=")
+				.append(photoFile.lastModified());
 		return sb.toString();
 	}
 
 	@Override
-	public String getLoginPhotoUrl(final PageRequestResponse rRequest, final int width,
-			final int height) {
-		return getPhotoUrl(rRequest, getLogin(rRequest), width, height);
+	public void clearPhotoCache(final PageRequestResponse rRequest, final Object user)
+			throws IOException {
+		final PermissionUser pUser = user instanceof PermissionUser ? (PermissionUser) user
+				: getUser(user);
+		FileUtils.deleteAll(new File(MVCUtils.getRealPath(IMAGES_CACHE_PATH + pUser.getId() + "/")));
 	}
 
 	@Override
 	public String getPhotoUrl(final PageRequestResponse rRequest, final Object user) {
-		return getPhotoUrl(rRequest, user, 128, 128);
-	}
-
-	@Override
-	public String getLoginPhotoUrl(final PageRequestResponse rRequest) {
-		return getPhotoUrl(rRequest, getLogin(rRequest));
+		return getPhotoUrl(rRequest, user, 160, 160);
 	}
 
 	@Override

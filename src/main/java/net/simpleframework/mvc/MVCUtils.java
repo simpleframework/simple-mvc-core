@@ -24,7 +24,7 @@ import net.simpleframework.mvc.component.ComponentHandlerException;
  * @author 陈侃(cknet@126.com, 13910090885) https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
-public abstract class MVCUtils implements IMVCContextVar {
+public abstract class MVCUtils implements IMVCContextVar, IMVCConst {
 
 	public static KVMap createVariables(final PageParameter pp) {
 		final KVMap variable = new KVMap();
@@ -68,7 +68,7 @@ public abstract class MVCUtils implements IMVCContextVar {
 	}
 
 	public static void setSessionSkin(final HttpSession httpSession, final String skin) {
-		httpSession.setAttribute(IMVCConst.SESSION_ATTRI_SKIN, skin);
+		httpSession.setAttribute(SESSION_ATTRI_SKIN, skin);
 	}
 
 	public static String doPageUrl(final PageParameter pp, final String url) {

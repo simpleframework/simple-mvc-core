@@ -1,5 +1,6 @@
 package net.simpleframework.mvc.ctx.permission;
 
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -84,8 +85,6 @@ public interface IPagePermissionHandler extends IPermissionHandler {
 	 */
 	String getPhotoUrl(PageRequestResponse rRequest, Object user, int width, int height);
 
-	String getLoginPhotoUrl(PageRequestResponse rRequest, int width, int height);
-
 	/**
 	 * 默认128*128
 	 * 
@@ -95,7 +94,13 @@ public interface IPagePermissionHandler extends IPermissionHandler {
 	 */
 	String getPhotoUrl(PageRequestResponse rRequest, Object user);
 
-	String getLoginPhotoUrl(PageRequestResponse rRequest);
+	/**
+	 * 清除用户的图片缓存
+	 * 
+	 * @param rRequest
+	 * @param user
+	 */
+	void clearPhotoCache(PageRequestResponse rRequest, Object user) throws IOException;
 
 	Iterator<ID> users(PageRequestResponse rRequest, Object role, ID deptId);
 

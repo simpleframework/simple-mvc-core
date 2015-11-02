@@ -10,7 +10,8 @@ import net.simpleframework.mvc.common.DeployUtils;
  * @author 陈侃(cknet@126.com, 13910090885) https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
-public abstract class AbstractResourceProvider extends ObjectEx implements IResourceProvider {
+public abstract class AbstractResourceProvider extends ObjectEx implements IResourceProvider,
+		IMVCConst {
 
 	@Override
 	public String getResourceHomePath() {
@@ -53,7 +54,7 @@ public abstract class AbstractResourceProvider extends ObjectEx implements IReso
 		if (StringUtils.hasText(skin)) {
 			return skin;
 		} else {
-			skin = (String) pp.getSessionAttr(IMVCConst.SESSION_ATTRI_SKIN);
+			skin = (String) pp.getSessionAttr(SESSION_ATTRI_SKIN);
 			if (StringUtils.hasText(skin)) {
 				return skin;
 			} else {

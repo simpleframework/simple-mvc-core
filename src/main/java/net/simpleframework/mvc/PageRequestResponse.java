@@ -40,7 +40,7 @@ import net.simpleframework.mvc.ctx.permission.IPagePermissionHandler;
  * @author 陈侃(cknet@126.com, 13910090885) https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
-public class PageRequestResponse extends ObjectEx implements IMVCContextVar {
+public class PageRequestResponse extends ObjectEx implements IMVCContextVar, IMVCConst {
 
 	public HttpServletRequest request;
 
@@ -140,7 +140,7 @@ public class PageRequestResponse extends ObjectEx implements IMVCContextVar {
 	}
 
 	public String getRefererParam() {
-		return getParameter(IMVCConst.PARAM_REFERER);
+		return getParameter(PARAM_REFERER);
 	}
 
 	public Object getRequestAttr(final String key) {
@@ -490,6 +490,10 @@ public class PageRequestResponse extends ObjectEx implements IMVCContextVar {
 
 	public String getPhotoUrl(final Object user, final int width, final int height) {
 		return getPermission().getPhotoUrl(this, user, width, height);
+	}
+
+	public void clearPhotoCache(final Object user) throws IOException {
+		getPermission().clearPhotoCache(this, user);
 	}
 
 	@SuppressWarnings("unchecked")

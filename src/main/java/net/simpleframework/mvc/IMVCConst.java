@@ -29,4 +29,7 @@ public interface IMVCConst {
 
 	/* html */
 	static String HTML_BASE64_CLASS = "html_base64_class";
+
+	/* images cache */
+	static final String IMAGES_CACHE_PATH = "/$image_cache/";
 }
