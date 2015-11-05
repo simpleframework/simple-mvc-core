@@ -31,6 +31,7 @@ public abstract class DeployUtils implements IMVCContextVar {
 	private final static String RESOURCE_NAME = "$resource";
 
 	public static IScanResourcesCallback newDeployResourcesCallback() {
+		ObjectEx.oprintln();
 		ObjectEx.oprintln($m("DeployUtils.0"));
 		return new IScanResourcesCallback() {
 			private final Map<String, Properties> rProperties = new HashMap<String, Properties>();
