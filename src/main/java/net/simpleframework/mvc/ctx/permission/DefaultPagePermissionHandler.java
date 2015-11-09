@@ -105,7 +105,7 @@ public class DefaultPagePermissionHandler extends DefaultPermissionHandler imple
 		if (!photoFile.exists() || photoFile.length() == 0) {
 			final InputStream inputStream = pUser.getPhotoStream();
 			if (inputStream == null) {
-				sb.append(IMAGES_CACHE_PATH).append("none_user.gif");
+				sb.append(MVCUtils.getPageResourcePath()).append("/images/none_user.gif");
 				return sb.toString();
 			} else {
 				try {
