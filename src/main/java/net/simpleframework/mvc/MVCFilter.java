@@ -210,21 +210,21 @@ public class MVCFilter extends ObjectEx implements Filter, IMVCConst {
 		return EFilterResult.SUCCESS;
 	}
 
-	protected void initResponse(final PageRequestResponse rRequest, final String encoding) {
-		rRequest.setResponseCharacterEncoding(encoding);
-		rRequest.setResponseContentType("text/html;charset=" + encoding);
+	protected void initResponse(final PageRequestResponse rRequest, final String charset) {
+		rRequest.setResponseCharacterEncoding(charset);
+		rRequest.setResponseContentType("text/html;charset=" + charset);
 		// rRequest.setResponseNoCache();
 	}
 
-	protected void write(final PageRequestResponse rRequest, final String html, final String rCharset)
+	protected void write(final PageRequestResponse rRequest, final String html, final String charset)
 			throws IOException {
-		initResponse(rRequest, rCharset);
+		initResponse(rRequest, charset);
 
 		final HttpServletResponse _response = rRequest.response;
 		// resetBuffer() 只会清掉內容的部份(Body)，而不会去清 status code 和 header
 		_response.resetBuffer();
 		final PrintWriter out = new PrintWriter(new OutputStreamWriter(_response.getOutputStream(),
-				rCharset));
+				charset));
 		if (_response instanceof PageResponse) {
 			((PageResponse) _response).initOutputStream();
 		}
@@ -241,13 +241,13 @@ public class MVCFilter extends ObjectEx implements Filter, IMVCConst {
 		out.close();
 	}
 
-	protected void doThrowable(Throwable th, final PageRequestResponse rRequest,
-			final String rCharset) throws IOException {
+	protected void doThrowable(Throwable th, final PageRequestResponse rRequest, final String charset)
+			throws IOException {
 		th = MVCUtils.convertThrowable(th);
 		if (rRequest.isAjaxRequest()) {
 			final KVMap json = new KVMap().add("isJavascript", "true").add("rt",
 					"$error(" + JsonUtils.toJSON(MVCUtils.createException(rRequest, th)) + ");");
-			write(rRequest, JsonUtils.toJSON(json), rCharset);
+			write(rRequest, JsonUtils.toJSON(json), charset);
 		} else {
 			SessionCache.lput(SESSION_ATTRI_THROWABLE, th);
 			if (rRequest.isHttpClientRequest()) {
@@ -256,7 +256,7 @@ public class MVCFilter extends ObjectEx implements Filter, IMVCConst {
 				sb.append(HtmlConst.TAG_SCRIPT_START);
 				sb.append(JS.loc(getRedirectError(rRequest)));
 				sb.append(HtmlConst.TAG_SCRIPT_END);
-				write(rRequest, sb.toString(), rCharset);
+				write(rRequest, sb.toString(), charset);
 			} else {
 				rRequest.loc(getRedirectError(rRequest));
 			}
