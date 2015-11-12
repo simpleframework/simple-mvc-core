@@ -35,7 +35,7 @@ public class MVCHtmlBuilder extends ObjectEx implements IMVCContextVar {
 		}
 		final AbstractMVCPage page = pp.getPage();
 		coll.add(Meta.contentType("text/html; charset="
-				+ (page != null ? page.getChartset() : settings.getCharset())));
+				+ (page != null ? page.getResponseCharset() : settings.getCharset())));
 		if (page != null) {
 			page.onHttpRequestMeta(pp, coll);
 		}

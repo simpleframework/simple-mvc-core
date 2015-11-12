@@ -194,7 +194,7 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 	 */
 	protected String replaceExpr(final PageParameter pp, final InputStream htmlStream,
 			final Map<String, Object> variables) throws IOException {
-		return IoUtils.getStringFromInputStream(htmlStream, getChartset());
+		return IoUtils.getStringFromInputStream(htmlStream, getResponseCharset());
 	}
 
 	protected static final String $html = "$html$";
@@ -409,7 +409,7 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 		return settings.getFilterPath();
 	}
 
-	protected String getChartset() {
+	protected String getResponseCharset() {
 		return settings.getCharset();
 	}
 

@@ -84,6 +84,9 @@ public class MVCFilter extends ObjectEx implements Filter, IMVCConst {
 			/* 设置jsessionid */
 			JsessionidUtils.setJSessionId(httpRequest);
 
+			/* response编码 */
+			String rCharset = null;
+
 			final PageRequestResponse rRequest = new PageRequestResponse(new PageRequest(httpRequest),
 					httpResponse);
 			try {
@@ -145,11 +148,13 @@ public class MVCFilter extends ObjectEx implements Filter, IMVCConst {
 						}
 					}
 
+					rCharset = getResponseCharset(rRequest);
+
 					String rHTML = forward != null ? forward.getResponseText(pp) : _response.toString();
 					// html解析并组合
 					if (!Convert.toBool(pp.getBeanProperty("disabled"))
 							&& (forward == null || forward.isHtmlParser())) {
-						rHTML = new PageParser(pp).parser(rHTML).toHtml();
+						rHTML = new PageParser(pp).parser(rHTML).toHtml(rCharset);
 					}
 
 					if (bHttpRequest) {
@@ -170,15 +175,27 @@ public class MVCFilter extends ObjectEx implements Filter, IMVCConst {
 					}
 
 					/* 写入response */
-					write(pp, rHTML);
+					write(pp, rHTML, rCharset);
 				}
 			} catch (final Throwable e) {
 				getLog().error(e);
-				doThrowable(e, rRequest);
+				doThrowable(e, rRequest, rCharset);
 			}
 		} else {
 			filterChain.doFilter(request, response);
 		}
+	}
+
+	private String getResponseCharset(final PageRequestResponse rRequest) {
+		String rCharset = null;
+		if (rRequest instanceof PageParameter) {
+			rCharset = (String) ((PageParameter) rRequest)
+					.getBeanProperty("responseCharacterEncoding");
+		}
+		if (!StringUtils.hasText(rCharset)) {
+			rCharset = ctx.getMVCSettings().getCharset();
+		}
+		return rCharset;
 	}
 
 	protected EFilterResult doFilterInternal(final PageRequestResponse rRequest,
@@ -199,23 +216,15 @@ public class MVCFilter extends ObjectEx implements Filter, IMVCConst {
 		// rRequest.setResponseNoCache();
 	}
 
-	protected void write(final PageRequestResponse rRequest, final String html) throws IOException {
-		String encoding = null;
-		if (rRequest instanceof PageParameter) {
-			encoding = (String) ((PageParameter) rRequest)
-					.getBeanProperty("responseCharacterEncoding");
-		}
-		if (!StringUtils.hasText(encoding)) {
-			encoding = ctx.getMVCSettings().getCharset();
-		}
-
-		initResponse(rRequest, encoding);
+	protected void write(final PageRequestResponse rRequest, final String html, final String rCharset)
+			throws IOException {
+		initResponse(rRequest, rCharset);
 
 		final HttpServletResponse _response = rRequest.response;
 		// resetBuffer() 只会清掉內容的部份(Body)，而不会去清 status code 和 header
 		_response.resetBuffer();
 		final PrintWriter out = new PrintWriter(new OutputStreamWriter(_response.getOutputStream(),
-				encoding));
+				rCharset));
 		if (_response instanceof PageResponse) {
 			((PageResponse) _response).initOutputStream();
 		}
@@ -232,12 +241,13 @@ public class MVCFilter extends ObjectEx implements Filter, IMVCConst {
 		out.close();
 	}
 
-	protected void doThrowable(Throwable th, final PageRequestResponse rRequest) throws IOException {
+	protected void doThrowable(Throwable th, final PageRequestResponse rRequest,
+			final String rCharset) throws IOException {
 		th = MVCUtils.convertThrowable(th);
 		if (rRequest.isAjaxRequest()) {
 			final KVMap json = new KVMap().add("isJavascript", "true").add("rt",
 					"$error(" + JsonUtils.toJSON(MVCUtils.createException(rRequest, th)) + ");");
-			write(rRequest, JsonUtils.toJSON(json));
+			write(rRequest, JsonUtils.toJSON(json), rCharset);
 		} else {
 			SessionCache.lput(SESSION_ATTRI_THROWABLE, th);
 			if (rRequest.isHttpClientRequest()) {
@@ -246,7 +256,7 @@ public class MVCFilter extends ObjectEx implements Filter, IMVCConst {
 				sb.append(HtmlConst.TAG_SCRIPT_START);
 				sb.append(JS.loc(getRedirectError(rRequest)));
 				sb.append(HtmlConst.TAG_SCRIPT_END);
-				write(rRequest, sb.toString());
+				write(rRequest, sb.toString(), rCharset);
 			} else {
 				rRequest.loc(getRedirectError(rRequest));
 			}
