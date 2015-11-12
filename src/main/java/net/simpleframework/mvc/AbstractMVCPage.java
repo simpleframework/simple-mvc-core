@@ -304,8 +304,9 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 		urlCache = new ConcurrentHashMap<Class<? extends AbstractMVCPage>, String>();
 	}
 
+	@SuppressWarnings("unchecked")
 	public void registUrl(final String url) {
-		registUrl(url, getClass(), 0);
+		registUrl(url, (Class<? extends AbstractMVCPage>) getOriginalClass(), 0);
 	}
 
 	/**
