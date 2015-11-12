@@ -84,9 +84,6 @@ public class MVCFilter extends ObjectEx implements Filter, IMVCConst {
 			/* 设置jsessionid */
 			JsessionidUtils.setJSessionId(httpRequest);
 
-			/* response编码 */
-			String rCharset = null;
-
 			final PageRequestResponse rRequest = new PageRequestResponse(new PageRequest(httpRequest),
 					httpResponse);
 			try {
@@ -148,13 +145,11 @@ public class MVCFilter extends ObjectEx implements Filter, IMVCConst {
 						}
 					}
 
-					rCharset = getResponseCharset(rRequest);
-
 					String rHTML = forward != null ? forward.getResponseText(pp) : _response.toString();
 					// html解析并组合
 					if (!Convert.toBool(pp.getBeanProperty("disabled"))
 							&& (forward == null || forward.isHtmlParser())) {
-						rHTML = new PageParser(pp).parser(rHTML).toHtml(rCharset);
+						rHTML = new PageParser(pp).parser(rHTML).toHtml();
 					}
 
 					if (bHttpRequest) {
@@ -175,11 +170,11 @@ public class MVCFilter extends ObjectEx implements Filter, IMVCConst {
 					}
 
 					/* 写入response */
-					write(pp, rHTML, rCharset);
+					write(pp, rHTML, getResponseCharset(rRequest));
 				}
 			} catch (final Throwable e) {
 				getLog().error(e);
-				doThrowable(e, rRequest, rCharset);
+				doThrowable(e, rRequest, getResponseCharset(rRequest));
 			}
 		} else {
 			filterChain.doFilter(request, response);

@@ -207,12 +207,9 @@ public final class PageParser extends AbstractPageParser implements IMVCConst {
 		}
 	}
 
-	public String toHtml(final String charset) {
+	public String toHtml() {
 		if (htmlDoc == null) {
 			return "";
-		}
-		if (charset != null) {
-			htmlDoc.outputSettings().charset(charset);
 		}
 		String html = htmlDoc.html();
 		if (pp.isHttpRequest()) {
