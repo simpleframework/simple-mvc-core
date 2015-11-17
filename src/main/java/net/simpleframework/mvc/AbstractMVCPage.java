@@ -91,6 +91,10 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 		return pageDocument.getPageBean();
 	}
 
+	public AbstractComponentBean getComponentBeanByName(final PageParameter pp, final String name) {
+		return PageParameter.get(pp, pageDocument).getComponentBeanByName(name);
+	}
+
 	@SuppressWarnings("unchecked")
 	private Map<Class<?>, ParameterMap> getHtmlViewVariables(final PageParameter pp) {
 		Map<Class<?>, ParameterMap> htmlViewVariables = (Map<Class<?>, ParameterMap>) pp
