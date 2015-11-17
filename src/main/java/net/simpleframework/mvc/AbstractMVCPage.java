@@ -14,6 +14,7 @@ import net.simpleframework.common.ClassUtils;
 import net.simpleframework.common.Convert;
 import net.simpleframework.common.DateUtils;
 import net.simpleframework.common.I18n;
+import net.simpleframework.common.ID;
 import net.simpleframework.common.IoUtils;
 import net.simpleframework.common.StringUtils;
 import net.simpleframework.common.coll.ArrayUtils;
@@ -610,19 +611,26 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 	}
 
 	public static PermissionDept getPermissionOrg(final PageParameter pp, final String key) {
-		return pp.getRequestCache("_getPermissionOrg", new CacheV<PermissionDept>() {
-			@Override
-			public PermissionDept get() {
-				PermissionDept org = null;
-				final IPagePermissionHandler hdl = pp.getPermission();
-				if (pp.isLmanager()) {
-					org = hdl.getDept(pp.toID(key));
-				}
-				if (org == null) {
-					org = hdl.getDept(pp.getLDomainId());
-				}
-				return org;
+		final IPagePermissionHandler permission = pp.getPermission();
+		if (pp.isLmanager()) {
+			final String val = pp.getParameter(key);
+			if ("none".equals(val)) {
+				pp.removeSessionAttr("_getPermissionOrg");
+				return PermissionDept.NULL_DEPT;
 			}
-		});
+			PermissionDept org = permission.getDept(ID.of(val));
+			ID orgId;
+			if ((orgId = org.getId()) != null) {
+				// 缓存session
+				pp.setSessionAttr("_getPermissionOrg", orgId);
+			} else {
+				org = permission.getDept(pp.getSessionAttr("_getPermissionOrg"));
+			}
+			return org;
+		} else {
+			// 非管理员
+			// 按所在机构
+			return permission.getDept(pp.getLDomainId());
+		}
 	}
 }
