@@ -7,6 +7,11 @@ package net.simpleframework.mvc.common.element;
  *         http://www.simpleframework.net
  */
 public class ImageElement extends AbstractElement<ImageElement> {
+
+	public static ImageElement img16(final String src) {
+		return new ImageElement(src).setStyle("width:16px; height:16px;");
+	}
+
 	private String src;
 
 	public ImageElement() {
