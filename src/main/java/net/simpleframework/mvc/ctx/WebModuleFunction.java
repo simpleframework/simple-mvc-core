@@ -87,4 +87,8 @@ public class WebModuleFunction extends ModuleFunction {
 		this.icon64 = icon64;
 		return this;
 	}
+
+	public static ModuleFunction getFunctionByURL(final String url) {
+		return null;
+	}
 }
