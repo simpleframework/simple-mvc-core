@@ -5,7 +5,9 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import net.simpleframework.common.StringUtils;
 import net.simpleframework.ctx.IModuleContext;
+import net.simpleframework.ctx.ModuleContextFactory;
 import net.simpleframework.ctx.ModuleFunction;
+import net.simpleframework.ctx.ModuleFunctions;
 import net.simpleframework.mvc.AbstractMVCPage;
 
 /**
@@ -86,5 +88,38 @@ public class WebModuleFunction extends ModuleFunction {
 	public WebModuleFunction setIcon64(final String icon64) {
 		this.icon64 = icon64;
 		return this;
+	}
+
+	public static ModuleFunction getFunctionByUrl(final String url) {
+		if (!StringUtils.hasText(url)) {
+			return null;
+		}
+		for (final IModuleContext ctx : ModuleContextFactory.allModules()) {
+			final ModuleFunction function = getFunctionByUrl(ctx, ctx.getFunctions(null), url);
+			if (function != null) {
+				return function;
+			}
+		}
+		return null;
+	}
+
+	static ModuleFunction getFunctionByUrl(final IModuleContext ctx,
+			final ModuleFunctions functions, final String url) {
+		if (functions == null) {
+			return null;
+		}
+		for (final ModuleFunction function : functions) {
+			if (!(function instanceof WebModuleFunction)) {
+				continue;
+			}
+			if (url.equals(((WebModuleFunction) function).getUrl())) {
+				return function;
+			}
+			final ModuleFunction function2 = getFunctionByUrl(ctx, ctx.getFunctions(function), url);
+			if (function2 != null) {
+				return function2;
+			}
+		}
+		return null;
 	}
 }
