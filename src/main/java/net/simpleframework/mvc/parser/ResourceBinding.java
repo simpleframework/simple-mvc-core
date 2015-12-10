@@ -2,12 +2,17 @@ package net.simpleframework.mvc.parser;
 
 import java.util.Collection;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import net.simpleframework.common.AlgorithmUtils;
 import net.simpleframework.common.StringUtils;
 import net.simpleframework.lib.org.jsoup.nodes.Element;
+import net.simpleframework.lib.org.jsoup.nodes.Node;
+import net.simpleframework.lib.org.jsoup.select.Elements;
 import net.simpleframework.mvc.AbstractMVCPage;
+import net.simpleframework.mvc.IMVCConst;
 import net.simpleframework.mvc.IPageResourceProvider;
 import net.simpleframework.mvc.PageDocument;
 import net.simpleframework.mvc.PageParameter;
@@ -22,7 +27,7 @@ import net.simpleframework.mvc.component.IComponentResourceProvider;
  * @author 陈侃(cknet@126.com, 13910090885) https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
-public class ResourceBinding extends AbstractParser {
+public class ResourceBinding extends AbstractParser implements IMVCConst {
 
 	public void doTag(final PageParameter pp, final Element htmlHead,
 			final Map<String, AbstractComponentBean> componentBeans) {
@@ -70,14 +75,13 @@ public class ResourceBinding extends AbstractParser {
 			}
 		}
 
-		final String pageHome = prp.getResourceHomePath();
-
 		// component
 		final Set<String> keys = new LinkedHashSet<String>();
 		for (final AbstractComponentBean componentBean : componentBeans.values()) {
 			keys.add(componentBean.getComponentRegistry().getComponentName());
 		}
 
+		final String pageHome = prp.getResourceHomePath();
 		final ComponentRegistryFactory factory = ComponentRegistryFactory.get();
 		for (final String componentName : keys) {
 			final IComponentRegistry registry = factory.getComponentRegistry(componentName);
@@ -92,6 +96,18 @@ public class ResourceBinding extends AbstractParser {
 		// 页面依赖的组件
 		if (pageInstance != null) {
 			doDependentComponents(pp, htmlHead, pageInstance.getDependentComponents(pp));
+		}
+
+		// 转换UrlForward直接输出的代码
+		final Elements elements = htmlHead.ownerDocument().select("." + HTML_BASE64_CLASS);
+		for (int i = 0; i < elements.size(); i++) {
+			final Element element = elements.get(i);
+			final Element parent = element.parent();
+			final List<Node> nodes = ParserUtils.htmlToNodes(pp,
+					new String(AlgorithmUtils.base64Decode(element.text())), htmlHead);
+			final int jj = element.elementSiblingIndex();
+			element.remove();
+			parent.insertChildren(jj, nodes);
 		}
 
 		// page css

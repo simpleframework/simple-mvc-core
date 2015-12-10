@@ -2,10 +2,8 @@ package net.simpleframework.mvc.parser;
 
 import java.lang.reflect.Method;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
-import net.simpleframework.common.AlgorithmUtils;
 import net.simpleframework.common.ClassUtils;
 import net.simpleframework.common.I18n;
 import net.simpleframework.common.StringUtils;
@@ -18,9 +16,7 @@ import net.simpleframework.lib.org.jsoup.nodes.DocumentType;
 import net.simpleframework.lib.org.jsoup.nodes.Element;
 import net.simpleframework.lib.org.jsoup.nodes.Node;
 import net.simpleframework.lib.org.jsoup.nodes.TextNode;
-import net.simpleframework.lib.org.jsoup.select.Elements;
 import net.simpleframework.mvc.AbstractMVCPage;
-import net.simpleframework.mvc.IMVCConst;
 import net.simpleframework.mvc.IPageHandler;
 import net.simpleframework.mvc.IPageHandler.PageSelector;
 import net.simpleframework.mvc.MVCException;
@@ -35,7 +31,7 @@ import net.simpleframework.mvc.component.AbstractComponentBean;
  * @author 陈侃(cknet@126.com, 13910090885) https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
-public final class PageParser extends AbstractPageParser implements IMVCConst {
+public final class PageParser extends AbstractPageParser {
 
 	private static final MVCHtmlBuilder htmlBuilder = mvcContext.getPageHtmlBuilder();
 
@@ -61,18 +57,6 @@ public final class PageParser extends AbstractPageParser implements IMVCConst {
 			resourceBinding.doTag(pp, headElement, oComponentBeans);
 			normaliseNode(pp, htmlDoc, oComponentBeans);
 			javascriptRender.doTag(pp, headElement, oComponentBeans);
-
-			// 转换UrlForward直接输出的代码
-			final Elements elements = htmlDoc.select("." + HTML_BASE64_CLASS);
-			for (int i = 0; i < elements.size(); i++) {
-				final Element element = elements.get(i);
-				final Element parent = element.parent();
-				final List<Node> nodes = ParserUtils.htmlToNodes(pp,
-						new String(AlgorithmUtils.base64Decode(element.text())), headElement);
-				final int jj = element.elementSiblingIndex();
-				element.remove();
-				parent.insertChildren(jj, nodes);
-			}
 
 			// 执行handle
 			if (pageHandle != null) {
