@@ -1,11 +1,17 @@
 package net.simpleframework.mvc.component;
 
+import java.io.Writer;
+
 import net.simpleframework.common.StringUtils;
 import net.simpleframework.common.object.ObjectEx;
 import net.simpleframework.common.th.NotImplementedException;
 import net.simpleframework.common.web.HttpUtils;
+import net.simpleframework.common.web.JavascriptUtils;
+import net.simpleframework.ctx.permission.PermissionConst;
 import net.simpleframework.mvc.IForward;
+import net.simpleframework.mvc.JavascriptForward;
 import net.simpleframework.mvc.UrlForward;
+import net.simpleframework.mvc.common.element.JS;
 
 /**
  * Licensed under the Apache License, Version 2.0
@@ -52,6 +58,31 @@ public abstract class AbstractComponentRender extends ObjectEx implements ICompo
 			sb.append("});");
 			return ComponentRenderUtils.genActionWrapper(cp, sb.toString());
 		}
+	}
+
+	public static void doJavascriptForward(final ComponentParameter cp,
+			final IJavascriptCallback callback) throws Exception {
+		final JavascriptForward js = new JavascriptForward();
+		cp.setHttpRequest();
+		final IForward forward = cp.getPermission().accessForward(
+				cp,
+				cp.componentBean != null ? cp.getBeanProperty("role")
+						: PermissionConst.ROLE_ALL_ACCOUNT);
+		if (forward instanceof UrlForward) {
+			js.append(JS.loc(((UrlForward) forward).getUrl()));
+		} else {
+			if (callback != null) {
+				callback.doJavascript(js);
+			}
+		}
+		final Writer out = cp.getResponseWriter();
+		out.write(JavascriptUtils.wrapFunction(js.toString()));
+		out.flush();
+	}
+
+	public static interface IJavascriptCallback {
+
+		void doJavascript(JavascriptForward js) throws Exception;
 	}
 
 	public static abstract class ComponentHtmlRender extends AbstractComponentRender implements
