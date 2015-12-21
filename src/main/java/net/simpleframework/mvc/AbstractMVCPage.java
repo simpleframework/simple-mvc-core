@@ -428,23 +428,31 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 	}
 
 	public String getPageRole(final PageParameter pp) {
+		return _getPageRole(pp, "role");
+	}
+
+	public String getPageManagerRole(final PageParameter pp) {
+		return _getPageRole(pp, "managerRole");
+	}
+
+	private String _getPageRole(final PageParameter pp, final String role) {
 		final WebModuleFunction func = WebModuleFunction.getModulefunctions().get(getClass());
 		if (func != null) {
-			return func.getRole();
+			return (String) BeanUtils.getProperty(func, role);
 		}
 		final IModuleContext ctx = getModuleContext();
 		if (ctx != null) {
-			return ctx.getModule().getRole();
+			return (String) BeanUtils.getProperty(ctx.getModule(), role);
 		}
 		return null;
 	}
 
-	protected boolean isRoleMember(final PageParameter pp) {
-		Boolean b = (Boolean) pp.getRequestAttr("_Member");
-		if (b == null) {
-			pp.setRequestAttr("_Member", b = pp.isLmember(getPageRole(pp)));
-		}
-		return b;
+	protected boolean isPageRole(final PageParameter pp) {
+		return pp.isLmember(getPageRole(pp));
+	}
+
+	protected boolean isPageManagerRole(final PageParameter pp) {
+		return pp.isLmember(getPageManagerRole(pp));
 	}
 
 	/**

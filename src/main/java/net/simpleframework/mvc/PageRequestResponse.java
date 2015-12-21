@@ -473,11 +473,21 @@ public class PageRequestResponse extends ObjectEx implements IMVCContextVar, IMV
 	}
 
 	public boolean isLmember(final Object role) {
-		return getLogin().isMember(role);
+		return getRequestCache("isLmember", new CacheV<Boolean>() {
+			@Override
+			public Boolean get() {
+				return getLogin().isMember(role);
+			}
+		});
 	}
 
 	public boolean isLmanager() {
-		return getLogin().isManager();
+		return getRequestCache("isLmanager", new CacheV<Boolean>() {
+			@Override
+			public Boolean get() {
+				return getLogin().isManager();
+			}
+		});
 	}
 
 	public void setLoginUser(final Object user) {
