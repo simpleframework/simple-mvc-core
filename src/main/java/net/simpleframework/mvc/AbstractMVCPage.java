@@ -467,7 +467,7 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 		if ((pm = getClass().getAnnotation(PageMapping.class)) != null) {
 			title = pm.title();
 		}
-		return title != null ? title : getDefaultTitle(pp);
+		return StringUtils.hasText(title) ? title : getDefaultTitle(pp);
 	}
 
 	protected String getDefaultTitle(final PageParameter pp) {
