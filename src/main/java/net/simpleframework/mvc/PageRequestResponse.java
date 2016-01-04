@@ -29,6 +29,7 @@ import net.simpleframework.common.web.HttpUtils;
 import net.simpleframework.common.web.html.HtmlUtils;
 import net.simpleframework.ctx.permission.LoginUser;
 import net.simpleframework.ctx.permission.LoginUser.LoginWrapper;
+import net.simpleframework.ctx.permission.PermissionConst;
 import net.simpleframework.ctx.permission.PermissionDept;
 import net.simpleframework.ctx.permission.PermissionRole;
 import net.simpleframework.ctx.permission.PermissionUser;
@@ -442,8 +443,12 @@ public class PageRequestResponse extends ObjectEx implements IMVCContextVar, IMV
 		return getLoginId() != null;
 	}
 
-	public PermissionRole getRole(final Object role, final Map<String, Object> variables) {
-		return getPermission().getRole(role, variables);
+	public PermissionRole getRole(final Object role) {
+		return getPermission().getRole(role, createPermissionVars());
+	}
+
+	public KVMap createPermissionVars() {
+		return new KVMap().add(PermissionConst.VAR_USERID, getLoginId());
 	}
 
 	public PermissionUser getUser(final Object user) {

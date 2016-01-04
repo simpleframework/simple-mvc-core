@@ -10,7 +10,6 @@ import net.simpleframework.common.FileUtils;
 import net.simpleframework.common.ID;
 import net.simpleframework.common.ImageUtils;
 import net.simpleframework.common.StringUtils;
-import net.simpleframework.common.coll.KVMap;
 import net.simpleframework.common.th.NotImplementedException;
 import net.simpleframework.ctx.permission.DefaultPermissionHandler;
 import net.simpleframework.ctx.permission.PermissionConst;
@@ -71,7 +70,7 @@ public class DefaultPagePermissionHandler extends DefaultPermissionHandler imple
 
 	@Override
 	public IForward accessForward(final PageRequestResponse rRequest, final Object role) {
-		final String rolename = getRole(role, new KVMap()).getName();
+		final String rolename = rRequest.getRole(role).getName();
 		final String redirectUrl = getLoginRedirectUrl(rRequest, rolename);
 		if (StringUtils.hasText(redirectUrl)) {
 			return new UrlForward(redirectUrl);
