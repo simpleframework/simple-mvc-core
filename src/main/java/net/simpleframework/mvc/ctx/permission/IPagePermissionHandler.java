@@ -1,12 +1,10 @@
 package net.simpleframework.mvc.ctx.permission;
 
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.Map;
 
 import net.simpleframework.common.ID;
 import net.simpleframework.ctx.permission.IPermissionHandler;
-import net.simpleframework.ctx.permission.PermissionRole;
 import net.simpleframework.ctx.permission.PermissionUser;
 import net.simpleframework.mvc.IForward;
 import net.simpleframework.mvc.PageRequestResponse;
@@ -101,10 +99,4 @@ public interface IPagePermissionHandler extends IPermissionHandler {
 	 * @param user
 	 */
 	void clearPhotoCache(PageRequestResponse rRequest, Object user) throws IOException;
-
-	Iterator<ID> users(PageRequestResponse rRequest, Object role, ID deptId);
-
-	Iterator<ID> users(PageRequestResponse rRequest, Object role);
-
-	PermissionRole getRole(PageRequestResponse rRequest, Object role);
 }

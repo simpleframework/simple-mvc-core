@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Iterator;
 import java.util.Map;
 
 import net.simpleframework.common.FileUtils;
@@ -15,7 +14,6 @@ import net.simpleframework.common.coll.KVMap;
 import net.simpleframework.common.th.NotImplementedException;
 import net.simpleframework.ctx.permission.DefaultPermissionHandler;
 import net.simpleframework.ctx.permission.PermissionConst;
-import net.simpleframework.ctx.permission.PermissionRole;
 import net.simpleframework.ctx.permission.PermissionUser;
 import net.simpleframework.mvc.IForward;
 import net.simpleframework.mvc.IMVCConst;
@@ -73,7 +71,7 @@ public class DefaultPagePermissionHandler extends DefaultPermissionHandler imple
 
 	@Override
 	public IForward accessForward(final PageRequestResponse rRequest, final Object role) {
-		final String rolename = getRole(rRequest, role).getName();
+		final String rolename = getRole(role, new KVMap()).getName();
 		final String redirectUrl = getLoginRedirectUrl(rRequest, rolename);
 		if (StringUtils.hasText(redirectUrl)) {
 			return new UrlForward(redirectUrl);
@@ -152,26 +150,5 @@ public class DefaultPagePermissionHandler extends DefaultPermissionHandler imple
 	@Override
 	public void logout(final PageRequestResponse rRequest) {
 		throw NotImplementedException.of(getClass(), "logout");
-	}
-
-	protected Map<String, Object> createDefaultVariables(final PageRequestResponse rRequest) {
-		return new KVMap().add(PermissionConst.VAR_USERID, getLoginId(rRequest));
-	}
-
-	/****************** wrapper by PageRequestResponse **************/
-
-	@Override
-	public PermissionRole getRole(final PageRequestResponse rRequest, final Object role) {
-		return getRole(role, createDefaultVariables(rRequest));
-	}
-
-	@Override
-	public Iterator<ID> users(final PageRequestResponse rRequest, final Object role, final ID deptId) {
-		return users(role, deptId, createDefaultVariables(rRequest));
-	}
-
-	@Override
-	public Iterator<ID> users(final PageRequestResponse rRequest, final Object role) {
-		return users(role, createDefaultVariables(rRequest));
 	}
 }
