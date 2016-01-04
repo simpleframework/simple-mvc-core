@@ -472,6 +472,10 @@ public class PageRequestResponse extends ObjectEx implements IMVCContextVar, IMV
 		return getLdept().getDomainId();
 	}
 
+	public boolean isLmember(final Object role, final Map<String, Object> variables) {
+		return getLogin().isMember(role, variables);
+	}
+
 	public boolean isLmember(final Object role) {
 		return getLogin().isMember(role);
 	}
