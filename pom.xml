@@ -15,7 +15,6 @@
     <dependency>
       <groupId>net.simpleframework</groupId>
       <artifactId>simple-context</artifactId>
-      <version>${simple.context}</version>
     </dependency>
 
     <!-- web容器包 -->
