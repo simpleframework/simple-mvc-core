@@ -7,6 +7,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Date;
 import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
@@ -445,6 +446,10 @@ public class PageRequestResponse extends ObjectEx implements IMVCContextVar, IMV
 
 	public PermissionRole getRole(final Object role) {
 		return getPermission().getRole(role, createPermissionVars());
+	}
+
+	public Iterator<ID> users(final Object role, final ID deptId) {
+		return getPermission().users(role, deptId, createPermissionVars());
 	}
 
 	public KVMap createPermissionVars() {
