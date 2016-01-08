@@ -153,7 +153,7 @@ public final class PageParser extends AbstractPageParser {
 					child.attr("hidefocus", "hidefocus");
 				} else if ("form".equalsIgnoreCase(nodeName)
 						&& !StringUtils.hasText(child.attr("action"))) {
-					child.attr("action", "javascript:void(0);");
+					child.attr("action", "javascript:void(0);").attr("autocomplete", "off");
 				}
 
 				normaliseNode(pp, (Element) child, componentBeans);
