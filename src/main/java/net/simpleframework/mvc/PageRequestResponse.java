@@ -456,10 +456,6 @@ public class PageRequestResponse extends ObjectEx implements IMVCContextVar, IMV
 		return new KVMap().add(PermissionConst.VAR_USERID, getLoginId());
 	}
 
-	public PermissionUser getUser(final Object user) {
-		return getPermission().getUser(user);
-	}
-
 	public PermissionUser getLogin() {
 		return getRequestCache("_getLogin", new CacheV<PermissionUser>() {
 			@Override
@@ -474,8 +470,16 @@ public class PageRequestResponse extends ObjectEx implements IMVCContextVar, IMV
 		});
 	}
 
+	public PermissionUser getUser(final Object user) {
+		return getPermission().getUser(user);
+	}
+
 	public PermissionDept getLdept() {
 		return getLogin().getDept();
+	}
+
+	public PermissionDept getDept(final Object dept) {
+		return getPermission().getDept(dept);
 	}
 
 	public ID getLDomainId() {
