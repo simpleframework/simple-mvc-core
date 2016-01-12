@@ -448,7 +448,7 @@ public class PageRequestResponse extends ObjectEx implements IMVCContextVar, IMV
 		return getPermission().getRole(role, createPermissionVars());
 	}
 
-	public Iterator<ID> users(final Object role, final ID deptId) {
+	public Iterator<PermissionUser> users(final Object role, final ID deptId) {
 		return getPermission().users(role, deptId, createPermissionVars());
 	}
 
