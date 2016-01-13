@@ -460,7 +460,7 @@ public class PageRequestResponse extends ObjectEx implements IMVCContextVar, IMV
 		return getRequestCache("_getLogin", new CacheV<PermissionUser>() {
 			@Override
 			public boolean hasVal(final PermissionUser val) {
-				return val != null && val.getId() != null;
+				return val != null && val.exists();
 			}
 
 			@Override
