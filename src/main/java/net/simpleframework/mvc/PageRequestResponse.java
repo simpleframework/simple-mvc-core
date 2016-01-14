@@ -536,6 +536,22 @@ public class PageRequestResponse extends ObjectEx implements IMVCContextVar, IMV
 		return val;
 	}
 
+	/**
+	 * 获取本地的session缓存
+	 * 
+	 * @param key
+	 * @param i
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public <T> T getLsessionCache(final String key, final CacheV<T> i) {
+		T val = (T) SessionCache.lget(key);
+		if (val == null && i.hasVal(val = i.get())) {
+			SessionCache.lput(key, val);
+		}
+		return val;
+	}
+
 	public static PageRequestResponse get(final HttpServletRequest request,
 			final HttpServletResponse response) {
 		return new PageRequestResponse(request, response);
