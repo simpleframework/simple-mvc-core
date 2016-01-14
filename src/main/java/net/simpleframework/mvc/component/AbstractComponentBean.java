@@ -72,7 +72,7 @@ public abstract class AbstractComponentBean extends AbstractElementBean implemen
 	}
 
 	public String getName() {
-		return name;
+		return name != null ? name.trim() : null;
 	}
 
 	public AbstractComponentBean setName(final String name) {
