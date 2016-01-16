@@ -24,7 +24,7 @@ import net.simpleframework.common.TextUtils;
  * @author 陈侃(cknet@126.com, 13910090885) https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
-public class PageResponse extends HttpServletResponseWrapper implements IMVCContextVar, IMVCConst {
+public class PageResponse extends HttpServletResponseWrapper implements IMVCSettingsAware {
 	private class BufferedServletOutputStream extends ServletOutputStream {
 		private OutputStream os;
 
@@ -97,9 +97,9 @@ public class PageResponse extends HttpServletResponseWrapper implements IMVCCont
 		} else {
 			// 加入 session
 			@SuppressWarnings("unchecked")
-			List<Cookie> cookies = (List<Cookie>) SessionCache.lget(SESSION_ATTRI_COOKIES);
+			List<Cookie> cookies = (List<Cookie>) SessionCache.lget(MVCConst.SESSION_ATTRI_COOKIES);
 			if (cookies == null) {
-				SessionCache.lput(SESSION_ATTRI_COOKIES, cookies = new ArrayList<Cookie>());
+				SessionCache.lput(MVCConst.SESSION_ATTRI_COOKIES, cookies = new ArrayList<Cookie>());
 			}
 			cookies.add(cookie);
 		}
@@ -203,7 +203,7 @@ public class PageResponse extends HttpServletResponseWrapper implements IMVCCont
 			// weblogic ...
 			try {
 				final byte[] bytes = stream.bos.toByteArray();
-				return new String(bytes, TextUtils.isUTF8(bytes) ? "UTF-8" : settings.getCharset());
+				return new String(bytes, TextUtils.isUTF8(bytes) ? "UTF-8" : mvcSettings.getCharset());
 			} catch (final UnsupportedEncodingException e) {
 			}
 		}

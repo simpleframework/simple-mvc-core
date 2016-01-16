@@ -59,7 +59,7 @@ public class UrlForward extends AbstractUrlForward {
 
 	public static String includeResponseText(final String text) {
 		final StringBuilder sb = new StringBuilder();
-		sb.append("<div class='").append(HTML_BASE64_CLASS).append("'>")
+		sb.append("<div class='").append(MVCConst.HTML_BASE64_CLASS).append("'>")
 				.append(AlgorithmUtils.base64Encode(text.getBytes())).append("</div>");
 		return sb.toString();
 	}

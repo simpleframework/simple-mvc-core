@@ -8,7 +8,7 @@ import net.simpleframework.common.object.ObjectUtils;
 import net.simpleframework.ctx.common.bean.BeanDefaults;
 import net.simpleframework.ctx.common.xml.AbstractElementBean;
 import net.simpleframework.ctx.common.xml.XmlElement;
-import net.simpleframework.mvc.IMVCContextVar;
+import net.simpleframework.mvc.IMVCSettingsAware;
 import net.simpleframework.mvc.PageDocument;
 import net.simpleframework.mvc.PageRequestResponse;
 
@@ -18,7 +18,8 @@ import net.simpleframework.mvc.PageRequestResponse;
  * @author 陈侃(cknet@126.com, 13910090885) https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
-public abstract class AbstractComponentBean extends AbstractElementBean implements IMVCContextVar {
+public abstract class AbstractComponentBean extends AbstractElementBean implements
+		IMVCSettingsAware {
 	public static final String FORM_PREFIX = "form_";
 
 	private PageDocument pageDocument;

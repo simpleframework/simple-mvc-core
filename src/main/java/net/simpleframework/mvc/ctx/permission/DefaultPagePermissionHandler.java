@@ -15,8 +15,8 @@ import net.simpleframework.ctx.permission.DefaultPermissionHandler;
 import net.simpleframework.ctx.permission.PermissionConst;
 import net.simpleframework.ctx.permission.PermissionUser;
 import net.simpleframework.mvc.IForward;
-import net.simpleframework.mvc.IMVCConst;
-import net.simpleframework.mvc.IMVCContextVar;
+import net.simpleframework.mvc.IMVCSettingsAware;
+import net.simpleframework.mvc.MVCConst;
 import net.simpleframework.mvc.MVCUtils;
 import net.simpleframework.mvc.PageRequestResponse;
 import net.simpleframework.mvc.UrlForward;
@@ -29,7 +29,7 @@ import net.simpleframework.mvc.component.ComponentParameter;
  *         http://www.simpleframework.net
  */
 public class DefaultPagePermissionHandler extends DefaultPermissionHandler implements
-		IPagePermissionHandler, IMVCContextVar, IMVCConst {
+		IPagePermissionHandler, IMVCSettingsAware {
 	@Override
 	public PermissionUser getLogin(final PageRequestResponse rRequest) {
 		return getUser(getLoginId(rRequest));
@@ -53,7 +53,7 @@ public class DefaultPagePermissionHandler extends DefaultPermissionHandler imple
 
 		String wUrl;
 		if (rRequest.isHttpRequest() || (wUrl = getLoginWindowRedirectUrl(rRequest)) == null) {
-			String lUrl = settings.getLoginPath(rRequest);
+			String lUrl = mvcSettings.getLoginPath(rRequest);
 			if (!StringUtils.hasText(lUrl)) {
 				lUrl = rPath + "/jsp/login_alert.jsp";
 			}
@@ -91,7 +91,7 @@ public class DefaultPagePermissionHandler extends DefaultPermissionHandler imple
 				: getUser(user);
 
 		final Object id = pUser.getId();
-		final File photoCache = new File(MVCUtils.getRealPath(IMAGES_CACHE_PATH + id));
+		final File photoCache = new File(MVCUtils.getRealPath(MVCConst.IMAGES_CACHE_PATH + id));
 		if (!photoCache.exists()) {
 			FileUtils.createDirectoryRecursively(photoCache);
 		}
@@ -112,8 +112,8 @@ public class DefaultPagePermissionHandler extends DefaultPermissionHandler imple
 				}
 			}
 		}
-		sb.append(IMAGES_CACHE_PATH).append(id).append("/").append(filename).append("?last=")
-				.append(photoFile.lastModified());
+		sb.append(MVCConst.IMAGES_CACHE_PATH).append(id).append("/").append(filename)
+				.append("?last=").append(photoFile.lastModified());
 		return sb.toString();
 	}
 
@@ -122,7 +122,8 @@ public class DefaultPagePermissionHandler extends DefaultPermissionHandler imple
 			throws IOException {
 		final PermissionUser pUser = user instanceof PermissionUser ? (PermissionUser) user
 				: getUser(user);
-		FileUtils.deleteAll(new File(MVCUtils.getRealPath(IMAGES_CACHE_PATH + pUser.getId() + "/")));
+		FileUtils.deleteAll(new File(MVCUtils.getRealPath(MVCConst.IMAGES_CACHE_PATH + pUser.getId()
+				+ "/")));
 	}
 
 	@Override

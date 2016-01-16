@@ -13,14 +13,14 @@ import net.simpleframework.common.StringUtils;
  * @author 陈侃(cknet@126.com, 13910090885) https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
-public class UtilsFilterListener implements IFilterListener, IMVCContextVar {
+public class UtilsFilterListener implements IFilterListener {
 
 	@Override
 	public EFilterResult doFilter(final PageRequestResponse rRequest, final FilterChain filterChain)
 			throws IOException {
 		final String ieWarnUrl;
 		if (rRequest.isHttpRequest()
-				&& StringUtils.hasText(ieWarnUrl = settings.getIEWarnPath(rRequest))
+				&& StringUtils.hasText(ieWarnUrl = mvcSettings.getIEWarnPath(rRequest))
 				&& !"false".equals(ieWarnUrl)) {
 			final Float ver = rRequest.getIEVersion();
 			if (ver != null && ver < 8.0 && !Convert.toBool(rRequest.getCookie("ie6_browser"))
@@ -31,7 +31,7 @@ public class UtilsFilterListener implements IFilterListener, IMVCContextVar {
 		}
 
 		/* encoding */
-		final String encoding = settings.getCharset();
+		final String encoding = mvcSettings.getCharset();
 		if (encoding != null) {
 			rRequest.setRequestCharacterEncoding(encoding);
 		}

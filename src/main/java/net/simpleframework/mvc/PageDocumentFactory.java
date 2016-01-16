@@ -16,7 +16,7 @@ import net.simpleframework.common.web.HttpUtils;
  * @author 陈侃(cknet@126.com, 13910090885) https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
-public class PageDocumentFactory implements IMVCContextVar, IMVCConst {
+public class PageDocumentFactory implements IMVCSettingsAware {
 
 	/**
 	 * 缓存查询路径下的类
@@ -35,7 +35,7 @@ public class PageDocumentFactory implements IMVCContextVar, IMVCConst {
 	}
 
 	static PageDocument getPageDocument(final PageRequestResponse rRequest) {
-		String xmlpath = rRequest.getParameter(PARAM_XMLPATH);
+		String xmlpath = rRequest.getParameter(MVCConst.PARAM_XMLPATH);
 		if (StringUtils.hasText(xmlpath)) {
 			return getPageDocumentAndCreate(new File(MVCUtils.getRealPath(xmlpath)), rRequest);
 		} else {
@@ -61,7 +61,7 @@ public class PageDocumentFactory implements IMVCContextVar, IMVCConst {
 	@SuppressWarnings("unchecked")
 	public static PageDocument getPageDocument(final PageRequestResponse rRequest,
 			final String lookupPath) {
-		final String filterPath = settings.getFilterPath();
+		final String filterPath = mvcSettings.getFilterPath();
 		PageDocument pageDocument = null;
 		if (StringUtils.hasText(filterPath) && lookupPath.startsWith(filterPath)) {
 			PageWrapper wrapper = _wrappers.get(lookupPath);
@@ -71,7 +71,7 @@ public class PageDocumentFactory implements IMVCContextVar, IMVCConst {
 						.substring(filterPath.length());
 				if (!StringUtils.hasText(clazzName) || "/".equals(clazzName)) {
 					// 跳转到首页
-					final String homePath = settings.getHomePath(rRequest);
+					final String homePath = mvcSettings.getHomePath(rRequest);
 					if (homePath != null && homePath.startsWith(filterPath)) {
 						if ((wrapper = _wrappers.get(homePath)) != null) {
 							break l;
@@ -85,7 +85,7 @@ public class PageDocumentFactory implements IMVCContextVar, IMVCConst {
 					String pagePackage = null;
 					int pos;
 					if ((pos = clazzName.lastIndexOf("/") + 1) > 0) {
-						final Map<String, String> packages = settings.getFilterPackages();
+						final Map<String, String> packages = mvcSettings.getFilterPackages();
 						if (packages != null) {
 							pagePackage = packages.get(clazzName.substring(0, pos - 1));
 						}

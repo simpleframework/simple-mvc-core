@@ -13,7 +13,7 @@ import net.simpleframework.common.StringUtils;
  * @author 陈侃(cknet@126.com, 13910090885) https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
-public abstract class JsessionidUtils implements IMVCConst {
+public abstract class JsessionidUtils {
 	private static final ThreadLocal<String> SESSIONIDs = new ThreadLocal<String>();
 
 	private static Map<String, String> PARAM_SESSIONIDS = new ConcurrentHashMap<String, String>();
@@ -37,7 +37,7 @@ public abstract class JsessionidUtils implements IMVCConst {
 		setJSessionId(jsessionId);
 
 		// 当httpclient和当前不是一个session
-		final String _jsessionId = httpRequest.getParameter(JSESSIONID);
+		final String _jsessionId = httpRequest.getParameter(MVCConst.JSESSIONID);
 		if (StringUtils.hasText(_jsessionId) && !_jsessionId.equals(jsessionId)) {
 			PARAM_SESSIONIDS.put(jsessionId, _jsessionId);
 		}

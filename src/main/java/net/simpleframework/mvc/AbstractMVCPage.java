@@ -322,7 +322,7 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 	 */
 	public static void registUrl(String url, final Class<? extends AbstractMVCPage> pageClass,
 			final int priority) {
-		final String homepath = settings.getFilterPath();
+		final String homepath = mvcSettings.getFilterPath();
 		if (homepath != null && homepath.length() > 1 && !url.startsWith(homepath)) {
 			url = homepath + url;
 		}
@@ -362,11 +362,11 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 			final String queryString) {
 		String url = urlCache.get(pageClass);
 		if (!StringUtils.hasText(url)) {
-			url = settings.getFilterPath();
+			url = mvcSettings.getFilterPath();
 			if (!url.endsWith("/")) {
 				url += "/";
 			}
-			final Map<String, String> pagePackages = settings.getFilterPackages();
+			final Map<String, String> pagePackages = mvcSettings.getFilterPackages();
 			String className = pageClass.getName();
 			String val = null;
 			if (pagePackages != null) {
@@ -412,11 +412,11 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 	}
 
 	protected String getPagePath() {
-		return settings.getFilterPath();
+		return mvcSettings.getFilterPath();
 	}
 
 	protected String getResponseCharset() {
-		return settings.getCharset();
+		return mvcSettings.getCharset();
 	}
 
 	public String getLookupPath() {

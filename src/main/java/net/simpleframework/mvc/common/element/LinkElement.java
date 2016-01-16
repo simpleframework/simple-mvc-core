@@ -3,7 +3,7 @@ package net.simpleframework.mvc.common.element;
 import static net.simpleframework.common.I18n.$m;
 import net.simpleframework.ctx.ModuleFunction;
 import net.simpleframework.mvc.AbstractMVCPage;
-import net.simpleframework.mvc.IMVCContextVar;
+import net.simpleframework.mvc.IMVCSettingsAware;
 import net.simpleframework.mvc.ctx.WebModuleFunction;
 
 /**
@@ -12,7 +12,7 @@ import net.simpleframework.mvc.ctx.WebModuleFunction;
  * @author 陈侃(cknet@126.com, 13910090885) https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
-public class LinkElement extends AbstractLinkElement<LinkElement> implements IMVCContextVar {
+public class LinkElement extends AbstractLinkElement<LinkElement> implements IMVCSettingsAware {
 
 	public static LinkElement style2(final Object text) {
 		return new LinkElement(text).setClassName("simple_btn2");
@@ -24,7 +24,7 @@ public class LinkElement extends AbstractLinkElement<LinkElement> implements IMV
 	}
 
 	public static LinkElement HOME() {
-		return new LinkElement($m("LinkElement.0")).setHref(settings.getFilterPath());
+		return new LinkElement($m("LinkElement.0")).setHref(mvcSettings.getFilterPath());
 	}
 
 	public static LinkElement BLANK(final Object text) {

@@ -42,7 +42,7 @@ import net.simpleframework.mvc.ctx.permission.IPagePermissionHandler;
  * @author 陈侃(cknet@126.com, 13910090885) https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
-public class PageRequestResponse extends ObjectEx implements IMVCContextVar, IMVCConst {
+public class PageRequestResponse extends ObjectEx implements IMVCSettingsAware {
 
 	public HttpServletRequest request;
 
@@ -71,7 +71,7 @@ public class PageRequestResponse extends ObjectEx implements IMVCContextVar, IMV
 		if (encode && vals != null) {
 			for (int i = 0; i < vals.length; i++) {
 				try {
-					vals[i] = URLEncoder.encode(vals[i], settings.getCharset());
+					vals[i] = URLEncoder.encode(vals[i], mvcSettings.getCharset());
 				} catch (final UnsupportedEncodingException e) {
 				}
 			}
@@ -93,7 +93,7 @@ public class PageRequestResponse extends ObjectEx implements IMVCContextVar, IMV
 	}
 
 	public String getLocaleParameter(final String key) {
-		return HttpUtils.toLocaleString(getParameter(key), settings.getCharset());
+		return HttpUtils.toLocaleString(getParameter(key), mvcSettings.getCharset());
 	}
 
 	public int getIntParameter(final String key) {
@@ -142,7 +142,7 @@ public class PageRequestResponse extends ObjectEx implements IMVCContextVar, IMV
 	}
 
 	public String getRefererParam() {
-		return getParameter(PARAM_REFERER);
+		return getParameter(MVCConst.PARAM_REFERER);
 	}
 
 	public Object getRequestAttr(final String key) {
@@ -277,7 +277,7 @@ public class PageRequestResponse extends ObjectEx implements IMVCContextVar, IMV
 	public boolean isGzipResponse() {
 		final String browserEncodings = getRequestHeader("accept-encoding");
 		return ((browserEncodings != null) && (browserEncodings.indexOf("gzip") != -1))
-				&& settings.isGzipResponse(this) && !isHttpClientRequest();
+				&& mvcSettings.isGzipResponse(this) && !isHttpClientRequest();
 	}
 
 	private final static String PARAM_AJAX_REQUEST = "AJAX-REQUEST",
@@ -433,7 +433,7 @@ public class PageRequestResponse extends ObjectEx implements IMVCContextVar, IMV
 
 	/* 权限相关的一些函数 */
 	public IPagePermissionHandler getPermission() {
-		return mvcContext.getPermission();
+		return MVCContext.get().getPermission();
 	}
 
 	public ID getLoginId() {

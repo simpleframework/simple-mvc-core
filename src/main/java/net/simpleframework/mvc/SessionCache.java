@@ -16,7 +16,7 @@ import net.simpleframework.common.Convert;
  * @author 陈侃(cknet@126.com, 13910090885) https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
-public class SessionCache implements IMVCContextVar {
+public class SessionCache {
 	private static final SessionCache _cache = new SessionCache(false);
 	private static final SessionCache _lcache = new SessionCache(true);
 

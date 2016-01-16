@@ -55,20 +55,20 @@ public abstract class AbstractUrlForward extends AbstractForward {
 		if (rRequest instanceof PageParameter
 				&& (document = ((PageParameter) rRequest).getPageDocument()) != null
 				&& (parent = document.getPageClass()) != null) {
-			qMap.put(PARAM_PARENT_PAGE, parent.getName());
+			qMap.put(MVCConst.PARAM_PARENT_PAGE, parent.getName());
 		}
 		/* 加入引用地址 */
 		if (!StringUtils.hasText(rRequest.getRefererParam())) {
-			qMap.put(PARAM_REFERER, rRequest.getRequestAndQueryStringUrl());
+			qMap.put(MVCConst.PARAM_REFERER, rRequest.getRequestAndQueryStringUrl());
 		}
 
 		/* 加入jsessionid */
-		String jsessionid = rRequest.getParameter(JSESSIONID);
+		String jsessionid = rRequest.getParameter(MVCConst.JSESSIONID);
 		if (!StringUtils.hasText(jsessionid)) {
 			jsessionid = rRequest.getSessionId();
 		}
-		sb.append(";").append(JSESSIONID).append("=").append(jsessionid);
-		sb.append("?").append(JSESSIONID).append("=").append(jsessionid).append("&")
+		sb.append(";").append(MVCConst.JSESSIONID).append("=").append(jsessionid);
+		sb.append("?").append(MVCConst.JSESSIONID).append("=").append(jsessionid).append("&")
 				.append(HttpUtils.toQueryString(qMap));
 		return getLocalhostUrl(rRequest) + rRequest.wrapContextPath(sb.toString());
 	}
@@ -115,7 +115,7 @@ public abstract class AbstractUrlForward extends AbstractForward {
 		}
 
 		SessionCache.lput(requestId, new RequestData(rRequest, includeRequestData));
-		String p = REQUEST_ID + "=" + requestId;
+		String p = MVCConst.REQUEST_ID + "=" + requestId;
 		if (keepCache) {
 			p += "&" + KEEP_REQUESTDATA_CACHE + "=true";
 		}
@@ -123,7 +123,7 @@ public abstract class AbstractUrlForward extends AbstractForward {
 	}
 
 	static RequestData getRequestDataByRequest(final HttpServletRequest httpRequest) {
-		final String requestId = httpRequest.getParameter(REQUEST_ID);
+		final String requestId = httpRequest.getParameter(MVCConst.REQUEST_ID);
 		if (Convert.toBool(httpRequest.getParameter(KEEP_REQUESTDATA_CACHE))) {
 			return (RequestData) SessionCache.lget(requestId);
 		} else {
@@ -145,7 +145,7 @@ public abstract class AbstractUrlForward extends AbstractForward {
 			// parameters
 			if (includeRequestData.contains("p")) {
 				parameters.putAll(rRequest.request.getParameterMap());
-				for (final String k : settings.getSystemParamKeys()) {
+				for (final String k : mvcSettings.getSystemParamKeys()) {
 					parameters.remove(k);
 				}
 			}
@@ -182,7 +182,7 @@ public abstract class AbstractUrlForward extends AbstractForward {
 		// rRequest.getRequestScheme()
 		// 内部走http
 		sb.append("http://localhost");
-		final int port = settings.getServerPort(rRequest);
+		final int port = mvcSettings.getServerPort(rRequest);
 		if (port != 80) {
 			sb.append(":").append(port);
 		}

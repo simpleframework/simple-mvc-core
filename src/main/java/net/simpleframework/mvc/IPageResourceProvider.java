@@ -10,7 +10,7 @@ import net.simpleframework.mvc.common.DeployUtils;
  * @author 陈侃(cknet@126.com, 13910090885) https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
-public interface IPageResourceProvider extends IResourceProvider {
+public interface IPageResourceProvider extends IResourceProvider, IMVCSettingsAware {
 
 	/**
 	 * 页面资源提供者的唯一名称

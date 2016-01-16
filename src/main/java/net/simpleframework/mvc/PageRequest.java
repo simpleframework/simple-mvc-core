@@ -21,7 +21,7 @@ import net.simpleframework.mvc.AbstractUrlForward.RequestData;
  *         http://www.simpleframework.net
  */
 @SuppressWarnings({ "unchecked", "rawtypes" })
-public class PageRequest extends HttpServletRequestWrapper implements IMVCContextVar {
+public class PageRequest extends HttpServletRequestWrapper {
 	private RequestData requestData;
 
 	private final Map parameters = new HashMap();
@@ -60,7 +60,7 @@ public class PageRequest extends HttpServletRequestWrapper implements IMVCContex
 			return null;
 		}
 		if (httpSession == null || !httpSession.getId().equals(httpSession2.getId())) {
-			httpSession = mvcContext.createHttpSession(httpSession2);
+			httpSession = MVCContext.get().createHttpSession(httpSession2);
 		}
 		return httpSession;
 	}

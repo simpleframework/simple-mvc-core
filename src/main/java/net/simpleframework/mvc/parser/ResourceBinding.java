@@ -12,8 +12,8 @@ import net.simpleframework.lib.org.jsoup.nodes.Element;
 import net.simpleframework.lib.org.jsoup.nodes.Node;
 import net.simpleframework.lib.org.jsoup.select.Elements;
 import net.simpleframework.mvc.AbstractMVCPage;
-import net.simpleframework.mvc.IMVCConst;
 import net.simpleframework.mvc.IPageResourceProvider;
+import net.simpleframework.mvc.MVCConst;
 import net.simpleframework.mvc.PageDocument;
 import net.simpleframework.mvc.PageParameter;
 import net.simpleframework.mvc.component.AbstractComponentBean;
@@ -27,7 +27,7 @@ import net.simpleframework.mvc.component.IComponentResourceProvider;
  * @author 陈侃(cknet@126.com, 13910090885) https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
-public class ResourceBinding extends AbstractParser implements IMVCConst {
+public class ResourceBinding extends AbstractParser {
 
 	public void doTag(final PageParameter pp, final Element htmlHead,
 			final Map<String, AbstractComponentBean> componentBeans) {
@@ -41,7 +41,7 @@ public class ResourceBinding extends AbstractParser implements IMVCConst {
 			sb.append("window.HOME_PATH=\"").append(prp.getResourceHomePath()).append("\";");
 			sb.append("window.SKIN=\"").append(skin).append("\";");
 			sb.append("window.IS_EFFECTS=");
-			sb.append(settings.isEffect(pp)).append(";");
+			sb.append(mvcSettings.isEffect(pp)).append(";");
 			ParserUtils.addScriptText(htmlHead, sb.toString());
 		}
 
@@ -99,7 +99,7 @@ public class ResourceBinding extends AbstractParser implements IMVCConst {
 		}
 
 		// 转换UrlForward直接输出的代码
-		final Elements elements = htmlHead.ownerDocument().select("." + HTML_BASE64_CLASS);
+		final Elements elements = htmlHead.ownerDocument().select("." + MVCConst.HTML_BASE64_CLASS);
 		for (int i = 0; i < elements.size(); i++) {
 			final Element element = elements.get(i);
 			final Element parent = element.parent();

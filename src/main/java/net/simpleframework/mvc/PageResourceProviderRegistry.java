@@ -12,7 +12,7 @@ import net.simpleframework.common.object.ObjectEx;
  * @author 陈侃(cknet@126.com, 13910090885) https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
-public class PageResourceProviderRegistry extends ObjectEx implements IMVCContextVar {
+public class PageResourceProviderRegistry extends ObjectEx {
 
 	public static PageResourceProviderRegistry get() {
 		return singleton(PageResourceProviderRegistry.class);
@@ -34,7 +34,7 @@ public class PageResourceProviderRegistry extends ObjectEx implements IMVCContex
 			return provider;
 		}
 		if (defaultProvider == null) {
-			registered(defaultProvider = mvcContext.getDefaultPageResourceProvider());
+			registered(defaultProvider = MVCContext.get().getDefaultPageResourceProvider());
 		}
 		return defaultProvider;
 	}

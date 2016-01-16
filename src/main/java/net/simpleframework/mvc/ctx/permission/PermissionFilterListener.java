@@ -10,7 +10,7 @@ import net.simpleframework.ctx.permission.LoginUser;
 import net.simpleframework.ctx.permission.LoginUser.LoginWrapper;
 import net.simpleframework.ctx.permission.PermissionConst;
 import net.simpleframework.mvc.IFilterListener;
-import net.simpleframework.mvc.IMVCContextVar;
+import net.simpleframework.mvc.MVCContext;
 import net.simpleframework.mvc.MVCUtils;
 import net.simpleframework.mvc.PageParameter;
 import net.simpleframework.mvc.PageRequestResponse;
@@ -21,12 +21,12 @@ import net.simpleframework.mvc.PageRequestResponse;
  * @author 陈侃(cknet@126.com, 13910090885) https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
-public class PermissionFilterListener implements IFilterListener, IMVCContextVar {
+public class PermissionFilterListener implements IFilterListener {
 
 	@Override
 	public EFilterResult doFilter(final PageRequestResponse rRequest, final FilterChain filterChain)
 			throws IOException {
-		final IPagePermissionHandler permission = mvcContext.getPermission();
+		final IPagePermissionHandler permission = MVCContext.get().getPermission();
 
 		if (rRequest.isHttpRequest()) {
 			// 获取页面角色

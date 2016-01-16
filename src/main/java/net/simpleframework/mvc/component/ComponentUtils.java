@@ -11,7 +11,7 @@ import net.simpleframework.common.coll.KVMap;
 import net.simpleframework.common.object.ObjectFactory;
 import net.simpleframework.common.object.ObjectUtils;
 import net.simpleframework.mvc.AbstractMVCPage;
-import net.simpleframework.mvc.IMVCContextVar;
+import net.simpleframework.mvc.IMVCSettingsAware;
 import net.simpleframework.mvc.PageDocument;
 import net.simpleframework.mvc.PageDocumentFactory;
 import net.simpleframework.mvc.PageParameter;
@@ -24,7 +24,7 @@ import net.simpleframework.mvc.SessionCache;
  * @author 陈侃(cknet@126.com, 13910090885) https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
-public abstract class ComponentUtils implements IMVCContextVar {
+public abstract class ComponentUtils implements IMVCSettingsAware {
 
 	public static String getResourceHomePath(
 			final Class<? extends AbstractComponentBean> componentBeanClass) {
@@ -104,7 +104,7 @@ public abstract class ComponentUtils implements IMVCContextVar {
 		final KVMap parameters = new KVMap();
 		if (_parameters.size() > 0) {
 			Object val;
-			for (final String k : settings.getSystemParamKeys()) {
+			for (final String k : mvcSettings.getSystemParamKeys()) {
 				_parameters.remove(k);
 			}
 			for (final Map.Entry<String, Object> entry : _parameters.entrySet()) {

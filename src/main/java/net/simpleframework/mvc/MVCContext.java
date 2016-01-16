@@ -31,7 +31,13 @@ import net.simpleframework.mvc.ctx.permission.PermissionFilterListener;
  * @author 陈侃(cknet@126.com, 13910090885) https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
-public class MVCContext extends AbstractApplicationContextBase implements IMVCContext, IMVCConst {
+public class MVCContext extends AbstractApplicationContextBase implements IMVCContext {
+
+	private static MVCContext mvcContext;
+
+	public static MVCContext get() {
+		return mvcContext;
+	}
 
 	private ServletContext servletContext;
 
@@ -50,10 +56,13 @@ public class MVCContext extends AbstractApplicationContextBase implements IMVCCo
 	@Override
 	protected void onBeforeInit() throws Exception {
 		super.onBeforeInit();
+		mvcContext = this;
+
 		// servlet 3.0
 		if (servletContext.getMajorVersion() >= 3) {
 			// servletContext.addListener(MVCEventAdapter.class.getName());
 		}
+
 		getEventAdapter().addListener(SessionCache.SESSIONCACHE_LISTENER);
 	}
 
@@ -187,7 +196,7 @@ public class MVCContext extends AbstractApplicationContextBase implements IMVCCo
 		if (requestURI.endsWith(".jsp") || requestURI.contains("/favicon.ico")) {
 			return true;
 		}
-		if (requestURI.indexOf(JSESSIONID + "=") > -1) {
+		if (requestURI.indexOf(MVCConst.JSESSIONID + "=") > -1) {
 			return true;
 		}
 		final String lPath = getMVCSettings().getLoginPath(rRequest);

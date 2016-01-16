@@ -31,14 +31,13 @@ import net.simpleframework.mvc.parser.PageParser;
  * @author 陈侃(cknet@126.com, 13910090885) https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
-public class MVCFilter extends ObjectEx implements Filter, IMVCConst {
-
-	protected IMVCContext ctx;
+public class MVCFilter extends ObjectEx implements Filter {
 
 	@Override
 	public void init(final FilterConfig filterConfig) throws ServletException {
 		final String handler = filterConfig.getInitParameter("mvc-context");
-		ctx = StringUtils.hasText(handler) ? (IMVCContext) singleton(handler) : createMVCContext();
+		final IMVCContext ctx = StringUtils.hasText(handler) ? (IMVCContext) singleton(handler)
+				: createMVCContext();
 		try {
 			ctx.setServletContext(filterConfig.getServletContext());
 			ctx.setScanPackageNames(StringUtils.split(filterConfig.getInitParameter("scan-packages")));
@@ -90,7 +89,7 @@ public class MVCFilter extends ObjectEx implements Filter, IMVCConst {
 				/* 计时start */
 				final boolean bHttpRequest = rRequest.isHttpRequest();
 				if (bHttpRequest) {
-					rRequest.setRequestAttr(PAGELOAD_TIME, System.currentTimeMillis());
+					rRequest.setRequestAttr(MVCConst.PAGELOAD_TIME, System.currentTimeMillis());
 				}
 
 				/* page document */
@@ -156,14 +155,14 @@ public class MVCFilter extends ObjectEx implements Filter, IMVCConst {
 						// 写入cookies
 						@SuppressWarnings("unchecked")
 						final List<Cookie> cookies = (List<Cookie>) SessionCache
-								.lremove(SESSION_ATTRI_COOKIES);
+								.lremove(MVCConst.SESSION_ATTRI_COOKIES);
 						if (cookies != null) {
 							for (final Cookie cookie : cookies) {
 								_response.addCookie(cookie);
 							}
 						}
 
-						if (SessionCache.lget(SESSION_ATTRI_THROWABLE) != null) {
+						if (SessionCache.lget(MVCConst.SESSION_ATTRI_THROWABLE) != null) {
 							rRequest.loc(getRedirectError(rRequest));
 							return;
 						}
@@ -188,15 +187,15 @@ public class MVCFilter extends ObjectEx implements Filter, IMVCConst {
 					.getBeanProperty("responseCharacterEncoding");
 		}
 		if (!StringUtils.hasText(rCharset)) {
-			rCharset = ctx.getMVCSettings().getCharset();
+			rCharset = MVCContext.get().getMVCSettings().getCharset();
 		}
 		return rCharset;
 	}
 
 	protected EFilterResult doFilterInternal(final PageRequestResponse rRequest,
 			final FilterChain filterChain) throws IOException {
-		if (SessionCache.lget(SESSION_ATTRI_THROWABLE) == null) {
-			for (final IFilterListener listener : ctx.getFilterListeners()) {
+		if (SessionCache.lget(MVCConst.SESSION_ATTRI_THROWABLE) == null) {
+			for (final IFilterListener listener : MVCContext.get().getFilterListeners()) {
 				if (listener.doFilter(rRequest, filterChain) == EFilterResult.BREAK) {
 					return EFilterResult.BREAK;
 				}
@@ -226,10 +225,11 @@ public class MVCFilter extends ObjectEx implements Filter, IMVCConst {
 
 		/* 计时end */
 		Long l;
-		if ((l = (Long) rRequest.getRequestAttr(PAGELOAD_TIME)) != null && rRequest.isHttpRequest()) {
+		if ((l = (Long) rRequest.getRequestAttr(MVCConst.PAGELOAD_TIME)) != null
+				&& rRequest.isHttpRequest()) {
 			final long pt = System.currentTimeMillis() - l.longValue();
-			rRequest.setSessionAttr(PAGELOAD_TIME, pt); // 记录上一次
-			rRequest.addCookie(PAGELOAD_TIME, pt / 1000d);
+			rRequest.setSessionAttr(MVCConst.PAGELOAD_TIME, pt); // 记录上一次
+			rRequest.addCookie(MVCConst.PAGELOAD_TIME, pt / 1000d);
 		}
 
 		out.write(html);
@@ -244,7 +244,7 @@ public class MVCFilter extends ObjectEx implements Filter, IMVCConst {
 					"$error(" + JsonUtils.toJSON(MVCUtils.createException(rRequest, th)) + ");");
 			write(rRequest, JsonUtils.toJSON(json), charset);
 		} else {
-			SessionCache.lput(SESSION_ATTRI_THROWABLE, th);
+			SessionCache.lput(MVCConst.SESSION_ATTRI_THROWABLE, th);
 			if (rRequest.isHttpClientRequest()) {
 				// 如果是HttpClient请求,则生成跳转脚本
 				final StringBuilder sb = new StringBuilder();
@@ -261,7 +261,7 @@ public class MVCFilter extends ObjectEx implements Filter, IMVCConst {
 	private String getRedirectError(final PageRequestResponse rRequest) throws IOException {
 		final StringBuilder sb = new StringBuilder();
 		sb.append(MVCUtils.getPageResourcePath()).append("/jsp/error_template.jsp?systemErrorPage=");
-		sb.append(ctx.getMVCSettings().getErrorPath(rRequest));
+		sb.append(MVCContext.get().getMVCSettings().getErrorPath(rRequest));
 		return sb.toString();
 	}
 

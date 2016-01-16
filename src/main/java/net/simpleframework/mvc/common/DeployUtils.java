@@ -17,7 +17,7 @@ import net.simpleframework.common.FileUtils;
 import net.simpleframework.common.object.ObjectEx;
 import net.simpleframework.common.object.ObjectUtils;
 import net.simpleframework.common.web.JavascriptUtils;
-import net.simpleframework.mvc.IMVCContextVar;
+import net.simpleframework.mvc.IMVCSettingsAware;
 import net.simpleframework.mvc.MVCUtils;
 
 /**
@@ -26,7 +26,7 @@ import net.simpleframework.mvc.MVCUtils;
  * @author 陈侃(cknet@126.com, 13910090885) https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
-public abstract class DeployUtils implements IMVCContextVar {
+public abstract class DeployUtils implements IMVCSettingsAware {
 
 	private final static String RESOURCE_NAME = "$resource";
 
@@ -39,7 +39,7 @@ public abstract class DeployUtils implements IMVCContextVar {
 			private String getDeployName(final String filename) {
 				final StringBuilder sb = new StringBuilder();
 				String packageName = filename.substring(0, filename.lastIndexOf('/')).replace('/', '.');
-				if (!settings.isDebug()) {
+				if (!mvcSettings.isDebug()) {
 					packageName = ObjectUtils.hashStr(packageName);
 				}
 				sb.append("/").append(RESOURCE_NAME).append("/").append(packageName);
@@ -77,7 +77,7 @@ public abstract class DeployUtils implements IMVCContextVar {
 								if (isDirectory) {
 									FileUtils.createDirectoryRecursively(to);
 								} else {
-									final boolean compress = settings.isResourceCompress();
+									final boolean compress = mvcSettings.isResourceCompress();
 									JavascriptUtils.copyFile(inputStream, to,
 											Convert.toBool(properties.get("jsCompress"), compress),
 											Convert.toBool(properties.get("cssCompress"), compress));
@@ -94,11 +94,11 @@ public abstract class DeployUtils implements IMVCContextVar {
 		String resourceUrl = resourceUrlCache.get(resourceClass);
 		if (resourceUrl == null) {
 			String packageName = resourceClass.getPackage().getName();
-			if (!settings.isDebug()) {
+			if (!mvcSettings.isDebug()) {
 				packageName = ObjectUtils.hashStr(packageName);
 			}
 			final StringBuilder sb = new StringBuilder();
-			sb.append(servlet.getContextPath());
+			sb.append(MVCUtils.getContextPath());
 			sb.append("/").append(RESOURCE_NAME).append("/").append(packageName);
 			resourceUrlCache.put(resourceClass, resourceUrl = sb.toString());
 		}

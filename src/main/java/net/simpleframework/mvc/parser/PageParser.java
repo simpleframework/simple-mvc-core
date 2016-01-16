@@ -19,6 +19,7 @@ import net.simpleframework.lib.org.jsoup.nodes.TextNode;
 import net.simpleframework.mvc.AbstractMVCPage;
 import net.simpleframework.mvc.IPageHandler;
 import net.simpleframework.mvc.IPageHandler.PageSelector;
+import net.simpleframework.mvc.MVCContext;
 import net.simpleframework.mvc.MVCException;
 import net.simpleframework.mvc.MVCHtmlBuilder;
 import net.simpleframework.mvc.PageParameter;
@@ -33,7 +34,7 @@ import net.simpleframework.mvc.component.AbstractComponentBean;
  */
 public final class PageParser extends AbstractPageParser {
 
-	private static final MVCHtmlBuilder htmlBuilder = mvcContext.getPageHtmlBuilder();
+	private static final MVCHtmlBuilder htmlBuilder = MVCContext.get().getPageHtmlBuilder();
 
 	private Document htmlDoc;
 

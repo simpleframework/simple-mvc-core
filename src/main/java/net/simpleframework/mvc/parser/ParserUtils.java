@@ -12,7 +12,7 @@ import net.simpleframework.lib.org.jsoup.nodes.Document;
 import net.simpleframework.lib.org.jsoup.nodes.Element;
 import net.simpleframework.lib.org.jsoup.nodes.Node;
 import net.simpleframework.lib.org.jsoup.select.Elements;
-import net.simpleframework.mvc.IMVCContextVar;
+import net.simpleframework.mvc.MVCContext;
 import net.simpleframework.mvc.PageParameter;
 
 /**
@@ -21,7 +21,7 @@ import net.simpleframework.mvc.PageParameter;
  * @author 陈侃(cknet@126.com, 13910090885) https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
-public abstract class ParserUtils implements IMVCContextVar {
+public abstract class ParserUtils {
 	private final static String SCRIPT_TYPE = "text/javascript";
 
 	static Element addScriptSRC(final PageParameter pp, final Element element, String src) {
@@ -38,7 +38,7 @@ public abstract class ParserUtils implements IMVCContextVar {
 			scripts = element.select("script[src^=" + src + "]");
 			size = scripts.size();
 			if (size == 0) {
-				src = HttpUtils.addParameters(src, "v=" + mvcContext.getVersion());
+				src = HttpUtils.addParameters(src, "v=" + MVCContext.get().getVersion());
 			}
 		}
 		if (size == 0) {
@@ -62,7 +62,7 @@ public abstract class ParserUtils implements IMVCContextVar {
 			links = element.select("link[href^=" + href + "]");
 			size = links.size();
 			if (size == 0) {
-				href = HttpUtils.addParameters(href, "v=" + mvcContext.getVersion());
+				href = HttpUtils.addParameters(href, "v=" + MVCContext.get().getVersion());
 			}
 		}
 		if (size == 0) {

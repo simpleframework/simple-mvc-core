@@ -3,6 +3,7 @@ package net.simpleframework.mvc;
 import java.io.File;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -24,7 +25,7 @@ import net.simpleframework.mvc.component.ComponentHandlerException;
  * @author 陈侃(cknet@126.com, 13910090885) https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
-public abstract class MVCUtils implements IMVCContextVar, IMVCConst {
+public abstract class MVCUtils implements IMVCSettingsAware {
 
 	public static KVMap createVariables(final PageParameter pp) {
 		final KVMap variable = new KVMap();
@@ -34,7 +35,7 @@ public abstract class MVCUtils implements IMVCContextVar, IMVCConst {
 		final HttpSession session = pp.getSession();
 		variable.add("session", session);
 		variable.add("application", session.getServletContext());
-		variable.add("pagePath", settings.getFilterPath());
+		variable.add("pagePath", mvcSettings.getFilterPath());
 
 		final PageDocument pageDocument = pp.getPageDocument();
 		if (pageDocument != null) {
@@ -52,12 +53,18 @@ public abstract class MVCUtils implements IMVCContextVar, IMVCConst {
 	}
 
 	public static String getRealPath(String url) {
-		final String contextPath = servlet.getContextPath();
+		final String contextPath = getContextPath();
 		if (StringUtils.hasText(contextPath) && url.startsWith(contextPath)) {
 			url = url.substring(contextPath.length());
 		}
-		return servlet.getRealPath(url);
+		return servletContext.getRealPath(url);
 	}
+
+	public static String getContextPath() {
+		return servletContext.getContextPath();
+	}
+
+	private static ServletContext servletContext = MVCContext.get().getServletContext();
 
 	public static String getPageResourcePath() {
 		return DeployUtils.getResourcePath(MVCUtils.class);
@@ -68,7 +75,7 @@ public abstract class MVCUtils implements IMVCContextVar, IMVCConst {
 	}
 
 	public static void setSessionSkin(final HttpSession httpSession, final String skin) {
-		httpSession.setAttribute(SESSION_ATTRI_SKIN, skin);
+		httpSession.setAttribute(MVCConst.SESSION_ATTRI_SKIN, skin);
 	}
 
 	public static String doPageUrl(final PageParameter pp, final String url) {
@@ -131,7 +138,7 @@ public abstract class MVCUtils implements IMVCContextVar, IMVCConst {
 	public static Map<String, Object> createException(final PageRequestResponse rRequest,
 			final Throwable th) {
 		final KVMap exception = new KVMap();
-		exception.put("title", mvcContext.getThrowableMessage(th));
+		exception.put("title", MVCContext.get().getThrowableMessage(th));
 		final String detail = Convert.toString(th);
 		exception.put("detail", detail);
 		exception.put("hash", ObjectUtils.hashStr(detail));

@@ -1,13 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="net.simpleframework.mvc.common.DownloadUtils"%>
 <%@ page import="net.simpleframework.mvc.PageRequestResponse"%>
-<%@ page import="net.simpleframework.mvc.IMVCContextVar"%>
+<%@ page import="net.simpleframework.mvc.MVCContext"%>
 <%
 	try {
 		DownloadUtils.doDownload(PageRequestResponse.get(request,
 				response));
 	} catch (Throwable th) {
-		System.out.println(IMVCContextVar.mvcContext
+		System.out.println(MVCContext.get()
 				.getThrowableMessage(th));
 	} finally {
 		try {

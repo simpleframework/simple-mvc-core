@@ -9,7 +9,7 @@ import net.simpleframework.ctx.common.xml.AbstractElementBean;
  * @author 陈侃(cknet@126.com, 13910090885) https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
-public class PageBean extends AbstractElementBean implements IMVCContextVar {
+public class PageBean extends AbstractElementBean implements IMVCSettingsAware {
 	/* 是否禁用文档解析 */
 	private boolean disabled;
 
@@ -172,7 +172,7 @@ public class PageBean extends AbstractElementBean implements IMVCContextVar {
 	}
 
 	protected String getDefaultRole(final String role) {
-		return StringUtils.hasText(role) ? role : settings.getDefaultRole();
+		return StringUtils.hasText(role) ? role : mvcSettings.getDefaultRole();
 	}
 
 	public PageDocument getPageDocument() {

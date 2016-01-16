@@ -21,19 +21,19 @@ import net.simpleframework.lib.com.oreilly.servlet.MultipartRequest;
  *         http://www.simpleframework.net
  */
 public class MultipartPageRequest extends HttpServletRequestWrapper implements
-		IMultipartPageRequest, IMVCContextVar {
+		IMultipartPageRequest, IMVCSettingsAware {
 	private final MultipartRequest mRequest;
 
 	public MultipartPageRequest(final HttpServletRequest request, final int maxUploadSize)
 			throws IOException {
 		super(request);
-		final File dir = new File(settings.getTmpFiledir().getAbsolutePath() + File.separator
+		final File dir = new File(mvcSettings.getTmpFiledir().getAbsolutePath() + File.separator
 				+ "uploads" + File.separator);
 		if (!dir.exists()) {
 			FileUtils.createDirectoryRecursively(dir);
 		}
 		mRequest = new MultipartRequest(request, dir.getAbsolutePath(), maxUploadSize,
-				settings.getCharset());
+				mvcSettings.getCharset());
 	}
 
 	@SuppressWarnings("unchecked")

@@ -9,6 +9,7 @@ import net.simpleframework.common.web.HttpUtils;
 import net.simpleframework.common.web.JavascriptUtils;
 import net.simpleframework.ctx.permission.PermissionConst;
 import net.simpleframework.mvc.IForward;
+import net.simpleframework.mvc.IMVCSettingsAware;
 import net.simpleframework.mvc.JavascriptForward;
 import net.simpleframework.mvc.UrlForward;
 import net.simpleframework.mvc.common.element.JS;
@@ -19,7 +20,8 @@ import net.simpleframework.mvc.common.element.JS;
  * @author 陈侃(cknet@126.com, 13910090885) https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
-public abstract class AbstractComponentRender extends ObjectEx implements IComponentRender {
+public abstract class AbstractComponentRender extends ObjectEx implements IComponentRender,
+		IMVCSettingsAware {
 	private IComponentRegistry componentRegistry;
 
 	@Override

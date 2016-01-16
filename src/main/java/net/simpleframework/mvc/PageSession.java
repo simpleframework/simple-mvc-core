@@ -14,9 +14,9 @@ import javax.servlet.http.HttpSessionContext;
  *         http://www.simpleframework.net
  */
 @SuppressWarnings("deprecation")
-public class PageSession implements HttpSession, IMVCContextVar {
+public class PageSession implements HttpSession {
 
-	private final MVCEventAdapter adapter = mvcContext.getEventAdapter();
+	private final MVCEventAdapter adapter = MVCContext.get().getEventAdapter();
 
 	private final HttpSession httpSession;
 
