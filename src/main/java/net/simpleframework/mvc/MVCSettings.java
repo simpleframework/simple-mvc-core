@@ -65,6 +65,10 @@ public class MVCSettings extends ContextSettings {
 		return ver == null || ver > 8.0;
 	}
 
+	public boolean isAnonymousDownload(final PageRequestResponse rRequest) {
+		return false;
+	}
+
 	public String getIEWarnPath(final PageRequestResponse rRequest) {
 		return MVCUtils.getPageResourcePath() + "/jsp/ie_version_alert.jsp";
 	}
