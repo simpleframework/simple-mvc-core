@@ -34,6 +34,10 @@ public abstract class DownloadUtils {
 
 	public static String getDownloadHref(final AttachmentFile af,
 			final Class<? extends IDownloadHandler> handlerClass) {
+		final String durl = af.getDurl();
+		if (StringUtils.hasText(durl)) {
+			return durl;
+		}
 		final StringBuilder sb = new StringBuilder();
 		sb.append(MVCUtils.getPageResourcePath()).append("/jsp/download.jsp?filename=");
 		sb.append(HttpUtils.encodeUrl(af.toFilename()));
@@ -78,8 +82,8 @@ public abstract class DownloadUtils {
 			IoUtils.copyStream(iStream, outputStream);
 			final String handlerClass = rRequest.getParameter("handlerClass");
 			if (StringUtils.hasText(handlerClass)) {
-				((IDownloadHandler) ObjectFactory.singleton(handlerClass)).onDownloaded(
-						rRequest.getParameter("id"), rRequest.getParameter("filename"), oFile);
+				final IDownloadHandler hdl = (IDownloadHandler) ObjectFactory.singleton(handlerClass);
+				hdl.onDownloaded(rRequest.getParameter("id"), rRequest.getParameter("filename"), oFile);
 			}
 		} finally {
 			try {
