@@ -28,6 +28,10 @@ import net.simpleframework.mvc.PageRequestResponse;
  */
 public abstract class DownloadUtils implements IMVCSettingsAware {
 
+	public static String getDownloadHref(final AttachmentFile af) {
+		return getDownloadHref(af, null);
+	}
+
 	public static String getDownloadHref(final AttachmentFile af,
 			final Class<? extends IDownloadHandler> handlerClass) {
 		final String durl = af.getDurl();
