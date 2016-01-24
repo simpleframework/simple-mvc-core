@@ -58,8 +58,11 @@ public abstract class DownloadUtils implements IMVCSettingsAware {
 		return sb.toString();
 	}
 
+	public static final String DOWNLOAD_LOGIN = "download_login";
+
 	public static void doDownload(final PageRequestResponse rRequest) throws IOException {
-		if (!mvcSettings.isAnonymousDownload(rRequest) && !rRequest.isLogin()) {
+		if ((rRequest.getBoolParameter(DOWNLOAD_LOGIN) || !mvcSettings.isAnonymousDownload(rRequest))
+				&& !rRequest.isLogin()) {
 			throw MVCException.of($m("DownloadUtils.0"));
 		}
 
