@@ -38,10 +38,22 @@ public class Option extends AbstractElement<Option> {
 		return opts;
 	}
 
+	public static Option[] from(final String... vals) {
+		final Option[] opts = new Option[vals.length];
+		for (int i = 0; i < opts.length; i++) {
+			opts[i] = new Option(vals[i]);
+		}
+		return opts;
+	}
+
 	public static void setSelected(final Option[] opts, final Enum<?> val) {
+		setSelected(opts, val.name());
+	}
+
+	public static void setSelected(final Option[] opts, final String val) {
 		if (opts != null && val != null) {
 			for (final Option opt : opts) {
-				if (val.name().equals(opt.getName())) {
+				if (val.equals(opt.getName())) {
 					opt.setSelected(true);
 					break;
 				}
