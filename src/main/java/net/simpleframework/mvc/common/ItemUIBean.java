@@ -49,8 +49,8 @@ public abstract class ItemUIBean<T extends ItemUIBean<T>> extends AbstractElemen
 		return id;
 	}
 
-	public T setId(final String id) {
-		this.id = id;
+	public T setId(final Object id) {
+		this.id = Convert.toString(id);
 		return (T) this;
 	}
 
