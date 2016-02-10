@@ -8,6 +8,7 @@ import java.util.Set;
 
 import net.simpleframework.common.AlgorithmUtils;
 import net.simpleframework.common.StringUtils;
+import net.simpleframework.common.web.HttpUtils;
 import net.simpleframework.lib.org.jsoup.nodes.Element;
 import net.simpleframework.lib.org.jsoup.nodes.Node;
 import net.simpleframework.lib.org.jsoup.select.Elements;
@@ -114,10 +115,12 @@ public class ResourceBinding extends AbstractParser {
 		final Collection<String> cssColl = pageDocument.getImportCSS(pp);
 		if (cssColl != null) {
 			for (String css : cssColl) {
-				if (!css.startsWith("/")) {
-					css = pageHome + "/" + css;
-				} else {
-					css = pp.wrapContextPath(css);
+				if (!HttpUtils.isAbsoluteUrl(css)) {
+					if (!css.startsWith("/")) {
+						css = pageHome + "/" + css;
+					} else {
+						css = pp.wrapContextPath(css);
+					}
 				}
 				ParserUtils.addStylesheet(pp, htmlHead, css);
 			}
@@ -127,10 +130,12 @@ public class ResourceBinding extends AbstractParser {
 		final Collection<String> jsColl = pageDocument.getImportJavascript(pp);
 		if (jsColl != null) {
 			for (String js : jsColl) {
-				if (!js.startsWith("/")) {
-					js = pageHome + "/" + js;
-				} else {
-					js = pp.wrapContextPath(js);
+				if (!HttpUtils.isAbsoluteUrl(js)) {
+					if (!js.startsWith("/")) {
+						js = pageHome + "/" + js;
+					} else {
+						js = pp.wrapContextPath(js);
+					}
 				}
 				ParserUtils.addScriptSRC(pp, htmlHead, js);
 			}

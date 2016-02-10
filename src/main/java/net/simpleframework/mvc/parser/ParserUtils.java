@@ -37,7 +37,7 @@ public abstract class ParserUtils {
 		} else {
 			scripts = element.select("script[src^=" + src + "]");
 			size = scripts.size();
-			if (size == 0) {
+			if (size == 0 && !HttpUtils.isAbsoluteUrl(src)) {
 				src = HttpUtils.addParameters(src, "v=" + MVCContext.get().getVersion());
 			}
 		}
@@ -61,7 +61,7 @@ public abstract class ParserUtils {
 		} else {
 			links = element.select("link[href^=" + href + "]");
 			size = links.size();
-			if (size == 0) {
+			if (size == 0 && !HttpUtils.isAbsoluteUrl(href)) {
 				href = HttpUtils.addParameters(href, "v=" + MVCContext.get().getVersion());
 			}
 		}
