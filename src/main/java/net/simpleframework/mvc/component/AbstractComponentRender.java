@@ -52,6 +52,7 @@ public abstract class AbstractComponentRender extends ObjectEx implements ICompo
 			sb.append("var params=\"").append(StringUtils.blank(getParams(cp))).append("\";");
 			ComponentRenderUtils.appendParameters(sb, cp, "params");
 			sb.append("params = params.addParameter(arguments[0]);");
+			sb.append(ComponentRenderUtils.actionFunc(cp)).append(".params = params;");
 			sb.append("new Ajax.Request('").append(getActionPath(cp)).append("', {");
 			sb.append("postBody: params,");
 			sb.append("onComplete: function(req) {");
