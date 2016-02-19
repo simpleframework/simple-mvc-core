@@ -97,6 +97,10 @@ public abstract class AbstractInputElement<T extends AbstractInputElement<T>> ex
 		return setText(rRequest.getParameter(getName()));
 	}
 
+	protected boolean isTextReadonly() {
+		return isReadonly();
+	}
+
 	@Override
 	protected void doAttri(final StringBuilder sb) {
 		if (!isDisabled()) {
@@ -106,7 +110,7 @@ public abstract class AbstractInputElement<T extends AbstractInputElement<T>> ex
 		}
 
 		final EInputType type = getInputType();
-		if (isReadonly()) {
+		if (isTextReadonly()) {
 			sb.append(" readonly");
 		}
 		if (type == EInputType.checkbox || type == EInputType.radio) {
