@@ -104,15 +104,15 @@ public abstract class ComponentRenderUtils {
 
 	public static String genParameters(final ComponentParameter cp) {
 		final StringBuilder sb = new StringBuilder();
+		sb.append("<div class=\"parameters\" id=\"").append(AbstractComponentBean.FORM_PREFIX)
+				.append(cp.hashId()).append("\">");
 		final Map<String, Object> params = ComponentUtils.toFormParameters(cp);
-		if (params != null && params.size() > 0) {
-			sb.append("<div class=\"parameters\" id=\"").append(AbstractComponentBean.FORM_PREFIX);
-			sb.append(cp.hashId()).append("\">");
+		if (params != null) {
 			for (final Map.Entry<String, Object> entry : params.entrySet()) {
 				sb.append(InputElement.hidden(entry.getKey()).setText(String.valueOf(entry.getValue())));
 			}
-			sb.append("</div>");
 		}
+		sb.append("</div>");
 		return sb.toString();
 	}
 }
