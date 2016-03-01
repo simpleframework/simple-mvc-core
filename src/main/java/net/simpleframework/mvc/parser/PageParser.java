@@ -155,6 +155,14 @@ public final class PageParser extends AbstractPageParser {
 				} else if ("form".equalsIgnoreCase(nodeName)
 						&& !StringUtils.hasText(child.attr("action"))) {
 					child.attr("action", "javascript:void(0);").attr("autocomplete", "off");
+				} else if ("select".equalsIgnoreCase(nodeName)) {
+					if (child.hasAttr("readonly")) {
+						final Element opt = ((Element) child).getElementsByAttribute("selected").first();
+						if (opt != null) {
+							child.replaceWith(htmlDoc.createElement("span").addClass("readonly")
+									.appendText(opt.text()));
+						}
+					}
 				}
 
 				normaliseNode(pp, (Element) child, componentBeans);
