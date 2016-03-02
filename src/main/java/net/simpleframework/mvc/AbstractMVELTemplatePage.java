@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 import net.simpleframework.common.th.ParserException;
+import net.simpleframework.common.th.ThrowableUtils;
 import net.simpleframework.ctx.script.MVEL2Template;
 import net.simpleframework.ctx.script.MVEL2Template.INamedTemplate;
 
@@ -34,6 +35,7 @@ public abstract class AbstractMVELTemplatePage extends AbstractMVCPage {
 						}
 					});
 		} catch (final Exception e) {
+			getLog().error(ThrowableUtils.convertThrowable(e.getCause()));
 			throw ParserException.of(getClass().getName() + ": " + e.getMessage());
 		}
 	}
