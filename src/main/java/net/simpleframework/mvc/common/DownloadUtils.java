@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import net.simpleframework.common.Convert;
 import net.simpleframework.common.IoUtils;
 import net.simpleframework.common.StringUtils;
 import net.simpleframework.common.logger.Log;
@@ -34,7 +35,16 @@ public abstract class DownloadUtils implements IMVCSettingsAware {
 
 	public static String getDownloadHref(final AttachmentFile af,
 			final Class<? extends IDownloadHandler> handlerClass) {
-		final String durl = af.getDurl();
+		return getDownloadHref(af, null, handlerClass);
+	}
+
+	public static String getDownloadHref(final AttachmentFile af, final Boolean anonymous,
+			final Class<? extends IDownloadHandler> handlerClass) {
+		return getDownloadHref(af, af.getDurl(), anonymous, handlerClass);
+	}
+
+	public static String getDownloadHref(final AttachmentFile af, final String durl,
+			final Boolean anonymous, final Class<? extends IDownloadHandler> handlerClass) {
 		if (StringUtils.hasText(durl)) {
 			return durl;
 		}
@@ -51,6 +61,9 @@ public abstract class DownloadUtils implements IMVCSettingsAware {
 		} catch (final IOException e) {
 			log.warn(e);
 		}
+		if (anonymous != null) {
+			sb.append("&_login=").append(!anonymous);
+		}
 		if (handlerClass != null) {
 			sb.append("&id=").append(af.getId()).append("&handlerClass=")
 					.append(handlerClass.getName());
@@ -58,12 +71,19 @@ public abstract class DownloadUtils implements IMVCSettingsAware {
 		return sb.toString();
 	}
 
-	public static final String DOWNLOAD_LOGIN = "download_login";
-
 	public static void doDownload(final PageRequestResponse rRequest) throws IOException {
-		if ((rRequest.getBoolParameter(DOWNLOAD_LOGIN) || !mvcSettings.isAnonymousDownload(rRequest))
-				&& !rRequest.isLogin()) {
-			throw MVCException.of($m("DownloadUtils.0"));
+		if (!rRequest.isLogin()) {
+			// 未登录
+			boolean anonymous;
+			final String _login = rRequest.getParameter("_login");
+			if (StringUtils.hasText(_login)) {
+				anonymous = !Convert.toBool(_login);
+			} else {
+				anonymous = mvcSettings.isAnonymousDownload(rRequest);
+			}
+			if (!anonymous) {
+				throw MVCException.of($m("DownloadUtils.0"));
+			}
 		}
 
 		final OutputStream outputStream = rRequest.getBinaryOutputStream(
