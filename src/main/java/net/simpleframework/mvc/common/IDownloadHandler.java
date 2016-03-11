@@ -1,7 +1,5 @@
 package net.simpleframework.mvc.common;
 
-import java.io.File;
-
 /**
  * Licensed under the Apache License, Version 2.0
  * 
@@ -14,8 +12,9 @@ public interface IDownloadHandler {
 	 * 文件下载后触发
 	 * 
 	 * @param beanId
+	 * @param length
+	 * @param filetype
 	 * @param topic
-	 * @param oFile
 	 */
-	void onDownloaded(Object beanId, String topic, File oFile);
+	void onDownloaded(Object beanId, long length, String filetype, String topic);
 }

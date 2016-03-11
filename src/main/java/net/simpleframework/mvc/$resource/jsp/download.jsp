@@ -7,8 +7,7 @@
 		DownloadUtils.doDownload(PageRequestResponse.get(request,
 				response));
 	} catch (Throwable th) {
-		System.out.println(MVCContext.get()
-				.getThrowableMessage(th));
+    System.out.println(MVCContext.get().getThrowableMessage(th));
 	} finally {
 		try {
 			out.clear();

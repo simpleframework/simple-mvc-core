@@ -45,22 +45,26 @@ public abstract class DownloadUtils implements IMVCSettingsAware {
 
 	public static String getDownloadHref(final AttachmentFile af, final String durl,
 			final Boolean anonymous, final Class<? extends IDownloadHandler> handlerClass) {
-		if (StringUtils.hasText(durl)) {
-			return durl;
-		}
 		final StringBuilder sb = new StringBuilder();
-		sb.append(MVCUtils.getPageResourcePath()).append("/jsp/download.jsp?filename=");
-		sb.append(HttpUtils.encodeUrl(af.toFilename()));
-		sb.append("&size=").append(af.getSize());
-		sb.append("&path=");
-		try {
-			final File attachment = af.getAttachment();
-			if (attachment != null) {
-				sb.append(StringUtils.encodeHex(attachment.getAbsolutePath().getBytes()));
+		sb.append(MVCUtils.getPageResourcePath()).append("/jsp/download.jsp?");
+		if (StringUtils.hasText(durl)) {
+			sb.append("durl=").append(HttpUtils.encodeUrl(durl));
+		} else {
+			sb.append("path=");
+			try {
+				final File attachment = af.getAttachment();
+				if (attachment != null) {
+					sb.append(StringUtils.encodeHex(attachment.getAbsolutePath().getBytes()));
+				}
+			} catch (final IOException e) {
+				log.warn(e);
 			}
-		} catch (final IOException e) {
-			log.warn(e);
 		}
+
+		sb.append("&filename=").append(HttpUtils.encodeUrl(af.toFilename()));
+		sb.append("&size=").append(af.getSize());
+		sb.append("&filetype=").append(af.getExt());
+
 		if (anonymous != null) {
 			sb.append("&_login=").append(!anonymous);
 		}
@@ -86,34 +90,46 @@ public abstract class DownloadUtils implements IMVCSettingsAware {
 			}
 		}
 
-		final OutputStream outputStream = rRequest.getBinaryOutputStream(
-				HttpUtils.toLocaleString(rRequest.getParameter("filename")),
-				rRequest.getIntParameter("size"));
+		final String durl = rRequest.getParameter("durl");
+		if (StringUtils.hasText(durl)) {
+			rRequest.response.sendRedirect(durl);
+		} else {
+			final OutputStream outputStream = rRequest.getBinaryOutputStream(
+					HttpUtils.toLocaleString(rRequest.getParameter("filename")),
+					rRequest.getIntParameter("size"));
 
-		final String[] headers = StringUtils.split(rRequest.getParameter("response-headers"), ";");
-		if (headers != null) {
-			for (final String s : headers) {
-				final String[] kv = StringUtils.split(s, ":");
-				if (kv.length == 2) {
-					rRequest.setResponseHeader(kv[0], kv[1]);
+			final String[] headers = StringUtils.split(rRequest.getParameter("response-headers"), ";");
+			if (headers != null) {
+				for (final String s : headers) {
+					final String[] kv = StringUtils.split(s, ":");
+					if (kv.length == 2) {
+						rRequest.setResponseHeader(kv[0], kv[1]);
+					}
+				}
+			}
+
+			final File oFile = new File(StringUtils.decodeHexString(rRequest.getParameter("path")));
+			final InputStream iStream = new FileInputStream(oFile);
+			try {
+				IoUtils.copyStream(iStream, outputStream);
+			} finally {
+				try {
+					iStream.close();
+				} catch (final IOException e) {
 				}
 			}
 		}
 
-		final File oFile = new File(StringUtils.decodeHexString(rRequest.getParameter("path")));
-		final InputStream iStream = new FileInputStream(oFile);
-		try {
-			IoUtils.copyStream(iStream, outputStream);
-			final String handlerClass = rRequest.getParameter("handlerClass");
-			if (StringUtils.hasText(handlerClass)) {
-				final IDownloadHandler hdl = (IDownloadHandler) ObjectFactory.singleton(handlerClass);
-				hdl.onDownloaded(rRequest.getParameter("id"), rRequest.getParameter("filename"), oFile);
+		// 触发事件
+		final String handlerClass = rRequest.getParameter("handlerClass");
+		if (StringUtils.hasText(handlerClass)) {
+			String topic = durl;
+			if (!StringUtils.hasText(topic)) {
+				topic = rRequest.getParameter("filename");
 			}
-		} finally {
-			try {
-				iStream.close();
-			} catch (final IOException e) {
-			}
+			((IDownloadHandler) ObjectFactory.singleton(handlerClass)).onDownloaded(
+					rRequest.getParameter("id"), rRequest.getIntParameter("size"),
+					rRequest.getParameter("filetype"), topic);
 		}
 	}
 
