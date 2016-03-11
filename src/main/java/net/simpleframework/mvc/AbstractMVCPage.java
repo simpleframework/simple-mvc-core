@@ -436,7 +436,7 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 	}
 
 	private String _getPageRole(final PageParameter pp, final String role) {
-		final WebModuleFunction func = WebModuleFunction.getModulefunctions().get(getClass());
+		final WebModuleFunction func = WebModuleFunction.getModulefunctions().get(getOriginalClass());
 		if (func != null) {
 			return (String) BeanUtils.getProperty(func, role);
 		}

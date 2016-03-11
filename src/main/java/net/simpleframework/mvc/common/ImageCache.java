@@ -15,10 +15,10 @@ import net.simpleframework.common.IoUtils;
 import net.simpleframework.common.StringUtils;
 import net.simpleframework.common.object.ObjectEx;
 import net.simpleframework.common.object.ObjectUtils;
+import net.simpleframework.common.th.ThrowableUtils;
 import net.simpleframework.common.web.HttpUtils;
 import net.simpleframework.ctx.common.bean.AttachmentFile;
 import net.simpleframework.mvc.MVCConst;
-import net.simpleframework.mvc.MVCContext;
 import net.simpleframework.mvc.MVCUtils;
 import net.simpleframework.mvc.PageRequestResponse;
 
@@ -106,8 +106,10 @@ public class ImageCache extends ObjectEx {
 							}
 						}
 					}
+				} catch (final IOException e) {
+					getLog().warn(e);
 				} catch (final Exception e) {
-					getLog().warn(MVCContext.get().getThrowableMessage(e));
+					getLog().warn(ThrowableUtils.convertThrowable(e));
 				}
 			}
 			if (oFile.exists()) {
