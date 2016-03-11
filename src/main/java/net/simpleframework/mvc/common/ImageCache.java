@@ -125,6 +125,10 @@ public class ImageCache extends ObjectEx {
 
 	public String getPath(final PageRequestResponse rRequest, final AttachmentFile aFile)
 			throws IOException {
+		final String durl = aFile.getDurl();
+		if (StringUtils.hasText(durl)) {
+			return durl;
+		}
 		filetype = aFile.getExt();
 		return getPath(rRequest, new ImageStream(aFile.getMd5()) {
 
