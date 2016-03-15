@@ -4,6 +4,7 @@ import static net.simpleframework.common.I18n.$m;
 
 import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -154,12 +155,18 @@ public class PageParameter extends PageRequestResponse {
 		if (importCSS == null || importCSS.length == 0) {
 			return;
 		}
-		final LinkedHashSet<String> l = new LinkedHashSet<String>();
-		final PageBean pageBean = getPageBean();
-		final String[] oImportCSS = pageBean.getImportCSS();
-		if (oImportCSS != null) {
-			l.addAll(ArrayUtils.asList(oImportCSS));
-		}
+
+		final Set<String> l = getRequestCache("importCSS", new CacheV<Set<String>>() {
+			@Override
+			public Set<String> get() {
+				final Set<String> l = new LinkedHashSet<String>();
+				final String[] oImportCSS = getPageBean().getImportCSS();
+				if (oImportCSS != null) {
+					l.addAll(ArrayUtils.asList(oImportCSS));
+				}
+				return l;
+			}
+		});
 		for (String css : importCSS) {
 			String prefix;
 			if (pageClass != null && !css.startsWith(prefix = getCssResourceHomePath(pageClass))) {
@@ -167,7 +174,6 @@ public class PageParameter extends PageRequestResponse {
 			}
 			l.add(css);
 		}
-		pageBean.setImportCSS(l.toArray(new String[l.size()]));
 	}
 
 	public void addImportJavascript(final String... importJavascript) {
@@ -178,12 +184,17 @@ public class PageParameter extends PageRequestResponse {
 		if (importJavascript == null || importJavascript.length == 0) {
 			return;
 		}
-		final LinkedHashSet<String> l = new LinkedHashSet<String>();
-		final PageBean pageBean = getPageBean();
-		final String[] oImportJavascript = pageBean.getImportJavascript();
-		if (oImportJavascript != null) {
-			l.addAll(ArrayUtils.asList(oImportJavascript));
-		}
+		final Set<String> l = getRequestCache("importJavascript", new CacheV<Set<String>>() {
+			@Override
+			public Set<String> get() {
+				final Set<String> l = new LinkedHashSet<String>();
+				final String[] oImportJavascript = getPageBean().getImportJavascript();
+				if (oImportJavascript != null) {
+					l.addAll(ArrayUtils.asList(oImportJavascript));
+				}
+				return l;
+			}
+		});
 		for (String js : importJavascript) {
 			String prefix;
 			if (pageClass != null && !js.startsWith(prefix = getResourceHomePath(pageClass))) {
@@ -191,7 +202,23 @@ public class PageParameter extends PageRequestResponse {
 			}
 			l.add(js);
 		}
-		pageBean.setImportJavascript(l.toArray(new String[l.size()]));
+	}
+
+	@SuppressWarnings("unchecked")
+	public Object getBeanProperty(final String beanProperty) {
+		if ("importJavascript".equals(beanProperty) || "importCSS".equals(beanProperty)) {
+			final Set<String> l = (Set<String>) getRequestAttr(beanProperty);
+			if (l != null) {
+				return l.toArray(new String[l.size()]);
+			}
+		}
+
+		final IPageHandler pageHandle = getPageHandler();
+		if (pageHandle != null) {
+			return pageHandle.getBeanProperty(this, beanProperty);
+		} else {
+			return BeanUtils.getProperty(getPageBean(), beanProperty);
+		}
 	}
 
 	public AbstractMVCPage getPage() {
@@ -200,15 +227,6 @@ public class PageParameter extends PageRequestResponse {
 
 	public String hashId() {
 		return getPageDocument().hashId();
-	}
-
-	public Object getBeanProperty(final String beanProperty) {
-		final IPageHandler pageHandle = getPageHandler();
-		if (pageHandle != null) {
-			return pageHandle.getBeanProperty(this, beanProperty);
-		} else {
-			return BeanUtils.getProperty(getPageBean(), beanProperty);
-		}
 	}
 
 	public static PageParameter get(final PageRequestResponse rRequest,
