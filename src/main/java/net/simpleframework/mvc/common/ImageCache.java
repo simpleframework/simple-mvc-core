@@ -33,7 +33,7 @@ public class ImageCache extends ObjectEx {
 		NO_IMAGE_PATH = path;
 	}
 
-	private static String NO_IMAGE_PATH = MVCUtils.getPageResourcePath() + "/images/no_image.jpg";
+	public static String NO_IMAGE_PATH = MVCUtils.getPageResourcePath() + "/images/no_image.jpg";
 
 	private static volatile IImageLoadHandler _handler;
 
