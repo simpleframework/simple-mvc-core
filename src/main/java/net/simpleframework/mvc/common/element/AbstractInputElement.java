@@ -119,18 +119,13 @@ public abstract class AbstractInputElement<T extends AbstractInputElement<T>> ex
 			}
 		}
 		if (type == EInputType.textarea) {
+			addAttribute("rows", getRows());
 			if (isAutoRows()) {
-				addStyle("overflow-y:hidden;line-height:21px;min-height:" + (21 * getRows()) + "px;");
-				final int rows = StringUtils.charCount(getText(), '\n') + 1;
-				addAttribute("rows", rows);
-				addStyle("height: " + (21 * rows) + "px");
-
+				addStyle("overflow-y:hidden;");
 				addAttribute("autorows", "true");
 				addAttribute("oninput",
 						"this.style.height='0px'; this.style.height = (this.scrollHeight + 'px');");
 				addAttribute("onpropertychange", "this.style.height = (this.scrollHeight + 'px');");
-			} else {
-				addAttribute("rows", getRows());
 			}
 		}
 		super.doAttri(sb);
