@@ -121,7 +121,7 @@ public abstract class AbstractInputElement<T extends AbstractInputElement<T>> ex
 		if (type == EInputType.textarea) {
 			addAttribute("rows", getRows());
 			if (isAutoRows()) {
-				addStyle("overflow-y:hidden;");
+				addStyle("overflow-y:hidden; min-height: " + (21 * getRows()) + "px;");
 				addAttribute("autorows", "true");
 				addAttribute("oninput",
 						"this.style.height='0px'; this.style.height = (this.scrollHeight + 'px');");
