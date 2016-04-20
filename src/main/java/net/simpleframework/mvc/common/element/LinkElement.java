@@ -58,4 +58,9 @@ public class LinkElement extends AbstractLinkElement<LinkElement> implements IMV
 	public LinkElement(final Object text) {
 		setText(text);
 	}
+
+	public LinkElement(final Object text, final String className) {
+		setText(text);
+		setClassName(className);
+	}
 }
