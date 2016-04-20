@@ -101,6 +101,11 @@ public class SpanElement extends AbstractTagElement<SpanElement> {
 		super(text);
 	}
 
+	public SpanElement(final Object text, final String className) {
+		super(text);
+		setClassName(className);
+	}
+
 	@Override
 	protected String tag() {
 		return "span";
