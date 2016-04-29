@@ -508,7 +508,10 @@ var $Effect = {};
     for (property in o) {
       var v = o[property];
       for (var j = 0; j < v.length; j++) {
-        ret += ("&" + property + "=" + v[j]);
+        var _var = v[j];        
+        if (_var != '__del') {
+          ret += ("&" + property + "=" + _var);
+        }
       }
     }
     if (ret.length > 0)
