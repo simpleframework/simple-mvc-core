@@ -516,7 +516,7 @@ var $Effect = {};
     }
     if (ret.length > 0)
       ret = ret.substring(1);
-    if (request.length > 0)
+    if (request.length > 0 && ret.length > 0)
       request += '?';
     return request + ret;
   };
