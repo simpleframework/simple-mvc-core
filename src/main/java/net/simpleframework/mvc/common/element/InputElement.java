@@ -31,14 +31,6 @@ public class InputElement extends AbstractInputElement<InputElement> {
 		return new InputElement().setInputType(EInputType.hidden);
 	}
 
-	public static InputElement textButton(final String id) {
-		return new InputElement(id, EInputType.textButton);
-	}
-
-	public static InputElement textButton() {
-		return new InputElement().setInputType(EInputType.textButton);
-	}
-
 	public static InputElement checkbox() {
 		return new InputElement().setInputType(EInputType.checkbox);
 	}

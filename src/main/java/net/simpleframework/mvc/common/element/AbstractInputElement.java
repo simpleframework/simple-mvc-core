@@ -138,12 +138,7 @@ public abstract class AbstractInputElement<T extends AbstractInputElement<T>> ex
 		if (type == EInputType.select || type == EInputType.textarea) {
 			sb.append("<").append(type);
 		} else {
-			sb.append("<input");
-			if (type == EInputType.textButton || type == EInputType.multiSelect) {
-				sb.append(" type='text'");
-			} else {
-				sb.append(" type='").append(type).append("'");
-			}
+			sb.append("<input type='").append(type).append("'");
 		}
 		doAttri(sb);
 		if (type == EInputType.select || type == EInputType.textarea) {

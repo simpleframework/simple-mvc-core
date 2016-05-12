@@ -9,11 +9,6 @@ package net.simpleframework.mvc.common.element;
 public enum EInputType {
 	text,
 
-	/**
-	 * 按钮选择
-	 */
-	textButton,
-
 	hidden,
 
 	checkbox,
@@ -30,11 +25,6 @@ public enum EInputType {
 	textarea,
 
 	select,
-
-	/**
-	 * 带按钮的多选
-	 */
-	multiSelect,
 
 	/**
 	 * html5特有的类型
