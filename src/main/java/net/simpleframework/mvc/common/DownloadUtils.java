@@ -125,7 +125,7 @@ public abstract class DownloadUtils implements IMVCSettingsAware {
 		if (StringUtils.hasText(handlerClass)) {
 			String topic = durl;
 			if (!StringUtils.hasText(topic)) {
-				topic = rRequest.getParameter("filename");
+				topic = rRequest.getLocaleParameter("filename");
 			}
 			((IDownloadHandler) ObjectFactory.singleton(handlerClass)).onDownloaded(
 					rRequest.getParameter("id"), rRequest.getIntParameter("size"),
