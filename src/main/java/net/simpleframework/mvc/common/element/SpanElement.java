@@ -40,6 +40,8 @@ public class SpanElement extends AbstractTagElement<SpanElement> {
 
 	public static SpanElement SPACE = SPACE(5);
 
+	public static SpanElement SPACE10 = SPACE(10);
+
 	public static SpanElement SPACE15 = SPACE(15);
 
 	public static SpanElement shortText(final Object text) {
