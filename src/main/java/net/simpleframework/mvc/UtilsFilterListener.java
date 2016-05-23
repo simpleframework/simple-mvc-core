@@ -19,7 +19,7 @@ public class UtilsFilterListener implements IFilterListener {
 	public EFilterResult doFilter(final PageRequestResponse rRequest, final FilterChain filterChain)
 			throws IOException {
 		final String ieWarnUrl;
-		if (rRequest.isHttpRequest()
+		if (rRequest.isHttpRequest() && !rRequest.getBoolParameter("iewarn_disabled")
 				&& StringUtils.hasText(ieWarnUrl = mvcSettings.getIEWarnPath(rRequest))
 				&& !"false".equals(ieWarnUrl)) {
 			final Float ver = rRequest.getIEVersion();
