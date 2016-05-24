@@ -74,14 +74,14 @@ public class MVCFilter extends ObjectEx implements Filter {
 			final HttpServletRequest httpRequest = (HttpServletRequest) request;
 			final HttpServletResponse httpResponse = (HttpServletResponse) response;
 
-			/* 设置jsessionid */
-			JsessionidUtils.setJSessionId(httpRequest);
-
 			/* 是否进入过滤器, js,css,image等需要子类控制 */
 			if (!isFilter(httpRequest)) {
 				filterChain.doFilter(httpRequest, httpResponse);
 				return;
 			}
+
+			/* 设置jsessionid */
+			JsessionidUtils.setJSessionId(httpRequest);
 
 			final PageRequestResponse rRequest = new PageRequestResponse(new PageRequest(httpRequest),
 					httpResponse);
