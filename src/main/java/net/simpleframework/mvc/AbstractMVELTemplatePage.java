@@ -31,7 +31,7 @@ public abstract class AbstractMVELTemplatePage extends AbstractMVCPage {
 
 						@Override
 						public String get(final String key) {
-							return getMVELNamedTemplate(key);
+							return getMVELNamedTemplate(pp, key);
 						}
 					});
 		} catch (final Exception e) {
@@ -43,13 +43,23 @@ public abstract class AbstractMVELTemplatePage extends AbstractMVCPage {
 	public void addMVELNamedTemplate(final PageParameter pp, final String key,
 			final Class<? extends AbstractMVCPage> pageClass) {
 		if (pageClass != null) {
-			templates.put(key, pp.includeUrl(pageClass));
+			templates.put(key, pageClass);
 		}
 	}
 
-	public String getMVELNamedTemplate(final String key) {
-		return templates.get(key);
+	public String getMVELNamedTemplate(final PageParameter pp, final String key) {
+		final Class<? extends AbstractMVCPage> pageClass = templates.get(key);
+		if (pageClass != null) {
+			String cc = _templates.get(pageClass);
+			if (cc == null) {
+				_templates.put(pageClass, cc = pp.includeUrl(pageClass));
+			}
+			return cc;
+		}
+		return null;
 	}
 
-	private final Map<String, String> templates = new HashMap<String, String>();
+	private final Map<String, Class<? extends AbstractMVCPage>> templates = new HashMap<String, Class<? extends AbstractMVCPage>>();
+
+	private final Map<Class<? extends AbstractMVCPage>, String> _templates = new HashMap<Class<? extends AbstractMVCPage>, String>();
 }
