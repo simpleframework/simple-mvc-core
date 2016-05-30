@@ -427,22 +427,31 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 		this.lookupPath = lookupPath;
 	}
 
+	protected KVMap createRoleVars(final PageParameter pp) {
+		return new KVMap().add("Referer", pp.getRequestHeader("Referer")).add("QPath",
+				pp.getRequestURI());
+	}
+
 	public String getPageRole(final PageParameter pp) {
-		return _getPageRole(pp, "role");
-	}
-
-	public String getPageManagerRole(final PageParameter pp) {
-		return _getPageRole(pp, "managerRole");
-	}
-
-	private String _getPageRole(final PageParameter pp, final String role) {
 		final WebModuleFunction func = WebModuleFunction.getModulefunctions().get(getOriginalClass());
 		if (func != null) {
-			return (String) BeanUtils.getProperty(func, role);
+			return func.getRole(createRoleVars(pp));
 		}
 		final IModuleContext ctx = getModuleContext();
 		if (ctx != null) {
-			return (String) BeanUtils.getProperty(ctx.getModule(), role);
+			return ctx.getModule().getRole(createRoleVars(pp));
+		}
+		return null;
+	}
+
+	public String getPageManagerRole(final PageParameter pp) {
+		final WebModuleFunction func = WebModuleFunction.getModulefunctions().get(getOriginalClass());
+		if (func != null) {
+			return func.getManagerRole(createRoleVars(pp));
+		}
+		final IModuleContext ctx = getModuleContext();
+		if (ctx != null) {
+			return ctx.getModule().getManagerRole(createRoleVars(pp));
 		}
 		return null;
 	}
