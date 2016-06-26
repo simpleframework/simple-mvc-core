@@ -149,7 +149,13 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 		}
 
 		onForward(pp);
-		return new TextForward(getPageForward(pp, getClass(), getVariables(pp)));
+		return new TextForward(getPageForward(pp, getOriginalClass(), getVariables(pp)));
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	protected Class<? extends AbstractMVCPage> getOriginalClass() {
+		return (Class<? extends AbstractMVCPage>) super.getOriginalClass();
 	}
 
 	protected IForward getMethodForward(final PageParameter pp) {
@@ -178,7 +184,7 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 	protected String toHtml(final PageParameter pp,
 			final Class<? extends AbstractMVCPage> pageClass, final Map<String, Object> variables,
 			final String currentVariable) throws IOException {
-		if (getClass().equals(pageClass)) {
+		if (getOriginalClass().equals(pageClass)) {
 			return toHtml(pp, variables, currentVariable);
 		}
 		return null;
@@ -309,9 +315,8 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 		urlCache = new ConcurrentHashMap<Class<? extends AbstractMVCPage>, String>();
 	}
 
-	@SuppressWarnings("unchecked")
 	public void registUrl(final String url) {
-		registUrl(url, (Class<? extends AbstractMVCPage>) getOriginalClass(), 0);
+		registUrl(url, getOriginalClass(), 0);
 	}
 
 	/**
