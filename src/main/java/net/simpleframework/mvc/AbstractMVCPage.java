@@ -116,10 +116,11 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 	 */
 	protected void addHtmlViewVariable(final PageParameter pp, final Class<?> pageClass,
 			final String variable, final String htmlFilename) {
+		final Class<?> _pageClass = ObjectFactory.original(pageClass);
 		final Map<Class<?>, ParameterMap> htmlViewVariables = getHtmlViewVariables(pp);
-		ParameterMap htmlViews = htmlViewVariables.get(pageClass);
+		ParameterMap htmlViews = htmlViewVariables.get(_pageClass);
 		if (htmlViews == null) {
-			htmlViewVariables.put(pageClass, htmlViews = new ParameterMap());
+			htmlViewVariables.put(_pageClass, htmlViews = new ParameterMap());
 		}
 		for (final ParameterMap m : htmlViewVariables.values()) {
 			if (m.remove(variable) != null) {
