@@ -27,6 +27,9 @@ public class Checkbox extends AbstractInputElement<Checkbox> {
 	@Override
 	public String toString() {
 		final StringBuilder sb = new StringBuilder();
+		if (isReadonly()) {
+			setOnclick("return false;");
+		}
 		sb.append(super.toString());
 		if (label != null) {
 			sb.append(label);
