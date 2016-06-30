@@ -28,7 +28,7 @@ public class LinkElement extends AbstractLinkElement<LinkElement> implements IMV
 	}
 
 	public static LinkElement BLANK(final Object text) {
-		return new LinkElement(text).setTarget("_blank");
+		return new LinkElement(text).blank();
 	}
 
 	public static final LinkElement editLink() {

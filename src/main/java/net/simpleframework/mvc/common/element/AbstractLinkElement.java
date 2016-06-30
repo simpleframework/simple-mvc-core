@@ -33,6 +33,10 @@ public abstract class AbstractLinkElement<T extends AbstractTagElement<T>> exten
 		return (T) this;
 	}
 
+	public T blank() {
+		return setTarget("_blank");
+	}
+
 	@Override
 	protected void doAttri(final StringBuilder sb) {
 		addAttribute("target", getTarget());
