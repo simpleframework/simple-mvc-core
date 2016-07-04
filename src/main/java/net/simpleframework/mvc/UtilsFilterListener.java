@@ -22,8 +22,8 @@ public class UtilsFilterListener implements IFilterListener {
 		if (rRequest.isHttpRequest() && !rRequest.getBoolParameter("iewarn_disabled")
 				&& StringUtils.hasText(ieWarnUrl = mvcSettings.getIEWarnPath(rRequest))
 				&& !"false".equals(ieWarnUrl)) {
-			final Float ver = rRequest.getIEVersion();
-			if (ver != null && ver < 8.0 && !Convert.toBool(rRequest.getCookie("ie6_browser"))
+			final Boolean ie = rRequest.isIE8("<");
+			if ((ie != null && ie) && !Convert.toBool(rRequest.getCookie("ie6_browser"))
 					&& !rRequest.getRequestURI().endsWith(ieWarnUrl)) {
 				rRequest.loc(ieWarnUrl);
 				return EFilterResult.BREAK;

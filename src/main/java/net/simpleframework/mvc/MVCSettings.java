@@ -61,8 +61,8 @@ public class MVCSettings extends ContextSettings {
 	}
 
 	public boolean isEffect(final PageRequestResponse rRequest) {
-		final Float ver = rRequest.getIEVersion();
-		return ver == null || ver > 8.0;
+		final Boolean ie = rRequest.isIE8(">");
+		return ie == null || ie;
 	}
 
 	public boolean isAnonymousDownload(final PageRequestResponse rRequest) {

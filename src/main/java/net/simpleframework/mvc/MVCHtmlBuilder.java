@@ -31,7 +31,7 @@ public class MVCHtmlBuilder extends ObjectEx implements IMVCSettingsAware {
 		coll.add(Meta.RENDERER_WEBKIT);
 		coll.add(Meta.CLEARTYPE);
 		coll.add(Meta.GOOGLE_NOTRANSLATE);
-		if (pp.getIEVersion() != null) {
+		if (pp.isIE8("=") != null) {
 			coll.add(Meta.DEFAULT_COMPATIBLE);
 		}
 		final AbstractMVCPage page = pp.getPage();

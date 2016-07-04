@@ -36,6 +36,7 @@ import net.simpleframework.ctx.permission.PermissionRole;
 import net.simpleframework.ctx.permission.PermissionUser;
 import net.simpleframework.mvc.ctx.permission.IPagePermissionHandler;
 import eu.bitwalker.useragentutils.Browser;
+import eu.bitwalker.useragentutils.DeviceType;
 import eu.bitwalker.useragentutils.UserAgent;
 
 /**
@@ -393,13 +394,30 @@ public class PageRequestResponse extends ObjectEx implements IMVCSettingsAware {
 		return userAgent;
 	}
 
-	public Float getIEVersion() {
+	public boolean isMobile() {
 		final UserAgent userAgent = getUserAgent();
-		if (userAgent.getBrowser().getGroup() == Browser.IE) {
-			return Convert.toFloat(userAgent.getBrowserVersion().getVersion());
+		return userAgent.getOperatingSystem().getDeviceType() == DeviceType.MOBILE;
+	}
+
+	public Boolean isIE8(final String op) {
+		final Browser browser = getUserAgent().getBrowser();
+		if (browser.getGroup() == Browser.IE) {
+			final short id = browser.getId();
+			final short id8 = Browser.IE8.getId();
+			return ("=".equals(op) && id == id8) || ("<".equals(op) && id < id8)
+					|| (">".equals(op) && id > id8) || ("<=".equals(op) && id <= id8)
+					|| (">=".equals(op) && id >= id8);
 		}
 		return null;
 	}
+
+	// public Float getIEVersion() {
+	// final UserAgent userAgent = getUserAgent();
+	// if (userAgent.getBrowser().getGroup() == Browser.IE) {
+	// return Convert.toFloat(userAgent.getBrowserVersion().getVersion());
+	// }
+	// return null;
+	// }
 
 	public boolean loc(final String url) throws IOException {
 		return HttpUtils.loc(request, response, url);
