@@ -35,6 +35,8 @@ import net.simpleframework.ctx.permission.PermissionDept;
 import net.simpleframework.ctx.permission.PermissionRole;
 import net.simpleframework.ctx.permission.PermissionUser;
 import net.simpleframework.mvc.ctx.permission.IPagePermissionHandler;
+import eu.bitwalker.useragentutils.Browser;
+import eu.bitwalker.useragentutils.UserAgent;
 
 /**
  * Licensed under the Apache License, Version 2.0
@@ -298,7 +300,7 @@ public class PageRequestResponse extends ObjectEx implements IMVCSettingsAware {
 	}
 
 	public boolean isHttpClientRequest() {
-		return getUserAgent().indexOf("HttpClient") > -1;
+		return request.getHeader("User-Agent").indexOf("HttpClient") > -1;
 	}
 
 	public String stripHTMLContextPath(final String html) {
@@ -382,19 +384,21 @@ public class PageRequestResponse extends ObjectEx implements IMVCSettingsAware {
 		return this;
 	}
 
-	public String getUserAgent() {
-		return request.getHeader("User-Agent");
+	public UserAgent getUserAgent() {
+		UserAgent userAgent = (UserAgent) getSessionAttr("_UserAgent");
+		if (userAgent == null) {
+			setSessionAttr("_UserAgent",
+					userAgent = UserAgent.parseUserAgentString(request.getHeader("User-Agent")));
+		}
+		return userAgent;
 	}
 
 	public Float getIEVersion() {
-		final String userAgent = getUserAgent();
-		final int start = userAgent.indexOf("MSIE");
-		if (start == -1) {
-			return null;
+		final UserAgent userAgent = getUserAgent();
+		if (userAgent.getBrowser().getGroup() == Browser.IE) {
+			return Convert.toFloat(userAgent.getBrowserVersion().getVersion());
 		}
-		final int end = userAgent.indexOf(";", start);
-		final float ver = Convert.toFloat(userAgent.substring(start + 5, end), 0);
-		return ver == 0 ? null : ver;
+		return null;
 	}
 
 	public boolean loc(final String url) throws IOException {
@@ -555,37 +559,6 @@ public class PageRequestResponse extends ObjectEx implements IMVCSettingsAware {
 	public static PageRequestResponse get(final HttpServletRequest request,
 			final HttpServletResponse response) {
 		return new PageRequestResponse(request, response);
-	}
-
-	public static class UserAgent {
-		public String brower;
-		public float ver;
-
-		public UserAgent(final String userAgent) {
-			if (userAgent.indexOf("MSIE") != -1) {
-				brower = "IE";
-				final int start = userAgent.indexOf("MSIE");
-				final int end = userAgent.indexOf(";", start);
-				ver = Convert.toFloat(userAgent.substring(start + 5, end));
-			} else if (userAgent.indexOf("Firefox") != -1) {
-				brower = "Firefox";
-				final int start = userAgent.indexOf("Firefox/");
-				ver = Convert.toFloat(userAgent.substring(start + "Firefox".length() + 1,
-						userAgent.length()));
-			} else if (userAgent.indexOf("Chrome") != -1) {
-				brower = "Chrome";
-				final int start = userAgent.indexOf("Chrome/");
-				int end = userAgent.indexOf(".", start);
-				end = userAgent.indexOf(".", end + 1);
-				ver = Convert.toFloat(userAgent.substring(start + "Chrome".length() + 1, end));
-			} else if (userAgent.indexOf("Safari") != -1) {
-				// Version/5.1.2
-				brower = "Safari";
-				final int start = userAgent.indexOf("Version/");
-				final int end = userAgent.indexOf(" ", start);
-				ver = Convert.toFloat(userAgent.substring(start + "Version".length() + 1, end));
-			}
-		}
 	}
 
 	protected final Log log = LogFactory.getLogger(getClass());

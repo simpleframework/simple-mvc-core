@@ -6,6 +6,7 @@ import java.util.Collection;
 import net.simpleframework.common.object.ObjectEx;
 import net.simpleframework.lib.org.jsoup.nodes.Element;
 import net.simpleframework.mvc.common.element.Meta;
+import eu.bitwalker.useragentutils.OperatingSystem;
 
 /**
  * Licensed under the Apache License, Version 2.0
@@ -45,8 +46,9 @@ public class MVCHtmlBuilder extends ObjectEx implements IMVCSettingsAware {
 	public String doHttpRequestCSS(final PageParameter pp) {
 		final StringBuilder sb = new StringBuilder();
 		sb.append("body, body * { font-family: Verdana,");
-		final String userAgent = pp.getUserAgent();
-		if (userAgent.indexOf("NT 6.") > -1 || userAgent.indexOf("NT 10.") > -1) {
+		final OperatingSystem os = pp.getUserAgent().getOperatingSystem();
+		if (os.getGroup() == OperatingSystem.WINDOWS
+				&& os.getId() > OperatingSystem.WINDOWS_XP.getId()) {
 			sb.append("'Microsoft YaHei',");
 		} else {
 			sb.append("SimSun,");
