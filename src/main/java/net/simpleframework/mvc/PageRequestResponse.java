@@ -385,22 +385,22 @@ public class PageRequestResponse extends ObjectEx implements IMVCSettingsAware {
 		return this;
 	}
 
-	public UserAgent getUserAgent() {
-		UserAgent userAgent = (UserAgent) getSessionAttr("_UserAgent");
+	public UserAgent getUserAgentUtils() {
+		UserAgent userAgent = (UserAgent) getSessionAttr("__UserAgent");
 		if (userAgent == null) {
-			setSessionAttr("_UserAgent",
+			setSessionAttr("__UserAgent",
 					userAgent = UserAgent.parseUserAgentString(request.getHeader("User-Agent")));
 		}
 		return userAgent;
 	}
 
 	public boolean isMobile() {
-		final UserAgent userAgent = getUserAgent();
+		final UserAgent userAgent = getUserAgentUtils();
 		return userAgent.getOperatingSystem().getDeviceType() == DeviceType.MOBILE;
 	}
 
 	public Boolean isIE8(final String op) {
-		final Browser browser = getUserAgent().getBrowser();
+		final Browser browser = getUserAgentUtils().getBrowser();
 		if (browser.getGroup() == Browser.IE) {
 			final short id = browser.getId();
 			final short id8 = Browser.IE8.getId();
@@ -410,14 +410,6 @@ public class PageRequestResponse extends ObjectEx implements IMVCSettingsAware {
 		}
 		return null;
 	}
-
-	// public Float getIEVersion() {
-	// final UserAgent userAgent = getUserAgent();
-	// if (userAgent.getBrowser().getGroup() == Browser.IE) {
-	// return Convert.toFloat(userAgent.getBrowserVersion().getVersion());
-	// }
-	// return null;
-	// }
 
 	public boolean loc(final String url) throws IOException {
 		return HttpUtils.loc(request, response, url);

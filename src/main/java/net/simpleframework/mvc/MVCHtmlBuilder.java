@@ -46,7 +46,7 @@ public class MVCHtmlBuilder extends ObjectEx implements IMVCSettingsAware {
 	public String doHttpRequestCSS(final PageParameter pp) {
 		final StringBuilder sb = new StringBuilder();
 		sb.append("body, body * { font-family: Verdana,");
-		final OperatingSystem os = pp.getUserAgent().getOperatingSystem();
+		final OperatingSystem os = pp.getUserAgentUtils().getOperatingSystem();
 		if (os.getGroup() == OperatingSystem.WINDOWS
 				&& os.getId() > OperatingSystem.WINDOWS_XP.getId()) {
 			sb.append("'Microsoft YaHei',");
