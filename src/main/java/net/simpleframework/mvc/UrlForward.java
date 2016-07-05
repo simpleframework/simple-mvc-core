@@ -15,6 +15,11 @@ import net.simpleframework.lib.org.jsoup.Jsoup;
  *         http://www.simpleframework.net
  */
 public class UrlForward extends AbstractUrlForward {
+
+	public static UrlForward redirect(final String url) {
+		return new UrlForward(url).setRedirect(true);
+	}
+
 	private boolean redirect;
 
 	public UrlForward(final String url, final String includeRequestData) {
