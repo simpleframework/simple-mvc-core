@@ -50,10 +50,8 @@ public class MVCHtmlBuilder extends ObjectEx implements IMVCSettingsAware {
 		if (os.getGroup() == OperatingSystem.WINDOWS
 				&& os.getId() > OperatingSystem.WINDOWS_XP.getId()) {
 			sb.append("'Microsoft YaHei',");
-		} else {
-			sb.append("SimSun,");
 		}
-		sb.append("Sans-Serif,Tahoma,Arial");
+		sb.append("Helvetica,Arial,Sans-Serif");
 		sb.append("; }");
 		AbstractMVCPage page;
 		if ((page = pp.getPage()) != null) {
