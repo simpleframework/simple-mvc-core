@@ -301,7 +301,7 @@ public class PageRequestResponse extends ObjectEx implements IMVCSettingsAware {
 	}
 
 	public boolean isHttpClientRequest() {
-		return request.getHeader("User-Agent").indexOf("HttpClient") > -1;
+		return request.getHeader("User-Agent").startsWith("HttpClient-");
 	}
 
 	public String stripHTMLContextPath(final String html) {
