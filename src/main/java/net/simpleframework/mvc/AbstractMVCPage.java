@@ -228,11 +228,13 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 		} else {
 			final ParameterMap htmlViews = getHtmlViewVariables(pp).get(pageClass);
 			if (htmlViews == null || htmlViews.size() == 0) {
-				final InputStream htmlStream = getTemplateFileResource(pageClass, ".html");
-				final String html = htmlStream != null ? replaceExpr(pp, htmlStream, variables)
-						: toHtml(pp, pageClass, variables, null);
-				if (html != null) {
-					variables.put($html, html);
+				if (variables.get($html) == null) {
+					final InputStream htmlStream = getTemplateFileResource(pageClass, ".html");
+					final String html = htmlStream != null ? replaceExpr(pp, htmlStream, variables)
+							: toHtml(pp, pageClass, variables, null);
+					if (html != null) {
+						variables.put($html, html);
+					}
 				}
 			} else {
 				for (final Map.Entry<String, String> entry : htmlViews.entrySet()) {
