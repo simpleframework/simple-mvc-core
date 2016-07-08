@@ -159,6 +159,10 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 		return (Class<? extends AbstractMVCPage>) super.getOriginalClass();
 	}
 
+	protected Class<? extends AbstractMVCPage> getMobilePageClass(final PageParameter pp) {
+		return null;
+	}
+
 	protected IForward getMethodForward(final PageParameter pp) {
 		final String method = pp.getParameter("method");
 		if (StringUtils.hasText(method)) {
