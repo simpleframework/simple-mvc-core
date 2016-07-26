@@ -9,7 +9,6 @@ import net.simpleframework.common.BeanUtils;
 import net.simpleframework.common.Convert;
 import net.simpleframework.common.StringUtils;
 import net.simpleframework.common.coll.AbstractArrayListEx;
-import net.simpleframework.common.coll.KVMap;
 import net.simpleframework.common.object.TextNamedObject;
 import net.simpleframework.common.web.html.HtmlEncoder;
 
@@ -51,8 +50,6 @@ public abstract class AbstractElement<T extends AbstractElement<T>> extends Text
 
 	/* 字体颜色 */
 	private String color;
-
-	private Map<String, Object> attributes;
 
 	public String getId() {
 		return id;
@@ -280,14 +277,6 @@ public abstract class AbstractElement<T extends AbstractElement<T>> extends Text
 		return (T) this;
 	}
 
-	public T addAttribute(final String key, final Object val) {
-		if (attributes == null) {
-			attributes = new KVMap();
-		}
-		attributes.put(key, val);
-		return (T) this;
-	}
-
 	protected void doAttri(final StringBuilder sb) {
 		addAttribute("id", getId()).addAttribute("name", getName());
 		addAttribute("title", getTitle()).addAttribute("placeholder", getPlaceholder());
@@ -299,13 +288,15 @@ public abstract class AbstractElement<T extends AbstractElement<T>> extends Text
 
 		addAttribute("style", getStyle());
 
-		for (final Map.Entry<String, Object> e : attributes.entrySet()) {
-			final Object val = e.getValue();
-			if (val == null) {
-				continue;
+		if (attributes != null) {
+			for (final Map.Entry<String, Object> e : attributes.entrySet()) {
+				final Object val = e.getValue();
+				if (val == null) {
+					continue;
+				}
+				sb.append(" ").append(e.getKey()).append("=\"");
+				sb.append(HtmlEncoder.text(Convert.toString(val))).append("\"");
 			}
-			sb.append(" ").append(e.getKey()).append("=\"");
-			sb.append(HtmlEncoder.text(Convert.toString(val))).append("\"");
 		}
 	}
 

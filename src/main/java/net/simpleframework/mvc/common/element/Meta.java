@@ -1,7 +1,11 @@
 package net.simpleframework.mvc.common.element;
 
+import java.util.Map;
+
+import net.simpleframework.common.Convert;
 import net.simpleframework.common.StringUtils;
 import net.simpleframework.common.object.NamedObject;
+import net.simpleframework.common.web.html.HtmlEncoder;
 
 /**
  * Licensed under the Apache License, Version 2.0
@@ -58,6 +62,18 @@ public class Meta extends NamedObject<Meta> {
 		if (StringUtils.hasText(content)) {
 			sb.append(" content=\"").append(content).append("\"");
 		}
+
+		if (attributes != null) {
+			for (final Map.Entry<String, Object> e : attributes.entrySet()) {
+				final Object val = e.getValue();
+				if (val == null) {
+					continue;
+				}
+				sb.append(" ").append(e.getKey()).append("=\"");
+				sb.append(HtmlEncoder.text(Convert.toString(val))).append("\"");
+			}
+		}
+
 		sb.append(" />");
 		return sb.toString();
 	}
