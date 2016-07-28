@@ -61,7 +61,7 @@ public class MVCFilter extends ObjectEx implements Filter {
 		if (rURI.indexOf("/$") > -1) {
 			return rURI.lastIndexOf(".jsp") > 0;
 		}
-		if (rURI.endsWith(".html") || rURI.endsWith(".htm")) {
+		if (rURI.endsWith(".html") || rURI.endsWith(".htm") || rURI.endsWith(".txt")) {
 			return false;
 		}
 		return true;
