@@ -28,12 +28,12 @@ public class MVCHtmlBuilder extends ObjectEx implements IMVCSettingsAware {
 
 	public Collection<Meta> doHttpRequestMeta(final PageParameter pp) {
 		final ArrayList<Meta> coll = new ArrayList<Meta>();
+		if (pp.isIE8(">=") != null) {
+			coll.add(Meta.DEFAULT_COMPATIBLE);
+		}
 		coll.add(Meta.RENDERER_WEBKIT);
 		coll.add(Meta.CLEARTYPE);
 		coll.add(Meta.GOOGLE_NOTRANSLATE);
-		if (pp.isIE8("=") != null) {
-			coll.add(Meta.DEFAULT_COMPATIBLE);
-		}
 		final AbstractMVCPage page = pp.getPage();
 		coll.add(Meta.contentType("text/html; charset="
 				+ (page != null ? page.getResponseCharset() : mvcSettings.getCharset())));

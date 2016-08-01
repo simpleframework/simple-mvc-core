@@ -95,7 +95,7 @@ public final class PageParser extends AbstractPageParser {
 			final Collection<Meta> coll = htmlBuilder.doHttpRequestMeta(pp);
 			if (coll != null) {
 				for (final Meta attri : coll) {
-					headElement.prepend(attri.toString());
+					headElement.append(attri.toString());
 				}
 			}
 			// favicon
