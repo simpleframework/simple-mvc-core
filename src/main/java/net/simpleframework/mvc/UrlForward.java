@@ -16,6 +16,8 @@ import net.simpleframework.lib.org.jsoup.Jsoup;
  */
 public class UrlForward extends AbstractUrlForward {
 
+	public static UrlForward REDIRECT_HOME = UrlForward.redirect("/");
+
 	public static UrlForward redirect(final String url) {
 		return new UrlForward(url).setRedirect(true);
 	}
