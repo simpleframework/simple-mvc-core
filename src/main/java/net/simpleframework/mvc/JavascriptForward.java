@@ -1,5 +1,7 @@
 package net.simpleframework.mvc;
 
+import net.simpleframework.common.web.JavascriptUtils;
+
 /**
  * Licensed under the Apache License, Version 2.0
  * 
@@ -9,6 +11,10 @@ package net.simpleframework.mvc;
  */
 public class JavascriptForward extends TextForward {
 	public static final JavascriptForward RELOC = new JavascriptForward("$Actions.reloc();");
+
+	public static final JavascriptForward alert(final String msg) {
+		return new JavascriptForward("alert(\"").append(JavascriptUtils.escape(msg)).append("\");");
+	}
 
 	public JavascriptForward(final String javascript) {
 		super(javascript);
