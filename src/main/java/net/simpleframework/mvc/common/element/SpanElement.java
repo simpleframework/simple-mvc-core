@@ -8,6 +8,7 @@ package net.simpleframework.mvc.common.element;
  */
 public class SpanElement extends AbstractTagElement<SpanElement> {
 
+	public static SpanElement STAR = new SpanElement("*").addStyle("color: red;");
 	public static SpanElement ELLIPSIS = new SpanElement("&hellip;").addStyle("color: black;");
 
 	public static SpanElement SEP(final String text, final int mwidth) {
