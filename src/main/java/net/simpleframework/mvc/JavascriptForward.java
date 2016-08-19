@@ -16,6 +16,15 @@ public class JavascriptForward extends TextForward {
 		return new JavascriptForward("alert(\"").append(JavascriptUtils.escape(msg)).append("\");");
 	}
 
+	public static final JavascriptForward loc(final String url) {
+		return loc(url, false);
+	}
+
+	public static final JavascriptForward loc(final String url, final boolean open) {
+		return new JavascriptForward("$Actions.loc(\"").append(url).append("\", ").append(open)
+				.append(");");
+	}
+
 	public JavascriptForward(final String javascript) {
 		super(javascript);
 	}
