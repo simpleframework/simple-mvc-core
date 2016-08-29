@@ -30,7 +30,7 @@ public interface IPageResourceProvider extends IResourceProvider, IMVCSettingsAw
 		@Override
 		public String[] getCssPath(final PageParameter pp) {
 			final String rPath = getCssResourceHomePath(pp, IPageResourceProvider.class);
-			return new String[] { rPath + "/core.css", rPath + "/icon.css" };
+			return new String[] { rPath + "/core.css" };
 		}
 
 		@Override
