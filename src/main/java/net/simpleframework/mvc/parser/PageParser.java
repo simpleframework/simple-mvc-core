@@ -163,6 +163,8 @@ public final class PageParser extends AbstractPageParser {
 									.appendText(opt.text()));
 						}
 					}
+				} else if ("img".equalsIgnoreCase(nodeName)) {
+					child.attr("ondragstart", "return false;");
 				}
 
 				normaliseNode(pp, (Element) child, componentBeans);
