@@ -15,24 +15,23 @@ import net.simpleframework.common.ClassUtils.IScanResourcesCallback;
 import net.simpleframework.common.Convert;
 import net.simpleframework.common.FileUtils;
 import net.simpleframework.common.object.ObjectEx;
-import net.simpleframework.common.object.ObjectUtils;
 import net.simpleframework.common.web.JavascriptUtils;
+import net.simpleframework.ctx.common.DeployUtils;
 import net.simpleframework.mvc.IMVCSettingsAware;
 import net.simpleframework.mvc.MVCUtils;
 
 /**
  * Licensed under the Apache License, Version 2.0
  * 
- * @author 陈侃(cknet@126.com, 13910090885) https://github.com/simpleframework
+ * @author 陈侃(cknet@126.com, 13910090885)
+ *         https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
-public abstract class DeployUtils implements IMVCSettingsAware {
-
-	private final static String RESOURCE_NAME = "$resource";
+public abstract class DeployWeb implements IMVCSettingsAware {
 
 	public static IScanResourcesCallback newDeployResourcesCallback() {
 		ObjectEx.oprintln();
-		ObjectEx.oprintln($m("DeployUtils.0"));
+		ObjectEx.oprintln($m("DeployWeb.0"));
 		return new IScanResourcesCallback() {
 			private final Map<String, Properties> rProperties = new HashMap<String, Properties>();
 
@@ -40,9 +39,9 @@ public abstract class DeployUtils implements IMVCSettingsAware {
 				final StringBuilder sb = new StringBuilder();
 				String packageName = filename.substring(0, filename.lastIndexOf('/')).replace('/', '.');
 				if (!mvcSettings.isDebug()) {
-					packageName = ObjectUtils.hashStr(packageName);
+					packageName = DeployUtils.getShortPackage(packageName);
 				}
-				sb.append("/").append(RESOURCE_NAME).append("/").append(packageName);
+				sb.append("/").append(DeployUtils.RESOURCE_NAME).append("/").append(packageName);
 				return sb.toString();
 			}
 
@@ -51,7 +50,7 @@ public abstract class DeployUtils implements IMVCSettingsAware {
 				if (filepath.endsWith("/")) {
 					filepath = filepath.substring(0, filepath.length() - 1);
 				}
-				if (isDirectory && filepath.endsWith(RESOURCE_NAME)) {
+				if (isDirectory && filepath.endsWith(DeployUtils.RESOURCE_NAME)) {
 					// 开始部署
 					final Properties properties = new Properties();
 					rProperties.put(filepath, properties);
@@ -95,11 +94,11 @@ public abstract class DeployUtils implements IMVCSettingsAware {
 		if (resourceUrl == null) {
 			String packageName = resourceClass.getPackage().getName();
 			if (!mvcSettings.isDebug()) {
-				packageName = ObjectUtils.hashStr(packageName);
+				packageName = DeployUtils.getShortPackage(packageName);
 			}
 			final StringBuilder sb = new StringBuilder();
 			sb.append(MVCUtils.getContextPath());
-			sb.append("/").append(RESOURCE_NAME).append("/").append(packageName);
+			sb.append("/").append(DeployUtils.RESOURCE_NAME).append("/").append(packageName);
 			resourceUrlCache.put(resourceClass, resourceUrl = sb.toString());
 		}
 		return resourceUrl;

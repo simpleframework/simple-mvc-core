@@ -19,7 +19,7 @@ import net.simpleframework.ctx.permission.IPermissionHandler;
 import net.simpleframework.ctx.script.IScriptEval;
 import net.simpleframework.ctx.script.ScriptEvalFactory;
 import net.simpleframework.mvc.IPageResourceProvider.MVCPageResourceProvider;
-import net.simpleframework.mvc.common.DeployUtils;
+import net.simpleframework.mvc.common.DeployWeb;
 import net.simpleframework.mvc.component.AbstractComponentRegistry;
 import net.simpleframework.mvc.ctx.permission.DefaultPagePermissionHandler;
 import net.simpleframework.mvc.ctx.permission.IPagePermissionHandler;
@@ -80,7 +80,7 @@ public class MVCContext extends AbstractApplicationContextBase implements IMVCCo
 	protected void doInternalInit(final String[] packageNames) throws Exception {
 		super.doInternalInit(packageNames);
 		// 资源
-		IScanResourcesCallback callback = DeployUtils.newDeployResourcesCallback();
+		IScanResourcesCallback callback = DeployWeb.newDeployResourcesCallback();
 		for (final String packageName : packageNames) {
 			ClassUtils.scanResources(packageName, callback);
 		}

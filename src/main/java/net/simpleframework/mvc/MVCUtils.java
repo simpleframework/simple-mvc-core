@@ -16,7 +16,7 @@ import net.simpleframework.common.logger.LogFactory;
 import net.simpleframework.common.object.ObjectUtils;
 import net.simpleframework.common.th.ThrowableUtils;
 import net.simpleframework.common.web.HttpUtils;
-import net.simpleframework.mvc.common.DeployUtils;
+import net.simpleframework.mvc.common.DeployWeb;
 import net.simpleframework.mvc.component.ComponentHandlerException;
 
 /**
@@ -67,7 +67,7 @@ public abstract class MVCUtils implements IMVCSettingsAware {
 	private static ServletContext servletContext = MVCContext.get().getServletContext();
 
 	public static String getPageResourcePath() {
-		return DeployUtils.getResourcePath(MVCUtils.class);
+		return DeployWeb.getResourcePath(MVCUtils.class);
 	}
 
 	public static String getLocationPath() {

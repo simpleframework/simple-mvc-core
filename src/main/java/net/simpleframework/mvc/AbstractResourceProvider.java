@@ -2,7 +2,7 @@ package net.simpleframework.mvc;
 
 import net.simpleframework.common.StringUtils;
 import net.simpleframework.common.object.ObjectEx;
-import net.simpleframework.mvc.common.DeployUtils;
+import net.simpleframework.mvc.common.DeployWeb;
 
 /**
  * Licensed under the Apache License, Version 2.0
@@ -20,7 +20,7 @@ public abstract class AbstractResourceProvider extends ObjectEx implements IReso
 
 	@Override
 	public String getResourceHomePath(final Class<?> resourceClass) {
-		return DeployUtils.getResourcePath(resourceClass);
+		return DeployWeb.getResourcePath(resourceClass);
 	}
 
 	@Override

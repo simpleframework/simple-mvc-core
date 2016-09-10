@@ -2,7 +2,7 @@ package net.simpleframework.mvc;
 
 import net.simpleframework.common.Convert;
 import net.simpleframework.common.StringUtils;
-import net.simpleframework.mvc.common.DeployUtils;
+import net.simpleframework.mvc.common.DeployWeb;
 
 /**
  * Licensed under the Apache License, Version 2.0
@@ -35,7 +35,7 @@ public interface IPageResourceProvider extends IResourceProvider, IMVCSettingsAw
 
 		@Override
 		public String[] getJavascriptPath(final PageParameter pp) {
-			return new String[] { DeployUtils.getResourcePath(IPageResourceProvider.class)
+			return new String[] { DeployWeb.getResourcePath(IPageResourceProvider.class)
 					+ "/js/core.js" };
 		}
 
