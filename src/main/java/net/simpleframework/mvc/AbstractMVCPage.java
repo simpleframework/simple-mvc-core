@@ -364,6 +364,11 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 		return (T) pp.getPage();
 	}
 
+	protected AbstractMVCPage getParentPage(final PageParameter pp) {
+		final String pageClass = pp.getParameter(MVCConst.PARAM_PARENT_PAGE);
+		return pageClass != null ? (AbstractMVCPage) singleton(pageClass) : null;
+	}
+
 	/**
 	 * 生成page类的访问url
 	 * 
