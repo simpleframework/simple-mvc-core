@@ -20,8 +20,8 @@ import net.simpleframework.mvc.common.element.JS;
  * @author 陈侃(cknet@126.com, 13910090885) https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
-public abstract class AbstractComponentRender extends ObjectEx implements IComponentRender,
-		IMVCSettingsAware {
+public abstract class AbstractComponentRender extends ObjectEx
+		implements IComponentRender, IMVCSettingsAware {
 	private IComponentRegistry componentRegistry;
 
 	@Override
@@ -33,12 +33,12 @@ public abstract class AbstractComponentRender extends ObjectEx implements ICompo
 		this.componentRegistry = componentRegistry;
 	}
 
-	public static abstract class ComponentJavascriptRender extends AbstractComponentRender implements
-			IComponentJavascriptRender {
+	public static abstract class ComponentJavascriptRender extends AbstractComponentRender
+			implements IComponentJavascriptRender {
 	}
 
-	public static abstract class ComponentBaseActionJavascriptRender extends
-			ComponentJavascriptRender {
+	public static abstract class ComponentBaseActionJavascriptRender
+			extends ComponentJavascriptRender {
 
 		protected abstract String getParams(ComponentParameter cp);
 
@@ -67,10 +67,8 @@ public abstract class AbstractComponentRender extends ObjectEx implements ICompo
 			final IJavascriptCallback callback) throws Exception {
 		final JavascriptForward js = new JavascriptForward();
 		cp.setHttpRequest();
-		final IForward forward = cp.getPermission().accessForward(
-				cp,
-				cp.componentBean != null ? cp.getBeanProperty("role")
-						: PermissionConst.ROLE_ALL_ACCOUNT);
+		final IForward forward = cp.getPermission().accessForward(cp, cp.componentBean != null
+				? cp.getBeanProperty("role") : PermissionConst.ROLE_ALL_ACCOUNT);
 		if (forward instanceof UrlForward) {
 			js.append(JS.loc(((UrlForward) forward).getUrl()));
 		} else {
@@ -88,14 +86,14 @@ public abstract class AbstractComponentRender extends ObjectEx implements ICompo
 		void doJavascript(JavascriptForward js) throws Exception;
 	}
 
-	public static abstract class ComponentHtmlRender extends AbstractComponentRender implements
-			IComponentHtmlRender {
+	public static abstract class ComponentHtmlRender extends AbstractComponentRender
+			implements IComponentHtmlRender {
 		@Override
 		public String getHtml(final ComponentParameter cp) {
 			final IForward forward = getResponseForward(cp);
 			if (forward instanceof UrlForward) {
-				((UrlForward) forward).setIncludeRequestData((String) cp
-						.getBeanProperty("includeRequestData"));
+				((UrlForward) forward)
+						.setIncludeRequestData((String) cp.getBeanProperty("includeRequestData"));
 			}
 			return forward.getResponseText(cp);
 		}

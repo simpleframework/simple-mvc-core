@@ -55,8 +55,8 @@ public abstract class DeployWeb implements IMVCSettingsAware {
 					final Properties properties = new Properties();
 					rProperties.put(filepath, properties);
 					properties.setProperty("$$filename", MVCUtils.getRealPath(getDeployName(filepath)));
-					final InputStream inputStream = ClassUtils.getResourceAsStream(filepath
-							+ "/settings");
+					final InputStream inputStream = ClassUtils
+							.getResourceAsStream(filepath + "/settings");
 					if (inputStream != null) {
 						properties.load(inputStream);
 					}
@@ -70,9 +70,8 @@ public abstract class DeployWeb implements IMVCSettingsAware {
 							String filename;
 							if (inputStream != null
 									&& (filename = properties.getProperty("$$filename")) != null) {
-								final File to = new File(filename
-										+ filepath.substring(resourceMark.length()).replace('/',
-												File.separatorChar));
+								final File to = new File(filename + filepath
+										.substring(resourceMark.length()).replace('/', File.separatorChar));
 								if (isDirectory) {
 									FileUtils.createDirectoryRecursively(to);
 								} else {

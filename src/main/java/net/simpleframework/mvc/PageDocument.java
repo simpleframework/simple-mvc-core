@@ -97,7 +97,8 @@ public class PageDocument extends XmlDocument {
 		pp.setRequestAttr(DECLARED_COMPONENTs,
 				componentsCache = new LinkedHashMap<String, AbstractComponentBean>() {
 					@Override
-					public AbstractComponentBean put(final String key, final AbstractComponentBean value) {
+					public AbstractComponentBean put(final String key,
+							final AbstractComponentBean value) {
 						ComponentUtils.putComponent(value);
 						return super.put(key, value);
 					}
@@ -245,8 +246,8 @@ public class PageDocument extends XmlDocument {
 			if (pageClass != null) {
 				final Class<?> superClass = pageClass.getSuperclass();
 				if (!AbstractMVCPage.class.equals(superClass)) {
-					final PageDocument document = PageDocumentFactory.getPageDocumentAndCreate(
-							superClass, pp);
+					final PageDocument document = PageDocumentFactory
+							.getPageDocumentAndCreate(superClass, pp);
 					if (document != null) {
 						documents.add(document);
 					}
@@ -346,8 +347,8 @@ public class PageDocument extends XmlDocument {
 	public Collection<String> getImportJavascript(final PageParameter pp) {
 		final LinkedHashSet<String> jsColl = new LinkedHashSet<String>();
 		for (final PageDocument document : getImportDocuments(pp)) {
-			final Collection<String> coll = document.getImportJavascript(PageParameter.get(pp,
-					document));
+			final Collection<String> coll = document
+					.getImportJavascript(PageParameter.get(pp, document));
 			if (coll != null) {
 				jsColl.addAll(coll);
 			}
@@ -414,8 +415,8 @@ public class PageDocument extends XmlDocument {
 	}
 
 	public IPageResourceProvider getPageResourceProvider() {
-		return PageResourceProviderRegistry.get().getPageResourceProvider(
-				pageBean.getResourceProvider());
+		return PageResourceProviderRegistry.get()
+				.getPageResourceProvider(pageBean.getResourceProvider());
 	}
 
 	private IPageHandler pageHandle;
@@ -427,8 +428,8 @@ public class PageDocument extends XmlDocument {
 			if (!StringUtils.hasText(hdlstr) && (pageView = singleton(pageClass)) != null) {
 				Class<?> pageClass = pageView.getClass().getSuperclass();
 				while (!pageClass.equals(AbstractMVCPage.class)) {
-					final PageBean pageBean2 = PageDocumentFactory.getPageDocumentAndCreate(pageClass,
-							pp).getPageBean();
+					final PageBean pageBean2 = PageDocumentFactory
+							.getPageDocumentAndCreate(pageClass, pp).getPageBean();
 					final String hdlstr2 = pageBean2.getHandlerClass();
 					if (StringUtils.hasText(hdlstr2)) {
 						pageBean.setHandlerClass(hdlstr = hdlstr2);
@@ -441,8 +442,8 @@ public class PageDocument extends XmlDocument {
 			if (StringUtils.hasText(hdlstr)) {
 				try {
 					final Class<?> handlerClass = ClassUtils.forName(hdlstr);
-					pageHandle = (IPageHandler) (AbstractMVCPage.class.isAssignableFrom(handlerClass) ? new AbstractMVCPage.PageLoad()
-							: handlerClass.newInstance());
+					pageHandle = (IPageHandler) (AbstractMVCPage.class.isAssignableFrom(handlerClass)
+							? new AbstractMVCPage.PageLoad() : handlerClass.newInstance());
 				} catch (final Exception e) {
 					throw MVCException.of(e);
 				}
@@ -457,8 +458,8 @@ public class PageDocument extends XmlDocument {
 	private String _hashId;
 
 	public String hashId() {
-		return _hashId == null ? (_hashId = pageClass != null ? pageClass.getName() : ObjectUtils
-				.hashStr(getDocumentFile())) : _hashId;
+		return _hashId == null ? (_hashId = pageClass != null ? pageClass.getName()
+				: ObjectUtils.hashStr(getDocumentFile())) : _hashId;
 	}
 
 	@Override

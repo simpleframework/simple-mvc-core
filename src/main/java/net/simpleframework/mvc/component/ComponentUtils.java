@@ -80,10 +80,11 @@ public abstract class ComponentUtils implements IMVCSettingsAware {
 
 	public static AbstractComponentBean getComponentBeanByName(final PageRequestResponse rRequest,
 			final String xmlpath, final String componentName) {
-		final PageDocument pageDocument = PageDocumentFactory
-				.getPageDocumentByPath(rRequest, xmlpath);
-		return pageDocument != null ? PageParameter.get(rRequest, pageDocument)
-				.getComponentBeanByName(componentName) : null;
+		final PageDocument pageDocument = PageDocumentFactory.getPageDocumentByPath(rRequest,
+				xmlpath);
+		return pageDocument != null
+				? PageParameter.get(rRequest, pageDocument).getComponentBeanByName(componentName)
+				: null;
 	}
 
 	/*--------------------------------- handle -----------------------------------*/

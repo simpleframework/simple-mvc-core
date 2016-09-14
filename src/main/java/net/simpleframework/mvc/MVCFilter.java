@@ -218,8 +218,8 @@ public class MVCFilter extends ObjectEx implements Filter {
 		final HttpServletResponse _response = rRequest.response;
 		// resetBuffer() 只会清掉內容的部份(Body)，而不会去清 status code 和 header
 		_response.resetBuffer();
-		final PrintWriter out = new PrintWriter(new OutputStreamWriter(_response.getOutputStream(),
-				charset));
+		final PrintWriter out = new PrintWriter(
+				new OutputStreamWriter(_response.getOutputStream(), charset));
 		if (_response instanceof PageResponse) {
 			((PageResponse) _response).initOutputStream();
 		}
@@ -237,8 +237,8 @@ public class MVCFilter extends ObjectEx implements Filter {
 		out.close();
 	}
 
-	protected void doThrowable(Throwable th, final PageRequestResponse rRequest, final String charset)
-			throws IOException {
+	protected void doThrowable(Throwable th, final PageRequestResponse rRequest,
+			final String charset) throws IOException {
 		th = MVCUtils.convertThrowable(th);
 		if (rRequest.isAjaxRequest()) {
 			final KVMap json = new KVMap().add("isJavascript", "true").add("rt",

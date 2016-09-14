@@ -187,9 +187,8 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 	 * @return
 	 * @throws IOException
 	 */
-	protected String toHtml(final PageParameter pp,
-			final Class<? extends AbstractMVCPage> pageClass, final Map<String, Object> variables,
-			final String currentVariable) throws IOException {
+	protected String toHtml(final PageParameter pp, final Class<? extends AbstractMVCPage> pageClass,
+			final Map<String, Object> variables, final String currentVariable) throws IOException {
 		if (getOriginalClass().equals(pageClass)) {
 			return toHtml(pp, variables, currentVariable);
 		}
@@ -263,7 +262,8 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 		}
 	}
 
-	protected InputStream getTemplateFileResource(final Class<?> resourceClass, final String filename) {
+	protected InputStream getTemplateFileResource(final Class<?> resourceClass,
+			final String filename) {
 		return ClassUtils.getResourceAsStream(resourceClass,
 				filename.startsWith(".") ? getClassName(resourceClass) + filename : filename);
 	}
@@ -362,6 +362,11 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 	@SuppressWarnings("unchecked")
 	public static <T extends AbstractMVCPage> T get(final PageParameter pp) {
 		return (T) pp.getPage();
+	}
+
+	protected AbstractMVCPage getParentPage(final PageParameter pp) {
+		final String pageClass = pp.getParameter(MVCConst.PARAM_PARENT_PAGE);
+		return pageClass != null ? (AbstractMVCPage) singleton(pageClass) : null;
 	}
 
 	/**
@@ -545,8 +550,8 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 	static PageDocument createPageDocument(final Class<? extends AbstractMVCPage> pageClass,
 			final PageRequestResponse rRequest) {
 		PageDocument pageDocument = null;
-		InputStream inputStream = ClassUtils.getResourceAsStream(pageClass, getClassName(pageClass)
-				+ ".xml");
+		InputStream inputStream = ClassUtils.getResourceAsStream(pageClass,
+				getClassName(pageClass) + ".xml");
 		if (inputStream == null) {
 			rRequest.setRequestAttr(NULL_PAGEDOCUMENT, Boolean.TRUE);
 			inputStream = ClassUtils.getResourceAsStream(AbstractMVCPage.class, "page-null.xml");
@@ -576,8 +581,8 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 	@SuppressWarnings("unchecked")
 	protected <T extends AbstractComponentBean> T addComponentBean(final PageParameter pp,
 			final Class<T> beanClass, final Class<? extends IComponentHandler> handlerClass) {
-		return (T) addComponentBean(pp, handlerClass.getSimpleName(), beanClass).setHandlerClass(
-				handlerClass);
+		return (T) addComponentBean(pp, handlerClass.getSimpleName(), beanClass)
+				.setHandlerClass(handlerClass);
 	}
 
 	/**
@@ -614,9 +619,10 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 				return;
 			}
 			try {
-				((Class<AbstractMVCPage>) ClassUtils.forName(handlerClass)).getMethod(
-						(String) pp.getBeanProperty("handlerMethod"), PageParameter.class, Map.class,
-						PageSelector.class).invoke(AbstractMVCPage.get(pp), pp, dataBinding, selector);
+				((Class<AbstractMVCPage>) ClassUtils.forName(handlerClass))
+						.getMethod((String) pp.getBeanProperty("handlerMethod"), PageParameter.class,
+								Map.class, PageSelector.class)
+						.invoke(AbstractMVCPage.get(pp), pp, dataBinding, selector);
 			} catch (final Exception e) {
 				throw ComponentHandlerException.of(e);
 			}
@@ -627,7 +633,8 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 		return null;
 	}
 
-	protected void setBeanProperties(final PageParameter pp, final Object bean, final String... keys) {
+	protected void setBeanProperties(final PageParameter pp, final Object bean,
+			final String... keys) {
 		for (final String k : keys) {
 			final String val = pp.getParameter(k);
 			if (val != null) {

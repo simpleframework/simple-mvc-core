@@ -51,8 +51,8 @@ public final class ComponentRegistryFactory extends ObjectEx {
 					if (length > 0) {
 						final URL[] urls = new URL[length];
 						for (int i = 0; i < length; i++) {
-							final String realPath = MVCUtils.getRealPath(provider.getResourceHomePath()
-									+ jarPath[i]);
+							final String realPath = MVCUtils
+									.getRealPath(provider.getResourceHomePath() + jarPath[i]);
 							urls[i] = new URL(PROTOCAL_FILE_PREFIX + realPath);
 						}
 						loadJarFiles(urls);

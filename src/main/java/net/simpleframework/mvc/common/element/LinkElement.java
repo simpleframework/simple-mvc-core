@@ -1,6 +1,7 @@
 package net.simpleframework.mvc.common.element;
 
 import static net.simpleframework.common.I18n.$m;
+
 import net.simpleframework.ctx.ModuleFunction;
 import net.simpleframework.mvc.AbstractMVCPage;
 import net.simpleframework.mvc.IMVCSettingsAware;

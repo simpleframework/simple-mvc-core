@@ -17,8 +17,8 @@ import net.simpleframework.mvc.PageParameter;
  */
 public class PageLoaded {
 
-	void doTag(final PageParameter pp, final Element htmlHead,
-			final Map<String, Object> dataBinding, final PageSelector selector) {
+	void doTag(final PageParameter pp, final Element htmlHead, final Map<String, Object> dataBinding,
+			final PageSelector selector) {
 		final KVMap kv = new KVMap();
 		if (dataBinding.size() > 0) {
 			kv.add("dataBinding", dataBinding);

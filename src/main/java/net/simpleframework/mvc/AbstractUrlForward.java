@@ -40,8 +40,8 @@ public abstract class AbstractUrlForward extends AbstractForward {
 			return url;
 		}
 		final StringBuilder sb = new StringBuilder();
-		final Map<String, Object> qMap = HttpUtils.toQueryParams(putRequestData(rRequest,
-				getIncludeRequestData()));
+		final Map<String, Object> qMap = HttpUtils
+				.toQueryParams(putRequestData(rRequest, getIncludeRequestData()));
 		final int qp = url.indexOf("?");
 		if (qp > -1) {
 			sb.append(url.substring(0, qp));

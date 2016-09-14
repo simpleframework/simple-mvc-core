@@ -21,8 +21,8 @@ import net.simpleframework.lib.com.oreilly.servlet.MultipartRequest;
  *         https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
-public class MultipartPageRequest extends HttpServletRequestWrapper implements
-		IMultipartPageRequest, IMVCSettingsAware {
+public class MultipartPageRequest extends HttpServletRequestWrapper
+		implements IMultipartPageRequest, IMVCSettingsAware {
 	private final MultipartRequest mRequest;
 
 	public MultipartPageRequest(final HttpServletRequest request, final int maxUploadSize)

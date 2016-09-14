@@ -18,6 +18,9 @@ import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import eu.bitwalker.useragentutils.Browser;
+import eu.bitwalker.useragentutils.DeviceType;
+import eu.bitwalker.useragentutils.UserAgent;
 import net.simpleframework.common.Convert;
 import net.simpleframework.common.ID;
 import net.simpleframework.common.StringUtils;
@@ -35,9 +38,6 @@ import net.simpleframework.ctx.permission.PermissionDept;
 import net.simpleframework.ctx.permission.PermissionRole;
 import net.simpleframework.ctx.permission.PermissionUser;
 import net.simpleframework.mvc.ctx.permission.IPagePermissionHandler;
-import eu.bitwalker.useragentutils.Browser;
-import eu.bitwalker.useragentutils.DeviceType;
-import eu.bitwalker.useragentutils.UserAgent;
 
 /**
  * Licensed under the Apache License, Version 2.0
@@ -52,7 +52,8 @@ public class PageRequestResponse extends ObjectEx implements IMVCSettingsAware {
 
 	public HttpServletResponse response;
 
-	public PageRequestResponse(final HttpServletRequest request, final HttpServletResponse response) {
+	public PageRequestResponse(final HttpServletRequest request,
+			final HttpServletResponse response) {
 		this.request = request;
 		this.response = response;
 	}
@@ -359,8 +360,8 @@ public class PageRequestResponse extends ObjectEx implements IMVCSettingsAware {
 	}
 
 	public String includeUrl(final String url, final String includeRequestData) {
-		return UrlForward.includeResponseText(new UrlForward(url, includeRequestData)
-				.getResponseText(this));
+		return UrlForward
+				.includeResponseText(new UrlForward(url, includeRequestData).getResponseText(this));
 	}
 
 	public String getLocalhostUrl() {

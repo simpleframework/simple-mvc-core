@@ -19,8 +19,8 @@ public interface IPageResourceProvider extends IResourceProvider, IMVCSettingsAw
 	 */
 	String getName();
 
-	public static class MVCPageResourceProvider extends AbstractResourceProvider implements
-			IPageResourceProvider {
+	public static class MVCPageResourceProvider extends AbstractResourceProvider
+			implements IPageResourceProvider {
 
 		@Override
 		public String getName() {
@@ -35,8 +35,8 @@ public interface IPageResourceProvider extends IResourceProvider, IMVCSettingsAw
 
 		@Override
 		public String[] getJavascriptPath(final PageParameter pp) {
-			return new String[] { DeployWeb.getResourcePath(IPageResourceProvider.class)
-					+ "/js/core.js" };
+			return new String[] {
+					DeployWeb.getResourcePath(IPageResourceProvider.class) + "/js/core.js" };
 		}
 
 		@Override

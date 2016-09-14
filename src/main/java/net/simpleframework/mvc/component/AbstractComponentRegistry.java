@@ -103,7 +103,8 @@ public abstract class AbstractComponentRegistry extends ObjectEx implements ICom
 	}
 
 	protected Class<? extends IComponentResourceProvider> getResourceProviderClass() {
-		final ComponentResourceProvider a = getAnnotation(getClass(), ComponentResourceProvider.class);
+		final ComponentResourceProvider a = getAnnotation(getClass(),
+				ComponentResourceProvider.class);
 		Class<? extends IComponentResourceProvider> provider = null;
 		if (a != null) {
 			provider = a.value();
@@ -132,7 +133,8 @@ public abstract class AbstractComponentRegistry extends ObjectEx implements ICom
 	}
 
 	@Override
-	public AbstractComponentBean createComponentBean(final PageParameter pp, final Object attriData) {
+	public AbstractComponentBean createComponentBean(final PageParameter pp,
+			final Object attriData) {
 		final AbstractComponentBean componentBean = ObjectFactory.create(getBeanClass(),
 				new ObjectCreatorListener() {
 					@Override

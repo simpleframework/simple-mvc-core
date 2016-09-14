@@ -27,8 +27,7 @@ public class DefaultPageHandler extends AbstractMVCHandler implements IPageHandl
 	protected String[] addImportPage(final PageParameter pp, final String[] importPage) {
 		final PageDocument pageDocument = pp.getPageDocument();
 		final String[] importPage2;
-		if (pageDocument == null
-				|| (importPage2 = pageDocument.getPageBean().getImportPage()) == null
+		if (pageDocument == null || (importPage2 = pageDocument.getPageBean().getImportPage()) == null
 				|| importPage2.length == 0) {
 			return importPage;
 		}

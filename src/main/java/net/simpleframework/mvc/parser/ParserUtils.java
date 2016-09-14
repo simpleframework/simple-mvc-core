@@ -79,14 +79,12 @@ public abstract class ParserUtils {
 
 	static Element addScriptText(final Element element, String js, final boolean compress) {
 		js = StringUtils.blank(js);
-		return element
-				.appendElement("script")
-				.attr("type", SCRIPT_TYPE)
-				.appendChild(
-						new DataNode(compress ? JavascriptUtils.jsCompress(js) : js, element.baseUri()));
+		return element.appendElement("script").attr("type", SCRIPT_TYPE).appendChild(
+				new DataNode(compress ? JavascriptUtils.jsCompress(js) : js, element.baseUri()));
 	}
 
-	static List<Node> htmlToNodes(final PageParameter pp, final String html, final Element htmlHead) {
+	static List<Node> htmlToNodes(final PageParameter pp, final String html,
+			final Element htmlHead) {
 		final Document htmlDocument = HtmlUtils.createHtmlDocument(html, "html");
 		for (final Element moveHead : htmlDocument.select("head[move]")) {
 			for (final Element link : moveHead.select("link[href], link[rel=stylesheet]")) {

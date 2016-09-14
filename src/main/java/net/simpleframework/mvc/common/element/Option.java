@@ -1,6 +1,7 @@
 package net.simpleframework.mvc.common.element;
 
 import static net.simpleframework.common.I18n.$m;
+
 import net.simpleframework.common.Convert;
 import net.simpleframework.common.object.NamedObject;
 

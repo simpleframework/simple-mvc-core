@@ -18,8 +18,8 @@ import net.simpleframework.mvc.PageRequestResponse;
  * @author 陈侃(cknet@126.com, 13910090885) https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
-public abstract class AbstractComponentBean extends AbstractElementBean implements
-		IMVCSettingsAware {
+public abstract class AbstractComponentBean extends AbstractElementBean
+		implements IMVCSettingsAware {
 	public static final String FORM_PREFIX = "form_";
 
 	private PageDocument pageDocument;
@@ -38,8 +38,8 @@ public abstract class AbstractComponentBean extends AbstractElementBean implemen
 	private String handlerClass;
 
 	/* 定义处理类hanlder实例的生命周期 */
-	private EComponentHandlerScope handleScope = (EComponentHandlerScope) BeanDefaults.get(
-			getClass(), "handleScope", EComponentHandlerScope.singleton);
+	private EComponentHandlerScope handleScope = (EComponentHandlerScope) BeanDefaults
+			.get(getClass(), "handleScope", EComponentHandlerScope.singleton);
 
 	/* 定义组件的CSS选择器, 具体含义与实现组件有关, 比如AjaxRequest的selector定义了提交的数据 */
 	protected String selector;
@@ -168,8 +168,9 @@ public abstract class AbstractComponentBean extends AbstractElementBean implemen
 			if (!StringUtils.hasText(name)) {
 				name = getElement().attributeValue("name");
 			}
-			_componentHashId = StringUtils.hasText(name) ? ComponentUtils.getComponentHashByName(
-					pageDocument, name) : ObjectUtils.hashStr(this);
+			_componentHashId = StringUtils.hasText(name)
+					? ComponentUtils.getComponentHashByName(pageDocument, name)
+					: ObjectUtils.hashStr(this);
 		}
 		return _componentHashId;
 	}

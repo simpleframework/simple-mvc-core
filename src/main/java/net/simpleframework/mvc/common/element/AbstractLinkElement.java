@@ -10,8 +10,8 @@ import net.simpleframework.common.StringUtils;
  *         http://www.simpleframework.net
  */
 @SuppressWarnings("unchecked")
-public abstract class AbstractLinkElement<T extends AbstractTagElement<T>> extends
-		AbstractTagElement<T> {
+public abstract class AbstractLinkElement<T extends AbstractTagElement<T>>
+		extends AbstractTagElement<T> {
 	private String href;
 
 	private String target;

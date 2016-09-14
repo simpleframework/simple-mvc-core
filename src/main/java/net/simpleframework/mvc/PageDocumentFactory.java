@@ -39,8 +39,8 @@ public class PageDocumentFactory implements IMVCSettingsAware {
 		if (StringUtils.hasText(xmlpath)) {
 			return getPageDocumentAndCreate(new File(MVCUtils.getRealPath(xmlpath)), rRequest);
 		} else {
-			String lookupPath = rRequest.stripContextPath(HttpUtils.getRequestURI(rRequest.request,
-					false));
+			String lookupPath = rRequest
+					.stripContextPath(HttpUtils.getRequestURI(rRequest.request, false));
 			int pos;
 			if ((pos = lookupPath.indexOf(";")) > 0) {
 				lookupPath = lookupPath.substring(0, pos); // strip jsessionid
@@ -51,8 +51,8 @@ public class PageDocumentFactory implements IMVCSettingsAware {
 				return pageDocument;
 			} else {
 				final int p = lookupPath.lastIndexOf('.');
-				xmlpath = MVCUtils.getRealPath(((p <= 0) ? lookupPath : lookupPath.substring(0, p))
-						+ ".xml");
+				xmlpath = MVCUtils
+						.getRealPath(((p <= 0) ? lookupPath : lookupPath.substring(0, p)) + ".xml");
 				return getPageDocumentAndCreate(new File(xmlpath), rRequest);
 			}
 		}
@@ -67,8 +67,8 @@ public class PageDocumentFactory implements IMVCSettingsAware {
 			PageWrapper wrapper = _wrappers.get(lookupPath);
 			l: if (wrapper == null) {
 				boolean homeMark = false;
-				String clazzName = filterPath.equals("/") ? lookupPath : lookupPath
-						.substring(filterPath.length());
+				String clazzName = filterPath.equals("/") ? lookupPath
+						: lookupPath.substring(filterPath.length());
 				if (!StringUtils.hasText(clazzName) || "/".equals(clazzName)) {
 					// 跳转到首页
 					final String homePath = mvcSettings.getHomePath(rRequest);
@@ -110,8 +110,8 @@ public class PageDocumentFactory implements IMVCSettingsAware {
 			if (wrapper != null) {
 				pageDocument = getPageDocumentAndCreate(wrapper.pageClass, rRequest);
 				AbstractMVCPage abstractMVCPage;
-				if (pageDocument != null
-						&& (abstractMVCPage = PageParameter.get(rRequest, pageDocument).getPage()) != null) {
+				if (pageDocument != null && (abstractMVCPage = PageParameter.get(rRequest, pageDocument)
+						.getPage()) != null) {
 					abstractMVCPage.setLookupPath(lookupPath);
 				}
 			}
@@ -154,14 +154,14 @@ public class PageDocumentFactory implements IMVCSettingsAware {
 				if (sourceObject instanceof File) {
 					_documents.put(docHash, document = new PageDocument((File) sourceObject, rRequest));
 				} else if (sourceObject instanceof Class<?>) {
-					document = AbstractMVCPage.createPageDocument(
-							(Class<? extends AbstractMVCPage>) sourceObject, rRequest);
+					document = AbstractMVCPage
+							.createPageDocument((Class<? extends AbstractMVCPage>) sourceObject, rRequest);
 					if (document != null) {
 						_documents.put(docHash, document);
 					}
 				} else if (sourceObject instanceof InputStream) {
-					_documents.put(docHash, document = new PageDocument((InputStream) sourceObject,
-							rRequest));
+					_documents.put(docHash,
+							document = new PageDocument((InputStream) sourceObject, rRequest));
 				}
 			} catch (final Exception e) {
 				throw MVCException.of(e);

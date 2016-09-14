@@ -109,7 +109,8 @@ public abstract class ComponentRenderUtils {
 		final Map<String, Object> params = ComponentUtils.toFormParameters(cp);
 		if (params != null) {
 			for (final Map.Entry<String, Object> entry : params.entrySet()) {
-				sb.append(InputElement.hidden(entry.getKey()).setText(String.valueOf(entry.getValue())));
+				sb.append(
+						InputElement.hidden(entry.getKey()).setText(String.valueOf(entry.getValue())));
 			}
 		}
 		sb.append("</div>");

@@ -107,8 +107,8 @@ public final class PageParser extends AbstractPageParser {
 
 			final String css = htmlBuilder.doHttpRequestCSS(pp);
 			if (StringUtils.hasText(css)) {
-				headElement.appendChild(htmlDoc.createElement("style").attr("type", "text/css")
-						.text(css));
+				headElement
+						.appendChild(htmlDoc.createElement("style").attr("type", "text/css").text(css));
 			}
 		} else {
 			htmlDoc = HtmlUtils.createHtmlDocument(responseString);

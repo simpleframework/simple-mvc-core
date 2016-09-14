@@ -28,8 +28,8 @@ import net.simpleframework.mvc.component.ComponentParameter;
  * @author 陈侃(cknet@126.com, 13910090885) https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
-public class DefaultPagePermissionHandler extends DefaultPermissionHandler implements
-		IPagePermissionHandler, IMVCSettingsAware {
+public class DefaultPagePermissionHandler extends DefaultPermissionHandler
+		implements IPagePermissionHandler, IMVCSettingsAware {
 	@Override
 	public PermissionUser getLogin(final PageRequestResponse rRequest) {
 		return getUser(getLoginId(rRequest));
@@ -84,8 +84,8 @@ public class DefaultPagePermissionHandler extends DefaultPermissionHandler imple
 	}
 
 	@Override
-	public String getPhotoUrl(final PageRequestResponse rRequest, final Object user,
-			final int width, final int height) {
+	public String getPhotoUrl(final PageRequestResponse rRequest, final Object user, final int width,
+			final int height) {
 		final StringBuilder sb = new StringBuilder();
 		final PermissionUser pUser = user instanceof PermissionUser ? (PermissionUser) user
 				: getUser(user);
@@ -112,8 +112,8 @@ public class DefaultPagePermissionHandler extends DefaultPermissionHandler imple
 				}
 			}
 		}
-		sb.append(MVCConst.IMAGES_CACHE_PATH).append(id).append("/").append(filename)
-				.append("?last=").append(photoFile.lastModified());
+		sb.append(MVCConst.IMAGES_CACHE_PATH).append(id).append("/").append(filename).append("?last=")
+				.append(photoFile.lastModified());
 		return sb.toString();
 	}
 
@@ -122,8 +122,8 @@ public class DefaultPagePermissionHandler extends DefaultPermissionHandler imple
 			throws IOException {
 		final PermissionUser pUser = user instanceof PermissionUser ? (PermissionUser) user
 				: getUser(user);
-		FileUtils.deleteAll(new File(MVCUtils.getRealPath(MVCConst.IMAGES_CACHE_PATH + pUser.getId()
-				+ "/")));
+		FileUtils.deleteAll(
+				new File(MVCUtils.getRealPath(MVCConst.IMAGES_CACHE_PATH + pUser.getId() + "/")));
 	}
 
 	@Override
@@ -143,7 +143,8 @@ public class DefaultPagePermissionHandler extends DefaultPermissionHandler imple
 	}
 
 	@Override
-	public void login(final PageRequestResponse rRequest, final String login, final String password) {
+	public void login(final PageRequestResponse rRequest, final String login,
+			final String password) {
 		login(rRequest, login, password, null);
 	}
 

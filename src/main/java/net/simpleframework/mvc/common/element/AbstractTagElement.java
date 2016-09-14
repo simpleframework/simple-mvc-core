@@ -9,8 +9,8 @@ import net.simpleframework.common.StringUtils;
  *         https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
-public abstract class AbstractTagElement<T extends AbstractTagElement<T>> extends
-		AbstractElement<T> {
+public abstract class AbstractTagElement<T extends AbstractTagElement<T>>
+		extends AbstractElement<T> {
 
 	public AbstractTagElement() {
 	}

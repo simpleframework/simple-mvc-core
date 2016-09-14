@@ -92,15 +92,15 @@ public class SessionCache {
 				@Override
 				public Object get(final String sessionId, final String key) {
 					Map<String, Object> attributes;
-					return key != null && (attributes = getAttributes(sessionId)) != null ? attributes
-							.get(key) : null;
+					return key != null && (attributes = getAttributes(sessionId)) != null
+							? attributes.get(key) : null;
 				}
 
 				@Override
 				public Object remove(final String sessionId, final String key) {
 					Map<String, Object> attributes;
-					return key != null && (attributes = getAttributes(sessionId)) != null ? attributes
-							.remove(key) : null;
+					return key != null && (attributes = getAttributes(sessionId)) != null
+							? attributes.remove(key) : null;
 				}
 
 				@Override
@@ -127,8 +127,8 @@ public class SessionCache {
 				@Override
 				public Enumeration<String> getAttributeNames(final String sessionId) {
 					final Map<String, Object> attributes = getAttributes(sessionId);
-					return attributes == null ? EMPTY_ENUM : Collections
-							.enumeration(attributes.keySet());
+					return attributes == null ? EMPTY_ENUM
+							: Collections.enumeration(attributes.keySet());
 				}
 			};
 		}

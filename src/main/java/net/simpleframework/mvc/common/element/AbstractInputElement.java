@@ -13,8 +13,8 @@ import net.simpleframework.mvc.PageRequestResponse;
  *         http://www.simpleframework.net
  */
 @SuppressWarnings("unchecked")
-public abstract class AbstractInputElement<T extends AbstractInputElement<T>> extends
-		AbstractElement<T> {
+public abstract class AbstractInputElement<T extends AbstractInputElement<T>>
+		extends AbstractElement<T> {
 	private boolean readonly;
 
 	private EInputType inputType;

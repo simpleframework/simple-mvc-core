@@ -3,10 +3,10 @@ package net.simpleframework.mvc;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import eu.bitwalker.useragentutils.OperatingSystem;
 import net.simpleframework.common.object.ObjectEx;
 import net.simpleframework.lib.org.jsoup.nodes.Element;
 import net.simpleframework.mvc.common.element.Meta;
-import eu.bitwalker.useragentutils.OperatingSystem;
 
 /**
  * Licensed under the Apache License, Version 2.0

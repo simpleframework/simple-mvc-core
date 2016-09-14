@@ -117,8 +117,8 @@ public class PageParameter extends PageRequestResponse {
 		}
 		AbstractComponentBean componentBean = getComponentBeans().get(name);
 		if (componentBean == null) {
-			componentBean = (AbstractComponentBean) SessionCache.lget(ComponentUtils
-					.getComponentHashByName(getPageDocument(), name));
+			componentBean = (AbstractComponentBean) SessionCache
+					.lget(ComponentUtils.getComponentHashByName(getPageDocument(), name));
 		}
 		return componentBean;
 	}

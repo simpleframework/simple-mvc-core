@@ -1,6 +1,7 @@
 package net.simpleframework.mvc.component;
 
 import static net.simpleframework.common.I18n.$m;
+
 import net.simpleframework.common.th.RuntimeExceptionEx;
 
 /**

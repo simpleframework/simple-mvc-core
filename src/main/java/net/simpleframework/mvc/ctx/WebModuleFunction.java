@@ -103,8 +103,8 @@ public class WebModuleFunction extends ModuleFunction {
 		return null;
 	}
 
-	static ModuleFunction getFunctionByUrl(final IModuleContext ctx,
-			final ModuleFunctions functions, final String url) {
+	static ModuleFunction getFunctionByUrl(final IModuleContext ctx, final ModuleFunctions functions,
+			final String url) {
 		if (functions == null) {
 			return null;
 		}
