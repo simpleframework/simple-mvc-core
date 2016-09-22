@@ -5,6 +5,7 @@ import static net.simpleframework.common.I18n.$m;
 import net.simpleframework.ctx.ModuleFunction;
 import net.simpleframework.mvc.AbstractMVCPage;
 import net.simpleframework.mvc.IMVCSettingsAware;
+import net.simpleframework.mvc.PageRequestResponse;
 import net.simpleframework.mvc.ctx.WebModuleFunction;
 
 /**
@@ -25,8 +26,8 @@ public class LinkElement extends AbstractLinkElement<LinkElement> implements IMV
 		return new LinkElement(text, pageClass).setClassName("simple_btn2");
 	}
 
-	public static LinkElement HOME() {
-		return new LinkElement($m("LinkElement.0")).setHref(mvcSettings.getFilterPath());
+	public static LinkElement HOME(final PageRequestResponse rRequest) {
+		return new LinkElement($m("LinkElement.0")).setHref(mvcSettings.getHomePath(rRequest));
 	}
 
 	public static LinkElement BLANK(final Object text) {
