@@ -40,6 +40,10 @@ public class InputElement extends AbstractInputElement<InputElement> {
 		return new InputElement(id, EInputType.checkbox);
 	}
 
+	public static InputElement password(final String id) {
+		return new InputElement(id, EInputType.password);
+	}
+
 	public InputElement() {
 	}
 
