@@ -20,6 +20,7 @@ import net.simpleframework.common.JsonUtils;
 import net.simpleframework.common.StringUtils;
 import net.simpleframework.common.coll.KVMap;
 import net.simpleframework.common.object.ObjectEx;
+import net.simpleframework.common.web.JavascriptUtils;
 import net.simpleframework.common.web.html.HtmlConst;
 import net.simpleframework.mvc.IFilterListener.EFilterResult;
 import net.simpleframework.mvc.common.element.JS;
@@ -119,7 +120,12 @@ public class MVCFilter extends ObjectEx implements Filter {
 					if (abstractPage != null) {
 						forward = abstractPage.forward(pp);
 						/* forward函数调用write，直接交给httpResponse并返回 */
-						final String rHTML = _response.toString();
+						String rHTML = _response.toString();
+						if (rHTML == null) {
+							if (forward instanceof JavascriptForward) {
+								rHTML = JavascriptUtils.wrapScriptTag(forward.toString());
+							}
+						}
 						if (rHTML != null) {
 							final PrintWriter writer = httpResponse.getWriter();
 							writer.write(rHTML);
