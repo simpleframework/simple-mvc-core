@@ -1,8 +1,10 @@
 package net.simpleframework.mvc;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -10,7 +12,10 @@ import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
 import net.simpleframework.common.Convert;
-import net.simpleframework.common.jedis.JedisMap;
+import net.simpleframework.common.IoUtils;
+import net.simpleframework.common.logger.Log;
+import net.simpleframework.common.logger.LogFactory;
+import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
 /**
@@ -116,50 +121,97 @@ public class SessionCache {
 		}
 	}
 
-	public static class JedisSessionAttribute extends DefaultSessionAttribute {
-		private final JedisMap _attributes;
+	public static class JedisSessionAttribute implements ISessionAttribute {
+		private final int expire = 3600;
 
-		public JedisSessionAttribute(final JedisPool jedispool) {
-			_attributes = new JedisMap(jedispool, 3600);
+		private final JedisPool pool;
+
+		public JedisSessionAttribute(final JedisPool pool) {
+			this.pool = pool;
 		}
 
 		@Override
-		protected Map<String, Object> getAttributes(final String sessionId) {
-			if (sessionId == null) {
+		public Object get(final String sessionId, final String key) {
+			Jedis jedis = null;
+			try {
+				jedis = pool.getResource();
+				return IoUtils.deserialize(jedis.hget(sessionId.getBytes(), key.getBytes()));
+			} catch (final Exception e) {
+				log.warn(e);
 				return null;
+			} finally {
+				if (jedis != null) {
+					jedis.close();
+				}
 			}
-			@SuppressWarnings("unchecked")
-			Map<String, Object> attributes = (Map<String, Object>) _attributes.get(sessionId);
-			if (attributes == null) {
-				_attributes.put(sessionId, attributes = new HashMap<String, Object>());
-			}
-			return attributes;
 		}
 
 		@Override
 		public void put(final String sessionId, final String key, final Object value) {
-			Map<String, Object> attributes;
-			if (key != null && (attributes = getAttributes(sessionId)) != null) {
-				attributes.put(key, value);
-				_attributes.put(sessionId, attributes);
+			Jedis jedis = null;
+			try {
+				jedis = pool.getResource();
+				final byte[] sbytes = sessionId.getBytes();
+				if (!jedis.exists(sbytes)) {
+					jedis.expire(sbytes, expire);
+				}
+				jedis.hset(sbytes, key.getBytes(), IoUtils.serialize(value));
+			} catch (final IOException e) {
+				log.warn(e);
+			} finally {
+				if (jedis != null) {
+					jedis.close();
+				}
 			}
 		}
 
 		@Override
 		public Object remove(final String sessionId, final String key) {
-			Map<String, Object> attributes;
-			if (key != null && (attributes = getAttributes(sessionId)) != null) {
-				final Object robj = attributes.remove(key);
-				_attributes.put(sessionId, attributes);
-				return robj;
+			Jedis jedis = null;
+			try {
+				jedis = pool.getResource();
+				return jedis.hdel(sessionId.getBytes(), key.getBytes());
+			} finally {
+				if (jedis != null) {
+					jedis.close();
+				}
 			}
-			return null;
+		}
+
+		@Override
+		public Enumeration<String> getAttributeNames(final String sessionId) {
+			Jedis jedis = null;
+			try {
+				jedis = pool.getResource();
+				final Iterator<byte[]> it = jedis.hkeys(sessionId.getBytes()).iterator();
+				return new Enumeration<String>() {
+					@Override
+					public boolean hasMoreElements() {
+						return it.hasNext();
+					}
+
+					@Override
+					public String nextElement() {
+						return new String(it.next());
+					}
+				};
+			} finally {
+				if (jedis != null) {
+					jedis.close();
+				}
+			}
 		}
 
 		@Override
 		public void sessionDestroyed(final String sessionId) {
-			if (sessionId != null) {
-				_attributes.remove(sessionId);
+			Jedis jedis = null;
+			try {
+				jedis = pool.getResource();
+				jedis.del(sessionId.getBytes());
+			} finally {
+				if (jedis != null) {
+					jedis.close();
+				}
 			}
 		}
 	}
@@ -219,4 +271,6 @@ public class SessionCache {
 			JsessionidUtils.remove(jsessionId);
 		}
 	};
+
+	private static Log log = LogFactory.getLogger(SessionCache.class);
 }
