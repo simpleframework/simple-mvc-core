@@ -2,6 +2,7 @@ package net.simpleframework.mvc;
 
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -9,6 +10,8 @@ import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
 import net.simpleframework.common.Convert;
+import net.simpleframework.common.jedis.JedisMap;
+import redis.clients.jedis.JedisPool;
 
 /**
  * Licensed under the Apache License, Version 2.0
@@ -19,8 +22,7 @@ import net.simpleframework.common.Convert;
  */
 public class SessionCache {
 
-	private static final ISessionAttribute lSessionAttribute = new DefaultSessionAttribute(
-			new ConcurrentHashMap<String, Object>());
+	private static final ISessionAttribute lSessionAttribute = new DefaultSessionAttribute();
 	// 本地
 	private static final SessionCache _lcache = new SessionCache(lSessionAttribute);
 
@@ -29,12 +31,6 @@ public class SessionCache {
 
 	public static void setCache(final SessionCache cache) {
 		_cache = cache;
-	}
-
-	private final ISessionAttribute sAttribute;
-
-	public SessionCache(final ISessionAttribute sAttribute) {
-		this.sAttribute = sAttribute;
 	}
 
 	public static Object get(final Object key) {
@@ -71,22 +67,24 @@ public class SessionCache {
 
 	public static class DefaultSessionAttribute implements ISessionAttribute {
 
-		private final Map<String, Object> _attributes;
+		private final Map<String, Map<String, Object>> _attributes = new ConcurrentHashMap<String, Map<String, Object>>();
 
-		public DefaultSessionAttribute(final Map<String, Object> _attributes) {
-			this._attributes = _attributes;
-		}
-
-		@SuppressWarnings("unchecked")
-		private Map<String, Object> getAttributes(final String sessionId) {
+		protected Map<String, Object> getAttributes(final String sessionId) {
 			if (sessionId == null) {
 				return null;
 			}
-			Map<String, Object> attributes = (Map<String, Object>) _attributes.get(sessionId);
+			Map<String, Object> attributes = _attributes.get(sessionId);
 			if (attributes == null) {
-				_attributes.put(sessionId, attributes = new ConcurrentHashMap<String, Object>());
+				_attributes.put(sessionId, attributes = new HashMap<String, Object>());
 			}
 			return attributes;
+		}
+
+		@Override
+		public Object get(final String sessionId, final String key) {
+			Map<String, Object> attributes;
+			return key != null && (attributes = getAttributes(sessionId)) != null ? attributes.get(key)
+					: null;
 		}
 
 		@Override
@@ -95,13 +93,6 @@ public class SessionCache {
 			if (key != null && (attributes = getAttributes(sessionId)) != null) {
 				attributes.put(key, value);
 			}
-		}
-
-		@Override
-		public Object get(final String sessionId, final String key) {
-			Map<String, Object> attributes;
-			return key != null && (attributes = getAttributes(sessionId)) != null ? attributes.get(key)
-					: null;
 		}
 
 		@Override
@@ -115,22 +106,8 @@ public class SessionCache {
 		public void sessionDestroyed(final String sessionId) {
 			if (sessionId != null) {
 				_attributes.remove(sessionId);
-				// System.out.println("sessionDestroyed[ISessionAttribute]: "
-				// + sessionId);
 			}
 		}
-
-		private final Enumeration<String> EMPTY_ENUM = new Enumeration<String>() {
-			@Override
-			public boolean hasMoreElements() {
-				return false;
-			}
-
-			@Override
-			public String nextElement() {
-				return null;
-			}
-		};
 
 		@Override
 		public Enumeration<String> getAttributeNames(final String sessionId) {
@@ -139,12 +116,78 @@ public class SessionCache {
 		}
 	}
 
-	private String getJsessionId() {
-		return JsessionidUtils.getId();
+	public static class JedisSessionAttribute extends DefaultSessionAttribute {
+		private final JedisMap _attributes;
+
+		public JedisSessionAttribute(final JedisPool jedispool) {
+			_attributes = new JedisMap(jedispool, 3600);
+		}
+
+		@Override
+		protected Map<String, Object> getAttributes(final String sessionId) {
+			if (sessionId == null) {
+				return null;
+			}
+			@SuppressWarnings("unchecked")
+			Map<String, Object> attributes = (Map<String, Object>) _attributes.get(sessionId);
+			if (attributes == null) {
+				_attributes.put(sessionId, attributes = new HashMap<String, Object>());
+			}
+			return attributes;
+		}
+
+		@Override
+		public void put(final String sessionId, final String key, final Object value) {
+			Map<String, Object> attributes;
+			if (key != null && (attributes = getAttributes(sessionId)) != null) {
+				attributes.put(key, value);
+				_attributes.put(sessionId, attributes);
+			}
+		}
+
+		@Override
+		public Object remove(final String sessionId, final String key) {
+			Map<String, Object> attributes;
+			if (key != null && (attributes = getAttributes(sessionId)) != null) {
+				final Object robj = attributes.remove(key);
+				_attributes.put(sessionId, attributes);
+				return robj;
+			}
+			return null;
+		}
+
+		@Override
+		public void sessionDestroyed(final String sessionId) {
+			if (sessionId != null) {
+				_attributes.remove(sessionId);
+			}
+		}
+	}
+
+	private static final Enumeration<String> EMPTY_ENUM = new Enumeration<String>() {
+		@Override
+		public boolean hasMoreElements() {
+			return false;
+		}
+
+		@Override
+		public String nextElement() {
+			return null;
+		}
+	};
+
+	private final ISessionAttribute sAttribute;
+
+	public SessionCache(final ISessionAttribute sAttribute) {
+		this.sAttribute = sAttribute;
 	}
 
 	public ISessionAttribute getSessionAttribute() {
 		return sAttribute;
+	}
+
+	private String getJsessionId() {
+		return JsessionidUtils.getId();
 	}
 
 	private Object _get(final Object key) {

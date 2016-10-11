@@ -16,6 +16,12 @@
       <groupId>net.simpleframework</groupId>
       <artifactId>simple-context</artifactId>
     </dependency>
+    
+    <dependency>
+      <groupId>redis.clients</groupId>
+      <artifactId>jedis</artifactId>
+      <scope>provided</scope>
+    </dependency>
 
     <dependency>
       <groupId>eu.bitwalker</groupId>
