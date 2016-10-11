@@ -388,9 +388,9 @@ public class PageRequestResponse extends ObjectEx implements IMVCSettingsAware {
 	}
 
 	public UserAgent getUserAgentUtils() {
-		UserAgent userAgent = (UserAgent) getSessionAttr("__UserAgent");
+		UserAgent userAgent = (UserAgent) SessionCache.lget("__UserAgent");
 		if (userAgent == null) {
-			setSessionAttr("__UserAgent",
+			SessionCache.lput("__UserAgent",
 					userAgent = UserAgent.parseUserAgentString(request.getHeader("User-Agent")));
 		}
 		return userAgent;

@@ -152,10 +152,11 @@ public class SessionCache {
 			try {
 				jedis = pool.getResource();
 				final byte[] sbytes = sessionId.getBytes();
-				if (!jedis.exists(sbytes)) {
+				final boolean exists = jedis.exists(sbytes);
+				jedis.hset(sbytes, key.getBytes(), IoUtils.serialize(value));
+				if (!exists) {
 					jedis.expire(sbytes, expire);
 				}
-				jedis.hset(sbytes, key.getBytes(), IoUtils.serialize(value));
 			} catch (final IOException e) {
 				log.warn(e);
 			} finally {
