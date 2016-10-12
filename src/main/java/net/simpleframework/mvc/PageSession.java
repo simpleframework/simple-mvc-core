@@ -7,6 +7,8 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionBindingEvent;
 import javax.servlet.http.HttpSessionContext;
 
+import net.simpleframework.mvc.SessionCache.DefaultSessionAttribute;
+
 /**
  * Licensed under the Apache License, Version 2.0
  * 
@@ -16,6 +18,7 @@ import javax.servlet.http.HttpSessionContext;
  */
 @SuppressWarnings("deprecation")
 public class PageSession implements HttpSession {
+	private static SessionCache sCache = new SessionCache(new DefaultSessionAttribute());
 
 	private final MVCEventAdapter adapter = MVCContext.get().getEventAdapter();
 
@@ -39,24 +42,24 @@ public class PageSession implements HttpSession {
 
 	@Override
 	public Object getAttribute(final String key) {
-		return SessionCache.get(key);
+		return sCache.get(key);
 	}
 
 	@Override
 	public void setAttribute(final String key, final Object val) {
-		SessionCache.put(key, val);
+		sCache.put(key, val);
 		adapter.attributeAdded(new HttpSessionBindingEvent(httpSession, key, val));
 	}
 
 	@Override
 	public void removeAttribute(final String key) {
-		final Object val = SessionCache.remove(key);
+		final Object val = sCache.remove(key);
 		adapter.attributeRemoved(new HttpSessionBindingEvent(httpSession, key, val));
 	}
 
 	@Override
 	public Enumeration<String> getAttributeNames() {
-		return SessionCache.getAttributeNames();
+		return sCache.getAttributeNames();
 	}
 
 	@Override
