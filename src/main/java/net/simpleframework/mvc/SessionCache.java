@@ -40,6 +40,9 @@ public class SessionCache {
 
 	public SessionCache(final ISessionAttribute sAttribute) {
 		this.sAttribute = sAttribute;
+		if (all == null) {
+			all = new ArrayList<SessionCache>();
+		}
 		all.add(this);
 	}
 
@@ -134,14 +137,15 @@ public class SessionCache {
 		@Override
 		public void sessionDestroyed(final HttpSessionEvent httpSessionEvent) {
 			final String jsessionId = httpSessionEvent.getSession().getId();
-			for (final SessionCache cache : all) {
-				cache.sAttribute.sessionDestroyed(jsessionId);
+			if (all != null) {
+				for (final SessionCache cache : all) {
+					cache.sAttribute.sessionDestroyed(jsessionId);
+				}
 			}
 			JsessionidUtils.remove(jsessionId);
 		}
 	};
 
-	private static List<SessionCache> all = new ArrayList<SessionCache>();
-
+	private static List<SessionCache> all;
 	// private static Log log = LogFactory.getLogger(SessionCache.class);
 }
