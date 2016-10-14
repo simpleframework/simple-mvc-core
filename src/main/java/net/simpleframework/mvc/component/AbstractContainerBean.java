@@ -8,6 +8,7 @@ import net.simpleframework.common.Convert;
  * @author 陈侃(cknet@126.com, 13910090885) https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
+@SuppressWarnings("serial")
 public abstract class AbstractContainerBean extends AbstractComponentBean {
 	/* 定义容器组件的邦定id,该属性属于必须项 */
 	private String containerId;

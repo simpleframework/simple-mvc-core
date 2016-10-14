@@ -32,10 +32,13 @@ import net.simpleframework.mvc.component.IComponentRegistry;
 /**
  * Licensed under the Apache License, Version 2.0
  * 
- * @author 陈侃(cknet@126.com, 13910090885) https://github.com/simpleframework
+ * @author 陈侃(cknet@126.com, 13910090885)
+ *         https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
-public class PageDocument extends XmlDocument {
+public class PageDocument extends XmlDocument implements java.io.Serializable {
+	private static final long serialVersionUID = -2178587635953151425L;
+
 	private Class<? extends AbstractMVCPage> pageClass;
 
 	private File documentFile;
@@ -417,7 +420,7 @@ public class PageDocument extends XmlDocument {
 				.getPageResourceProvider(pageBean.getResourceProvider());
 	}
 
-	private IPageHandler pageHandle;
+	private transient IPageHandler pageHandle;
 
 	public IPageHandler getPageHandler(final PageParameter pp) {
 		if (pageHandle == null) {

@@ -6,10 +6,13 @@ import net.simpleframework.ctx.common.xml.AbstractElementBean;
 /**
  * Licensed under the Apache License, Version 2.0
  * 
- * @author 陈侃(cknet@126.com, 13910090885) https://github.com/simpleframework
+ * @author 陈侃(cknet@126.com, 13910090885)
+ *         https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
 public class PageBean extends AbstractElementBean implements IMVCSettingsAware {
+	private static final long serialVersionUID = -6963023908718020160L;
+
 	/* 是否禁用文档解析 */
 	private boolean disabled;
 

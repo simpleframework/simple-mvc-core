@@ -15,6 +15,8 @@ import net.simpleframework.ctx.common.xml.AbstractElementBean;
  */
 @SuppressWarnings("unchecked")
 public abstract class ItemUIBean<T extends ItemUIBean<T>> extends AbstractElementBean {
+	private static final long serialVersionUID = 2792428681327480928L;
+
 	private String id;
 
 	private String text;
