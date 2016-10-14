@@ -16,7 +16,6 @@ import net.simpleframework.mvc.PageDocument;
 import net.simpleframework.mvc.PageDocumentFactory;
 import net.simpleframework.mvc.PageParameter;
 import net.simpleframework.mvc.PageRequestResponse;
-import net.simpleframework.mvc.SessionCache;
 
 /**
  * Licensed under the Apache License, Version 2.0
@@ -59,18 +58,6 @@ public abstract class ComponentUtils implements IMVCSettingsAware {
 
 	public static void removeComponent(final String hashId) {
 		allComponentsCache.remove(hashId);
-	}
-
-	public static AbstractComponentBean getComponentBeanByHashId(final PageRequestResponse rRequest,
-			final String hashId) {
-		if (hashId == null) {
-			return null;
-		}
-		final AbstractComponentBean componentBean = getComponent(hashId);
-		if (componentBean != null) {
-			return componentBean;
-		}
-		return (AbstractComponentBean) SessionCache.lget(hashId);
 	}
 
 	public static String getComponentHashByName(final PageDocument pageDocument,

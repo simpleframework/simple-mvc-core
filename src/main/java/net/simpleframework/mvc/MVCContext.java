@@ -20,7 +20,9 @@ import net.simpleframework.ctx.script.IScriptEval;
 import net.simpleframework.ctx.script.ScriptEvalFactory;
 import net.simpleframework.mvc.IPageResourceProvider.MVCPageResourceProvider;
 import net.simpleframework.mvc.common.DeployWeb;
+import net.simpleframework.mvc.component.AbstractComponentBean;
 import net.simpleframework.mvc.component.AbstractComponentRegistry;
+import net.simpleframework.mvc.component.ComponentUtils;
 import net.simpleframework.mvc.ctx.permission.DefaultPagePermissionHandler;
 import net.simpleframework.mvc.ctx.permission.IPagePermissionHandler;
 import net.simpleframework.mvc.ctx.permission.PermissionFilterListener;
@@ -204,5 +206,25 @@ public class MVCContext extends AbstractApplicationContextBase implements IMVCCo
 			return true;
 		}
 		return false;
+	}
+
+	public AbstractComponentBean getComponentBeanByHashId(final PageRequestResponse rRequest,
+			final String hashId) {
+		if (hashId == null) {
+			return null;
+		}
+		final AbstractComponentBean componentBean = ComponentUtils.getComponent(hashId);
+		if (componentBean != null) {
+			return componentBean;
+		}
+		return (AbstractComponentBean) SessionCache.lget(hashId);
+	}
+
+	public void putComponentBeanByHashId(final PageRequestResponse rRequest,
+			final AbstractComponentBean componentBean) {
+		final String hashId = componentBean.hashId();
+		if (ComponentUtils.getComponent(hashId) == null) {
+			SessionCache.lput(hashId, componentBean);
+		}
 	}
 }

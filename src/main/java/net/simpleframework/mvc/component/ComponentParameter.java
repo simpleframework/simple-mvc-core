@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import net.simpleframework.common.BeanUtils;
 import net.simpleframework.common.coll.KVMap;
 import net.simpleframework.ctx.common.bean.BeanDefaults;
+import net.simpleframework.mvc.MVCContext;
 import net.simpleframework.mvc.PageDocument;
 import net.simpleframework.mvc.PageParameter;
 import net.simpleframework.mvc.PageRequestResponse;
@@ -109,7 +110,7 @@ public final class ComponentParameter extends PageParameter {
 	public static ComponentParameter get(final PageRequestResponse rRequest, final String beanId) {
 		// rRequest.request.getSession().getServletContext().
 		return get(rRequest,
-				ComponentUtils.getComponentBeanByHashId(rRequest, rRequest.getParameter(beanId)));
+				MVCContext.get().getComponentBeanByHashId(rRequest, rRequest.getParameter(beanId)));
 	}
 
 	public static ComponentParameter get(final PageRequestResponse rRequest,

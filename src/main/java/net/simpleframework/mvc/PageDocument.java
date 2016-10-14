@@ -292,15 +292,13 @@ public class PageDocument extends XmlDocument {
 			}
 		}
 
+		final PageParameter pp2 = pp;
 		componentBeans = new LinkedHashMap<String, AbstractComponentBean>() {
 			@Override
 			public AbstractComponentBean put(final String key,
 					final AbstractComponentBean componentBean) {
 				// 不在PageDocument中的components，则缓存到session中
-				final String hashId = componentBean.hashId();
-				if (ComponentUtils.getComponent(hashId) == null) {
-					SessionCache.lput(hashId, componentBean);
-				}
+				MVCContext.get().putComponentBeanByHashId(pp2, componentBean);
 				return super.put(key, componentBean);
 			}
 		};
