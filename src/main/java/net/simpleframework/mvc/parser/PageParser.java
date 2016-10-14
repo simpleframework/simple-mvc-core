@@ -1,5 +1,7 @@
 package net.simpleframework.mvc.parser;
 
+import static net.simpleframework.common.I18n.$m;
+
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Map;
@@ -25,11 +27,13 @@ import net.simpleframework.mvc.MVCHtmlBuilder;
 import net.simpleframework.mvc.PageParameter;
 import net.simpleframework.mvc.common.element.Meta;
 import net.simpleframework.mvc.component.AbstractComponentBean;
+import net.simpleframework.mvc.component.ComponentException;
 
 /**
  * Licensed under the Apache License, Version 2.0
  * 
- * @author 陈侃(cknet@126.com, 13910090885) https://github.com/simpleframework
+ * @author 陈侃(cknet@126.com, 13910090885)
+ *         https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
 public final class PageParser extends AbstractPageParser {
@@ -55,6 +59,12 @@ public final class PageParser extends AbstractPageParser {
 			beforeCreate(responseString);
 
 			final Map<String, AbstractComponentBean> oComponentBeans = pp.getComponentBeans();
+			for (final AbstractComponentBean componentBean : oComponentBeans.values()) {
+				if (MVCContext.get().getComponentBeanByHashId(pp, componentBean.hashId()) == null) {
+					throw ComponentException.of($m("ComponentParameter.0"));
+				}
+			}
+
 			resourceBinding.doTag(pp, headElement, oComponentBeans);
 			normaliseNode(pp, htmlDoc, oComponentBeans);
 			javascriptRender.doTag(pp, headElement, oComponentBeans);
