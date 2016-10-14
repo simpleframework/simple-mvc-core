@@ -420,10 +420,10 @@ public class PageDocument extends XmlDocument implements java.io.Serializable {
 				.getPageResourceProvider(pageBean.getResourceProvider());
 	}
 
-	private transient IPageHandler pageHandle;
+	private Class<?> handlerClass;
 
 	public IPageHandler getPageHandler(final PageParameter pp) {
-		if (pageHandle == null) {
+		if (handlerClass == null) {
 			String hdlstr = pageBean.getHandlerClass();
 			AbstractMVCPage pageView = null;
 			if (!StringUtils.hasText(hdlstr) && (pageView = singleton(pageClass)) != null) {
@@ -442,18 +442,19 @@ public class PageDocument extends XmlDocument implements java.io.Serializable {
 			}
 			if (StringUtils.hasText(hdlstr)) {
 				try {
-					final Class<?> handlerClass = ClassUtils.forName(hdlstr);
-					pageHandle = (IPageHandler) (AbstractMVCPage.class.isAssignableFrom(handlerClass)
-							? new AbstractMVCPage.PageLoad() : handlerClass.newInstance());
-				} catch (final Exception e) {
+					handlerClass = ClassUtils.forName(hdlstr);
+					if (AbstractMVCPage.class.isAssignableFrom(handlerClass)) {
+						handlerClass = AbstractMVCPage.PageLoad.class;
+					}
+				} catch (final ClassNotFoundException e) {
 					throw MVCException.of(e);
 				}
 			} else {
-				pageHandle = pageView != null ? new AbstractMVCPage.PageLoad()
-						: new DefaultPageHandler();
+				handlerClass = pageView != null ? AbstractMVCPage.PageLoad.class
+						: DefaultPageHandler.class;
 			}
 		}
-		return pageHandle;
+		return (IPageHandler) singleton(handlerClass);
 	}
 
 	private String _hashId;
