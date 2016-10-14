@@ -219,12 +219,4 @@ public class MVCContext extends AbstractApplicationContextBase implements IMVCCo
 		}
 		return (AbstractComponentBean) SessionCache.lget(hashId);
 	}
-
-	public void putComponentBeanByHashId(final PageRequestResponse rRequest,
-			final AbstractComponentBean componentBean) {
-		final String hashId = componentBean.hashId();
-		if (ComponentUtils.getComponent(hashId) == null) {
-			SessionCache.lput(hashId, componentBean);
-		}
-	}
 }
