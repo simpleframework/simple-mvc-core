@@ -26,9 +26,10 @@ public class LastUrlListener implements IFilterListener {
 		return EFilterResult.SUCCESS;
 	}
 
-	public static void setLastUrl(final PageRequestResponse rRequest, final String url) {
-		rRequest.setSessionAttr(MVCConst.SESSION_ATTRI_LASTURL, url);
-	}
+	// public static void setLastUrl(final PageRequestResponse rRequest, final
+	// String url) {
+	// rRequest.setSessionAttr(MVCConst.SESSION_ATTRI_LASTURL, url);
+	// }
 
 	public static String getLastUrl(final PageRequestResponse rRequest) {
 		final String lastUrl = (String) rRequest.getSessionAttr(MVCConst.SESSION_ATTRI_LASTURL);
