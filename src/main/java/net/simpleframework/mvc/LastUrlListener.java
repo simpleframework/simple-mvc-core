@@ -13,6 +13,16 @@ import javax.servlet.FilterChain;
  */
 public class LastUrlListener implements IFilterListener {
 
+	private static LastUrlListener instance;
+
+	public static LastUrlListener getInstance() {
+		return instance;
+	}
+
+	public LastUrlListener() {
+		instance = this;
+	}
+
 	@Override
 	public EFilterResult doFilter(final PageRequestResponse rRequest, final FilterChain filterChain)
 			throws IOException {
@@ -20,20 +30,18 @@ public class LastUrlListener implements IFilterListener {
 		if (rRequest.isHttpRequest() && !MVCContext.get().isSystemUrl(rRequest)
 				&& (accept = rRequest.getRequestHeader("Accept")) != null
 				&& accept.contains("text/html")) {
-			rRequest.setSessionAttr(MVCConst.SESSION_ATTRI_LASTURL,
-					rRequest.getRequestAndQueryStringUrl());
+			setLastUrl(rRequest, rRequest.getRequestAndQueryStringUrl());
 		}
 		return EFilterResult.SUCCESS;
 	}
 
-	// public static void setLastUrl(final PageRequestResponse rRequest, final
-	// String url) {
-	// rRequest.setSessionAttr(MVCConst.SESSION_ATTRI_LASTURL, url);
-	// }
+	protected void setLastUrl(final PageRequestResponse rRequest, final String url) {
+		rRequest.setSessionAttr(MVCConst.SESSION_ATTRI_LASTURL, url);
+	}
 
-	public static String getLastUrl(final PageRequestResponse rRequest) {
+	public String getLastUrl(final PageRequestResponse rRequest) {
 		final String lastUrl = (String) rRequest.getSessionAttr(MVCConst.SESSION_ATTRI_LASTURL);
-		rRequest.removeSessionAttr(MVCConst.SESSION_ATTRI_LASTURL);
+		// rRequest.removeSessionAttr(MVCConst.SESSION_ATTRI_LASTURL);
 		return lastUrl;
 	}
 }

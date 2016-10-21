@@ -74,8 +74,16 @@ public class MVCContext extends AbstractApplicationContextBase implements IMVCCo
 		super.onAfterInit();
 
 		addFilterListener(new UtilsFilterListener());
-		addFilterListener(new LastUrlListener());
-		addFilterListener(new PermissionFilterListener());
+		addFilterListener(createLastUrlListener());
+		addFilterListener(createPermissionFilterListener());
+	}
+
+	protected IFilterListener createLastUrlListener() {
+		return new LastUrlListener();
+	}
+
+	protected IFilterListener createPermissionFilterListener() {
+		return new PermissionFilterListener();
 	}
 
 	@Override
