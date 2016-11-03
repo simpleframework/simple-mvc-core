@@ -132,7 +132,7 @@ public class PageResponse extends HttpServletResponseWrapper implements IMVCSett
 			// 至少是CharArrayWriter的一半时间
 			// writer = new PrintWriter(output = new CharArrayWriter());
 			writer = new PrintWriter(output = new Writer() {
-				final StringBuffer buffer = new StringBuffer(1024);
+				final StringBuilder buffer = new StringBuilder(4096);
 
 				@Override
 				public void write(final char[] cbuf, final int off, final int len) throws IOException {
@@ -164,7 +164,8 @@ public class PageResponse extends HttpServletResponseWrapper implements IMVCSett
 	public static void main(final String[] args) {
 		final int c = 100000000;
 		final int l = 10000;
-		final StringBuilder sb1 = new StringBuilder(1024);
+		final int capacity = 4096;
+		final StringBuilder sb1 = new StringBuilder(capacity);
 		long time = System.currentTimeMillis();
 		for (int i = 0; i < c; i++) {
 			sb1.append("c");
@@ -174,7 +175,7 @@ public class PageResponse extends HttpServletResponseWrapper implements IMVCSett
 		}
 		System.out.println("StringBuilder: " + (System.currentTimeMillis() - time));
 
-		final CharArrayWriter sb2 = new CharArrayWriter();
+		final CharArrayWriter sb2 = new CharArrayWriter(capacity);
 		time = System.currentTimeMillis();
 		for (int i = 0; i < c; i++) {
 			sb2.append("c");
@@ -184,7 +185,7 @@ public class PageResponse extends HttpServletResponseWrapper implements IMVCSett
 		}
 		System.out.println("CharArrayWriter: " + (System.currentTimeMillis() - time));
 
-		final StringBuffer sb3 = new StringBuffer(1024);
+		final StringBuffer sb3 = new StringBuffer(capacity);
 		time = System.currentTimeMillis();
 		for (int i = 0; i < c; i++) {
 			sb3.append("c");
