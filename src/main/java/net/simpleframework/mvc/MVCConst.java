@@ -1,5 +1,7 @@
 package net.simpleframework.mvc;
 
+import net.simpleframework.ctx.settings.ContextSettings;
+
 /**
  * Licensed under the Apache License, Version 2.0
  * 
@@ -30,6 +32,5 @@ public class MVCConst {
 	/* html */
 	public static final String HTML_BASE64_CLASS = "html_base64_class";
 
-	/* images cache */
-	public static final String IMAGES_CACHE_PATH = "/$image_cache/";
+	public static final String IMAGES_PATH = ContextSettings.HOME_PATH + "images";
 }

@@ -18,6 +18,7 @@ import net.simpleframework.common.object.ObjectUtils;
 import net.simpleframework.common.th.ThrowableUtils;
 import net.simpleframework.common.web.HttpUtils;
 import net.simpleframework.ctx.common.bean.AttachmentFile;
+import net.simpleframework.mvc.IMVCSettingsAware;
 import net.simpleframework.mvc.MVCConst;
 import net.simpleframework.mvc.MVCUtils;
 import net.simpleframework.mvc.PageRequestResponse;
@@ -28,7 +29,7 @@ import net.simpleframework.mvc.PageRequestResponse;
  * @author 陈侃(cknet@126.com, 13910090885) https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
-public class ImageCache extends ObjectEx {
+public class ImageCache extends ObjectEx implements IMVCSettingsAware {
 	public static void setNoImagePath(final String path) {
 		NO_IMAGE_PATH = path;
 	}
@@ -69,7 +70,7 @@ public class ImageCache extends ObjectEx {
 
 	private String _load(final ImageStream iStream) {
 		final String _id = Convert.toString(iStream.id);
-		final File dir = new File(MVCUtils.getRealPath(MVCConst.IMAGES_CACHE_PATH + _id));
+		final File dir = mvcSettings.getHomeFile("/images/", _id);
 		if (overwrite) {
 			try {
 				FileUtils.deleteAll(dir, true);
@@ -172,7 +173,7 @@ public class ImageCache extends ObjectEx {
 	public String getPath(final PageRequestResponse rRequest) {
 		String path;
 		if (StringUtils.hasText(_filename)) {
-			path = rRequest.wrapContextPath(MVCConst.IMAGES_CACHE_PATH + _filename);
+			path = rRequest.wrapContextPath(MVCConst.IMAGES_PATH + "/" + _filename);
 		} else {
 			if (StringUtils.hasText(NO_IMAGE_PATH)) {
 				path = rRequest.wrapContextPath(NO_IMAGE_PATH);

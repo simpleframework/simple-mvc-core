@@ -92,8 +92,8 @@ public class MVCSettings extends ContextSettings {
 		return null;
 	}
 
-	private static Set<String> pKeys = new HashSet<String>(
-			Arrays.asList(new String[] { MVCConst.REQUEST_ID, MVCConst.PARAM_XMLPATH }));
+	private static Set<String> pKeys = new HashSet<String>(Arrays.asList(new String[] {
+			MVCConst.REQUEST_ID, MVCConst.PARAM_XMLPATH }));
 
 	/**
 	 * 获取系统请求参数

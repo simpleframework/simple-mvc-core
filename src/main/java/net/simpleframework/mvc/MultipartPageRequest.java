@@ -21,18 +21,14 @@ import net.simpleframework.lib.com.oreilly.servlet.MultipartRequest;
  *         https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
-public class MultipartPageRequest extends HttpServletRequestWrapper
-		implements IMultipartPageRequest, IMVCSettingsAware {
+public class MultipartPageRequest extends HttpServletRequestWrapper implements
+		IMultipartPageRequest, IMVCSettingsAware {
 	private final MultipartRequest mRequest;
 
 	public MultipartPageRequest(final HttpServletRequest request, final int maxUploadSize)
 			throws IOException {
 		super(request);
-		final File dir = new File(mvcSettings.getTmpFiledir().getAbsolutePath() + File.separator
-				+ "uploads" + File.separator);
-		if (!dir.exists()) {
-			FileUtils.createDirectoryRecursively(dir);
-		}
+		final File dir = mvcSettings.getHomeFile("/uploads/");
 		mRequest = new MultipartRequest(request, dir.getAbsolutePath(), maxUploadSize,
 				mvcSettings.getCharset());
 	}
@@ -40,7 +36,7 @@ public class MultipartPageRequest extends HttpServletRequestWrapper
 	@SuppressWarnings("unchecked")
 	@Override
 	public Enumeration<String> getParameterNames() {
-		return (Enumeration<String>) mRequest.getParameterNames();
+		return mRequest.getParameterNames();
 	}
 
 	@Override
@@ -56,7 +52,7 @@ public class MultipartPageRequest extends HttpServletRequestWrapper
 	@SuppressWarnings("unchecked")
 	@Override
 	public Enumeration<String> getFileNames() {
-		return (Enumeration<String>) mRequest.getFileNames();
+		return mRequest.getFileNames();
 	}
 
 	@Override
