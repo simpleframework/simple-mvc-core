@@ -28,7 +28,7 @@ public class MultipartPageRequest extends HttpServletRequestWrapper
 	public MultipartPageRequest(final HttpServletRequest request, final int maxUploadSize)
 			throws IOException {
 		super(request);
-		final File dir = mvcSettings.getHomeFile("/uploads/");
+		final File dir = mvcSettings.getAttachDir();
 		mRequest = new MultipartRequest(request, dir.getAbsolutePath(), maxUploadSize,
 				mvcSettings.getCharset());
 	}
