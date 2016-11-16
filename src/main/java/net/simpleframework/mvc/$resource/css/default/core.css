@@ -80,11 +80,6 @@
 	table-layout: fixed;
 }
 
-.wrap_text {
-	word-wrap: break-word;
-	word-break: break-all;
-}
-
 .error_image {
 	vertical-align: middle;
 	width: 32px;
