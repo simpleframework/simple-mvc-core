@@ -120,16 +120,9 @@ public class MVCFilter extends ObjectEx implements Filter {
 					if (abstractPage != null) {
 						forward = abstractPage.forward(pp);
 						/* forward函数调用write，直接交给httpResponse并返回 */
-						String rHTML = _response.toString();
-						if (rHTML == null) {
-							if (forward instanceof JavascriptForward) {
-								rHTML = JavascriptUtils.wrapScriptTag(forward.toString());
-							}
-						}
+						final String rHTML = _response.toString();
 						if (rHTML != null) {
-							final PrintWriter writer = httpResponse.getWriter();
-							writer.write(rHTML);
-							writer.close();
+							write(pp, rHTML, getResponseCharset(rRequest));
 							return;
 						}
 					}
@@ -175,6 +168,9 @@ public class MVCFilter extends ObjectEx implements Filter {
 						}
 					}
 
+					if (forward instanceof JavascriptForward) {
+						rHTML = "<div>" + JavascriptUtils.wrapScriptTag(rHTML) + "</div>";
+					}
 					/* 写入response */
 					write(pp, rHTML, getResponseCharset(rRequest));
 				}

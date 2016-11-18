@@ -21,8 +21,17 @@ public class JavascriptForward extends TextForward {
 	}
 
 	public static final JavascriptForward loc(final String url, final boolean open) {
-		return new JavascriptForward("$Actions.loc(\"").append(url).append("\", ").append(open)
-				.append(");");
+		final JavascriptForward js = new JavascriptForward("$Actions.loc(\"").append(url)
+				.append("\"");
+		if (open) {
+			js.append(", true");
+		}
+		js.append(");");
+		return js;
+	}
+
+	public static final JavascriptForward login(final PageParameter pp) {
+		return JavascriptForward.loc(mvcSettings.getLoginPath(pp));
 	}
 
 	public JavascriptForward(final String javascript) {
