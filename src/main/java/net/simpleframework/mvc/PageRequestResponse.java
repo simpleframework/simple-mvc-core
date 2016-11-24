@@ -22,7 +22,9 @@ import eu.bitwalker.useragentutils.Browser;
 import eu.bitwalker.useragentutils.DeviceType;
 import eu.bitwalker.useragentutils.UserAgent;
 import net.simpleframework.common.Convert;
+import net.simpleframework.common.FileUtils;
 import net.simpleframework.common.ID;
+import net.simpleframework.common.ImageUtils;
 import net.simpleframework.common.StringUtils;
 import net.simpleframework.common.coll.KVMap;
 import net.simpleframework.common.coll.ParameterMap;
@@ -440,7 +442,8 @@ public class PageRequestResponse extends ObjectEx implements IMVCSettingsAware {
 
 	public OutputStream getBinaryOutputStream(final String filename, final long filesize)
 			throws IOException {
-		final boolean inline = filename != null && filename.endsWith(".pdf");
+		final boolean inline = filename != null && (filename.endsWith(".pdf")
+				|| ImageUtils.isImage(FileUtils.getFilenameExtension(filename)));
 		return HttpUtils.getBinaryOutputStream(request, response, filename, filesize, inline);
 	}
 
