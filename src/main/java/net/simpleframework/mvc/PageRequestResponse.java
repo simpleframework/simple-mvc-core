@@ -440,7 +440,8 @@ public class PageRequestResponse extends ObjectEx implements IMVCSettingsAware {
 
 	public OutputStream getBinaryOutputStream(final String filename, final long filesize)
 			throws IOException {
-		return HttpUtils.getBinaryOutputStream(request, response, filename, filesize);
+		final boolean inline = filename != null && filename.endsWith(".pdf");
+		return HttpUtils.getBinaryOutputStream(request, response, filename, filesize, inline);
 	}
 
 	public ID toID(final String key) {
