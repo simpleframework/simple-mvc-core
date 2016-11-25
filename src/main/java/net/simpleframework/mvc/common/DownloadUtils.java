@@ -96,7 +96,7 @@ public abstract class DownloadUtils implements IMVCSettingsAware {
 		} else {
 			final OutputStream outputStream = rRequest.getBinaryOutputStream(
 					HttpUtils.toLocaleString(rRequest.getParameter("filename")),
-					rRequest.getIntParameter("size"));
+					rRequest.getIntParameter("size"), rRequest.getBoolParameter("inline"));
 
 			final String[] headers = StringUtils.split(rRequest.getParameter("response-headers"), ";");
 			if (headers != null) {
