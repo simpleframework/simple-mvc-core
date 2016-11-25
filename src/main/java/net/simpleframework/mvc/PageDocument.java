@@ -37,8 +37,6 @@ import net.simpleframework.mvc.component.IComponentRegistry;
  *         http://www.simpleframework.net
  */
 public class PageDocument extends XmlDocument implements java.io.Serializable {
-	private static final long serialVersionUID = -2178587635953151425L;
-
 	private Class<? extends AbstractMVCPage> pageClass;
 
 	private File documentFile;
@@ -92,20 +90,21 @@ public class PageDocument extends XmlDocument implements java.io.Serializable {
 		this.firstCreated = firstCreated;
 	}
 
-	@SuppressWarnings("serial")
+	public static class _LinkedHashMap extends LinkedHashMap<String, AbstractComponentBean> {
+		@Override
+		public AbstractComponentBean put(final String key, final AbstractComponentBean value) {
+			ComponentUtils.putComponent(value);
+			return super.put(key, value);
+		}
+
+		private static final long serialVersionUID = 3289502196957840697L;
+	}
+
 	private void init(final PageRequestResponse rRequest) {
 		final PageParameter pp = PageParameter.get(rRequest, this);
 
 		pageBean = (PageBean) new PageBean(this).setElement(getRoot());
-		pp.setRequestAttr(DECLARED_COMPONENTs,
-				componentsCache = new LinkedHashMap<String, AbstractComponentBean>() {
-					@Override
-					public AbstractComponentBean put(final String key,
-							final AbstractComponentBean value) {
-						ComponentUtils.putComponent(value);
-						return super.put(key, value);
-					}
-				});
+		pp.setRequestAttr(DECLARED_COMPONENTs, componentsCache = new _LinkedHashMap());
 
 		try {
 			final AbstractMVCPage abstractMVCPage = singleton(pageClass);
@@ -273,7 +272,22 @@ public class PageDocument extends XmlDocument implements java.io.Serializable {
 		return getRunningComponentBeans(pp, true);
 	}
 
-	@SuppressWarnings({ "unchecked", "serial" })
+	public static class _LinkedHashMap2 extends LinkedHashMap<String, AbstractComponentBean> {
+		@Override
+		public AbstractComponentBean put(final String key,
+				final AbstractComponentBean componentBean) {
+			// 不在PageDocument中的components，则缓存到session中
+			final String hashId = componentBean.hashId();
+			if (ComponentUtils.getComponent(hashId) == null) {
+				SessionCache.lput(hashId, componentBean);
+			}
+			return super.put(key, componentBean);
+		}
+
+		private static final long serialVersionUID = 1581551324016711734L;
+	}
+
+	@SuppressWarnings({ "unchecked" })
 	private Map<String, AbstractComponentBean> getRunningComponentBeans(PageParameter pp,
 			final boolean cache) {
 		PageDocument pageDocument = null;
@@ -295,18 +309,7 @@ public class PageDocument extends XmlDocument implements java.io.Serializable {
 			}
 		}
 
-		componentBeans = new LinkedHashMap<String, AbstractComponentBean>() {
-			@Override
-			public AbstractComponentBean put(final String key,
-					final AbstractComponentBean componentBean) {
-				// 不在PageDocument中的components，则缓存到session中
-				final String hashId = componentBean.hashId();
-				if (ComponentUtils.getComponent(hashId) == null) {
-					SessionCache.lput(hashId, componentBean);
-				}
-				return super.put(key, componentBean);
-			}
-		};
+		componentBeans = new _LinkedHashMap2();
 		if (cache) {
 			pp.setRequestAttr(docKey, componentBeans);
 		}
@@ -484,4 +487,6 @@ public class PageDocument extends XmlDocument implements java.io.Serializable {
 	final static String TAG_IMPORT_JAVASCRIPT = "importJavascript";
 	final static String TAG_IMPORT_CSS = "importCSS";
 	final static String TAG_VALUE = "value";
+
+	private static final long serialVersionUID = -2178587635953151425L;
 }
