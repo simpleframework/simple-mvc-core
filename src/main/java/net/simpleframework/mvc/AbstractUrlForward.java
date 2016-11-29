@@ -58,6 +58,8 @@ public abstract class AbstractUrlForward extends AbstractForward {
 				&& (parent = document.getPageClass()) != null) {
 			qMap.put(MVCConst.PARAM_PARENT_PAGE, parent.getName());
 		}
+		qMap.put(MVCConst.PARAM_PARENT_HTTP, rRequest.isHttpRequest());
+
 		/* 加入引用地址 */
 		if (!StringUtils.hasText(rRequest.getRefererParam())) {
 			qMap.put(MVCConst.PARAM_REFERER, rRequest.getRequestAndQueryStringUrl());

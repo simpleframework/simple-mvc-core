@@ -18,6 +18,7 @@ public class MVCConst {
 	public static final String PARAM_XMLPATH = "_xmlpath";
 	public static final String PARAM_REFERER = "_referer";
 	public static final String PARAM_PARENT_PAGE = "_parent";
+	public static final String PARAM_PARENT_HTTP = "_parent_http";
 
 	/* request attribute */
 

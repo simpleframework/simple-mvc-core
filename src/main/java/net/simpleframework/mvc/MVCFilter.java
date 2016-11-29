@@ -247,15 +247,22 @@ public class MVCFilter extends ObjectEx implements Filter {
 					"$error(" + JsonUtils.toJSON(MVCUtils.createException(rRequest, th)) + ");");
 			write(rRequest, JsonUtils.toJSON(json), charset);
 		} else {
-			SessionCache.lput(MVCConst.SESSION_ATTRI_THROWABLE, th);
 			if (rRequest.isHttpClientRequest()) {
-				// 如果是HttpClient请求,则生成跳转脚本
-				final StringBuilder sb = new StringBuilder();
+				final StringBuilder sb = new StringBuilder("<div>");
 				sb.append(HtmlConst.TAG_SCRIPT_START);
-				sb.append(JS.loc(getRedirectError(rRequest)));
+				if (rRequest.getBoolParameter(MVCConst.PARAM_PARENT_HTTP)) {
+					SessionCache.lput(MVCConst.SESSION_ATTRI_THROWABLE, th);
+					// 如果是HttpClient请求,则生成跳转脚本
+					sb.append(JS.loc(getRedirectError(rRequest)));
+				} else {
+					sb.append("$error(").append(JsonUtils.toJSON(MVCUtils.createException(rRequest, th)))
+							.append(");");
+				}
 				sb.append(HtmlConst.TAG_SCRIPT_END);
+				sb.append("</div>");
 				write(rRequest, sb.toString(), charset);
 			} else {
+				SessionCache.lput(MVCConst.SESSION_ATTRI_THROWABLE, th);
 				rRequest.loc(getRedirectError(rRequest));
 			}
 		}
