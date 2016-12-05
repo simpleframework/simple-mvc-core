@@ -270,8 +270,9 @@ public class MVCFilter extends ObjectEx implements Filter {
 
 	private String getRedirectError(final PageRequestResponse rRequest) throws IOException {
 		final StringBuilder sb = new StringBuilder();
-		sb.append(MVCUtils.getPageResourcePath()).append("/jsp/error_template.jsp?systemErrorPage=");
-		sb.append(MVCContext.get().getMVCSettings().getErrorPath(rRequest));
+		rRequest.setSessionAttr("systemErrorPage",
+				MVCContext.get().getMVCSettings().getErrorPath(rRequest));
+		sb.append(MVCUtils.getPageResourcePath()).append("/jsp/error_template.jsp");
 		return sb.toString();
 	}
 
