@@ -1,5 +1,6 @@
 /**
- * @author 陈侃(cknet@126.com, 13910090885) https://github.com/simpleframework
+ * @author 陈侃(cknet@126.com, 13910090885) 
+ *         https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
 var Browser = {
@@ -29,10 +30,20 @@ var $Actions = {
         && url.toUpperCase().lastIndexOf(CONTEXT_PATH.toUpperCase(), 0) != 0) {
       url = CONTEXT_PATH + url;
     }
-    if (open)
-      window.open(url);
-    else
-      window.location = url;
+    
+    if (Browser.IE && Browser.IEVersion <= 8) {
+      var link = document.createElement('a');
+      link.href = url;
+      if (open)
+        link.target = "_blank";
+      document.body.appendChild(link);
+      link.click(); 
+    } else {
+      if (open)
+        window.open(url);
+      else
+        window.location = url;
+    }
   },
 
   reloc : function(params) {
