@@ -1,7 +1,5 @@
 package net.simpleframework.mvc.common;
 
-import static net.simpleframework.common.I18n.$m;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -17,7 +15,6 @@ import net.simpleframework.common.object.ObjectFactory;
 import net.simpleframework.common.web.HttpUtils;
 import net.simpleframework.ctx.common.bean.AttachmentFile;
 import net.simpleframework.mvc.IMVCSettingsAware;
-import net.simpleframework.mvc.MVCException;
 import net.simpleframework.mvc.MVCUtils;
 import net.simpleframework.mvc.PageRequestResponse;
 
@@ -86,7 +83,9 @@ public abstract class DownloadUtils implements IMVCSettingsAware {
 				anonymous = mvcSettings.isAnonymousDownload(rRequest);
 			}
 			if (!anonymous) {
-				throw MVCException.of($m("DownloadUtils.0"));
+				rRequest.response.sendRedirect(mvcSettings.getLoginPath(rRequest));
+				return;
+				// throw MVCException.of($m("DownloadUtils.0"));
 			}
 		}
 

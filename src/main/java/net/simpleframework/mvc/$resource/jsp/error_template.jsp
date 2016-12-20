@@ -5,7 +5,7 @@
 	String url = (String) session.getAttribute("systemErrorPage");
 	session.removeAttribute("systemErrorPage");
 	if (!StringUtils.hasText(url)) {
-		return;
+		url = "/";
 	}
 %>
 <script type="text/javascript">

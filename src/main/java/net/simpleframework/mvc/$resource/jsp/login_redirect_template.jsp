@@ -4,7 +4,7 @@
 	String url = (String) session.getAttribute("login_redirect");
 	session.removeAttribute("login_redirect");
 	if (!StringUtils.hasText(url)) {
-		return;
+    url = "/";
 	}
 %>
 <script type="text/javascript">
