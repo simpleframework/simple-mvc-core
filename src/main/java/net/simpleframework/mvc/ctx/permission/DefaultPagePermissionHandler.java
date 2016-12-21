@@ -112,6 +112,7 @@ public class DefaultPagePermissionHandler extends DefaultPermissionHandler
 				}
 			}
 		}
+		rRequest.setRequestAttr("_photoFile", photoFile);
 		sb.append(MVCConst.IMAGES_PATH).append("/").append(id).append("/").append(filename)
 				.append("?last=").append(photoFile.lastModified());
 		return sb.toString();
