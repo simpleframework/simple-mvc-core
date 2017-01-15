@@ -518,6 +518,10 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 	public void onHtmlNormalise(final PageParameter pp, final Element element) {
 	}
 
+	protected final Meta MOBILE_VIEWPORT = new Meta(
+			"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0")
+					.setName("viewport");
+
 	/**
 	 * 页面的meta信息，http请求时触发
 	 * 
