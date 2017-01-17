@@ -47,9 +47,13 @@ public class MVCHtmlBuilder extends ObjectEx implements IMVCSettingsAware {
 		final StringBuilder sb = new StringBuilder();
 		sb.append("body, body * { font-family: Verdana,");
 		final OperatingSystem os = pp.getUserAgentUtils().getOperatingSystem();
-		if (os.getGroup() == OperatingSystem.WINDOWS
-				&& os.getId() > OperatingSystem.WINDOWS_XP.getId()) {
-			sb.append("'Microsoft YaHei',");
+		final OperatingSystem group = os.getGroup();
+		if (group == OperatingSystem.WINDOWS) {
+			if (os.getId() > OperatingSystem.WINDOWS_XP.getId()) {
+				sb.append("'Microsoft YaHei',");
+			}
+		} else if (group == OperatingSystem.IOS) {
+			sb.append("'PingFang',");
 		}
 		sb.append("Helvetica,Arial,Sans-Serif");
 		sb.append("; }");
