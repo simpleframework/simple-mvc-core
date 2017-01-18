@@ -6,12 +6,18 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
 import net.simpleframework.common.Convert;
+import net.simpleframework.common.logger.Log;
+import net.simpleframework.common.logger.LogFactory;
+import net.simpleframework.ctx.IApplicationContext;
+import net.simpleframework.ctx.task.ExecutorRunnable;
+import net.simpleframework.mvc.AbstractUrlForward.RequestData;
 
 /**
  * Licensed under the Apache License, Version 2.0
@@ -40,10 +46,10 @@ public class SessionCache {
 
 	public SessionCache(final ISessionAttribute sAttribute) {
 		this.sAttribute = sAttribute;
-		if (all == null) {
-			all = new ArrayList<SessionCache>();
+		if (allSessionCache == null) {
+			allSessionCache = new ArrayList<SessionCache>();
 		}
-		all.add(this);
+		allSessionCache.add(this);
 	}
 
 	public Object get(final Object key) {
@@ -68,7 +74,7 @@ public class SessionCache {
 
 	public static class DefaultSessionAttribute implements ISessionAttribute {
 
-		private final Map<String, Map<String, Object>> _attributes = new ConcurrentHashMap<String, Map<String, Object>>();
+		final Map<String, Map<String, Object>> _attributes = new ConcurrentHashMap<String, Map<String, Object>>();
 
 		protected Map<String, Object> getAttributes(final String sessionId) {
 			if (sessionId == null) {
@@ -79,6 +85,11 @@ public class SessionCache {
 				_attributes.put(sessionId, attributes = new HashMap<String, Object>());
 			}
 			return attributes;
+		}
+
+		@Override
+		public Set<String> sessionKeys() {
+			return _attributes.keySet();
 		}
 
 		@Override
@@ -137,8 +148,8 @@ public class SessionCache {
 		@Override
 		public void sessionDestroyed(final HttpSessionEvent httpSessionEvent) {
 			final String jsessionId = httpSessionEvent.getSession().getId();
-			if (all != null) {
-				for (final SessionCache cache : all) {
+			if (allSessionCache != null) {
+				for (final SessionCache cache : allSessionCache) {
 					cache.sAttribute.sessionDestroyed(jsessionId);
 				}
 			}
@@ -146,6 +157,30 @@ public class SessionCache {
 		}
 	};
 
-	private static List<SessionCache> all;
-	// private static Log log = LogFactory.getLogger(SessionCache.class);
+	static {
+		((IApplicationContext) MVCContext.get()).getTaskExecutor()
+				.addScheduledTask(new ExecutorRunnable() {
+					@Override
+					protected void task(final Map<String, Object> cache) throws Exception {
+						final Set<String> sessionKeys = DEFAULT.sAttribute.sessionKeys();
+						System.out.println("DEFAULT sessionKeys: " + sessionKeys.size());
+						int i = 0;
+						for (final String skey : sessionKeys) {
+							final Enumeration<String> e = DEFAULT.sAttribute.getAttributeNames(skey);
+							while ((e.hasMoreElements())) {
+								final String key = e.nextElement();
+								final Object val = DEFAULT.sAttribute.get(skey, key);
+								if (val instanceof RequestData) {
+									i++;
+								}
+							}
+						}
+						System.out.println("RequestData size: " + i);
+					}
+				});
+	}
+
+	static List<SessionCache> allSessionCache;
+
+	static Log log = LogFactory.getLogger(SessionCache.class);
 }

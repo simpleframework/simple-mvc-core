@@ -1,6 +1,7 @@
 package net.simpleframework.mvc;
 
 import java.util.Enumeration;
+import java.util.Set;
 
 /**
  * Licensed under the Apache License, Version 2.0
@@ -39,6 +40,8 @@ public interface ISessionAttribute {
 	 * @return
 	 */
 	Enumeration<String> getAttributeNames(String sessionId);
+
+	Set<String> sessionKeys();
 
 	/**
 	 * 当session销毁时触发

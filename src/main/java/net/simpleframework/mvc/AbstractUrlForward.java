@@ -6,7 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import net.simpleframework.common.Convert;
+import net.simpleframework.common.ID;
 import net.simpleframework.common.StringUtils;
 import net.simpleframework.common.th.RuntimeExceptionEx;
 import net.simpleframework.common.web.HttpUtils;
@@ -101,37 +101,15 @@ public abstract class AbstractUrlForward extends AbstractForward {
 
 	public static String putRequestData(final PageRequestResponse rRequest,
 			final String includeRequestData) {
-		return putRequestData(rRequest, includeRequestData, false);
-	}
-
-	static Object lock = new Object();
-
-	static long COUNTER = 0;
-
-	static final String KEEP_REQUESTDATA_CACHE = "keep_requestdata_cache";
-
-	public static String putRequestData(final PageRequestResponse rRequest,
-			final String includeRequestData, final boolean keepCache) {
-		String requestId;
-		synchronized (lock) {
-			requestId = String.valueOf(COUNTER++);
-		}
-
+		final String requestId = ID.uid().toString();
 		SessionCache.lput(requestId, new RequestData(rRequest, includeRequestData));
-		String p = MVCConst.REQUEST_ID + "=" + requestId;
-		if (keepCache) {
-			p += "&" + KEEP_REQUESTDATA_CACHE + "=true";
-		}
+		final String p = MVCConst.REQUEST_ID + "=" + requestId;
 		return p;
 	}
 
 	static RequestData getRequestDataByRequest(final HttpServletRequest httpRequest) {
 		final String requestId = httpRequest.getParameter(MVCConst.REQUEST_ID);
-		if (Convert.toBool(httpRequest.getParameter(KEEP_REQUESTDATA_CACHE))) {
-			return (RequestData) SessionCache.lget(requestId);
-		} else {
-			return (RequestData) SessionCache.lremove(requestId);
-		}
+		return (RequestData) SessionCache.lremove(requestId);
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })

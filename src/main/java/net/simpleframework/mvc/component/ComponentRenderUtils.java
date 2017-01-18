@@ -2,16 +2,20 @@ package net.simpleframework.mvc.component;
 
 import java.util.Map;
 
+import net.simpleframework.common.Convert;
 import net.simpleframework.common.JsonUtils;
 import net.simpleframework.common.StringUtils;
 import net.simpleframework.common.web.JavascriptUtils;
+import net.simpleframework.ctx.IApplicationContext;
 import net.simpleframework.mvc.AbstractUrlForward;
+import net.simpleframework.mvc.MVCContext;
 import net.simpleframework.mvc.common.element.InputElement;
 
 /**
  * Licensed under the Apache License, Version 2.0
  * 
- * @author 陈侃(cknet@126.com, 13910090885) https://github.com/simpleframework
+ * @author 陈侃(cknet@126.com, 13910090885)
+ *         https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
 public abstract class ComponentRenderUtils {
@@ -84,10 +88,12 @@ public abstract class ComponentRenderUtils {
 			final String strVar) {
 		// 优先级：requestData < selector < parameters
 		final String includeRequestData = (String) cp.getBeanProperty("includeRequestData");
-		// if (StringUtils.hasText(includeRequestData)) {
-		sb.append(strVar).append(" = ").append(strVar).append(".addParameter(\"");
-		sb.append(AbstractUrlForward.putRequestData(cp, includeRequestData)).append("\");");
-		// }
+		if (StringUtils.hasText(includeRequestData)
+				|| Convert.toBool(((IApplicationContext) MVCContext.get()).getContextSettings()
+						.getProperty("requestdata"))) {
+			sb.append(strVar).append(" = ").append(strVar).append(".addParameter(\"");
+			sb.append(AbstractUrlForward.putRequestData(cp, includeRequestData)).append("\");");
+		}
 		sb.append(strVar).append(" = ").append(strVar).append(".addSelectorParameter(");
 		sb.append(actionFunc(cp)).append(".selector");
 		final String selector = (String) cp.getBeanProperty("selector");
