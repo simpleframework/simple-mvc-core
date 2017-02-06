@@ -7,6 +7,11 @@
     url = "/";
 	}
 %>
+<html>
+<head>
+<title>#(location.jsp.0)</title>
 <script type="text/javascript">
-	(window.parent || window).location = "<%=url%>";
+  (window.parent || window).location = "<%=url%>";
 </script>
+</head>
+</html>
