@@ -99,7 +99,7 @@ public final class PageParser extends AbstractPageParser {
 			// title
 			final String title = pp.getDocumentTitle();
 			if (StringUtils.hasText(title)) {
-				htmlDoc.title(I18n.replaceI18n(title));
+				htmlDoc.title(title);
 			}
 			// meta
 			final Collection<Meta> coll = htmlBuilder.doHttpRequestMeta(pp);
