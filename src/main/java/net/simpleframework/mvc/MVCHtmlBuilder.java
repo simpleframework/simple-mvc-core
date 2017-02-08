@@ -55,7 +55,7 @@ public class MVCHtmlBuilder extends ObjectEx implements IMVCSettingsAware {
 		} else if (group == OperatingSystem.IOS) {
 			sb.append("'PingFang',");
 		}
-		sb.append("Helvetica,Arial,Sans-Serif");
+		sb.append("Lato,Helvetica,Arial,Sans-Serif");
 		sb.append("; }");
 		AbstractMVCPage page;
 		if ((page = pp.getPage()) != null) {
