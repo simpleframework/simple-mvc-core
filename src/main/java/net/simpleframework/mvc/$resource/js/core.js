@@ -234,6 +234,13 @@ var $UI = {
     if (p && p.toLowerCase().startsWith("javascript:"))
       p = eval(p.substring(11));
     return p;
+  },
+  
+  scrollTop : function() {
+    return window.pageYOffset 
+            || document.documentElement.scrollTop  
+            || document.body.scrollTop  
+            || 0;
   }
 };
 
