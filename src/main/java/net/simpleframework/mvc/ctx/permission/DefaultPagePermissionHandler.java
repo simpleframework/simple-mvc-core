@@ -105,10 +105,20 @@ public class DefaultPagePermissionHandler extends DefaultPermissionHandler
 				sb.append(MVCUtils.getPageResourcePath()).append("/images/none_user.gif");
 				return sb.toString();
 			} else {
+				FileOutputStream fStream = null;
 				try {
-					ImageUtils.thumbnail(inputStream, width, height, new FileOutputStream(photoFile));
+					fStream = new FileOutputStream(photoFile);
+					ImageUtils.thumbnail(inputStream, width, height, fStream);
 				} catch (final IOException e) {
 					getLog().warn(e);
+				} finally {
+					if (fStream != null) {
+						try {
+							fStream.close();
+						} catch (final IOException e) {
+							getLog().warn(e);
+						}
+					}
 				}
 			}
 		}

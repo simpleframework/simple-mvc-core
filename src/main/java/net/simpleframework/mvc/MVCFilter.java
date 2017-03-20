@@ -59,7 +59,7 @@ public class MVCFilter extends ObjectEx implements Filter {
 		 * 
 		 * 排除一些不必要的资源(js, css, image等)
 		 */
-		final String rURI = request.getRequestURI();
+		final String rURI = request.getRequestURI().toLowerCase();
 		if (rURI.indexOf("/$") > -1) {
 			return rURI.lastIndexOf(".jsp") > 0;
 		}
