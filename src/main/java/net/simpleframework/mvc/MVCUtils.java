@@ -137,6 +137,14 @@ public abstract class MVCUtils implements IMVCSettingsAware {
 		return ThrowableUtils.convertThrowable(th);
 	}
 
+	public static String getLoginUrl(final PageRequestResponse rRequest) {
+		String lUrl = mvcSettings.getLoginPath(rRequest);
+		if (!StringUtils.hasText(lUrl)) {
+			lUrl = MVCUtils.getPageResourcePath() + "/jsp/login_alert.jsp";
+		}
+		return rRequest.wrapContextPath(lUrl);
+	}
+
 	public static Map<String, Object> createException(final PageRequestResponse rRequest,
 			final Throwable th) {
 		final KVMap exception = new KVMap();

@@ -54,11 +54,7 @@ public class DefaultPagePermissionHandler extends DefaultPermissionHandler
 
 		String wUrl;
 		if (rRequest.isHttpRequest() || (wUrl = getLoginWindowRedirectUrl(rRequest)) == null) {
-			String lUrl = mvcSettings.getLoginPath(rRequest);
-			if (!StringUtils.hasText(lUrl)) {
-				lUrl = rPath + "/jsp/login_alert.jsp";
-			}
-			rRequest.setSessionAttr("login_redirect", rRequest.wrapContextPath(lUrl));
+			rRequest.setSessionAttr("login_redirect", MVCUtils.getLoginUrl(rRequest));
 			return rPath + "/jsp/login_redirect_template.jsp";
 		} else {
 			return wUrl;
