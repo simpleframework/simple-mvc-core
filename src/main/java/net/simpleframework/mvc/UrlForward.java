@@ -72,4 +72,10 @@ public class UrlForward extends AbstractUrlForward {
 				.append(AlgorithmUtils.base64Encode(text.getBytes())).append("</div>");
 		return sb.toString();
 	}
+
+	public static String getCookieRedirectUrl(final PageRequestResponse rRequest) {
+		final String redirect_url = rRequest.getCookie("redirect_url");
+		rRequest.addCookie("redirect_url", null);
+		return redirect_url;
+	}
 }

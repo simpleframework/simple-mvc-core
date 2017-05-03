@@ -4,6 +4,8 @@ import java.io.IOException;
 
 import javax.servlet.FilterChain;
 
+import net.simpleframework.common.StringUtils;
+
 /**
  * Licensed under the Apache License, Version 2.0
  * 
@@ -31,6 +33,11 @@ public class LastUrlListener implements IFilterListener {
 				&& (accept = rRequest.getRequestHeader("Accept")) != null
 				&& accept.contains("text/html")) {
 			setLastUrl(rRequest, rRequest.getRequestAndQueryStringUrl());
+
+			final String redirect_url = rRequest.getParameter("redirect_url");
+			if (StringUtils.hasText(redirect_url)) {
+				rRequest.addCookie("redirect_url", redirect_url);
+			}
 		}
 		return EFilterResult.SUCCESS;
 	}
