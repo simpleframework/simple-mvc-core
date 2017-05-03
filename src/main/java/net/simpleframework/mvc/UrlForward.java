@@ -72,4 +72,16 @@ public class UrlForward extends AbstractUrlForward {
 				.append(AlgorithmUtils.base64Encode(text.getBytes())).append("</div>");
 		return sb.toString();
 	}
+
+	private static final String SESSION_ATTRI_REDIRECTURL = "_redirecturl";
+
+	public static void setRedirectUrl(final PageRequestResponse rRequest, final String url) {
+		rRequest.setSessionAttr(SESSION_ATTRI_REDIRECTURL, url);
+	}
+
+	public static String getRedirectUrl(final PageRequestResponse rRequest) {
+		final String rUrl = (String) rRequest.getSessionAttr(SESSION_ATTRI_REDIRECTURL);
+		rRequest.removeSessionAttr(SESSION_ATTRI_REDIRECTURL);
+		return rUrl;
+	}
 }
