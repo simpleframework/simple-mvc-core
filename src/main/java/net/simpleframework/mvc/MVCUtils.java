@@ -156,5 +156,19 @@ public abstract class MVCUtils implements IMVCSettingsAware {
 		return exception;
 	}
 
+	private static String SESSION_ALERT_MSG = "_SESSION_ALERT_MSG";
+
+	public static void setSessionAlertMsg(final PageParameter pp, final Object message) {
+		final String msg = Convert.toString(message);
+		pp.setSessionAttr(SESSION_ALERT_MSG, msg);
+		System.out.println("==SessionAlertMsg==: " + msg);
+	}
+
+	public static String getSessionAlertMsg(final PageParameter pp) {
+		final String message = (String) pp.getSessionAttr(SESSION_ALERT_MSG);
+		pp.removeSessionAttr(SESSION_ALERT_MSG);
+		return message;
+	}
+
 	static Log log = LogFactory.getLogger(MVCUtils.class);
 }
