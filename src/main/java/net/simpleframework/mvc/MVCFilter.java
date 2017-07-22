@@ -105,9 +105,6 @@ public class MVCFilter extends ObjectEx implements Filter {
 				} else {
 					final PageResponse _response = (PageResponse) (rRequest.response = new PageResponse(
 							httpResponse, bHttpRequest));
-					if (rRequest.isGzipResponse()) {
-						_response.setGzipContentEncoding();
-					}
 
 					final PageParameter pp = PageParameter.get(rRequest, pageDocument);
 					/* 以下为后处理部分 */
@@ -142,6 +139,10 @@ public class MVCFilter extends ObjectEx implements Filter {
 							pp.loc(uf.getUrl());
 							return;
 						}
+					}
+
+					if (rRequest.isGzipResponse()) {
+						_response.setGzipContentEncoding();
 					}
 
 					String rHTML = forward != null ? forward.getResponseText(pp) : _response.toString();

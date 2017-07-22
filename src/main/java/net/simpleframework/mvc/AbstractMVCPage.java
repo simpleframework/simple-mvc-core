@@ -136,6 +136,8 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 		addHtmlViewVariable(pp, pageClass, variable, getClassName(pageClass) + ".html");
 	}
 
+	private static String FORWARD_URI = "#forward_uri";
+
 	/**
 	 * 页面的核心处理方法，该方法将委托给onForward和toHTML分别处理页面逻辑及展示
 	 * 
@@ -145,13 +147,26 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 	 * @return
 	 */
 	public IForward forward(final PageParameter pp) throws Exception {
-		final IForward _forward = getMethodForward(pp);
-		if (_forward != null) {
-			return _forward;
-		}
+		try {
+			if (pp.isHttpRequest()) {
+				final String uri = pp.getRequestURI();
+				if (uri.equals(pp.getSessionAttr(FORWARD_URI))) {
+					// 防止相同uri提交2次
+					return new TextForward(uri);
+				}
+				pp.setSessionAttr(FORWARD_URI, uri);
+			}
 
-		onForward(pp);
-		return new TextForward(getPageForward(pp, getOriginalClass(), getVariables(pp)));
+			final IForward _forward = getMethodForward(pp);
+			if (_forward != null) {
+				return _forward;
+			}
+
+			onForward(pp);
+			return new TextForward(getPageForward(pp, getOriginalClass(), getVariables(pp)));
+		} finally {
+			pp.removeSessionAttr(FORWARD_URI);
+		}
 	}
 
 	@SuppressWarnings("unchecked")
