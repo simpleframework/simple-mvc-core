@@ -32,6 +32,9 @@ public class Checkbox extends AbstractInputElement<Checkbox> {
 		}
 		sb.append(super.toString());
 		if (label != null) {
+			if (isStrong()) {
+				label.setStrong(true);
+			}
 			sb.append(label);
 		}
 		return sb.toString();
