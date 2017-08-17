@@ -31,7 +31,8 @@ var $Actions = {
       url = CONTEXT_PATH + url;
     }
     
-    if (Browser.IE && Browser.IEVersion <= 8) {
+    if ((Browser.IE && Browser.IEVersion <= 8) || 
+        /(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
       var link = document.createElement('a');
       link.href = url;
       if (open)
