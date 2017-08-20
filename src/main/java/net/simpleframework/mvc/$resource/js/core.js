@@ -9,6 +9,21 @@ var Browser = {
   }
 };
 
+var isMobile = {
+  android: function() {
+    return navigator.userAgent.match(/Android/i) ? true: false;
+  },
+  ios: function() {
+    return navigator.userAgent.match(/iPhone|iPad|iPod/i) ? true: false;
+  },
+  windows: function() {
+    return navigator.userAgent.match(/IEMobile/i) ? true: false;
+  },
+  any: function() {
+    return (isMobile.android() || isMobile.ios() || isMobile.windows());
+  }
+};
+
 var $call = function(o) {
   try {
     if (typeof o === "function") {
@@ -32,7 +47,7 @@ var $Actions = {
     }
     
     if ((Browser.IE && Browser.IEVersion <= 8) || 
-        /(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
+        isMobile.ios()) {
       var link = document.createElement('a');
       link.href = url;
       if (open)
@@ -242,6 +257,27 @@ var $UI = {
             || document.documentElement.scrollTop  
             || document.body.scrollTop  
             || 0;
+  },
+  
+  supportCss3 : function (style) {
+    var prefix = ['webkit', 'Moz', 'ms', 'o'],
+      i,
+      humpString = [],
+      htmlStyle = document.documentElement.style,
+      _toHumb = function (string) {
+        return string.replace(/-(\w)/g, function ($0, $1) {
+          return $1.toUpperCase();
+        });
+      };
+      
+    for (i in prefix) {
+      humpString.push(_toHumb(prefix[i] + '-' + style));
+    }
+    humpString.push(_toHumb(style));
+    for (i in humpString) {
+      if (humpString[i] in htmlStyle) return true;
+    }
+    return false;
   }
 };
 
