@@ -61,6 +61,9 @@ public abstract class DownloadUtils implements IMVCSettingsAware {
 
 		sb.append("&filename=").append(HttpUtils.encodeUrl(af.toFilename()));
 		sb.append("&size=").append(af.getSize());
+		if (Convert.toBool(af.getAttr("pdf"))) {
+			sb.append("&pdf=true");
+		}
 		sb.append("&filetype=").append(af.getExt());
 
 		if (anonymous != null) {
@@ -92,7 +95,11 @@ public abstract class DownloadUtils implements IMVCSettingsAware {
 
 		final String durl = rRequest.getParameter("durl");
 		if (StringUtils.hasText(durl)) {
-			rRequest.response.sendRedirect(durl);
+			if (rRequest.getBoolParameter("pdf")) {
+				rRequest.response.sendRedirect("/pdf/viewer?file=" + HttpUtils.encodeUrl(durl));
+			} else {
+				rRequest.response.sendRedirect(durl);
+			}
 		} else {
 			final OutputStream outputStream = rRequest.getBinaryOutputStream(
 					HttpUtils.toLocaleString(rRequest.getParameter("filename")),
