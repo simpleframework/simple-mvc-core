@@ -575,6 +575,20 @@ var $Effect = {};
       request += '?';
     return request + ret;
   };
+  
+  String.prototype.parseQueryString = function() {
+    var obj = {};
+    var kv = [];
+    var url = this.toString();
+    var paraString = url.substring(url.indexOf("?") + 1, url.length).split("&");
+    for (var i=0;i < paraString.length;i++) {
+      kv = paraString[i].split("=");
+      if (kv && kv.length ==2) {
+        obj[kv[0]] = kv[1];
+      }
+    }
+    return obj;
+  };
 
   String.prototype.makeElement = function() {
     var c = this.toString();
