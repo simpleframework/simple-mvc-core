@@ -53,6 +53,11 @@ public class MVCFilter extends ObjectEx implements Filter {
 		return new MVCContext();
 	}
 
+	protected PageRequestResponse createPageRequestResponse(final HttpServletRequest request,
+			final HttpServletResponse response) {
+		return new PageRequestResponse(request, response);
+	}
+
 	protected boolean isFilter(final HttpServletRequest request) {
 		/**
 		 * 此函数需要子类覆盖
@@ -85,8 +90,8 @@ public class MVCFilter extends ObjectEx implements Filter {
 			/* 设置jsessionid */
 			JsessionidUtils.setJSessionId(httpRequest);
 
-			final PageRequestResponse rRequest = new PageRequestResponse(new PageRequest(httpRequest),
-					httpResponse);
+			final PageRequestResponse rRequest = createPageRequestResponse(
+					new PageRequest(httpRequest), httpResponse);
 			try {
 				/* 计时start */
 				final boolean bHttpRequest = rRequest.isHttpRequest();
