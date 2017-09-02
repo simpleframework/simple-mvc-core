@@ -74,7 +74,8 @@ public class MVCFilter extends ObjectEx implements Filter {
 		return true;
 	}
 
-	protected String getRedirectUrl(final UrlForward urlForward) {
+	protected String getRedirectUrl(final PageRequestResponse rRequest,
+			final UrlForward urlForward) {
 		return urlForward.getUrl();
 	}
 
@@ -146,7 +147,7 @@ public class MVCFilter extends ObjectEx implements Filter {
 						UrlForward urlForward;
 						if (forward instanceof UrlForward
 								&& (urlForward = (UrlForward) forward).isRedirect()) {
-							pp.loc(getRedirectUrl(urlForward));
+							pp.loc(getRedirectUrl(rRequest, urlForward));
 							return;
 						}
 					}
