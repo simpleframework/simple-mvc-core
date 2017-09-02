@@ -74,6 +74,10 @@ public class MVCFilter extends ObjectEx implements Filter {
 		return true;
 	}
 
+	protected String getRedirectUrl(final UrlForward urlForward) {
+		return urlForward.getUrl();
+	}
+
 	@Override
 	public void doFilter(final ServletRequest request, final ServletResponse response,
 			final FilterChain filterChain) throws IOException, ServletException {
@@ -139,9 +143,10 @@ public class MVCFilter extends ObjectEx implements Filter {
 
 					if (bHttpRequest) {
 						// 重定向
-						UrlForward uf;
-						if (forward instanceof UrlForward && (uf = (UrlForward) forward).isRedirect()) {
-							pp.loc(uf.getUrl());
+						UrlForward urlForward;
+						if (forward instanceof UrlForward
+								&& (urlForward = (UrlForward) forward).isRedirect()) {
+							pp.loc(getRedirectUrl(urlForward));
 							return;
 						}
 					}
