@@ -87,7 +87,7 @@ public abstract class DownloadUtils implements IMVCSettingsAware {
 				anonymous = mvcSettings.isAnonymousDownload(rRequest);
 			}
 			if (!anonymous) {
-				rRequest.response.sendRedirect(mvcSettings.getLoginPath(rRequest));
+				rRequest.loc(mvcSettings.getLoginPath(rRequest));
 				return;
 				// throw MVCException.of($m("DownloadUtils.0"));
 			}
@@ -96,9 +96,9 @@ public abstract class DownloadUtils implements IMVCSettingsAware {
 		final String durl = rRequest.getParameter("durl");
 		if (StringUtils.hasText(durl)) {
 			if (rRequest.getBoolParameter("pdf")) {
-				rRequest.response.sendRedirect("/pdf/viewer?file=" + HttpUtils.encodeUrl(durl));
+				rRequest.loc("/pdf/viewer?file=" + HttpUtils.encodeUrl(durl));
 			} else {
-				rRequest.response.sendRedirect(durl);
+				rRequest.loc(durl);
 			}
 		} else {
 			final OutputStream outputStream = rRequest.getBinaryOutputStream(
