@@ -396,6 +396,10 @@ public class PageRequestResponse extends ObjectEx implements IMVCSettingsAware {
 		return userAgent;
 	}
 
+	public Browser getBrowser() {
+		return getUserAgentUtils().getBrowser();
+	}
+
 	public boolean isMobile() {
 		final UserAgent userAgent = getUserAgentUtils();
 		return userAgent.getOperatingSystem().getDeviceType() == DeviceType.MOBILE;
