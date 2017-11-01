@@ -96,7 +96,13 @@ public abstract class DownloadUtils implements IMVCSettingsAware {
 		final String durl = rRequest.getParameter("durl");
 		if (StringUtils.hasText(durl)) {
 			if (rRequest.getBoolParameter("pdf")) {
-				rRequest.loc("/pdf/viewer?file=" + HttpUtils.encodeUrl(durl));
+				String filename = rRequest.getParameter("filename");
+				final int p = filename.lastIndexOf(".");
+				if (p > 0) {
+					filename = filename.substring(0, p);
+				}
+				rRequest.loc("/pdf/viewer?topic=" + HttpUtils.encodeUrl(filename) + "&file="
+						+ HttpUtils.encodeUrl(durl));
 			} else {
 				rRequest.loc(durl);
 			}
