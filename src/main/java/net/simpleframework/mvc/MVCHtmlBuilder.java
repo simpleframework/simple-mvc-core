@@ -3,7 +3,6 @@ package net.simpleframework.mvc;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import eu.bitwalker.useragentutils.OperatingSystem;
 import net.simpleframework.common.object.ObjectEx;
 import net.simpleframework.lib.org.jsoup.nodes.Element;
 import net.simpleframework.mvc.common.element.Meta;
@@ -45,18 +44,18 @@ public class MVCHtmlBuilder extends ObjectEx implements IMVCSettingsAware {
 
 	public String doHttpRequestCSS(final PageParameter pp) {
 		final StringBuilder sb = new StringBuilder();
-		sb.append("body, body * { font-family: Verdana,");
-		final OperatingSystem os = pp.getUserAgentUtils().getOperatingSystem();
-		final OperatingSystem group = os.getGroup();
-		if (group == OperatingSystem.WINDOWS) {
-			if (os.getId() > OperatingSystem.WINDOWS_XP.getId()) {
-				sb.append("'Microsoft YaHei',");
-			}
-		} else if (group == OperatingSystem.IOS) {
-			sb.append("'PingFang',");
-		}
-		sb.append("Lato,Helvetica,Arial,Sans-Serif");
-		sb.append("; }");
+		// sb.append("body, body * { font-family: Verdana,");
+		// final OperatingSystem os = pp.getUserAgentUtils().getOperatingSystem();
+		// final OperatingSystem group = os.getGroup();
+		// if (group == OperatingSystem.WINDOWS) {
+		// if (os.getId() > OperatingSystem.WINDOWS_XP.getId()) {
+		// sb.append("'Microsoft YaHei',");
+		// }
+		// } else if (group == OperatingSystem.IOS) {
+		// sb.append("'PingFang',");
+		// }
+		// sb.append("Lato,Helvetica,Arial,Sans-Serif");
+		// sb.append("; }");
 		AbstractMVCPage page;
 		if ((page = pp.getPage()) != null) {
 			page.onHttpRequestCSS(pp, sb);
