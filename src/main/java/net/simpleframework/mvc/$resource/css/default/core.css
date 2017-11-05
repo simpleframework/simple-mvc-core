@@ -15,14 +15,10 @@
 
 .left {
   float: left;
-  word-break: keep-all;
-  word-wrap: normal;
 }
 
 .right {
   float: right;
-  word-break: keep-all;
-  word-wrap: normal;
 }
 
 .f1,
