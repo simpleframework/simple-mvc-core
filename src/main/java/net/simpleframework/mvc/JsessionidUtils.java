@@ -15,9 +15,9 @@ import net.simpleframework.common.StringUtils;
  *         http://www.simpleframework.net
  */
 public abstract class JsessionidUtils {
-	private static final ThreadLocal<String> SESSIONIDs = new ThreadLocal<String>();
+	private static final ThreadLocal<String> SESSIONIDs = new ThreadLocal<>();
 
-	private static Map<String, String> PARAM_SESSIONIDS = new ConcurrentHashMap<String, String>();
+	private static Map<String, String> PARAM_SESSIONIDS = new ConcurrentHashMap<>();
 
 	public static String getId() {
 		final String id = SESSIONIDs.get();

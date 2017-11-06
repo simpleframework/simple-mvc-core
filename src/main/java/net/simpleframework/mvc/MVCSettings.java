@@ -21,7 +21,7 @@ public class MVCSettings extends ContextSettings {
 	public MVCSettings(final IMVCContext context, final ContextSettings applicationSettings) {
 		final Map<String, String> packages = getFilterPackages();
 		if (packages != null) {
-			for (final String key : new ArrayList<String>(packages.keySet())) {
+			for (final String key : new ArrayList<>(packages.keySet())) {
 				if (key.endsWith("/")) {
 					packages.put(key.substring(0, key.length() - 1), packages.remove(key));
 				}
@@ -92,7 +92,7 @@ public class MVCSettings extends ContextSettings {
 		return null;
 	}
 
-	private static Set<String> pKeys = new HashSet<String>(
+	private static Set<String> pKeys = new HashSet<>(
 			Arrays.asList(new String[] { MVCConst.REQUEST_ID, MVCConst.PARAM_XMLPATH }));
 
 	/**
@@ -115,7 +115,7 @@ public class MVCSettings extends ContextSettings {
 		return "/";
 	}
 
-	private final Map<String, String> packages = new LinkedHashMap<String, String>();
+	private final Map<String, String> packages = new LinkedHashMap<>();
 	{
 		packages.put("/sf", "net.simpleframework");
 	}

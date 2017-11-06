@@ -23,7 +23,7 @@ public class PageDocumentFactory implements IMVCSettingsAware {
 	 */
 	private static Map<String, PageWrapper> _wrappers;
 	static {
-		_wrappers = new ConcurrentHashMap<String, PageWrapper>();
+		_wrappers = new ConcurrentHashMap<>();
 	}
 
 	static void addPageClass(final String url, final Class<? extends AbstractMVCPage> pageClass,
@@ -119,7 +119,7 @@ public class PageDocumentFactory implements IMVCSettingsAware {
 		return pageDocument;
 	}
 
-	private static Map<String, PageDocument> _documents = new ConcurrentHashMap<String, PageDocument>();
+	private static Map<String, PageDocument> _documents = new ConcurrentHashMap<>();
 
 	public static PageDocument getPageDocument(final String docHash) {
 		return docHash != null ? _documents.get(docHash) : null;

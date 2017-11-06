@@ -23,7 +23,7 @@ public class PageResourceProviderRegistry extends ObjectEx {
 
 	private final Map<String, IPageResourceProvider> providers;
 	{
-		providers = new ConcurrentHashMap<String, IPageResourceProvider>();
+		providers = new ConcurrentHashMap<>();
 	}
 
 	public PageResourceProviderRegistry() {

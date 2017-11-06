@@ -45,7 +45,7 @@ public abstract class ComponentUtils implements IMVCSettingsAware {
 
 	public static Map<String, AbstractComponentBean> allComponentsCache;
 	static {
-		allComponentsCache = new ConcurrentHashMap<String, AbstractComponentBean>();
+		allComponentsCache = new ConcurrentHashMap<>();
 	}
 
 	public static AbstractComponentBean getComponent(final String hashId) {

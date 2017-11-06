@@ -26,15 +26,15 @@ import javax.servlet.http.HttpSessionListener;
 public class MVCEventAdapter implements ServletContextAttributeListener, ServletContextListener,
 		HttpSessionListener, HttpSessionAttributeListener, ServletRequestListener {
 
-	private static final List<EventListener> servletContextAttributeListeners = new ArrayList<EventListener>();
+	private static final List<EventListener> servletContextAttributeListeners = new ArrayList<>();
 
-	private static final List<EventListener> servletContextListeners = new ArrayList<EventListener>();
+	private static final List<EventListener> servletContextListeners = new ArrayList<>();
 
-	private static final List<EventListener> httpSessionAttributeListeners = new ArrayList<EventListener>();
+	private static final List<EventListener> httpSessionAttributeListeners = new ArrayList<>();
 
-	private static final List<EventListener> httpSessionListeners = new ArrayList<EventListener>();
+	private static final List<EventListener> httpSessionListeners = new ArrayList<>();
 
-	private static final List<EventListener> servletRequestListeners = new ArrayList<EventListener>();
+	private static final List<EventListener> servletRequestListeners = new ArrayList<>();
 
 	public MVCEventAdapter() {
 	}

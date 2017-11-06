@@ -60,7 +60,7 @@ public abstract class AbstractMVELTemplatePage extends AbstractMVCPage {
 		return null;
 	}
 
-	private final Map<String, Class<? extends AbstractMVCPage>> templates = new HashMap<String, Class<? extends AbstractMVCPage>>();
+	private final Map<String, Class<? extends AbstractMVCPage>> templates = new HashMap<>();
 
-	private final Map<Class<? extends AbstractMVCPage>, String> _templates = new HashMap<Class<? extends AbstractMVCPage>, String>();
+	private final Map<Class<? extends AbstractMVCPage>, String> _templates = new HashMap<>();
 }

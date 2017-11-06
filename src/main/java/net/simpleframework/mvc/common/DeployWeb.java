@@ -33,7 +33,7 @@ public abstract class DeployWeb implements IMVCSettingsAware {
 		ObjectEx.oprintln();
 		ObjectEx.oprintln($m("DeployWeb.0"));
 		return new IScanResourcesCallback() {
-			private final Map<String, Properties> rProperties = new HashMap<String, Properties>();
+			private final Map<String, Properties> rProperties = new HashMap<>();
 
 			private String getDeployName(final String filename) {
 				final StringBuilder sb = new StringBuilder();
@@ -103,5 +103,5 @@ public abstract class DeployWeb implements IMVCSettingsAware {
 		return resourceUrl;
 	}
 
-	private static Map<Class<?>, String> resourceUrlCache = new ConcurrentHashMap<Class<?>, String>();
+	private static Map<Class<?>, String> resourceUrlCache = new ConcurrentHashMap<>();
 }

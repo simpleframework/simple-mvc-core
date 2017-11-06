@@ -26,7 +26,7 @@ public class MVCHtmlBuilder extends ObjectEx implements IMVCSettingsAware {
 	}
 
 	public Collection<Meta> doHttpRequestMeta(final PageParameter pp) {
-		final ArrayList<Meta> coll = new ArrayList<Meta>();
+		final ArrayList<Meta> coll = new ArrayList<>();
 		if (pp.isIE8(">=") != null) {
 			coll.add(Meta.DEFAULT_COMPATIBLE);
 		}

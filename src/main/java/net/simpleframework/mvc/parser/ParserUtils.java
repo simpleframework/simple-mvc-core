@@ -109,6 +109,6 @@ public abstract class ParserUtils {
 			}
 		}
 		final Element body = htmlDocument.body();
-		return new ArrayList<Node>(body != null ? body.childNodes() : htmlDocument.childNodes());
+		return new ArrayList<>(body != null ? body.childNodes() : htmlDocument.childNodes());
 	}
 }

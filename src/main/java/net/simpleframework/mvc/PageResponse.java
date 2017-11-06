@@ -100,7 +100,7 @@ public class PageResponse extends HttpServletResponseWrapper implements IMVCSett
 			@SuppressWarnings("unchecked")
 			List<Cookie> cookies = (List<Cookie>) SessionCache.lget(MVCConst.SESSION_ATTRI_COOKIES);
 			if (cookies == null) {
-				SessionCache.lput(MVCConst.SESSION_ATTRI_COOKIES, cookies = new ArrayList<Cookie>());
+				SessionCache.lput(MVCConst.SESSION_ATTRI_COOKIES, cookies = new ArrayList<>());
 			}
 			cookies.add(cookie);
 		}

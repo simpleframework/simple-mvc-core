@@ -135,7 +135,7 @@ public class MVCContext extends AbstractApplicationContextBase implements IMVCCo
 	}
 
 	// 过滤监听器
-	private final ArrayList<IFilterListener> filterColl = new ArrayList<IFilterListener>();
+	private final ArrayList<IFilterListener> filterColl = new ArrayList<>();
 
 	@Override
 	public Collection<IFilterListener> getFilterListeners() {

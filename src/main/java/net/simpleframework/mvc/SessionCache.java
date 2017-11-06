@@ -47,7 +47,7 @@ public class SessionCache {
 	public SessionCache(final ISessionAttribute sAttribute) {
 		this.sAttribute = sAttribute;
 		if (allSessionCache == null) {
-			allSessionCache = new ArrayList<SessionCache>();
+			allSessionCache = new ArrayList<>();
 		}
 		allSessionCache.add(this);
 	}
@@ -74,7 +74,7 @@ public class SessionCache {
 
 	public static class DefaultSessionAttribute implements ISessionAttribute {
 
-		final Map<String, Map<String, Object>> _attributes = new ConcurrentHashMap<String, Map<String, Object>>();
+		final Map<String, Map<String, Object>> _attributes = new ConcurrentHashMap<>();
 
 		protected Map<String, Object> getAttributes(final String sessionId) {
 			if (sessionId == null) {
@@ -82,7 +82,7 @@ public class SessionCache {
 			}
 			Map<String, Object> attributes = _attributes.get(sessionId);
 			if (attributes == null) {
-				_attributes.put(sessionId, attributes = new HashMap<String, Object>());
+				_attributes.put(sessionId, attributes = new HashMap<>());
 			}
 			return attributes;
 		}

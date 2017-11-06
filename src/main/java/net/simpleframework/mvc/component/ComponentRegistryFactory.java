@@ -26,7 +26,7 @@ public final class ComponentRegistryFactory extends ObjectEx {
 		return singleton(ComponentRegistryFactory.class);
 	}
 
-	private final Map<String, IComponentRegistry> components = new ConcurrentHashMap<String, IComponentRegistry>();
+	private final Map<String, IComponentRegistry> components = new ConcurrentHashMap<>();
 
 	public IComponentRegistry getComponentRegistry(final String componentName) {
 		return components.get(componentName);

@@ -78,7 +78,7 @@ public class ResourceBinding extends AbstractParser {
 		}
 
 		// component
-		final Set<String> keys = new LinkedHashSet<String>();
+		final Set<String> keys = new LinkedHashSet<>();
 		for (final AbstractComponentBean componentBean : componentBeans.values()) {
 			keys.add(componentBean.getComponentRegistry().getComponentName());
 		}

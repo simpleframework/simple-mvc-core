@@ -149,7 +149,7 @@ public class PageDocument extends XmlDocument implements java.io.Serializable {
 				}
 				if (name.equals(TAG_IMPORT_PAGE) || name.equals(TAG_IMPORT_JAVASCRIPT)
 						|| name.equals(TAG_IMPORT_CSS)) {
-					final Set<String> l = new LinkedHashSet<String>();
+					final Set<String> l = new LinkedHashSet<>();
 					final Iterator<?> values = element.elementIterator(TAG_VALUE);
 					while (values.hasNext()) {
 						final String value = ScriptEvalUtils.replaceExpr(scriptEval,
@@ -220,7 +220,7 @@ public class PageDocument extends XmlDocument implements java.io.Serializable {
 		@SuppressWarnings("unchecked")
 		ArrayList<PageDocument> documents = (ArrayList<PageDocument>) pp.getRequestAttr(rKey);
 		if (documents == null) {
-			documents = new ArrayList<PageDocument>();
+			documents = new ArrayList<>();
 			final String[] importPages = (String[]) pp.getBeanProperty("importPage");
 			if (importPages != null) {
 				for (final String importPage : importPages) {
@@ -351,7 +351,7 @@ public class PageDocument extends XmlDocument implements java.io.Serializable {
 	}
 
 	public Collection<String> getImportJavascript(final PageParameter pp) {
-		final LinkedHashSet<String> jsColl = new LinkedHashSet<String>();
+		final LinkedHashSet<String> jsColl = new LinkedHashSet<>();
 		for (final PageDocument document : getImportDocuments(pp)) {
 			final Collection<String> coll = document
 					.getImportJavascript(PageParameter.get(pp, document));
@@ -369,7 +369,7 @@ public class PageDocument extends XmlDocument implements java.io.Serializable {
 	}
 
 	public Collection<String> getImportCSS(final PageParameter pp) {
-		final LinkedHashSet<String> cssColl = new LinkedHashSet<String>();
+		final LinkedHashSet<String> cssColl = new LinkedHashSet<>();
 		for (final PageDocument document : getImportDocuments(pp)) {
 			final Collection<String> coll = document.getImportCSS(PageParameter.get(pp, document));
 			if (coll != null) {

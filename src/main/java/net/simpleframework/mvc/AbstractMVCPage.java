@@ -77,7 +77,7 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 		if (pageClass == null || pageClass.length == 0) {
 			return;
 		}
-		final LinkedHashSet<String> l = new LinkedHashSet<String>();
+		final LinkedHashSet<String> l = new LinkedHashSet<>();
 		final PageBean pageBean = getPageBean();
 		final String[] oImportPage = pageBean.getImportPage();
 		if (oImportPage != null) {
@@ -102,8 +102,7 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 		Map<Class<?>, ParameterMap> htmlViewVariables = (Map<Class<?>, ParameterMap>) pp
 				.getRequestAttr("_HTMLVIEW_VARIABLES");
 		if (htmlViewVariables == null) {
-			pp.setRequestAttr("_HTMLVIEW_VARIABLES",
-					htmlViewVariables = new HashMap<Class<?>, ParameterMap>());
+			pp.setRequestAttr("_HTMLVIEW_VARIABLES", htmlViewVariables = new HashMap<>());
 		}
 		return htmlViewVariables;
 	}
@@ -320,7 +319,7 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 
 	private static final Map<Class<? extends AbstractMVCPage>, String> urlCache;
 	static {
-		urlCache = new ConcurrentHashMap<Class<? extends AbstractMVCPage>, String>();
+		urlCache = new ConcurrentHashMap<>();
 	}
 
 	public void registUrl(final String url) {

@@ -17,7 +17,7 @@ public class ElementList extends AbstractArrayListEx<ElementList, AbstractElemen
 		return new ElementList().append(items);
 	}
 
-	private static final List<IElementFilter> elementFilters = new ArrayList<IElementFilter>();
+	private static final List<IElementFilter> elementFilters = new ArrayList<>();
 
 	public static void addFilter(final IElementFilter elementFilter) {
 		elementFilters.add(elementFilter);

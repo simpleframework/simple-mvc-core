@@ -160,7 +160,7 @@ public class PageParameter extends PageRequestResponse {
 		final Set<String> l = getRequestCache("importCSS", new CacheV<Set<String>>() {
 			@Override
 			public Set<String> get() {
-				final Set<String> l = new LinkedHashSet<String>();
+				final Set<String> l = new LinkedHashSet<>();
 				final String[] oImportCSS = getPageBean().getImportCSS();
 				if (oImportCSS != null) {
 					l.addAll(ArrayUtils.asList(oImportCSS));
@@ -188,7 +188,7 @@ public class PageParameter extends PageRequestResponse {
 		final Set<String> l = getRequestCache("importJavascript", new CacheV<Set<String>>() {
 			@Override
 			public Set<String> get() {
-				final Set<String> l = new LinkedHashSet<String>();
+				final Set<String> l = new LinkedHashSet<>();
 				final String[] oImportJavascript = getPageBean().getImportJavascript();
 				if (oImportJavascript != null) {
 					l.addAll(ArrayUtils.asList(oImportJavascript));

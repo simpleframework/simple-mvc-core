@@ -21,7 +21,7 @@ public class WebModuleFunction extends ModuleFunction {
 
 	public static Map<Class<? extends AbstractMVCPage>, WebModuleFunction> getModulefunctions() {
 		if (moduleFunctions == null) {
-			moduleFunctions = new ConcurrentHashMap<Class<? extends AbstractMVCPage>, WebModuleFunction>();
+			moduleFunctions = new ConcurrentHashMap<>();
 		}
 		return moduleFunctions;
 	}

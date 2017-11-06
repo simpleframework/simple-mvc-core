@@ -31,7 +31,7 @@ public abstract class AbstractComponentRegistry extends ObjectEx implements ICom
 
 	static Map<Class<?>, AbstractComponentRegistry> componentRegistryCache;
 	static {
-		componentRegistryCache = new ConcurrentHashMap<Class<?>, AbstractComponentRegistry>();
+		componentRegistryCache = new ConcurrentHashMap<>();
 	}
 
 	public static IComponentRegistry getComponentRegistry(

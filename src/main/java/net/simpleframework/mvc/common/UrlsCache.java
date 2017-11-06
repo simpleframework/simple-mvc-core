@@ -43,6 +43,6 @@ public abstract class UrlsCache extends ObjectEx {
 
 	private final Map<String, Class<? extends AbstractMVCPage>> classMapping;
 	{
-		classMapping = new ConcurrentHashMap<String, Class<? extends AbstractMVCPage>>();
+		classMapping = new ConcurrentHashMap<>();
 	}
 }
