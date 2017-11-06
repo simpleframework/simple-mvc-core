@@ -50,7 +50,7 @@ public class UrlForward extends AbstractUrlForward {
 			final Connection conn = Jsoup.connect(url)
 					.header("Host", HttpUtils.getHost(rRequest.request, null))
 					.userAgent("HttpClient-[" + rRequest.getRequestHeader("User-Agent") + "]")
-					.maxBodySize(0);
+					.maxBodySize(0).timeout(60000);
 			final Cookie[] cookies = rRequest.getRequestCookies();
 			if (cookies != null) {
 				for (final Cookie cookie : cookies) {
