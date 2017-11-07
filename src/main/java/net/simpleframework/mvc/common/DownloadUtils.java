@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import net.simpleframework.common.Base64;
 import net.simpleframework.common.Convert;
 import net.simpleframework.common.IoUtils;
 import net.simpleframework.common.StringUtils;
@@ -102,7 +103,7 @@ public abstract class DownloadUtils implements IMVCSettingsAware {
 					filename = filename.substring(0, p);
 				}
 				rRequest.loc("/pdf/viewer?topic=" + HttpUtils.encodeUrl(filename) + "&file="
-						+ HttpUtils.encodeUrl(durl));
+						+ HttpUtils.encodeUrl(Base64.encodeToString(durl)));
 			} else {
 				rRequest.loc(durl);
 			}
