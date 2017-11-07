@@ -186,7 +186,7 @@ public final class PageParser extends AbstractPageParser {
 			} else if (child instanceof DataNode) {
 				final String text = ((DataNode) child).getWholeData();
 				if (StringUtils.hasText(text)) {
-					child.attr("data", I18n.replaceI18n(text));
+					((DataNode) child).setWholeData(I18n.replaceI18n(text));
 				}
 			}
 		}

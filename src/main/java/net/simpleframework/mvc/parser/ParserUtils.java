@@ -79,8 +79,8 @@ public abstract class ParserUtils {
 
 	static Element addScriptText(final Element element, String js, final boolean compress) {
 		js = StringUtils.blank(js);
-		return element.appendElement("script").attr("type", SCRIPT_TYPE).appendChild(
-				new DataNode(compress ? JavascriptUtils.jsCompress(js) : js, element.baseUri()));
+		return element.appendElement("script").attr("type", SCRIPT_TYPE)
+				.appendChild(new DataNode(compress ? JavascriptUtils.jsCompress(js) : js));
 	}
 
 	static List<Node> htmlToNodes(final PageParameter pp, final String html,
