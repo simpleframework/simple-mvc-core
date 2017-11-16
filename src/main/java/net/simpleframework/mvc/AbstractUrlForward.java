@@ -177,6 +177,9 @@ public abstract class AbstractUrlForward extends AbstractForward {
 	}
 
 	public static String getHost(final PageRequestResponse rRequest, final String defaultHost) {
+		if (rRequest == null) {
+			return null;
+		}
 		final String host = rRequest.getParameter("_Host");
 		if (StringUtils.hasText(host)) {
 			return host;
