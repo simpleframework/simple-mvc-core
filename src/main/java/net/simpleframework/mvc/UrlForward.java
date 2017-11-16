@@ -5,7 +5,6 @@ import java.io.IOException;
 import javax.servlet.http.Cookie;
 
 import net.simpleframework.common.AlgorithmUtils;
-import net.simpleframework.common.web.HttpUtils;
 import net.simpleframework.lib.org.jsoup.Connection;
 import net.simpleframework.lib.org.jsoup.Jsoup;
 
@@ -48,7 +47,6 @@ public class UrlForward extends AbstractUrlForward {
 		final String url = getRequestUrl(rRequest);
 		try {
 			final Connection conn = Jsoup.connect(url)
-					.header("Host", HttpUtils.getHost(rRequest.request, null))
 					.userAgent("HttpClient-[" + rRequest.getRequestHeader("User-Agent") + "]")
 					.maxBodySize(0).timeout(60000);
 			final Cookie[] cookies = rRequest.getRequestCookies();

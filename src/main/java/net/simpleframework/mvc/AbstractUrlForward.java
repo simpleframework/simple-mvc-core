@@ -64,6 +64,7 @@ public abstract class AbstractUrlForward extends AbstractForward {
 		if (!StringUtils.hasText(rRequest.getRefererParam())) {
 			qMap.put(MVCConst.PARAM_REFERER, rRequest.getRequestAndQueryStringUrl());
 		}
+		qMap.put("_Host", getHost(rRequest, null));
 
 		/* 加入jsessionid */
 		String jsessionid = rRequest.getParameter(MVCConst.JSESSIONID);
@@ -173,5 +174,13 @@ public abstract class AbstractUrlForward extends AbstractForward {
 	public static AbstractUrlForward componentUrl(
 			final Class<? extends AbstractComponentBean> beanClass, final String url) {
 		return new UrlForward(ComponentUtils.getResourceHomePath(beanClass) + url);
+	}
+
+	public static String getHost(final PageRequestResponse rRequest, final String defaultHost) {
+		final String host = rRequest.getParameter("_Host");
+		if (StringUtils.hasText(host)) {
+			return host;
+		}
+		return HttpUtils.getHost(rRequest.request, defaultHost);
 	}
 }
