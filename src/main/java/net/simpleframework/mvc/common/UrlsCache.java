@@ -26,6 +26,9 @@ public abstract class UrlsCache extends ObjectEx {
 			final String params) {
 		final Class<? extends AbstractMVCPage> _mClass = getPageClass(mClass.getName());
 		String url = AbstractMVCPage.url(_mClass != null ? _mClass : mClass, params);
+		if (pp.isMobile() && !url.startsWith("/m/")) {
+			url = "/m" + url;
+		}
 		final String[] host = StringUtils.split(AbstractUrlForward.getHost(pp, null), ".");
 		String prefix = null;
 		if (host.length > 2) {
