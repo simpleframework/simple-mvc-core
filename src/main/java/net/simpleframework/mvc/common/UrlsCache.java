@@ -29,6 +29,9 @@ public abstract class UrlsCache extends ObjectEx {
 		if (pp != null && pp.isMobile() && !url.startsWith("/m/")) {
 			url = "/m" + url;
 		}
+		if (url.startsWith("/m/pay/order")) {
+			return url;
+		}
 		final String[] host = StringUtils.split(AbstractUrlForward.getHost(pp, null), ".");
 		String prefix = null;
 		if (host.length > 2) {
