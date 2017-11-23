@@ -40,7 +40,7 @@ public abstract class UrlsCache extends ObjectEx {
 		if (prefix != null && prefix.startsWith("app-")) {
 			prefix = "/" + prefix.substring(4);
 			if (!url.startsWith(prefix)) {
-				// url = prefix + url;
+				url = prefix + url;
 			}
 		}
 		return url;
