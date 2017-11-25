@@ -154,6 +154,10 @@ public class PageRequestResponse extends ObjectEx implements IMVCSettingsAware {
 		return getPageRequest(request).getAttribute(key);
 	}
 
+	public boolean getRequestBoolAttr(final String key) {
+		return Convert.toBool(getPageRequest(request).getAttribute(key));
+	}
+
 	public void setRequestAttr(final String key, final Object value) {
 		getPageRequest(request).setAttribute(key, value);
 	}
