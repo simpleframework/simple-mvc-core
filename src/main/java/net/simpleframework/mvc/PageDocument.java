@@ -465,8 +465,10 @@ public class PageDocument extends XmlDocument implements java.io.Serializable {
 	private String _hashId;
 
 	public String hashId() {
-		return _hashId == null ? (_hashId = pageClass != null ? pageClass.getName()
-				: ObjectUtils.hashStr(getDocumentFile())) : _hashId;
+		return _hashId == null
+				? (_hashId = pageClass != null ? pageClass.getName()
+						: ObjectUtils.hashStr(getDocumentFile()))
+				: _hashId;
 	}
 
 	@Override

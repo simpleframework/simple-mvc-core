@@ -111,7 +111,8 @@ public class SessionCache {
 		public Object remove(final String sessionId, final String key) {
 			Map<String, Object> attributes;
 			return key != null && (attributes = getAttributes(sessionId)) != null
-					? attributes.remove(key) : null;
+					? attributes.remove(key)
+					: null;
 		}
 
 		@Override

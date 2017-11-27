@@ -67,8 +67,9 @@ public abstract class AbstractComponentRender extends ObjectEx
 			final IJavascriptCallback callback) throws Exception {
 		final JavascriptForward js = new JavascriptForward();
 		cp.setHttpRequest();
-		final IForward forward = cp.getPermission().accessForward(cp, cp.componentBean != null
-				? cp.getBeanProperty("role") : PermissionConst.ROLE_ALL_ACCOUNT);
+		final IForward forward = cp.getPermission().accessForward(cp,
+				cp.componentBean != null ? cp.getBeanProperty("role")
+						: PermissionConst.ROLE_ALL_ACCOUNT);
 		if (forward instanceof UrlForward) {
 			js.append(JS.loc(((UrlForward) forward).getUrl()));
 		} else {
