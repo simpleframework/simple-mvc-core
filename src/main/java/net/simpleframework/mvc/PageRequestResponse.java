@@ -141,7 +141,6 @@ public class PageRequestResponse extends ObjectEx implements IMVCSettingsAware {
 		return null;
 	}
 
-	@SuppressWarnings("unchecked")
 	public Enumeration<String> getParameterNames() {
 		return request.getParameterNames();
 	}
