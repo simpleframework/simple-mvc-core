@@ -38,9 +38,9 @@ public abstract class UrlsCache extends ObjectEx {
 			prefix = host[host.length - 3];
 		}
 		if (prefix != null && prefix.startsWith("app-")) {
-			prefix = "/" + prefix.substring(4);
-			if (!url.startsWith(prefix)) {
-				url = prefix + url;
+			// prefix = "/p/";
+			if (!url.startsWith("/plat/")) {
+				url = "/plat" + url;
 			}
 		}
 		return url;
