@@ -22,25 +22,33 @@ public abstract class UrlsCache extends ObjectEx {
 		return getUrl(pp, mClass, null);
 	}
 
+	public static String[] eURLs = new String[] { "/m/pay/order", "/m/pay/recharge" };
+
 	public String getUrl(final PageParameter pp, final Class<? extends AbstractMVCPage> mClass,
 			final String params) {
 		final Class<? extends AbstractMVCPage> _mClass = getPageClass(mClass.getName());
 		String url = AbstractMVCPage.url(_mClass != null ? _mClass : mClass, params);
-		if (pp != null && pp.isMobile() && !url.startsWith("/m/")) {
-			url = "/m" + url;
-		}
-		if (url.startsWith("/m/pay/order") || url.startsWith("/m/pay/recharge")) {
-			return url;
-		}
-		final String[] host = StringUtils.split(AbstractUrlForward.getHost(pp, null), ".");
-		String prefix = null;
-		if (host.length > 2) {
-			prefix = host[host.length - 3];
-		}
-		if (prefix != null && prefix.startsWith("app-")) {
-			// prefix = "/p/";
-			if (!url.startsWith("/plat/")) {
-				url = "/plat" + url;
+		if (pp != null) {
+			if (pp.isMobile() && !url.startsWith("/m/")) {
+				url = "/m" + url;
+			}
+
+			for (final String s : eURLs) {
+				if (url.startsWith(s)) {
+					return url;
+				}
+			}
+
+			final String[] host = StringUtils.split(AbstractUrlForward.getHost(pp, null), ".");
+			String prefix = null;
+			if (host.length > 2) {
+				prefix = host[host.length - 3];
+			}
+			if (prefix != null && prefix.startsWith("app-")) {
+				// prefix = "/p/";
+				if (!url.startsWith("/plat/")) {
+					url = "/plat" + url;
+				}
 			}
 		}
 		return url;
