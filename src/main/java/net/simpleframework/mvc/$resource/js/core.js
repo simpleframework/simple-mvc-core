@@ -20,6 +20,10 @@ var isMobile = {
     return navigator.userAgent.match(/IEMobile/i) ? true: false;
   },
   any: function() {
+    if (location.pathname.indexOf('/m/') > -1) {
+      // 特殊规则
+      return true;
+    }
     return (isMobile.android() || isMobile.ios() || isMobile.windows());
   }
 };
