@@ -22,7 +22,8 @@ public abstract class UrlsCache extends ObjectEx {
 		return getUrl(pp, mClass, null);
 	}
 
-	public static String[] eURLs = new String[] { "/m/pay/order", "/m/pay/recharge" };
+	public static String[] eURLs = new String[] { "/m/pay/order", "/m/pay/recharge",
+			"/m/pay/experts-maccount" };
 
 	public String getUrl(final PageParameter pp, final Class<? extends AbstractMVCPage> mClass,
 			final String params) {
