@@ -326,6 +326,18 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 		registUrl(url, getOriginalClass(), 0);
 	}
 
+	public static boolean containsUrl(final String url) {
+		if (url == null) {
+			return false;
+		}
+		String url2 = url;
+		final int pos = url2.indexOf("?");
+		if (pos > 0) {
+			url2 = url2.substring(0, pos);
+		}
+		return urlCache.values().contains(url2);
+	}
+
 	/**
 	 * 注册page类和url的映射关系
 	 * 
