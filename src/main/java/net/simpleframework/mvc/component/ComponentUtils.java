@@ -153,9 +153,9 @@ public abstract class ComponentUtils implements IMVCSettingsAware {
 
 	public static String getLoadingContent() {
 		final StringBuilder sb = new StringBuilder();
-		sb.append("<span style='padding: 10px;'>");
+		sb.append("<div style='padding: 10px; font-size: 8.5pt; font-weight: bolder;'>");
 		sb.append($m("ComponentUtils.loadingContent.0"));
-		sb.append("</span>");
+		sb.append("</div>");
 		return sb.toString();
 	}
 }
