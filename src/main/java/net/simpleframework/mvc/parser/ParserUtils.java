@@ -14,11 +14,13 @@ import net.simpleframework.lib.org.jsoup.nodes.Node;
 import net.simpleframework.lib.org.jsoup.select.Elements;
 import net.simpleframework.mvc.MVCContext;
 import net.simpleframework.mvc.PageParameter;
+import net.simpleframework.mvc.common.ImageCache;
 
 /**
  * Licensed under the Apache License, Version 2.0
  * 
- * @author 陈侃(cknet@126.com, 13910090885) https://github.com/simpleframework
+ * @author 陈侃(cknet@126.com, 13910090885)
+ *         https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
 public abstract class ParserUtils {
@@ -110,5 +112,25 @@ public abstract class ParserUtils {
 		}
 		final Element body = htmlDocument.body();
 		return new ArrayList<>(body != null ? body.childNodes() : htmlDocument.childNodes());
+	}
+
+	public static void doNode(final Document htmlDoc, final Node child) {
+		final String nodeName = child.nodeName();
+		if ("a".equalsIgnoreCase(nodeName)) {
+			child.attr("hidefocus", "hidefocus");
+		} else if ("form".equalsIgnoreCase(nodeName) && !StringUtils.hasText(child.attr("action"))) {
+			child.attr("action", "javascript:void(0);").attr("autocomplete", "off");
+		} else if ("select".equalsIgnoreCase(nodeName)) {
+			if (child.hasAttr("readonly")) {
+				final Element opt = ((Element) child).getElementsByAttribute("selected").first();
+				if (opt != null) {
+					child.replaceWith(
+							htmlDoc.createElement("span").addClass("readonly").appendText(opt.text()));
+				}
+			}
+		} else if ("img".equalsIgnoreCase(nodeName)) {
+			child.attr("ondragstart", "return false;");
+			child.attr("onerror", "_img_err(this, '" + ImageCache.NO_IMAGE_PATH + "');");
+		}
 	}
 }

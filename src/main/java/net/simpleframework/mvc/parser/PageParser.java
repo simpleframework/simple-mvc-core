@@ -25,7 +25,6 @@ import net.simpleframework.mvc.MVCContext;
 import net.simpleframework.mvc.MVCException;
 import net.simpleframework.mvc.MVCHtmlBuilder;
 import net.simpleframework.mvc.PageParameter;
-import net.simpleframework.mvc.common.ImageCache;
 import net.simpleframework.mvc.common.element.Meta;
 import net.simpleframework.mvc.component.AbstractComponentBean;
 import net.simpleframework.mvc.component.ComponentException;
@@ -160,24 +159,7 @@ public final class PageParser extends AbstractPageParser {
 					}
 				}
 
-				final String nodeName = child.nodeName();
-				if ("a".equalsIgnoreCase(nodeName)) {
-					child.attr("hidefocus", "hidefocus");
-				} else if ("form".equalsIgnoreCase(nodeName)
-						&& !StringUtils.hasText(child.attr("action"))) {
-					child.attr("action", "javascript:void(0);").attr("autocomplete", "off");
-				} else if ("select".equalsIgnoreCase(nodeName)) {
-					if (child.hasAttr("readonly")) {
-						final Element opt = ((Element) child).getElementsByAttribute("selected").first();
-						if (opt != null) {
-							child.replaceWith(htmlDoc.createElement("span").addClass("readonly")
-									.appendText(opt.text()));
-						}
-					}
-				} else if ("img".equalsIgnoreCase(nodeName)) {
-					child.attr("ondragstart", "return false;");
-					child.attr("onerror", "_img_err(this, '" + ImageCache.NO_IMAGE_PATH + "');");
-				}
+				ParserUtils.doNode(htmlDoc, child);
 
 				normaliseNode(pp, (Element) child, componentBeans);
 			} else if (child instanceof TextNode) {
