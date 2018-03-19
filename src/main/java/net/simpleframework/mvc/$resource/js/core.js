@@ -28,6 +28,14 @@ var isMobile = {
   }
 };
 
+var _img_err = function(img, src) {
+	if (!img.complete
+		|| typeof img.naturalWidth == "undefined"
+		|| img.naturalWidth == 0) {
+		img.src = src;
+	}
+};
+
 var $call = function(o) {
   try {
     if (typeof o === "function") {

@@ -25,6 +25,7 @@ import net.simpleframework.mvc.MVCContext;
 import net.simpleframework.mvc.MVCException;
 import net.simpleframework.mvc.MVCHtmlBuilder;
 import net.simpleframework.mvc.PageParameter;
+import net.simpleframework.mvc.common.ImageCache;
 import net.simpleframework.mvc.common.element.Meta;
 import net.simpleframework.mvc.component.AbstractComponentBean;
 import net.simpleframework.mvc.component.ComponentException;
@@ -175,6 +176,7 @@ public final class PageParser extends AbstractPageParser {
 					}
 				} else if ("img".equalsIgnoreCase(nodeName)) {
 					child.attr("ondragstart", "return false;");
+					child.attr("onerror", "_img_err(this, '" + ImageCache.NO_IMAGE_PATH + "');");
 				}
 
 				normaliseNode(pp, (Element) child, componentBeans);
