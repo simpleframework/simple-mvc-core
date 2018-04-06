@@ -404,6 +404,9 @@ public class PageRequestResponse extends ObjectEx implements IMVCSettingsAware {
 	}
 
 	public boolean isMobile() {
+		if (getBoolParameter("_mobile_preview")) {
+			return true;
+		}
 		final String uri = getRequestURI();
 		if (uri.contains("/m/")) { // 特殊规则
 			return true;
