@@ -142,6 +142,9 @@ public abstract class MVCUtils implements IMVCSettingsAware {
 		if (!StringUtils.hasText(lUrl)) {
 			lUrl = MVCUtils.getPageResourcePath() + "/jsp/login_alert.jsp";
 		}
+		if (rRequest.getBoolParameter("_mobile_preview")) {
+			lUrl = HttpUtils.addParameters(lUrl, "_mobile_preview=true");
+		}
 		return rRequest.wrapContextPath(lUrl);
 	}
 

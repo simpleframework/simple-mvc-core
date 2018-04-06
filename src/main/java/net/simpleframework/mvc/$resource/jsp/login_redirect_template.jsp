@@ -14,7 +14,7 @@
 <head>
 <title><%=I18n.$m("location.jsp.0")%></title>
 <script type="text/javascript">
-  (window.parent || window).location = "<%=url%>";
+	window.location = "<%=url%>";
 </script>
 </head>
 </html>
