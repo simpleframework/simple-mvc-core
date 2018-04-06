@@ -58,6 +58,10 @@ var $Actions = {
       url = CONTEXT_PATH + url;
     }
     
+    if (window.location.href.indexOf('_mobile_preview=') > 0) {
+      url = url.addParameter('_mobile_preview=true');
+    }
+    
     if (window !== parent) {
       open = false;
     }
