@@ -58,6 +58,10 @@ var $Actions = {
       url = CONTEXT_PATH + url;
     }
     
+    if (window !== parent) {
+      open = false;
+    }
+    
     if ((Browser.IE && Browser.IEVersion <= 8) || 
         isMobile.ios()) {
       var link = document.createElement('a');
