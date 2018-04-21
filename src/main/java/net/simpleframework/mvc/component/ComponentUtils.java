@@ -115,7 +115,7 @@ public abstract class ComponentUtils implements IMVCSettingsAware {
 		try {
 			handlerClass = ClassUtils.forName(stringClass);
 			if (ObjectFactory.isAbstract(handlerClass)) {
-				throw ComponentHandlerException.of($m("ComponentUtils.0"));
+				throw ComponentHandlerException.of($m("ComponentUtils.0", stringClass));
 			}
 		} catch (final ClassNotFoundException e) {
 			throw ComponentHandlerException.of(e);
