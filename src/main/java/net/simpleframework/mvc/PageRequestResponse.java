@@ -447,6 +447,11 @@ public class PageRequestResponse extends ObjectEx implements IMVCSettingsAware {
 		return HttpUtils.getRequestAndQueryStringUrl(request);
 	}
 
+	public boolean isLocalhost() {
+		final String host = HttpUtils.getHost(request, null);
+		return "127.0.0.1".equals(host) || "localhost".equals(host);
+	}
+
 	/*-----------------------utils stream--------------------*/
 	public OutputStream getBinaryOutputStream(final String filename) throws IOException {
 		return getBinaryOutputStream(filename, 0, false);
