@@ -42,7 +42,11 @@ public class LastUrlListener implements IFilterListener {
 		return EFilterResult.SUCCESS;
 	}
 
-	protected void setLastUrl(final PageRequestResponse rRequest, final String url) {
+	protected void setLastUrl(final PageRequestResponse rRequest, String url) {
+		final String last_url = rRequest.getParameter("last_url");
+		if (StringUtils.hasText(last_url)) {
+			url = last_url;
+		}
 		rRequest.setSessionAttr(MVCConst.SESSION_ATTRI_LASTURL, url);
 	}
 
