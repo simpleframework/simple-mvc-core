@@ -29,24 +29,26 @@ public class LastUrlListener implements IFilterListener {
 	public EFilterResult doFilter(final PageRequestResponse rRequest, final FilterChain filterChain)
 			throws IOException {
 		String accept;
-		if (rRequest.isHttpRequest() && !MVCContext.get().isSystemUrl(rRequest)
-				&& (accept = rRequest.getRequestHeader("Accept")) != null
+		if (rRequest.isHttpRequest() && (accept = rRequest.getRequestHeader("Accept")) != null
 				&& accept.contains("text/html")) {
-			setLastUrl(rRequest, rRequest.getRequestAndQueryStringUrl());
+			final String last_url = rRequest.getParameter("last_url");
+			if (StringUtils.hasText(last_url)) {
+				setLastUrl(rRequest, last_url);
+			} else {
+				if (!MVCContext.get().isSystemUrl(rRequest)) {
+					setLastUrl(rRequest, rRequest.getRequestAndQueryStringUrl());
 
-			final String redirect_url = rRequest.getParameter("redirect_url");
-			if (StringUtils.hasText(redirect_url)) {
-				rRequest.addCookie("redirect_url", redirect_url);
+					final String redirect_url = rRequest.getParameter("redirect_url");
+					if (StringUtils.hasText(redirect_url)) {
+						rRequest.addCookie("redirect_url", redirect_url);
+					}
+				}
 			}
 		}
 		return EFilterResult.SUCCESS;
 	}
 
-	protected void setLastUrl(final PageRequestResponse rRequest, String url) {
-		final String last_url = rRequest.getParameter("last_url");
-		if (StringUtils.hasText(last_url)) {
-			url = last_url;
-		}
+	protected void setLastUrl(final PageRequestResponse rRequest, final String url) {
 		rRequest.setSessionAttr(MVCConst.SESSION_ATTRI_LASTURL, url);
 	}
 
