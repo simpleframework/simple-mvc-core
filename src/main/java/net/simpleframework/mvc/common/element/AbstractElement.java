@@ -278,6 +278,10 @@ public abstract class AbstractElement<T extends AbstractElement<T>> extends Text
 		return (T) this;
 	}
 
+	public T addAttribute(final String key) {
+		return addAttribute(key, "");
+	}
+
 	protected void doAttri(final StringBuilder sb) {
 		addAttribute("id", getId()).addAttribute("name", getName());
 		addAttribute("title", getTitle()).addAttribute("placeholder", getPlaceholder());
@@ -295,8 +299,12 @@ public abstract class AbstractElement<T extends AbstractElement<T>> extends Text
 				if (val == null) {
 					continue;
 				}
-				sb.append(" ").append(e.getKey()).append("=\"");
-				sb.append(HtmlEncoder.text(Convert.toString(val))).append("\"");
+				sb.append(" ").append(e.getKey());
+				final String sval = Convert.toString(val);
+				if (StringUtils.hasText(sval)) {
+					sb.append("=\"");
+					sb.append(HtmlEncoder.text(sval)).append("\"");
+				}
 			}
 		}
 	}
