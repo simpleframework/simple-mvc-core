@@ -1,7 +1,5 @@
 package net.simpleframework.mvc.component;
 
-import net.simpleframework.common.Convert;
-
 /**
  * Licensed under the Apache License, Version 2.0
  * 
@@ -31,7 +29,11 @@ public abstract class AbstractContainerBean extends AbstractComponentBean {
 	}
 
 	public AbstractContainerBean setWidth(final String width) {
-		final int w = Convert.toInt(width);
+		int w = 0;
+		try {
+			w = Integer.parseInt(width);
+		} catch (final NumberFormatException e) {
+		}
 		this.width = w > 0 ? w + "px" : width;
 		return this;
 	}
@@ -41,7 +43,11 @@ public abstract class AbstractContainerBean extends AbstractComponentBean {
 	}
 
 	public AbstractContainerBean setHeight(final String height) {
-		final int h = Convert.toInt(height);
+		int h = 0;
+		try {
+			h = Integer.parseInt(height);
+		} catch (final NumberFormatException e) {
+		}
 		this.height = h > 0 ? h + "px" : height;
 		return this;
 	}
