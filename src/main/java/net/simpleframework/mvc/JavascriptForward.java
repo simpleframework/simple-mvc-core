@@ -10,10 +10,21 @@ import net.simpleframework.common.web.JavascriptUtils;
  *         http://www.simpleframework.net
  */
 public class JavascriptForward extends TextForward {
-	public static final JavascriptForward RELOC = new JavascriptForward("$Actions.reloc();");
-
 	public static final JavascriptForward alert(final String msg) {
 		return new JavascriptForward("alert(\"").append(JavascriptUtils.escape(msg)).append("\");");
+	}
+
+	public static final JavascriptForward reloc() {
+		return reloc(true);
+	}
+
+	public static final JavascriptForward reloc(final boolean refresh) {
+		final JavascriptForward js = new JavascriptForward("$Actions.reloc(");
+		if (refresh) {
+			js.append("'t=").append(System.currentTimeMillis()).append("'");
+		}
+		js.append(");");
+		return js;
 	}
 
 	public static final JavascriptForward loc(final String url) {
