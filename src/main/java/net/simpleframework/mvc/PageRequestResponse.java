@@ -20,6 +20,7 @@ import javax.servlet.http.HttpSession;
 
 import eu.bitwalker.useragentutils.Browser;
 import eu.bitwalker.useragentutils.DeviceType;
+import eu.bitwalker.useragentutils.OperatingSystem;
 import eu.bitwalker.useragentutils.UserAgent;
 import net.simpleframework.common.Convert;
 import net.simpleframework.common.ID;
@@ -413,6 +414,11 @@ public class PageRequestResponse extends ObjectEx implements IMVCSettingsAware {
 		}
 		final UserAgent userAgent = getUserAgentUtils();
 		return userAgent.getOperatingSystem().getDeviceType() == DeviceType.MOBILE;
+	}
+
+	public boolean isMobile_ios() {
+		final UserAgent userAgent = getUserAgentUtils();
+		return OperatingSystem.IOS.equals(userAgent.getOperatingSystem().getGroup());
 	}
 
 	public Boolean isIE8(final String op) {
