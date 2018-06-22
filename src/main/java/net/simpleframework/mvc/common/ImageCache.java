@@ -31,28 +31,23 @@ import net.simpleframework.mvc.PageRequestResponse;
  *         http://www.simpleframework.net
  */
 public class ImageCache extends ObjectEx implements IMVCSettingsAware {
-	public static void setNoImagePath(final String path) {
-		NO_IMAGE_PATH = path;
-	}
 
 	public static String NO_IMAGE_PATH = MVCUtils.getPageResourcePath() + "/images/no_image.jpg";
 
-	private static volatile IImageLoadHandler _handler;
+	private static Class<? extends ImageCache> _instanceClass;
 
-	public static IImageLoadHandler getImageLoadHandler() {
-		if (_handler == null) {
-			_handler = new IImageLoadHandler() {
-				@Override
-				public String load(final ImageCache iCache, final ImageStream iStream) {
-					return iCache._load(iStream);
-				}
-			};
-		}
-		return _handler;
+	public static void setInstanceClass(final Class<? extends ImageCache> instanceClass) {
+		_instanceClass = instanceClass;
 	}
 
-	public static void setImageLoadHandler(final IImageLoadHandler _handler) {
-		ImageCache._handler = _handler;
+	public static ImageCache getInstance() {
+		try {
+			if (_instanceClass != null) {
+				return _instanceClass.newInstance();
+			}
+		} catch (final Exception e) {
+		}
+		return new ImageCache();
 	}
 
 	private String _filename;
@@ -176,8 +171,9 @@ public class ImageCache extends ObjectEx implements IMVCSettingsAware {
 		if (StringUtils.hasText(_filename)) {
 			path = rRequest.wrapContextPath(MVCConst.IMAGES_PATH + "/" + _filename);
 		} else {
-			if (StringUtils.hasText(NO_IMAGE_PATH)) {
-				path = rRequest.wrapContextPath(NO_IMAGE_PATH);
+			final String noImagePath = getNoImagePath();
+			if (StringUtils.hasText(noImagePath)) {
+				path = rRequest.wrapContextPath(noImagePath);
 			} else {
 				return null;
 			}
@@ -213,6 +209,10 @@ public class ImageCache extends ObjectEx implements IMVCSettingsAware {
 		return this;
 	}
 
+	public String getNoImagePath() {
+		return NO_IMAGE_PATH;
+	}
+
 	public static abstract class ImageStream {
 
 		final Object id;
@@ -227,5 +227,23 @@ public class ImageCache extends ObjectEx implements IMVCSettingsAware {
 	public static interface IImageLoadHandler {
 
 		String load(ImageCache iCache, ImageStream iStream);
+	}
+
+	private IImageLoadHandler _handler;
+
+	public IImageLoadHandler getImageLoadHandler() {
+		if (_handler == null) {
+			_handler = new IImageLoadHandler() {
+				@Override
+				public String load(final ImageCache iCache, final ImageStream iStream) {
+					return iCache._load(iStream);
+				}
+			};
+		}
+		return _handler;
+	}
+
+	public void setImageLoadHandler(final IImageLoadHandler _handler) {
+		this._handler = _handler;
 	}
 }
