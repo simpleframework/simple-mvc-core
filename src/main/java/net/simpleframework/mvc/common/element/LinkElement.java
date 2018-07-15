@@ -34,6 +34,10 @@ public class LinkElement extends AbstractLinkElement<LinkElement> implements IMV
 		return new LinkElement(text).blank();
 	}
 
+	public static LinkElement BLANK(final Object text, final String href) {
+		return BLANK(text).setHref(href);
+	}
+
 	public static final LinkElement editLink() {
 		return new LinkElement($m("Edit"));
 	}
