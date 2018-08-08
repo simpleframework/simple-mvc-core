@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.Collection;
 
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import net.simpleframework.ctx.IApplicationContextBase;
@@ -32,12 +31,12 @@ public interface IMVCContext extends IApplicationContextBase {
 	/**
 	 * 创建IMultipartPageRequest的实现
 	 * 
-	 * @param request
+	 * @param rRequest
 	 * @param maxUploadSize
 	 * @return
 	 * @throws IOException
 	 */
-	IMultipartPageRequest createMultipartPageRequest(HttpServletRequest request, int maxUploadSize)
+	IMultipartPageRequest createMultipartPageRequest(PageRequestResponse rRequest, int maxUploadSize)
 			throws IOException;
 
 	/**

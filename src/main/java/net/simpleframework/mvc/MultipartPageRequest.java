@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Enumeration;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
 import net.simpleframework.common.FileUtils;
@@ -25,11 +24,21 @@ public class MultipartPageRequest extends HttpServletRequestWrapper
 		implements IMultipartPageRequest, IMVCSettingsAware {
 	private final MultipartRequest mRequest;
 
-	public MultipartPageRequest(final HttpServletRequest request, final int maxUploadSize)
+	public MultipartPageRequest(final PageRequestResponse rRequest, final int maxUploadSize)
 			throws IOException {
-		super(request);
-		final File dir = mvcSettings.getAttachDir();
-		mRequest = new MultipartRequest(request, dir.getAbsolutePath(), maxUploadSize,
+		super(rRequest.request);
+		String name;
+		if (rRequest.isLogin()) {
+			name = rRequest.getLogin().getName();
+		} else {
+			name = "#session#" + File.separator + rRequest.getSession().getId();
+		}
+		final File dir = new File(
+				mvcSettings.getAttachDir().getAbsolutePath() + File.separator + name);
+		if (!dir.exists()) {
+			FileUtils.createDirectoryRecursively(dir);
+		}
+		mRequest = new MultipartRequest(rRequest.request, dir.getAbsolutePath(), maxUploadSize,
 				mvcSettings.getCharset());
 	}
 

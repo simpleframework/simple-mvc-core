@@ -7,7 +7,6 @@ import java.util.Collection;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import net.simpleframework.common.ClassUtils;
@@ -165,9 +164,9 @@ public class MVCContext extends AbstractApplicationContextBase implements IMVCCo
 	}
 
 	@Override
-	public IMultipartPageRequest createMultipartPageRequest(final HttpServletRequest request,
+	public IMultipartPageRequest createMultipartPageRequest(final PageRequestResponse rRequest,
 			final int maxUploadSize) throws IOException {
-		return new MultipartPageRequest(request, maxUploadSize);
+		return new MultipartPageRequest(rRequest, maxUploadSize);
 	}
 
 	@Override
