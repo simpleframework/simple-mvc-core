@@ -31,10 +31,11 @@ public class MultipartPageRequest extends HttpServletRequestWrapper
 		if (rRequest.isLogin()) {
 			name = rRequest.getLogin().getName();
 		} else {
-			name = "#session#" + File.separator + rRequest.getSession().getId();
+			name = "#session#";
 		}
-		final File dir = new File(
-				mvcSettings.getAttachDir().getAbsolutePath() + File.separator + name);
+
+		final File dir = new File(mvcSettings.getAttachDir().getAbsolutePath() + File.separator + name
+				+ File.separator + rRequest.getSession().getId());
 		if (!dir.exists()) {
 			FileUtils.createDirectoryRecursively(dir);
 		}
