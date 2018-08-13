@@ -21,6 +21,10 @@ public class LastUrlListener implements IFilterListener {
 		return instance;
 	}
 
+	public static void set(final PageRequestResponse rRequest, final String url) {
+		getInstance().setLastUrl(rRequest, url);
+	}
+
 	public LastUrlListener() {
 		instance = this;
 	}
