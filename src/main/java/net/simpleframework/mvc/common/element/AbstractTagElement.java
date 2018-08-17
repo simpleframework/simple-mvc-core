@@ -19,6 +19,10 @@ public abstract class AbstractTagElement<T extends AbstractTagElement<T>>
 		setText(text);
 	}
 
+	public T open_mark() {
+		return addAttribute("app-open");
+	}
+
 	protected abstract String tag();
 
 	@Override
