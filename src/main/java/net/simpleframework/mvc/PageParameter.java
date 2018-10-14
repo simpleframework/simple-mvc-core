@@ -223,7 +223,11 @@ public class PageParameter extends PageRequestResponse {
 	}
 
 	public AbstractMVCPage getPage() {
-		return (AbstractMVCPage) ObjectEx.singleton(getPageDocument().getPageClass());
+		final PageDocument pageDocument = getPageDocument();
+		if (pageDocument == null) {
+			return null;
+		}
+		return (AbstractMVCPage) ObjectEx.singleton(pageDocument.getPageClass());
 	}
 
 	public String hashId() {
