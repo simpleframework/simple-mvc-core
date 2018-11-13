@@ -35,21 +35,13 @@ public class ResourceBinding extends AbstractParser {
 			final Map<String, AbstractComponentBean> componentBeans) {
 		final PageDocument pageDocument = pp.getPageDocument();
 		final IPageResourceProvider prp = pageDocument.getPageResourceProvider();
-
-		String skin;
-		if (StringUtils.hasText(skin = prp.getSkin(pp)) && pp.isHttpRequest()) {
-			final StringBuilder sb = new StringBuilder();
-			sb.append("window.CONTEXT_PATH=\"").append(pp.getContextPath()).append("\";");
-			sb.append("window.HOME_PATH=\"").append(prp.getResourceHomePath()).append("\";");
-			sb.append("window.SKIN=\"").append(skin).append("\";");
-			sb.append("window.IS_EFFECTS=");
-			sb.append(mvcSettings.isEffect(pp)).append(";");
-			ParserUtils.addScriptText(htmlHead, sb.toString());
-		}
-
 		final AbstractMVCPage pageInstance = pp.getPage();
-
 		if (pp.isHttpRequest()) {
+			final String headScript = pageInstance.initHeadScript(pp);
+			if (StringUtils.hasText(headScript)) {
+				ParserUtils.addScriptText(htmlHead, headScript);
+			}
+
 			// base
 			String[] cssArr = null;
 			if (pageInstance != null) {

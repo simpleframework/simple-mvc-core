@@ -55,6 +55,20 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 	protected void onCreate(final PageParameter pp) {
 	}
 
+	public String initHeadScript(final PageParameter pp) {
+		final PageDocument pageDocument = pp.getPageDocument();
+		final IPageResourceProvider prp = pageDocument.getPageResourceProvider();
+		final StringBuilder sb = new StringBuilder();
+		sb.append("window.CONTEXT_PATH=\"").append(pp.getContextPath()).append("\";");
+		sb.append("window.HOME_PATH=\"").append(prp.getResourceHomePath()).append("\";");
+		String skin;
+		if (StringUtils.hasText(skin = prp.getSkin(pp))) {
+			sb.append("window.SKIN=\"").append(skin).append("\";");
+		}
+		sb.append("window.IS_EFFECTS=").append(mvcSettings.isEffect(pp)).append(";");
+		return sb.toString();
+	}
+
 	/**
 	 * page类的初始化方法，每次调用该页面时运行
 	 * 
