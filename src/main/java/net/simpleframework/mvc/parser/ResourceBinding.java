@@ -37,8 +37,9 @@ public class ResourceBinding extends AbstractParser {
 		final IPageResourceProvider prp = pageDocument.getPageResourceProvider();
 		final AbstractMVCPage pageInstance = pp.getPage();
 		if (pp.isHttpRequest()) {
-			final String headScript = pageInstance.initHeadScript(pp);
-			if (StringUtils.hasText(headScript)) {
+			String headScript;
+			if (pageInstance != null
+					&& StringUtils.hasText(headScript = pageInstance.initHeadScript(pp))) {
 				ParserUtils.addScriptText(htmlHead, headScript);
 			}
 
