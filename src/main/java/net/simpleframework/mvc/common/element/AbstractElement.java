@@ -19,8 +19,9 @@ import net.simpleframework.common.web.html.HtmlEncoder;
  *         https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
-@SuppressWarnings("unchecked")
-public abstract class AbstractElement<T extends AbstractElement<T>> extends TextNamedObject<T> {
+@SuppressWarnings({ "unchecked", "serial" })
+public abstract class AbstractElement<T extends AbstractElement<T>> extends TextNamedObject<T>
+		implements java.io.Serializable {
 	private String id;
 
 	/* 类 */

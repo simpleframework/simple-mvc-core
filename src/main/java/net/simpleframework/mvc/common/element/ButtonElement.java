@@ -85,4 +85,6 @@ public class ButtonElement extends AbstractElement<ButtonElement> {
 		sb.append(" />");
 		return sb.toString();
 	}
+
+	private static final long serialVersionUID = 5725626043310641833L;
 }

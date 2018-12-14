@@ -17,4 +17,6 @@ public class Radio extends Checkbox {
 	public EInputType getInputType() {
 		return EInputType.radio;
 	}
+
+	private static final long serialVersionUID = 4528757634181971096L;
 }

@@ -3,7 +3,8 @@ package net.simpleframework.mvc.common.element;
 /**
  * Licensed under the Apache License, Version 2.0
  * 
- * @author 陈侃(cknet@126.com, 13910090885) https://github.com/simpleframework
+ * @author 陈侃(cknet@126.com, 13910090885)
+ *         https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
 public class SupElement extends AbstractTagElement<SupElement> {
@@ -42,4 +43,6 @@ public class SupElement extends AbstractTagElement<SupElement> {
 		}
 		super.doAttri(sb);
 	}
+
+	private static final long serialVersionUID = -9200213149046726986L;
 }

@@ -9,6 +9,7 @@ import net.simpleframework.common.StringUtils;
  *         https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
+@SuppressWarnings("serial")
 public abstract class AbstractTagElement<T extends AbstractTagElement<T>>
 		extends AbstractElement<T> {
 

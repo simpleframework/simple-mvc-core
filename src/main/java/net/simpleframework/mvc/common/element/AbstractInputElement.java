@@ -12,7 +12,7 @@ import net.simpleframework.mvc.PageRequestResponse;
  *         https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
-@SuppressWarnings("unchecked")
+@SuppressWarnings({ "unchecked", "serial" })
 public abstract class AbstractInputElement<T extends AbstractInputElement<T>>
 		extends AbstractElement<T> {
 	private boolean readonly;

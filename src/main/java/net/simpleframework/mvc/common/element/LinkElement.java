@@ -70,4 +70,6 @@ public class LinkElement extends AbstractLinkElement<LinkElement> implements IMV
 		setText(text);
 		setClassName(className);
 	}
+
+	private static final long serialVersionUID = 7837268001108185939L;
 }

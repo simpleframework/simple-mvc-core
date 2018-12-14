@@ -9,7 +9,7 @@ import net.simpleframework.common.StringUtils;
  *         https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
-@SuppressWarnings("unchecked")
+@SuppressWarnings({ "unchecked", "serial" })
 public abstract class AbstractLinkElement<T extends AbstractTagElement<T>>
 		extends AbstractTagElement<T> {
 	private String href;

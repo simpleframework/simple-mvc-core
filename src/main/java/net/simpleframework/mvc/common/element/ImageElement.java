@@ -39,4 +39,6 @@ public class ImageElement extends AbstractElement<ImageElement> {
 		sb.append(" />");
 		return sb.toString();
 	}
+
+	private static final long serialVersionUID = 1250048699951644877L;
 }

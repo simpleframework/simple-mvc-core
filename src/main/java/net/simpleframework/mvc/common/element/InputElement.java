@@ -8,6 +8,7 @@ package net.simpleframework.mvc.common.element;
  *         http://www.simpleframework.net
  */
 public class InputElement extends AbstractInputElement<InputElement> {
+
 	public static InputElement textarea() {
 		return new InputElement().setInputType(EInputType.textarea);
 	}
@@ -56,4 +57,6 @@ public class InputElement extends AbstractInputElement<InputElement> {
 		setName(id);
 		setInputType(inputType);
 	}
+
+	private static final long serialVersionUID = 3640578011930939751L;
 }

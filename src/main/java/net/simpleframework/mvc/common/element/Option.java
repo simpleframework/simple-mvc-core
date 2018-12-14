@@ -8,7 +8,8 @@ import net.simpleframework.common.object.NamedObject;
 /**
  * Licensed under the Apache License, Version 2.0
  * 
- * @author 陈侃(cknet@126.com, 13910090885) https://github.com/simpleframework
+ * @author 陈侃(cknet@126.com, 13910090885)
+ *         https://github.com/simpleframework
  *         http://www.simpleframework.net
  */
 public class Option extends AbstractElement<Option> {
@@ -102,4 +103,6 @@ public class Option extends AbstractElement<Option> {
 		sb.append(">").append(getText()).append("</option>");
 		return sb.toString();
 	}
+
+	private static final long serialVersionUID = 1242002392537742316L;
 }
