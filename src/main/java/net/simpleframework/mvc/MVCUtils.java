@@ -16,7 +16,6 @@ import net.simpleframework.common.logger.LogFactory;
 import net.simpleframework.common.object.ObjectUtils;
 import net.simpleframework.common.th.ThrowableUtils;
 import net.simpleframework.common.web.HttpUtils;
-import net.simpleframework.common.web.html.HtmlEncoder;
 import net.simpleframework.mvc.common.DeployWeb;
 import net.simpleframework.mvc.component.ComponentHandlerException;
 
@@ -151,7 +150,7 @@ public abstract class MVCUtils implements IMVCSettingsAware {
 	public static Map<String, Object> createException(final PageRequestResponse rRequest,
 			final Throwable th) {
 		final KVMap exception = new KVMap();
-		exception.put("title", HtmlEncoder.text(MVCContext.get().getThrowableMessage(th)));
+		exception.put("title", MVCContext.get().getThrowableMessage(th));
 		final String detail = Convert.toString(th);
 		exception.put("detail", detail);
 		exception.put("hash", ObjectUtils.hashStr(detail));
