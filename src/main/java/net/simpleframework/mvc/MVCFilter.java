@@ -267,8 +267,8 @@ public class MVCFilter extends ObjectEx implements Filter {
 					// 如果是HttpClient请求,则生成跳转脚本
 					sb.append(JS.loc(getRedirectError(rRequest)));
 				} else {
-					sb.append("$error(").append(JsonUtils.toJSON(MVCUtils.createException(rRequest, th)))
-							.append(");");
+					sb.append("$error(");
+					sb.append(JsonUtils.toJSON(MVCUtils.createException(rRequest, th))).append(");");
 				}
 				sb.append(HtmlConst.TAG_SCRIPT_END);
 				sb.append("</div>");
