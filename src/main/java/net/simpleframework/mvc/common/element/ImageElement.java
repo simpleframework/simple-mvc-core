@@ -1,6 +1,12 @@
 package net.simpleframework.mvc.common.element;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+
 import net.simpleframework.common.Base64;
+import net.simpleframework.common.IoUtils;
 
 /**
  * Licensed under the Apache License, Version 2.0
@@ -10,6 +16,22 @@ import net.simpleframework.common.Base64;
  *         http://www.simpleframework.net
  */
 public class ImageElement extends AbstractElement<ImageElement> {
+
+	public static ImageElement toDataPNG(final String src) throws IOException {
+		final ByteArrayOutputStream out = new ByteArrayOutputStream();
+		InputStream iStream = null;
+		try {
+			IoUtils.copyStream(iStream = new URL(src).openStream(), out);
+		} finally {
+			if (iStream != null) {
+				try {
+					iStream.close();
+				} catch (final Exception e) {
+				}
+			}
+		}
+		return PNG(out.toByteArray());
+	}
 
 	public static ImageElement PNG(final byte[] bytes) {
 		return new ImageElement("data:image/png;base64," + Base64.encodeToString(bytes));
