@@ -21,7 +21,8 @@ public class ImageElement extends AbstractElement<ImageElement> {
 		final ByteArrayOutputStream out = new ByteArrayOutputStream();
 		InputStream iStream = null;
 		try {
-			IoUtils.copyStream(iStream = new URL(src).openStream(), out);
+			IoUtils.copyStream(
+					iStream = new URL(src.startsWith("//") ? "http:" + src : src).openStream(), out);
 		} finally {
 			if (iStream != null) {
 				try {
