@@ -7,6 +7,8 @@ import java.net.URL;
 
 import net.simpleframework.common.Base64;
 import net.simpleframework.common.IoUtils;
+import net.simpleframework.common.logger.Log;
+import net.simpleframework.common.logger.LogFactory;
 
 /**
  * Licensed under the Apache License, Version 2.0
@@ -17,12 +19,16 @@ import net.simpleframework.common.IoUtils;
  */
 public class ImageElement extends AbstractElement<ImageElement> {
 
-	public static ImageElement toDataPNG(final String src) throws IOException {
+	public static ImageElement toDataPNG(final String src) {
+		final String lsrc = src.startsWith("//") ? "http:" + src : src;
 		final ByteArrayOutputStream out = new ByteArrayOutputStream();
 		InputStream iStream = null;
 		try {
-			IoUtils.copyStream(
-					iStream = new URL(src.startsWith("//") ? "http:" + src : src).openStream(), out);
+			IoUtils.copyStream(iStream = new URL(lsrc).openStream(), out);
+		} catch (final IOException ex) {
+			final Log log = LogFactory.getLogger(ImageElement.class);
+			log.error(ex);
+			return new ImageElement(lsrc);
 		} finally {
 			if (iStream != null) {
 				try {
