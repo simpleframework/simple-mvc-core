@@ -19,6 +19,9 @@ var isMobile = {
   windows: function() {
     return navigator.userAgent.match(/IEMobile/i) ? true: false;
   },
+  weixin: function() {
+    return navigator.userAgent.match(/micromessenger/i) ? true: false;
+  },
   any: function() {
     if (location.pathname.indexOf('/m/') > -1) {
       // 特殊规则
