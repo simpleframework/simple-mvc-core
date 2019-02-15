@@ -125,8 +125,9 @@ public abstract class AbstractInputElement<T extends AbstractInputElement<T>>
 				addStyle("overflow-y:hidden; min-height: " + (21 * getRows()) + "px;");
 				addAttribute("autorows", "true");
 				addAttribute("oninput",
-						"this.style.height='0px'; this.style.height = (this.scrollHeight + 'px');");
-				addAttribute("onpropertychange", "this.style.height = (this.scrollHeight + 'px');");
+						"this.style.height='0px'; this.style.height = ((this.scrollHeight - 4) + 'px');");
+				addAttribute("onpropertychange",
+						"this.style.height = ((this.scrollHeight - 4) + 'px');");
 			}
 		}
 		super.doAttri(sb);
