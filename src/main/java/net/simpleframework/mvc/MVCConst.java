@@ -31,7 +31,7 @@ public class MVCConst {
 	public static final String PAGELOAD_TIME = "pageload_time";
 
 	/* html */
-	public static final String HTML_BASE64_CLASS = "html_base64_class";
+	public static final String HTML_ENCODE_CLASS = "html_encode_class";
 
 	public static final String IMAGES_PATH = ContextSettings.HOME_PATH + "images";
 }

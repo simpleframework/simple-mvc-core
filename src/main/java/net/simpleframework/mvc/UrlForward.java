@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import javax.servlet.http.Cookie;
 
-import net.simpleframework.common.AlgorithmUtils;
+import net.simpleframework.common.StringUtils;
 import net.simpleframework.lib.org.jsoup.Connection;
 import net.simpleframework.lib.org.jsoup.Jsoup;
 
@@ -69,8 +69,8 @@ public class UrlForward extends AbstractUrlForward {
 
 	public static String includeResponseText(final String text) {
 		final StringBuilder sb = new StringBuilder();
-		sb.append("<div class='").append(MVCConst.HTML_BASE64_CLASS).append("'>")
-				.append(AlgorithmUtils.base64Encode(text.getBytes())).append("</div>");
+		sb.append("<div class='").append(MVCConst.HTML_ENCODE_CLASS).append("'>")
+				.append(StringUtils.encodeHex(text.getBytes())).append("</div>");
 		return sb.toString();
 	}
 

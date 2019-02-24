@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import net.simpleframework.common.AlgorithmUtils;
 import net.simpleframework.common.StringUtils;
 import net.simpleframework.common.web.HttpUtils;
 import net.simpleframework.lib.org.jsoup.nodes.Element;
@@ -94,12 +93,12 @@ public class ResourceBinding extends AbstractParser {
 		}
 
 		// 转换UrlForward直接输出的代码
-		final Elements elements = htmlHead.ownerDocument().select("." + MVCConst.HTML_BASE64_CLASS);
+		final Elements elements = htmlHead.ownerDocument().select("." + MVCConst.HTML_ENCODE_CLASS);
 		for (int i = 0; i < elements.size(); i++) {
 			final Element element = elements.get(i);
 			final Element parent = element.parent();
 			final List<Node> nodes = ParserUtils.htmlToNodes(pp,
-					new String(AlgorithmUtils.base64Decode(element.text())), htmlHead);
+					new String(StringUtils.decodeHex(element.text())), htmlHead);
 			final int jj = element.elementSiblingIndex();
 			element.remove();
 			parent.insertChildren(jj, nodes);
