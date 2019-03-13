@@ -50,6 +50,7 @@ public class UrlForward extends AbstractUrlForward {
 					.userAgent("HttpClient-[" + rRequest.getRequestHeader("User-Agent") + "]")
 					.maxBodySize(0).timeout(10 * 60 * 1000);
 			conn.header("x-forwarded-for", rRequest.getRemoteAddr());
+
 			final Cookie[] cookies = rRequest.getRequestCookies();
 			if (cookies != null) {
 				for (final Cookie cookie : cookies) {
