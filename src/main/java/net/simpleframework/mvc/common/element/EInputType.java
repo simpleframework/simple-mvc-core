@@ -37,5 +37,7 @@ public enum EInputType {
 
 	tel,
 
-	email
+	email,
+
+	url
 }
