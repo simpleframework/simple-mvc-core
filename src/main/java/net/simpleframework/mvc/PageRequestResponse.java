@@ -461,7 +461,7 @@ public class PageRequestResponse extends ObjectEx implements IMVCSettingsAware {
 
 	public boolean isLocalhost() {
 		final String host = HttpUtils.getHost(request, null);
-		return "127.0.0.1".equals(host) || "localhost".equals(host);
+		return host != null && (host.equals("127.0.0.1") || host.contains("localhost"));
 	}
 
 	/*-----------------------utils stream--------------------*/
