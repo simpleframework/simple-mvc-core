@@ -310,6 +310,14 @@ public class PageRequestResponse extends ObjectEx implements IMVCSettingsAware {
 		return request.getHeader("User-Agent").startsWith("HttpClient-");
 	}
 
+	public boolean isHttpLocalRequest() {
+		if (isHttpRequest()) {
+			final String host = HttpUtils.getHost(request, null);
+			return host != null && (host.equals("127.0.0.1") || host.contains("localhost"));
+		}
+		return false;
+	}
+
 	public String stripHTMLContextPath(final String html) {
 		return HtmlUtils.stripContextPath(request, html);
 	}
@@ -457,11 +465,6 @@ public class PageRequestResponse extends ObjectEx implements IMVCSettingsAware {
 
 	public String getRequestAndQueryStringUrl() {
 		return HttpUtils.getRequestAndQueryStringUrl(request);
-	}
-
-	public boolean isLocalhost() {
-		final String host = HttpUtils.getHost(request, null);
-		return host != null && (host.equals("127.0.0.1") || host.contains("localhost"));
 	}
 
 	/*-----------------------utils stream--------------------*/
