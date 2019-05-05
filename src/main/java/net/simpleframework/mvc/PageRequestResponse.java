@@ -421,7 +421,11 @@ public class PageRequestResponse extends ObjectEx implements IMVCSettingsAware {
 			if (getBoolParameter("_mobile_preview")) {
 				return true;
 			}
-			final String uri = getRequestURI();
+
+			String uri = getRefererParam();
+			if (!StringUtils.hasText(uri)) {
+				uri = getRequestURI();
+			}
 			if (uri.contains("/m/")) { // 特殊规则
 				return true;
 			}
