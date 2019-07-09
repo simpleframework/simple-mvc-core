@@ -41,7 +41,8 @@ public abstract class DeployWeb implements IMVCSettingsAware {
 				if (!mvcSettings.isDebug()) {
 					packageName = DeployUtils.getShortPackage(packageName);
 				}
-				sb.append("/").append(DeployUtils.RESOURCE_NAME).append("/").append(packageName);
+				sb.append("/").append(DeployUtils.RESOURCE_NAME).append("/").append(packageName)
+						.append("/");
 				return sb.toString();
 			}
 
