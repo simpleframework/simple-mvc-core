@@ -89,7 +89,7 @@ var $Actions = {
     params = params || '';
     var a = $(".pager_block_bottom a.current");
     if (a) {
-      params.addParameter('pageNumber=' + a.innerHTML);
+      params = params.addParameter('pageNumber=' + a.innerHTML);
     }
     if (params.length > 0)
       location.href = location.href.addParameter(params);
