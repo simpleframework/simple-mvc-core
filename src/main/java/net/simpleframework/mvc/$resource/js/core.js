@@ -86,7 +86,12 @@ var $Actions = {
   },
 
   reloc : function(params) {
-    if (params)
+    params = params || '';
+    var a = $(".pager_block_bottom a.current");
+    if (a) {
+      params.addParameter('pageNumber=' + a.innerHTML);
+    }
+    if (params.length > 0)
       location.href = location.href.addParameter(params);
     else
       window.location.reload();
