@@ -88,8 +88,9 @@ var $Actions = {
   reloc : function(params) {
     params = params || '';
     var a = $(".pager_block_bottom a.current");
-    if (a) {
-      params = params.addParameter('pageNumber=' + a.innerHTML);
+    var num;
+    if (a && (num = parseInt(a.innerHTML)) > 1) {
+    	params = (params.length > 0 ? "&" : "") + "pageNumber=" + num;
     }
     if (params.length > 0)
       location.href = location.href.addParameter(params);
