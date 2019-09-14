@@ -105,7 +105,7 @@ public abstract class AbstractInputElement<T extends AbstractInputElement<T>>
 	@Override
 	protected void doAttri(final StringBuilder sb) {
 		if (!isDisabled()) {
-			addAttribute("onchange", getOnchange());
+			addAttribute("onchange", toEventString(getOnchange()));
 		} else {
 			sb.append(" disabled");
 		}

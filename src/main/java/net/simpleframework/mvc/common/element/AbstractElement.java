@@ -31,6 +31,8 @@ public abstract class AbstractElement<T extends AbstractElement<T>> extends Text
 	private boolean disabled;
 
 	private String onclick, ondblclick;
+	/* 禁止事件冒泡 */
+	private boolean eventStopped;
 
 	/* 描述 */
 	private String title;
@@ -100,6 +102,14 @@ public abstract class AbstractElement<T extends AbstractElement<T>> extends Text
 	public T setOndblclick(final String ondblclick) {
 		this.ondblclick = ondblclick;
 		return (T) this;
+	}
+
+	public boolean isEventStopped() {
+		return eventStopped;
+	}
+
+	public void setEventStopped(final boolean eventStopped) {
+		this.eventStopped = eventStopped;
 	}
 
 	public String getClassName() {
@@ -283,13 +293,26 @@ public abstract class AbstractElement<T extends AbstractElement<T>> extends Text
 		return addAttribute(key, "");
 	}
 
+	protected String toEventString(final String event) {
+		if (event != null && isEventStopped()) {
+			final StringBuilder sb = new StringBuilder(event);
+			if (!event.trim().endsWith(";")) {
+				sb.append(";");
+			}
+			sb.append("Event.stop(event);");
+			return sb.toString();
+		}
+		return event;
+	}
+
 	protected void doAttri(final StringBuilder sb) {
 		addAttribute("id", getId()).addAttribute("name", getName());
 		addAttribute("title", getTitle()).addAttribute("placeholder", getPlaceholder());
 
 		addAttribute("class", getClassName());
 		if (!isDisabled()) {
-			addAttribute("onclick", getOnclick()).addAttribute("ondblclick", getOndblclick());
+			addAttribute("onclick", toEventString(getOnclick())).addAttribute("ondblclick",
+					toEventString(getOndblclick()));
 		}
 
 		addAttribute("style", getStyle());
