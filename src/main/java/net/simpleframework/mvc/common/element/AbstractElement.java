@@ -108,8 +108,9 @@ public abstract class AbstractElement<T extends AbstractElement<T>> extends Text
 		return eventStopped;
 	}
 
-	public void setEventStopped(final boolean eventStopped) {
+	public T setEventStopped(final boolean eventStopped) {
 		this.eventStopped = eventStopped;
+		return (T) this;
 	}
 
 	public String getClassName() {
