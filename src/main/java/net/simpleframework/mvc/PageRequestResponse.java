@@ -422,9 +422,9 @@ public class PageRequestResponse extends ObjectEx implements IMVCSettingsAware {
 
 	public boolean isMobile(final boolean original) {
 		if (!original) {
-			// if (isMobilePreview()) {
-			// return true;
-			// }
+			if (isMobilePreview()) {
+				return true;
+			}
 			String uri = getRefererParam();
 			if (!StringUtils.hasText(uri)) {
 				uri = getRequestURI();
