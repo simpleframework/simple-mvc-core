@@ -425,7 +425,8 @@ public class PageRequestResponse extends ObjectEx implements IMVCSettingsAware {
 			if (isMobilePreview()) {
 				return true;
 			}
-			String uri = getRefererParam();
+
+			String uri = isAjaxRequest() ? getRequestHeader("Referer") : getRefererParam();
 			if (!StringUtils.hasText(uri)) {
 				uri = getRequestURI();
 			}
