@@ -144,6 +144,7 @@ public class SessionCache {
 	public static HttpSessionListener SESSIONCACHE_LISTENER = new HttpSessionListener() {
 		@Override
 		public void sessionCreated(final HttpSessionEvent httpSessionEvent) {
+			System.out.println("sessionCreated: " + httpSessionEvent.getSession().getId());
 		}
 
 		@Override
@@ -161,6 +162,11 @@ public class SessionCache {
 	static {
 		((IApplicationContext) MVCContext.get()).getTaskExecutor()
 				.addScheduledTask(new ExecutorRunnable() {
+					@Override
+					protected int getDefaultPeriod() {
+						return 60 * 2;
+					}
+
 					@Override
 					protected void task(final Map<String, Object> cache) throws Exception {
 						final Set<String> sessionKeys = DEFAULT.sAttribute.sessionKeys();

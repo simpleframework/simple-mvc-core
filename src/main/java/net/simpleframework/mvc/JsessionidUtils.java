@@ -17,14 +17,14 @@ import net.simpleframework.common.StringUtils;
 public abstract class JsessionidUtils {
 	private static final ThreadLocal<String> SESSIONIDs = new ThreadLocal<>();
 
-	private static Map<String, String> PARAM_SESSIONIDS = new ConcurrentHashMap<>();
+	private static Map<String, String> PARAM_SESSIONIDs = new ConcurrentHashMap<>();
 
 	public static String getId() {
 		final String id = SESSIONIDs.get();
 		if (id == null) {
 			return null;
 		} else {
-			final String param = PARAM_SESSIONIDS.get(id);
+			final String param = PARAM_SESSIONIDs.get(id);
 			return param != null ? param : id;
 		}
 	}
@@ -40,12 +40,12 @@ public abstract class JsessionidUtils {
 		// 当httpclient和当前不是一个session
 		final String _jsessionId = httpRequest.getParameter(MVCConst.JSESSIONID);
 		if (StringUtils.hasText(_jsessionId) && !_jsessionId.equals(jsessionId)) {
-			PARAM_SESSIONIDS.put(jsessionId, _jsessionId);
+			PARAM_SESSIONIDs.put(jsessionId, _jsessionId);
 		}
 	}
 
 	public static void remove(final String jsessionId) {
-		PARAM_SESSIONIDS.remove(jsessionId);
+		PARAM_SESSIONIDs.remove(jsessionId);
 		SESSIONIDs.remove();
 	}
 }

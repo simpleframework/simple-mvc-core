@@ -68,10 +68,26 @@ public class MVCFilter extends ObjectEx implements Filter {
 		if (rURI.indexOf("/$") > -1) {
 			return rURI.lastIndexOf(".jsp") > 0;
 		}
-		if (rURI.endsWith(".html") || rURI.endsWith(".htm") || rURI.endsWith(".txt")) {
+		if (endsWith(rURI, MATCHS_JS_CSS) || endsWith(rURI, MATCHS_IMAGE)
+				|| endsWith(rURI, MATCHS_HTML)) {
 			return false;
 		}
 		return true;
+	}
+
+	protected String[] MATCHS_JS_CSS = new String[] { ".js", ".css" };
+	protected String[] MATCHS_IMAGE = new String[] { ".png", ".jpeg", ".jpg", ".gif", ".ico" };
+	protected String[] MATCHS_HTML = new String[] { ".html", ".htm", ".txt" };
+
+	protected boolean endsWith(final String str, final String[] matchs) {
+		if (matchs != null) {
+			for (final String m : matchs) {
+				if (str.endsWith(m)) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	protected String getRedirectUrl(final PageRequestResponse rRequest,
@@ -102,6 +118,7 @@ public class MVCFilter extends ObjectEx implements Filter {
 				final boolean bHttpRequest = rRequest.isHttpRequest();
 				if (bHttpRequest) {
 					rRequest.setRequestAttr(MVCConst.PAGELOAD_TIME, System.currentTimeMillis());
+					System.out.println("@HttpRequest Uri@ => " + rRequest.getRequestURI());
 				}
 
 				/* page document */
@@ -158,8 +175,8 @@ public class MVCFilter extends ObjectEx implements Filter {
 
 					String rHTML = forward != null ? forward.getResponseText(pp) : _response.toString();
 					// html解析并组合
-					if (!Convert.toBool(pp.getBeanProperty("disabled"))
-							&& (forward == null || forward.isHtmlParser())) {
+					final boolean disabled = Convert.toBool(pp.getBeanProperty("disabled"));
+					if (!disabled && (forward == null || forward.isHtmlParser())) {
 						rHTML = new PageParser(pp).parser(rHTML).toHtml();
 					}
 
