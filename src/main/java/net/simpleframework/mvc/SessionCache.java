@@ -144,7 +144,6 @@ public class SessionCache {
 	public static HttpSessionListener SESSIONCACHE_LISTENER = new HttpSessionListener() {
 		@Override
 		public void sessionCreated(final HttpSessionEvent httpSessionEvent) {
-			System.out.println("sessionCreated: " + httpSessionEvent.getSession().getId());
 		}
 
 		@Override

@@ -118,7 +118,8 @@ public class MVCFilter extends ObjectEx implements Filter {
 				final boolean bHttpRequest = rRequest.isHttpRequest();
 				if (bHttpRequest) {
 					rRequest.setRequestAttr(MVCConst.PAGELOAD_TIME, System.currentTimeMillis());
-					System.out.println("@HttpRequest Uri@ => " + rRequest.getRequestURI());
+					System.out.println(
+							"@HttpRequest Uri@" + rRequest.getLogin() + " => " + rRequest.getRequestURI());
 				}
 
 				/* page document */
