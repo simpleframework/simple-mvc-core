@@ -2,8 +2,6 @@ package net.simpleframework.mvc.ctx.permission;
 
 import java.io.IOException;
 
-import javax.servlet.FilterChain;
-
 import net.simpleframework.common.AlgorithmUtils;
 import net.simpleframework.common.StringUtils;
 import net.simpleframework.ctx.permission.LoginUser;
@@ -12,6 +10,7 @@ import net.simpleframework.ctx.permission.PermissionConst;
 import net.simpleframework.mvc.IFilterListener;
 import net.simpleframework.mvc.MVCContext;
 import net.simpleframework.mvc.MVCUtils;
+import net.simpleframework.mvc.PageDocument;
 import net.simpleframework.mvc.PageParameter;
 import net.simpleframework.mvc.PageRequestResponse;
 
@@ -24,8 +23,8 @@ import net.simpleframework.mvc.PageRequestResponse;
 public class PermissionFilterListener implements IFilterListener {
 
 	@Override
-	public EFilterResult doFilter(final PageRequestResponse rRequest, final FilterChain filterChain)
-			throws IOException {
+	public EFilterResult doFilter(final PageRequestResponse rRequest,
+			final PageDocument pageDocument) throws IOException {
 		final IPagePermissionHandler permission = MVCContext.get().getPermission();
 
 		if (rRequest.isHttpRequest()) {

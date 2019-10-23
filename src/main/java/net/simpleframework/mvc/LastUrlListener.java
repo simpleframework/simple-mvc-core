@@ -2,8 +2,6 @@ package net.simpleframework.mvc;
 
 import java.io.IOException;
 
-import javax.servlet.FilterChain;
-
 import net.simpleframework.common.StringUtils;
 
 /**
@@ -30,8 +28,8 @@ public class LastUrlListener implements IFilterListener {
 	}
 
 	@Override
-	public EFilterResult doFilter(final PageRequestResponse rRequest, final FilterChain filterChain)
-			throws IOException {
+	public EFilterResult doFilter(final PageRequestResponse rRequest,
+			final PageDocument pageDocument) throws IOException {
 		String accept;
 		if (rRequest.isHttpRequest() && (accept = rRequest.getRequestHeader("Accept")) != null
 				&& accept.contains("text/html")) {

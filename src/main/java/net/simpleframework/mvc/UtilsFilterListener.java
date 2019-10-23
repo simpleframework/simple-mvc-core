@@ -2,8 +2,6 @@ package net.simpleframework.mvc;
 
 import java.io.IOException;
 
-import javax.servlet.FilterChain;
-
 import net.simpleframework.common.Convert;
 import net.simpleframework.common.StringUtils;
 
@@ -17,8 +15,8 @@ import net.simpleframework.common.StringUtils;
 public class UtilsFilterListener implements IFilterListener {
 
 	@Override
-	public EFilterResult doFilter(final PageRequestResponse rRequest, final FilterChain filterChain)
-			throws IOException {
+	public EFilterResult doFilter(final PageRequestResponse rRequest,
+			final PageDocument pageDocument) throws IOException {
 		final String ieWarnUrl;
 		if (rRequest.isHttpRequest() && !rRequest.getBoolParameter("iewarn_disabled")
 				&& StringUtils.hasText(ieWarnUrl = mvcSettings.getIEWarnPath(rRequest))

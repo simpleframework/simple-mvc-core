@@ -125,7 +125,7 @@ public class MVCFilter extends ObjectEx implements Filter {
 				/* page document */
 				final PageDocument pageDocument = PageDocumentFactory.getPageDocument(rRequest);
 				if (pageDocument == null) {
-					if (doFilterInternal(rRequest, filterChain) == EFilterResult.BREAK) {
+					if (doFilterInternal(rRequest, pageDocument) == EFilterResult.BREAK) {
 						return;
 					}
 
@@ -136,7 +136,7 @@ public class MVCFilter extends ObjectEx implements Filter {
 
 					final PageParameter pp = PageParameter.get(rRequest, pageDocument);
 					/* 以下为后处理部分 */
-					if (doFilterInternal(pp, filterChain) == EFilterResult.BREAK) {
+					if (doFilterInternal(pp, pageDocument) == EFilterResult.BREAK) {
 						return;
 					}
 
@@ -226,10 +226,10 @@ public class MVCFilter extends ObjectEx implements Filter {
 	}
 
 	protected EFilterResult doFilterInternal(final PageRequestResponse rRequest,
-			final FilterChain filterChain) throws IOException {
+			final PageDocument pageDocument) throws IOException {
 		if (SessionCache.lget(MVCConst.SESSION_ATTRI_THROWABLE) == null) {
 			for (final IFilterListener listener : MVCContext.get().getFilterListeners()) {
-				if (listener.doFilter(rRequest, filterChain) == EFilterResult.BREAK) {
+				if (listener.doFilter(rRequest, pageDocument) == EFilterResult.BREAK) {
 					return EFilterResult.BREAK;
 				}
 			}
