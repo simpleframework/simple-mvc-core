@@ -63,6 +63,7 @@ var $Actions = {
     
     if (window.location.href.indexOf('_mobile_preview=') > 0) {
       url = url.addParameter('_mobile_preview=true');
+      open = false;
     }
     
     if (window !== parent) {
