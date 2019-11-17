@@ -66,7 +66,7 @@ var $Actions = {
       open = false;
     }
     
-    if (window !== parent) {
+    if (window !== parent || isMobile.any()) {
       open = false;
     }
     
