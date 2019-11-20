@@ -4,10 +4,7 @@ import java.util.Enumeration;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
-import javax.servlet.http.HttpSessionBindingEvent;
 import javax.servlet.http.HttpSessionContext;
-
-import net.simpleframework.mvc.SessionCache.DefaultSessionAttribute;
 
 /**
  * Licensed under the Apache License, Version 2.0
@@ -18,17 +15,19 @@ import net.simpleframework.mvc.SessionCache.DefaultSessionAttribute;
  */
 @SuppressWarnings("deprecation")
 public class PageSession implements HttpSession {
-	private static SessionCache sCache = new SessionCache(new DefaultSessionAttribute());
+	// private static SessionCache sCache = new SessionCache(new
+	// DefaultSessionAttribute());
 
-	private final MVCEventAdapter adapter = MVCContext.get().getEventAdapter();
+	// private final MVCEventAdapter adapter =
+	// MVCContext.get().getEventAdapter();
 
 	private final HttpSession httpSession;
 
 	public PageSession(final HttpSession httpSession) {
 		this.httpSession = httpSession;
-		if (JsessionidUtils.getId() == null) {
-			JsessionidUtils.setJSessionId(httpSession.getId());
-		}
+		// if (JsessionidUtils.getId() == null) {
+		// JsessionidUtils.setJSessionId(httpSession.getId());
+		// }
 	}
 
 	public HttpSession getHttpSession() {
@@ -42,24 +41,29 @@ public class PageSession implements HttpSession {
 
 	@Override
 	public Object getAttribute(final String key) {
-		return sCache.get(key);
+		return httpSession.getAttribute(key);
 	}
 
 	@Override
 	public void setAttribute(final String key, final Object val) {
-		sCache.put(key, val);
-		adapter.attributeAdded(new HttpSessionBindingEvent(httpSession, key, val));
+		httpSession.setAttribute(key, val);
+		// sCache.put(key, val);
+		// adapter.attributeAdded(new HttpSessionBindingEvent(httpSession, key,
+		// val));
 	}
 
 	@Override
 	public void removeAttribute(final String key) {
-		final Object val = sCache.remove(key);
-		adapter.attributeRemoved(new HttpSessionBindingEvent(httpSession, key, val));
+		httpSession.removeAttribute(key);
+		// final Object val = sCache.remove(key);
+		// adapter.attributeRemoved(new HttpSessionBindingEvent(httpSession, key,
+		// val));
 	}
 
 	@Override
 	public Enumeration<String> getAttributeNames() {
-		return sCache.getAttributeNames();
+		return httpSession.getAttributeNames();
+		// return sCache.getAttributeNames();
 	}
 
 	@Override
