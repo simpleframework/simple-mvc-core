@@ -20,6 +20,7 @@ import net.simpleframework.common.JsonUtils;
 import net.simpleframework.common.StringUtils;
 import net.simpleframework.common.coll.KVMap;
 import net.simpleframework.common.object.ObjectEx;
+import net.simpleframework.common.web.HttpUtils;
 import net.simpleframework.common.web.JavascriptUtils;
 import net.simpleframework.common.web.html.HtmlConst;
 import net.simpleframework.mvc.IFilterListener.EFilterResult;
@@ -118,8 +119,10 @@ public class MVCFilter extends ObjectEx implements Filter {
 				final boolean bHttpRequest = rRequest.isHttpRequest();
 				if (bHttpRequest) {
 					rRequest.setRequestAttr(MVCConst.PAGELOAD_TIME, System.currentTimeMillis());
-					System.out.println(
-							"@HttpRequest Uri@" + rRequest.getLogin() + " => " + rRequest.getRequestURI());
+					System.out.println("@HttpRequest Uri@"
+							+ (rRequest.isLogin() ? rRequest.getLogin()
+									: HttpUtils.getRemoteAddr(httpRequest))
+							+ " => " + rRequest.getRequestURI());
 				}
 
 				/* page document */
