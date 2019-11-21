@@ -413,7 +413,12 @@ public class PageRequestResponse extends ObjectEx implements IMVCSettingsAware {
 	}
 
 	public boolean isMobilePreview() {
-		return getBoolParameter("_mobile_preview") || Convert.toBool(getCookie("_mobile_preview"));
+		return getBoolParameter(MVCConst.PARAM_MOBILE_PREVIEW)
+				|| Convert.toBool(getCookie(MVCConst.PARAM_MOBILE_PREVIEW));
+	}
+
+	public String addMobilePreviewUrl(final String url) {
+		return HttpUtils.addParameters(url, MVCConst.PARAM_MOBILE_PREVIEW + "=true");
 	}
 
 	public boolean isMobile() {
