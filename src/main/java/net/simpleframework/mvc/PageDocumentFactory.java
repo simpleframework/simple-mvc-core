@@ -53,7 +53,7 @@ public class PageDocumentFactory implements IMVCSettingsAware {
 				final int p = lookupPath.lastIndexOf('.');
 				xmlpath = MVCUtils
 						.getRealPath(((p <= 0) ? lookupPath : lookupPath.substring(0, p)) + ".xml");
-				return getPageDocumentAndCreate(new File(xmlpath), rRequest);
+				return getPageDocumentAndCreate(xmlpath != null ? new File(xmlpath) : null, rRequest);
 			}
 		}
 	}
