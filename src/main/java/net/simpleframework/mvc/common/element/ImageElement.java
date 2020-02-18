@@ -7,6 +7,7 @@ import java.net.URL;
 
 import net.simpleframework.common.Base64;
 import net.simpleframework.common.IoUtils;
+import net.simpleframework.common.StringUtils;
 import net.simpleframework.common.logger.Log;
 import net.simpleframework.common.logger.LogFactory;
 
@@ -67,7 +68,14 @@ public class ImageElement extends AbstractElement<ImageElement> {
 	}
 
 	public ImageElement zoomable() {
+		return zoomable(null);
+	}
+
+	public ImageElement zoomable(final String original_src) {
 		addAttribute("data-zoomable");
+		if (StringUtils.hasText(original_src)) {
+			addAttribute("data-zoom-src", original_src);
+		}
 		return this;
 	}
 
