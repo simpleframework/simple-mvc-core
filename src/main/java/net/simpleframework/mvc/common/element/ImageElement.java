@@ -66,6 +66,11 @@ public class ImageElement extends AbstractElement<ImageElement> {
 		return this;
 	}
 
+	public ImageElement zoomable() {
+		addAttribute("data-zoomable");
+		return this;
+	}
+
 	@Override
 	public String toString() {
 		addAttribute("src", getSrc());
