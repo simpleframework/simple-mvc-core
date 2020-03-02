@@ -24,6 +24,8 @@ public abstract class AbstractInputElement<T extends AbstractInputElement<T>>
 
 	/* 仅对textarea */
 	private int rows = 4;
+	/* 行高度 */
+	private int rowHeight = 21;
 	private boolean autoRows;
 
 	/* change事件 */
@@ -65,6 +67,15 @@ public abstract class AbstractInputElement<T extends AbstractInputElement<T>>
 
 	public T setRows(final int rows) {
 		this.rows = rows;
+		return (T) this;
+	}
+
+	public int getRowHeight() {
+		return rowHeight;
+	}
+
+	public T setRowHeight(final int rowHeight) {
+		this.rowHeight = rowHeight;
 		return (T) this;
 	}
 
@@ -122,11 +133,15 @@ public abstract class AbstractInputElement<T extends AbstractInputElement<T>>
 		if (type == EInputType.textarea) {
 			addAttribute("rows", getRows());
 			if (isAutoRows()) {
-				addStyle("overflow-y:hidden; min-height: " + (21 * getRows()) + "px;");
+				final int rowHeight = getRowHeight();
+				final int height = rowHeight * getRows();
+				addStyle("overflow-y:hidden; min-height: " + height + "px; height: " + height
+						+ "px; line-height: " + rowHeight + "px;");
 				addAttribute("autorows", "true");
-				addAttribute("oninput",
-						"this.style.height='0px'; this.style.height = (this.scrollHeight + 'px');");
-				addAttribute("onpropertychange", "this.style.height = (this.scrollHeight + 'px');");
+				final String js = "this.style.height = (" + rowHeight
+						+ " * Math.floor(this.scrollHeight / " + rowHeight + ")) + 'px';";
+				addAttribute("oninput", "this.style.height='0px';" + js);
+				addAttribute("onpropertychange", js);
 			}
 		}
 		super.doAttri(sb);
