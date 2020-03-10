@@ -206,9 +206,9 @@ var $UI = {
       doScriptText(scriptText, id);
     } else {
       var script = scripts.removeAt(0);
-      var src = script.getAttribute("src");
-      if (src) {
-        src = $UI._toUrl(src);
+      var osrc = script.getAttribute("src");
+      if (osrc) {
+        var src = $UI._toUrl(osrc);
         var _script = null;
         var _scripts = document.getElementsByTagName("script");
         for (var i = _scripts.length - 1; i >= 0; i--) {
@@ -237,7 +237,7 @@ var $UI = {
               $UI.addScript(scripts, scriptText, id);
             }
           }
-          _script.src = src;
+          _script.src = osrc;
         } else {
           if (!_script.done || _script.done == "done") {
             $UI.addScript(scripts, scriptText, id);
