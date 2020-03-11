@@ -91,9 +91,9 @@ public class PageRequest extends HttpServletRequestWrapper {
 		final Enumeration<?> en = super.getHeaders(name);
 		if (en != null && en.hasMoreElements()) {
 			return en;
-		} else {
-			return (Enumeration<?>) headers.get(name);
 		}
+		final Enumeration<?> _en = (Enumeration<?>) headers.get(name);
+		return _en != null ? _en : en;
 	}
 
 	@Override
