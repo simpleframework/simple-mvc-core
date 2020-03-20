@@ -141,6 +141,7 @@ public abstract class AbstractInputElement<T extends AbstractInputElement<T>>
 				final String js = "this.style.height = (" + rowHeight
 						+ " * Math.floor(this.scrollHeight / " + rowHeight + ")) + 'px';";
 				addAttribute("oninput", "this.style.height='0px';" + js);
+				addAttribute("onfocus", js);
 				addAttribute("onpropertychange", js);
 			}
 		}
