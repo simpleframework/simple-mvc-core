@@ -77,9 +77,22 @@ public abstract class DeployWeb implements IMVCSettingsAware {
 									FileUtils.createDirectoryRecursively(to);
 								} else {
 									final boolean compress = mvcSettings.isResourceCompress();
+									final String tofile = to.getName();
+									String jsprop = null, cssprop = null;
+									if (tofile.endsWith(".js")) {
+										jsprop = (String) properties.get("jsCompress/" + tofile);
+										if (jsprop == null) {
+											jsprop = (String) properties.get("jsCompress");
+										}
+									} else if (tofile.endsWith(".css")) {
+										cssprop = (String) properties.get("cssCompress/" + tofile);
+										if (cssprop == null) {
+											cssprop = (String) properties.get("cssCompress");
+										}
+									}
 									JavascriptUtils.copyFile(inputStream, to,
-											Convert.toBool(properties.get("jsCompress"), compress),
-											Convert.toBool(properties.get("cssCompress"), compress));
+											Convert.toBool(jsprop, compress),
+											Convert.toBool(cssprop, compress));
 								}
 							}
 						}
