@@ -16,7 +16,6 @@ import net.simpleframework.ctx.permission.PermissionConst;
 import net.simpleframework.ctx.permission.PermissionUser;
 import net.simpleframework.mvc.IForward;
 import net.simpleframework.mvc.IMVCSettingsAware;
-import net.simpleframework.mvc.MVCConst;
 import net.simpleframework.mvc.MVCUtils;
 import net.simpleframework.mvc.PageRequestResponse;
 import net.simpleframework.mvc.UrlForward;
@@ -119,7 +118,7 @@ public class DefaultPagePermissionHandler extends DefaultPermissionHandler
 			}
 		}
 		rRequest.setRequestAttr("_photoFile", photoFile);
-		sb.append(MVCConst.IMAGES_PATH).append("/").append(id).append("/").append(filename)
+		sb.append(mvcSettings.getHomeUri("/images/")).append(id).append("/").append(filename)
 				.append("?last=").append(photoFile.lastModified());
 		return sb.toString();
 	}

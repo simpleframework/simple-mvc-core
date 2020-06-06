@@ -19,7 +19,6 @@ import net.simpleframework.common.th.ThrowableUtils;
 import net.simpleframework.common.web.HttpUtils;
 import net.simpleframework.ctx.common.bean.AttachmentFile;
 import net.simpleframework.mvc.IMVCSettingsAware;
-import net.simpleframework.mvc.MVCConst;
 import net.simpleframework.mvc.MVCUtils;
 import net.simpleframework.mvc.PageRequestResponse;
 
@@ -169,7 +168,7 @@ public class ImageCache extends ObjectEx implements IMVCSettingsAware {
 	public String getPath(final PageRequestResponse rRequest) {
 		String path;
 		if (StringUtils.hasText(_filename)) {
-			path = rRequest.wrapContextPath(MVCConst.IMAGES_PATH + "/" + _filename);
+			path = rRequest.wrapContextPath(mvcSettings.getHomeUri("/images/" + _filename));
 		} else {
 			final String noImagePath = getNoImagePath();
 			if (StringUtils.hasText(noImagePath)) {
