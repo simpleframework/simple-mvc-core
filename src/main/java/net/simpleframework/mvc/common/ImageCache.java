@@ -168,7 +168,7 @@ public class ImageCache extends ObjectEx implements IMVCSettingsAware {
 	public String getPath(final PageRequestResponse rRequest) {
 		String path;
 		if (StringUtils.hasText(_filename)) {
-			path = rRequest.wrapContextPath(mvcSettings.getHomeUri("/images/" + _filename));
+			path = rRequest.wrapContextPath(mvcSettings.wrapHomeUri("/images/" + _filename));
 		} else {
 			final String noImagePath = getNoImagePath();
 			if (StringUtils.hasText(noImagePath)) {

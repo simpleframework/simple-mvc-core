@@ -118,7 +118,7 @@ public class DefaultPagePermissionHandler extends DefaultPermissionHandler
 			}
 		}
 		rRequest.setRequestAttr("_photoFile", photoFile);
-		sb.append(mvcSettings.getHomeUri("/images/")).append(id).append("/").append(filename)
+		sb.append(mvcSettings.wrapHomeUri("/images/")).append(id).append("/").append(filename)
 				.append("?last=").append(photoFile.lastModified());
 		return sb.toString();
 	}
