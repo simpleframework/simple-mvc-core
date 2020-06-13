@@ -401,8 +401,8 @@ var $Effect = {};
     return this.replace(/\r/g, '<br>').replace(/\n/g, '<br>');
   };
 
-  String.prototype.md5 = function(str) {
-    return __string_md5();
+  String.prototype.md5 = function() {
+    return __string_md5(this.toString());
   };
 
   String.prototype.addParameter = function(parameters) {
@@ -529,7 +529,7 @@ var $Effect = {};
   };
 })();
 
-function __string_md5() {
+function __string_md5(_str) {
   var hex_chr = "0123456789abcdef";
   /*
    * Convert a 32-bit number to a hex string with ls-byte first
@@ -591,7 +591,7 @@ function __string_md5() {
     return cmn(c ^ (b | (~d)), a, b, x, s, t);
   }
 
-  x = str2blks_MD5(this.toString());
+  x = str2blks_MD5(_str);
   a = 1732584193;
   b = -271733879;
   c = -1732584194;
