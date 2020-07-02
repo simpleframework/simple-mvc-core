@@ -134,7 +134,7 @@ public abstract class AbstractInputElement<T extends AbstractInputElement<T>>
 			addAttribute("rows", getRows());
 			if (isAutoRows()) {
 				final int rowHeight = getRowHeight();
-				final int height = rowHeight * getRows();
+				final int height = rowHeight * getRows() - 4;
 				addStyle("overflow-y:hidden; min-height: " + height + "px; height: " + height
 						+ "px; line-height: " + rowHeight + "px;");
 				addAttribute("autorows", "true");
