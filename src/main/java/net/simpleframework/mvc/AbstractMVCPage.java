@@ -544,7 +544,7 @@ public abstract class AbstractMVCPage extends AbstractMVCHandler {
 	}
 
 	protected final Meta MOBILE_VIEWPORT = new Meta(
-			"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0")
+			"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, viewport-fit=cover")
 					.setName("viewport");
 
 	/**
