@@ -11,7 +11,6 @@ import java.net.URL;
 import net.simpleframework.common.Convert;
 import net.simpleframework.common.FileUtils;
 import net.simpleframework.common.ImageUtils;
-import net.simpleframework.common.IoUtils;
 import net.simpleframework.common.StringUtils;
 import net.simpleframework.common.object.ObjectEx;
 import net.simpleframework.common.object.ObjectUtils;
@@ -89,11 +88,11 @@ public class ImageCache extends ObjectEx implements IMVCSettingsAware {
 							if (scale > 0) {
 								ImageUtils.thumbnail(is, scale, fos, _type);
 							} else {
-								if (width == 0 && height == 0) {
-									IoUtils.copyStream(is, fos);
-								} else {
-									ImageUtils.thumbnail(is, width, height, fos, _type);
-								}
+								// if (width == 0 && height == 0) {
+								// IoUtils.copyStream(is, fos);
+								// } else {
+								ImageUtils.thumbnail(is, width, height, fos, _type);
+								// }
 							}
 						} finally {
 							try {
@@ -108,7 +107,7 @@ public class ImageCache extends ObjectEx implements IMVCSettingsAware {
 					getLog().warn(ThrowableUtils.convertThrowable(e));
 				}
 			}
-			if (oFile.exists()) {
+			if (oFile.exists() && oFile.length() > 0) {
 				lastModified = oFile.lastModified();
 				return _id + "/" + filename;
 			}
