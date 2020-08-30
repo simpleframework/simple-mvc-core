@@ -47,8 +47,9 @@ public abstract class ComponentRenderUtils {
 			sb.append(execCode);
 		}
 
-		sb.append("$Actions[\"").append(cp.getComponentName()).append("\"]=").append(actionFunc)
-				.append(";");
+		final String componentName = cp.getComponentName();
+		sb.append("$Actions[\"").append(componentName).append("\"]=").append(actionFunc).append(";");
+		sb.append(actionFunc).append(".componentName=\"").append(componentName).append("\";");
 		if (runImmediately) {
 			sb.append(JavascriptUtils.wrapWhenReady(actionFunc + "();"));
 		}
