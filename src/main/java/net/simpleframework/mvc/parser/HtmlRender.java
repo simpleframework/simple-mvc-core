@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.simpleframework.common.StringUtils;
+import net.simpleframework.common.web.html.HtmlUtils;
 import net.simpleframework.lib.org.jsoup.nodes.Element;
 import net.simpleframework.lib.org.jsoup.nodes.Node;
 import net.simpleframework.mvc.PageParameter;
@@ -99,9 +100,9 @@ public class HtmlRender extends AbstractParser {
 		if (style.length() > 0) {
 			final String style2 = element.attr("style");
 			if (StringUtils.hasText(style2)) {
-				final Map<String, String> styles = AbstractElement.toStyle(style2);
-				styles.putAll(AbstractElement.toStyle(style.toString()));
-				element.attr("style", AbstractElement.joinStyle(styles));
+				final Map<String, String> styles = HtmlUtils.toStyle(style2);
+				styles.putAll(HtmlUtils.toStyle(style.toString()));
+				element.attr("style", HtmlUtils.joinStyle(styles));
 			} else {
 				element.attr("style", style.toString());
 			}

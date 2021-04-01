@@ -11,6 +11,7 @@ import net.simpleframework.common.StringUtils;
 import net.simpleframework.common.coll.AbstractArrayListEx;
 import net.simpleframework.common.object.TextNamedObject;
 import net.simpleframework.common.web.html.HtmlEncoder;
+import net.simpleframework.common.web.html.HtmlUtils;
 
 /**
  * Licensed under the Apache License, Version 2.0
@@ -81,9 +82,9 @@ public abstract class AbstractElement<T extends AbstractElement<T>> extends Text
 	}
 
 	public T addStyle(final String style) {
-		final Map<String, String> map = toStyle(getStyle());
-		map.putAll(toStyle(style));
-		return setStyle(joinStyle(map));
+		final Map<String, String> map = HtmlUtils.toStyle(getStyle());
+		map.putAll(HtmlUtils.toStyle(style));
+		return setStyle(HtmlUtils.joinStyle(map));
 	}
 
 	public String getOnclick() {
@@ -337,30 +338,5 @@ public abstract class AbstractElement<T extends AbstractElement<T>> extends Text
 	@Override
 	public T clone() {
 		return (T) BeanUtils.clone(this);
-	}
-
-	public static String joinStyle(final Map<String, String> styles) {
-		if (styles != null && styles.size() > 0) {
-			final StringBuilder sb = new StringBuilder();
-			for (final Map.Entry<String, String> e : styles.entrySet()) {
-				if (sb.length() > 0) {
-					sb.append(";");
-				}
-				sb.append(e.getKey()).append(":").append(e.getValue());
-			}
-			return sb.toString();
-		}
-		return null;
-	}
-
-	public static Map<String, String> toStyle(final String style) {
-		final Map<String, String> styles = new LinkedHashMap<>();
-		for (final String s : StringUtils.split(style, ";")) {
-			final String[] arr = StringUtils.split(s.toLowerCase(), ":");
-			if (arr.length > 0) {
-				styles.put(arr[0].trim(), arr.length > 1 ? arr[1].trim() : "");
-			}
-		}
-		return styles;
 	}
 }
